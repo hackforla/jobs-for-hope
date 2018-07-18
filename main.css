@@ -1,3 +1,10 @@
 body{background-color: lightblue;}
-div.left{float: left;}
-div.right{float: right;}
+#top{
+    background-color: #6cc0ac;
+    color: #ffffff;
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    width: 100%;
+}
