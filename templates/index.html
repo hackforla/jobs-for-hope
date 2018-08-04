@@ -11,10 +11,663 @@
     <!-- HTML Example !-->
     <script src="./static/js/index.js"></script>
 
+    <!-- Loads in Google Font for Open Sans-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <style>
+    
+        body,html{
+
+            margin:0;
+            padding:0;
+            background:white;
+            font-family: 'Open Sans';
+            color:black;
+
+        }
+
+        a{  
+
+            text-decoration: none;
+            color:white;
+
+        }
+
+        p{
+
+            margin:0;
+            padding:0;
+
+        }
+
+        .navbar{
+
+            display:flex;
+            flex-direction: row;
+            background:#266294;
+
+        }
+
+        .org{
+
+            width:35%;
+            margin-right:17.5%;
+
+        }
+
+        #org-image{
+
+            width:100%;
+            height:100%;
+
+        }
+
+        .jobs,.about,.contact,.organizations{
+
+            padding:1em 2.5em;
+            color:white;
+            text-align:center;
+
+        }
+
+        .active{
+
+            padding-bottom:0.3em;
+            border-bottom: 0.2em #ffd100 solid;
+
+        }
+
+        .search-container{
+
+            width:100%;
+            padding-bottom:4.5em;
+            display:flex;
+            align-items:center;
+            justify-content: center;
+            text-align: center;
+            background:gray;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color:white;
+        }
+
+        .search-content{
+
+            width:80%;
+
+        }
+
+        .search-title{
+
+            padding-top:3em;
+            margin-bottom:0;
+            padding-bottom:0;
+            letter-spacing: 0.15em;
+
+        }
+
+        .search{
+
+            display:flex;
+            flex-direction: row;
+            text-align:left;
+
+        }
+
+        .keyword-search{
+
+            width:40%;
+            margin:0 8%;
+            padding-bottom:1em;
+
+        }
+
+        .search-input,.location-input{
+
+            width:100%;
+            padding:1em;
+            border-radius:0.25em;
+            border:1px white solid;
+            font-family:'Open Sans';
+
+        }
+
+        .location-search{
+
+            width:14%;
+            margin-right:5%;
+
+        }
+
+        .search-btn{
+
+            width:100%;
+            padding:1em;    
+            border-radius:0.4em;
+            border:1px solid #ffd100;
+            background:#ffd100;
+            color:black;
+            font-family: 'Open Sans';
+
+        }
+
+        .search-btn-content-container{
+
+            width:17%;
+            
+
+        }
+
+        .category-title{
+
+            text-align:center;
+
+        }
+
+        .categories-head-container{
+
+            display:flex;
+            flex-direction: row;
+            align-content: space-between;
+            justify-content: center;
+
+
+        }
+
+        .category-head-container{
+
+            display:flex;
+            flex-direction: column;
+            text-align: center;
+            margin:2em;
+
+        }
+
+        #heart-head-img{
+
+            height:7em;
+            border-radius:50%;
+
+        }
+
+        .postings-content-container{
+
+            display:flex;
+            flex-direction:row;
+
+        }
+
+        .filter-bar-container{
+
+            height: 100%; /* Full-height: remove this if you want "auto" height */
+            width: 300px; /* Set the width of the sidebar */
+            top:10em;
+            margin-top:1.235em;
+            padding-left:1em;
+            background-color: #f8f8f8;  
+        }
+
+        .filter-options{
+
+            display:flex;
+            flex-direction: row;
+
+        }
+
+        .filter-criteria{
+
+            padding:0.5em;
+
+        }
+        
+        #filters-title{
+
+            padding:0.5em;
+
+        }
+
+        .distance-selector{
+
+            margin-top:0.25em;
+            padding:0.75em;
+            border-radius:0.25em;
+            border:1px gray solid;
+
+        }
+
+        .recent-postings-pseudo-container{
+
+            height:100%;
+            width:100%;
+            background:bisque;
+
+        }
+
+        .recent-postings-container{
+
+            height:10em;
+            width:100%;
+            margin-top:2em;
+
+
+        }
+
+        .recent-postings-title{
+
+            padding-left:1em;
+            
+        }
+
+        .posting-card{
+
+            display:flex;
+            align-items: center;
+            align-content: space-around;
+            justify-content:center;
+            width:100% - 2em;
+            height:12em;
+            margin:0em 2em;
+            border:0.4px solid gray;
+            border-radius:0.2em;
+            box-shadow: 8px 8px 6px -6px gray;
+
+
+        }
+
+        .posting-content{
+
+            padding-left:2em;
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+
+        }
+
+        .left-posting{
+
+            width:30%;
+            display:flex;
+            flex-direction: column;
+        }
+
+        .middle-posting{
+
+            width:45%;
+            display:flex;
+            flex-direction: column;
+            padding:0em 1em;
+            
+
+        }
+
+        h3,h4{
+            margin:0.3em 0;
+            padding:0;
+        }
+
+        #posting-img{
+
+            width:90%;
+            border:1px solid gray;
+
+        }
+
+        .right-posting{
+
+            display:flex;
+            flex-direction: center;
+            width:25%;
+            height:100%;
+            justify-content: flex-end;
+            margin-top:auto;
+
+        }
+
+        #view-more-btn{
+
+            font-family: 'Open Sans';
+            font-weight: bold;
+            margin-right:3.5em;
+            padding:1em 2em;
+            background:#ffd100;
+            border-radius: 0.4em;
+            border: 1px #ffd100 solid;
+
+        }
+
+    </style>
+
 </head>
 <body>
 
-    Welcome to Jobs For Hope
+    <!-- Navigation bar with links to other pages-->
+    <div class="navbar">
 
+        <div class="org">
+
+            <img id="org-image" src = "http://dpss.lacounty.gov/wps/wcm/connect/ec46eaad-0452-4c31-8087-4d703908fff5/1/unspecified-3.png?MOD=AJPERES&CACHEID=ec46eaad-0452-4c31-8087-4d703908fff5/1" />
+
+        </div>
+
+        <div class="jobs">
+
+            <a href ="/jobs"><h2 class="active"> Jobs </h2> </a>
+
+        </div>
+
+        <div class="organizations">
+
+            <a href="/organizations"><h2> Organizations </h2></a>
+
+        </div>
+
+        <div class="about">
+
+            <a href="/about"><h2> About </h2></a>
+
+        </div>
+
+        <div class="contact">
+
+            <a href ="/contact"><h2> Contact </h2> </a>
+
+        </div>
+
+    </div>
+
+    <!--Search portion of the UI-->
+    <div class="search-container">
+
+        <div class="search-content">
+
+            <div class="search-title">
+
+                <h1> Join the fight against homelessness in Los Angeles</h1>
+
+            </div>
+
+            <div class="search">
+
+                <div class="keyword-search">
+                   
+                    <div class="search-words-title">
+
+                    <h3> Housing/Homeless Jobs</h3>
+
+                    </div>
+
+                    <div class="search-words-container">
+
+                        <input class="search-input" name="keywords" placeholder="Job Title or Keywords" />
+
+                    </div>
+
+                </div>
+
+                <div class="location-search">
+                   
+                    <div class="search-words-title">
+
+                    <h3> Location</h3>
+
+                    </div>
+
+                    <div class="location-container">
+
+                        <input class="location-input" name="location" placeholder="City or ZIP" />
+
+                    </div>
+
+                </div>
+
+                <div class="search-btn-content-container">
+                   
+                    <div class="search-btn-title">
+
+                        <h3> Explore</h3>
+
+                    </div>
+
+                    <div class="search-btn-container">
+
+                        <button type="button" class="search-btn">Search</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="category-container"> 
+
+        <div class="category-title">
+
+            <h2> Search Jobs By Category</h2>
+
+        </div>
+
+        <div class="categories-head-container">
+
+            <div class="category-head-container">
+
+                <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
+                <p class="category-type"> Housing </p>
+                <p class="number-jobs"> 25 Jobs</p>
+
+            </div>
+
+            
+            <div class="category-head-container">
+
+                <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
+                <p class="category-type"> Management </p>
+                <p class="number-jobs"> 25 Jobs</p>
+
+            </div>
+
+            
+            <div class="category-head-container">
+
+                <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
+                <p class="category-type"> Accounting </p>
+                <p class="number-jobs"> 25 Jobs</p>
+
+            </div>
+
+            
+            <div class="category-head-container">
+
+                <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
+                <p class="category-type"> Operations </p>
+                <p class="number-jobs"> 25 Jobs</p>
+
+            </div>
+
+            
+            <div class="category-head-container">
+
+                <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
+                <p class="category-type"> Mental Health </p>
+                <p class="number-jobs"> 25 Jobs</p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="postings-content-container">
+        <div class="filter-bar-container">
+
+            <b><p id="filters-title"> FILTERS</p></b>
+
+            <div class="distance filter-criteria">
+
+                <p> Distance</p>
+                <select class="distance-selector">
+
+                    <option>5 miles</option>
+                    
+                    <option>10 miles</option>
+
+                    <option>15 miles</option>
+
+                    <option>20+ miles</option>
+
+                </select>
+
+            </div>
+
+            <div class="employment-type filter-criteria">
+
+                <p> Employment Type</p>
+
+                <div class="filter-options">
+                    <input name="full-time" type="checkbox" />
+                    <p> Full Time (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="part-time" type="checkbox" />
+                    <p> Part Time (14)</p> <br>
+                </div>
+
+            </div>
+            
+            <div class="department-type filter-criteria">
+
+                <p> Department Type</p>
+
+                <div class="filter-options">
+                    <input name="housing" type="checkbox" />
+                    <p> Housing (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="management" type="checkbox" />
+                    <p> Management (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="operations" type="checkbox" />
+                    <p> Operations (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="accounting" type="checkbox" />
+                    <p> Accounting (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="human-resources" type="checkbox" />
+                    <p> Human Resources (14)</p> <br>
+                </div>
+
+            </div>
+            
+            <div class="salary-range filter-criteria">
+
+                <p> Salary Range</p>
+
+                <div class="filter-options">
+                    <input name="20000" type="checkbox" />
+                    <p> $20,000 (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="30000" type="checkbox" />
+                    <p> $30,000 (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="40000" type="checkbox" />
+                    <p> $40,000 (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="50000" type="checkbox" />
+                    <p> $50,000 (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="60000" type="checkbox" />
+                    <p> $60,000 (14)</p> <br>
+                </div>
+
+            </div>
+
+            <div class="experience-level filter-criteria">
+
+                <p> Experience Level</p>
+
+                <div class="filter-options">
+                    <input name="entry-level" type="checkbox" />
+                    <p> Entry Level (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="mid-level" type="checkbox" />
+                    <p> Mid Level (14)</p> <br>
+                </div>
+
+                <div class="filter-options">
+                    <input name="senior-level" type="checkbox" />
+                    <p> Senior Level (14)</p> <br>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="recent-postings-container">
+
+            <h2 class="recent-postings-title"> Recent Job Postings</h2>
+
+            <div class="posting-card">
+
+                <div class="posting-content">
+
+                    <div class="left-posting">
+                        <div class = "posting-image-container">
+
+                            <img id="posting-img" src = "http://1minutereel.com/wp-content/uploads/2015/11/AHH_logo_color.jpg" />
+
+                        </div>
+
+                        <div class="posting-location-duration">
+
+                            <p> Los Angeles, 90041 | Full- Time</p>
+                            <p> Posted Today</p>
+
+                        </div>
+                    </div>
+
+                    <div class="middle-posting">
+                            <h3> Housing Manager </h3>
+                            <h4> Alliance for Housing and Healing</h4>
+                            <p> Alliance is currently seeking a Housing Manager who will be responsible for maintaining positive relationships with landlords to assist with housing...</p>
+                    </div>
+
+                    <div class="right-posting">
+                        
+                        <button id="view-more-btn" type="button">View more</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    
+    
 </body>
 </html>
