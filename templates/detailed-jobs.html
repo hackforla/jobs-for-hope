@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Welcome</title>
+    <!-- Put links to stylesheets and JS files here !-->
+
+    <!-- CSS Example !-->
+    <link rel = "stylesheet" type="text/css" href="./static/css/index.css" />
+
+    <!-- HTML Example !-->
+    <script src="./static/js/index.js"></script>
+
+    <!-- Loads in Google Font for Open Sans-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <style>
+        
+        /* All components styling */
+        body,html{
+
+            margin:0;
+            padding:0;
+            background:white;
+            font-family: 'Open Sans';
+            color:black;
+
+        }
+
+        button{
+
+            font-family:'Open Sans';
+
+        }
+
+        a{  
+
+            text-decoration: none;
+            color:white;
+
+        }
+
+        p,h2,h1,h3,h4,img,div{
+
+            margin:0;
+            padding:0;
+
+        }
+
+        /* Navbar styling */
+        .navbar{
+
+            display:flex;
+            flex-direction: row;
+            background:#266294;
+
+        }
+
+        .org{
+
+            width:35%;
+            margin-right:17.5%;
+
+        }
+
+        #org-image{
+
+            width:100%;
+            height:100%;
+
+        }
+
+        .jobs,.about,.contact,.organizations{
+
+            padding:1em 2.5em;
+            color:white;
+            text-align:center;
+
+        }
+
+        .active{
+
+            padding-bottom:0.3em;
+            border-bottom: 0.2em #ffd100 solid;
+
+        }
+
+        /* Search styling */
+        .search-container{
+
+            height:10em;
+            display:flex;
+            flex-direction: row;
+            padding-bottom:0.5em;
+            background:#266294;  
+            justify-content: center;
+            align-items: center; 
+            box-shadow: 0px 8px 6px -6px gray;
+        }
+
+        .jobs-input{
+
+            width:30%;
+            margin-right:2em;
+
+        }
+
+        .city-input{
+
+            width:10%;
+            margin-right:2em;
+
+        }
+
+        .search-btn{
+
+            width:10%;
+
+        }
+
+        #jobs-input,#city-input,#search-btn{
+
+            width:100%;
+            padding:1.0em 0.7em;
+            border-radius:0.4em;
+            border:#266294 1px solid;
+            
+        }
+
+        #search-btn{
+
+            background:#ffd100;
+
+        }
+        
+        /* Job content styling */
+        .overall-job-content{
+
+            display:flex;
+            flex-direction: row;
+            align-content: stretch;
+            align-items:stretch;
+            width:100%;
+            height:100%;
+
+        }
+
+        .open-jobs-sidebar{
+
+            height:100%;
+            width:100%;
+            padding:0 2em;
+            margin-right:0;
+            margin-top:0.1em;
+            background:#f8f8f8f8;
+
+        }
+
+        #posting-img{
+
+            width:100%;
+            margin:4em 0;
+            border:1px gray solid;
+
+        }
+
+        #open-jobs-org{
+
+            margin-bottom: 2em;
+            padding-bottom:0.6em;
+            border-bottom:3px #266294 solid;
+
+        }
+
+        .job-posting{
+            
+            margin-bottom:2em;
+            font-weight: bold;
+            color:black;
+
+        }
+
+        .job-content-container{
+
+            width:100%;
+            margin-top:1em;
+            
+        }
+
+        .job-content{
+
+            margin-left:7.5%;
+            width:85%;
+
+        }
+
+        .title-apply{
+            
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+
+        }
+
+        .job-title{
+
+            width:80%;
+
+        }
+
+        .job-apply{
+
+            width:20%;
+
+        }
+
+        #apply-btn,#job-apply-btn{
+
+            padding:0.9em 3.5em;
+            background:#ffd100;
+            border-radius:0.4em;
+            border:1px #ffd100 solid;
+            font-weight: bold;
+
+        }
+
+        .job-organization{
+
+            margin-top:0.75em;
+
+        }
+
+        .job-logistics-details,.job-salary,.job-description,.job-skills,.job-application-details,.job-benefits{
+
+            margin-top:1.2em;
+            
+        }
+
+        #description-content{
+
+            margin-top:0.5em;
+
+        }
+
+        #skill-entry{
+
+            margin-top:0.3em;
+
+        }
+
+        .job-apply-btn{
+
+            width:100%;
+            height:auto;
+            padding:4em 0em;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        
+        /* Similar job styling */
+        .similar-jobs-container{
+
+            width:100%;
+            margin-top:1em;
+        
+        }
+
+        .recent-postings-container{
+
+            height:auto;
+            width:100%;
+            margin-top:2em;
+            padding-bottom:2em;
+
+        }
+
+        .recent-postings-title{
+
+            padding-left:7.5%;
+
+        }
+
+        .posting-card{
+
+            display:flex;
+            align-items: center;
+            align-content: space-around;
+            justify-content:center;
+            width:100%-3.8em;
+            height:100%;
+            margin:0em 7.5%;
+            border:0.4px solid gray;
+            border-radius:0.2em;
+            box-shadow: 8px 8px 6px -6px gray;
+
+
+        }
+
+        .posting-content{
+
+            padding-left:2em;
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+
+        }
+
+        .left-posting{
+
+            width:30%;
+            height:100%;
+            margin:0;
+            padding:0;
+            display:flex;
+            flex-direction: column;
+        }
+
+        .middle-posting{
+
+            width:45%;
+            height:100%;
+            display:flex;
+            flex-direction: column;
+            padding:0em 1em;
+
+        }
+
+        .posting-image-container{
+
+            display:inline-block;
+
+        }
+
+        #posting-img{
+
+            width:90%;
+            border:1px solid gray;
+
+        }
+
+        .right-posting{
+
+            display:flex;
+            flex-direction: center;
+            width:25%;
+            height:100%;
+
+        }
+
+        #view-more-btn{
+
+            font-family: 'Open Sans';
+            font-weight: bold;
+            margin-right:3.5em;
+            padding:1em 2em;
+            background:#ffd100;
+            border-radius: 0.4em;
+            border: 1px #ffd100 solid;
+
+        }
+
+        .posting-location-duration{
+
+            background:fuchsia;
+            margin-top:0;
+        }
+
+        #posting-img{
+
+            background:black;
+
+        }
+
+        /* Footer styling */
+        .footer{
+
+            height:100%;
+            padding:2em 0em;
+            display:flex;
+            flex-direction:row;
+            background:#266294;
+            color:white;
+
+        }
+
+        .footer-content{
+
+            height:100%;
+            width:25%;
+            display:flex;
+            flex-direction:column;
+
+        }
+
+        .org-icon{
+
+            align-items:center;
+
+        }
+
+        #org-icon{
+
+            width:35%;
+
+        }
+
+        .quick-links-content{
+
+            margin-left:25%;
+            margin-right:25%;
+
+        }
+
+        .link{
+            padding-top:1em;
+            font-weight:100;
+        }
+
+        .social-media-footer{
+
+            display:flex;
+            align-items:center;
+            text-align:center;
+
+        }
+
+        .social-media-btn-container{
+
+            display:flex;
+            flex-direction:row;
+
+        }
+
+        #social-media-btn{
+
+            height:3em;
+            margin:0.2em;
+            border-radius:50%;
+            border:1px white solid;
+
+        }
+
+        #contact-email{
+
+            font-weight: 100;
+            margin-bottom:1em;
+
+        }
+
+        #contact-address{
+            font-weight:100;
+        }
+
+
+    </style>
+
+
+</head>
+
+<body>
+    <!-- Navigation bar with links to other pages-->
+    <div class="navbar">
+
+        <div class="org">
+
+            <img id="org-image" src = "http://dpss.lacounty.gov/wps/wcm/connect/ec46eaad-0452-4c31-8087-4d703908fff5/1/unspecified-3.png?MOD=AJPERES&CACHEID=ec46eaad-0452-4c31-8087-4d703908fff5/1" />
+
+        </div>
+
+        <div class="jobs">
+
+            <a href ="/"><h2 class="active"> Jobs </h2> </a>
+
+        </div>
+
+        <div class="organizations">
+
+            <a href="/organizations"><h2> Organizations </h2></a>
+
+        </div>
+
+        <div class="about">
+
+            <a href="/about"><h2> About </h2></a>
+
+        </div>
+
+        <div class="contact">
+
+            <a href ="/contact"><h2> Contact </h2> </a>
+
+        </div>
+
+    </div>
+
+    <!-- Search container for searching jobs-->
+    <div class="search-container">
+
+        <div class="jobs-input">
+
+            <input placeholder="Housing/Homeless Jobs" id="jobs-input" type = "text" />
+
+        </div>
+
+        <div class="city-input">
+
+            <input placeholder="City or Zipcode" id="city-input" type="text" />
+
+        </div>
+
+        <div class="search-btn">
+
+            <button type="button" id="search-btn"> Search </button>
+
+        </div>
+
+    </div>
+
+    <!-- Job content including relevant jobs and the job descriptions-->
+    <div class="overall-job-content">
+
+        <!-- Sidebar for relevant jobs-->
+        <div class="open-jobs-sidebar">
+
+            <img id="posting-img" src = "http://1minutereel.com/wp-content/uploads/2015/11/AHH_logo_color.jpg" />
+
+            <h2 id="open-jobs-title"> Open Jobs at: </h3>
+    
+            <h3 id="open-jobs-org"> Alliance for Housing and Healing</h2>
+    
+            <a href=""><p class="job-posting"> Housing Specialist </p></a>
+            <a href=""><p class="job-posting"> Housing Locator </p> </a>
+            <a href=""><p class="job-posting"> Housing Case Manager </p> </a>
+            <a href=""><p class="job-posting">See All</p> </a>
+
+        </div>
+
+        <!-- Main content for job description. Includes, title, pay, benefits, etc.-->
+        <div class = "jobs-content-container">
+            <div class="job-content-container">
+
+                <div class="job-content">
+
+                    <div class="title-apply">
+
+                        <div class="job-title"> 
+                            <h1> Housing Manager </h1>
+                        </div>
+
+                        <div class="job-apply"> 
+                            <button id="apply-btn">Apply</button>
+                        </div>
+
+                    </div>
+
+                    <div class="job-organization">
+
+                        <h2> Alliance for Housing and Healing</h2>
+
+                    </div>
+
+                    <div class="job-logistics-details">
+
+                        <p> Los Angeles, 90041 | Full-Time | Posted June 21, 2018 </p>
+
+                    </div>
+
+                    <div class="job-salary">
+
+                        Salary $35,000 to $55,000
+
+                    </div>
+
+                    <div class="job-description">
+
+                        <h3 id="description-title">Description</h3>
+                        <p id="description-content">Alliance is currently seeking a Housing Manager who will be responsible for maintaining positive relationships with landlords to assist with housing retention efforts, negotiate with landlords for acquisition for master-leased units and other rent-assisted units, avert possible evictions of units by promptly addressing concerns with property owners and managers, maintaining and updating client records in database system, and ensuring units remain habitable by HUD standards. The Housing Manager acts as a liaison among tenants, Supportive Services Coordinators, property owners and managers, and other involved parties as appropriate. This is a mobile position and requires reliable transportation to provide services throughout Los Angeles County.</p>
+
+                    </div>
+
+                    <div class="job-skills">
+
+                        <h3 id="skills-title">Qualifications and Skills</h3>
+                        
+                        <div class="skills-entries">
+
+                            <p id="skill-entry">- Bachelor’s Degree Preferred</p>
+                            <p id="skill-entry">- Experience in Property Management, working with tenants and property owners.</p>
+                            <p id="skill-entry">- Experience working with homeless and diverse populations</p>
+                            <p id="skill-entry">- Excellent communication skills</p>
+                            <p id="skill-entry">- Ability to work independently and part of a team</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="job-benefits">
+
+                            <h3 id="benefits-title">Benefits</h3>
+                            <p id="benefits-content">Salary dependent upon experience. We offer a rich benefit package with medical, dental, vision, life, 403(b) retirement plan, vacation, sick, and floating holidays.</p>    
+                        
+                    </div>
+
+                    <div class="job-application-details">
+
+                            <h3 id="applications-title">Application Details</h3>
+                            <p id="applications-content">To apply for the position, please submit a resume and cover letter to Veronica Garcia, Director of Permanent Supportive Housing at vgarcia@alliancehh.org. </p>
+                    
+                    </div>
+
+                    <div class="job-apply-btn">
+
+                        <button id="job-apply-btn">Apply To Job</button>
+
+                    </div>
+
+                </div>
+
+        </div>
+
+        <div class="similar-jobs-container">
+
+            <div class="recent-postings-container">
+
+                <h2 class="recent-postings-title"> Recent Job Postings</h2>
+                    
+                    <div class="posting-card">
+                    
+                        <div class="posting-content">
+                    
+                            <div class="left-posting">
+
+                                <div class = "posting-image-container">
+                    
+                                    <img id="posting-img" src = "http://1minutereel.com/wp-content/uploads/2015/11/AHH_logo_color.jpg" />
+                                                
+
+                                </div>
+                    
+                            </div>
+                    
+                            <div class="middle-posting">
+
+                                    <h3> Housing Manager </h3>
+                                    <h4> Alliance for Housing and Healing</h4>
+                                    <p> Alliance is currently seeking a Housing Manager who will be responsible for maintaining positive relationships with landlords to assist with housing...</p>
+                            
+                            </div>
+                    
+                            <div class="right-posting">
+                                            
+                                <button id="view-more-btn" type="button">View more</button>
+                    
+                            </div>
+                    
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Footer with contact links, information, and social media-->
+<div class = "footer">
+
+        <div class = "org-icon footer-content">
+
+            <img id="org-icon" src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png" />
+
+        </div>
+
+        <div class = "quick-links-footer footer-content">
+
+            <div class="quick-links-content">
+                <h3> Quick Links</h3>
+                <h4 class = "link"> <a href="/about"> About Us </a></h4>
+                <h4 class = "link"> <a href="/contact">Contact Us</a></h4>
+                <h4 class = "link"> <a href="/organizations"> Organizations</a> </h4>
+            </div>
+
+        </div>
+        
+        <div class = "social-media-footer footer-content">
+
+            <h3> Follow Us</h3>
+            
+            <div class="social-media-btn-container">
+
+                <div class="social-media-btn">
+
+                    <img id="social-media-btn" src = "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png" />
+
+                </div>
+
+                <div class="social-media-btn">
+
+                    <img id="social-media-btn" src = "http://www.transparentpng.com/download/logo-instagram/Sj4fEy-instagram-png-logo-high-quality.png" />
+    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class = "contact-footer footer-content">
+
+            <h3> Contact Us</h3>
+            <h4 id="contact-email"> homelessinitiative@lacounty.gov</h4>
+
+            <h4 id="contact-address"> 500 W. Temple Street, Room 493</h4>
+            <h4 id="contact-address"> Los Angeles, CA 90012</h4>
+
+        </div>
+
+    </div>
+
+
+
+
+</body>

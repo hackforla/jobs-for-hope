@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <!-- Put links to stylesheets and JS files here !-->
+
+    <!-- CSS Example !-->
+    <link rel = "stylesheet" type="text/css" href="./static/css/index.css" />
+
+    <!-- HTML Example !-->
+    <script src="./static/js/index.js"></script>
+
+    <!-- Loads in Google Font for Open Sans-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <style>
+
+        /* All component styling */
+        body,html{
+
+            margin:0;
+            padding:0;
+            background:#f8f8f8;
+            font-family: 'Open Sans';
+            color:black;
+        }
+
+        h1,h3,h4,img{
+
+            margin:0;
+            padding:0;
+
+        }
+
+        a{  
+
+            text-decoration: none;
+            color:white;
+
+        }
+
+        p{
+
+            margin:0;
+            padding:0;
+
+        }
+
+        label{
+
+            font-weight:bolder;
+
+        }
+        
+        /* Navbar styling */
+        .navbar{
+
+            display:flex;
+            flex-direction: row;
+            background:#266294;
+
+        }
+
+        .org{
+
+            width:35%;
+            margin-right:17.5%;
+
+        }
+
+        #org-image{
+
+            width:100%;
+            height:100%;
+
+        }
+
+        .jobs,.about,.contact,.organizations{
+
+            padding:1em 2.5em;
+            color:white;
+            text-align:center;
+
+        }
+
+        .active{
+
+            padding-bottom:0.3em;
+            border-bottom: 0.2em #ffd100 solid;
+
+        }
+        
+        /* Footer styling */
+        .footer{
+
+            height:100%;
+            padding:2em 0em;
+            display:flex;
+            flex-direction:row;
+            background:#266294;
+            color:white;
+
+        }
+
+        .footer-content{
+
+            height:100%;
+            width:25%;
+            display:flex;
+            flex-direction:column;
+
+        }
+
+        .org-icon{
+
+            align-items:center;
+
+        }
+
+        #org-icon{
+
+            width:35%;
+
+        }
+
+        .quick-links-content{
+            
+            margin-left:25%;
+            margin-right:25%;
+
+        }
+
+        .link{
+            padding-top:1em;
+            font-weight:100;
+        }
+
+        .social-media-footer{
+
+            display:flex;
+            align-items:center;
+            text-align:center;
+
+        }
+
+        .social-media-btn-container{
+
+            display:flex;
+            flex-direction:row;
+
+        }
+
+        #social-media-btn{
+
+            height:3em;
+            margin:0.2em;
+            border-radius:50%;
+            border:1px white solid;
+
+        }
+
+        #contact-email{
+
+            font-weight: 100;
+            margin-bottom:1em;
+
+        }
+
+        #contact-address{
+            font-weight:100;
+        }
+
+        /* Organizations title and banner styling */
+        .organizations-involved-container{
+
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+            height:17em;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("http://commons.trincoll.edu/cugs/files/2016/04/empower-shack-alfredo-brillembourg-design-indaba-5.jpg");
+            background-size:cover;
+            color:white;
+        }
+
+        .organization-involved-title{
+
+            margin-left:10em;            
+
+        }
+
+        #organization-involved-text{
+
+            font-size: 3.6em;
+
+        }
+
+        /* Organization cards styling */
+        .organization-cards-container{
+
+            display:flex;
+            flex-wrap:wrap;
+            padding:1em 0em;
+            width:100%;
+
+        }
+
+        .organization-card{
+
+            width:33%;
+            padding:1em 1em;
+            box-sizing: border-box;
+            text-align:center;
+
+        }
+
+        .organization-card-content{
+            
+            margin:2em 7%;
+            padding:3em 0em;
+            border:0.4px solid gray;
+            border-radius:0.2em;
+            box-shadow: 4px 4px 3px -3px gray;
+
+        }
+
+        #org-img{
+
+            height:10em;
+
+        }
+
+        #org-title{
+
+            margin:0 10%;
+            width:80%;
+            margin-top:1em;
+
+        }
+
+        #org-jobs-available{
+
+            margin-top:1em;
+            text-decoration: underline;
+
+        }
+
+        #org-view-more-btn{
+
+            width:55%;
+            padding:0.7em;
+            margin-top:1.5em;
+            border-radius:0.4em;
+            border:1px #ffd100 solid;
+            background: #ffd100;
+            font-weight: bold;
+            opacity: 0.75;
+
+        }
+
+        #org-view-more-btn:hover{
+
+            opacity:1;
+
+        }
+
+    </style>
+
+</head>
+
+    <!-- Navigation bar with links to other pages-->
+    <div class="navbar">
+
+            <div class="org">
+    
+                <img id="org-image" src = "http://dpss.lacounty.gov/wps/wcm/connect/ec46eaad-0452-4c31-8087-4d703908fff5/1/unspecified-3.png?MOD=AJPERES&CACHEID=ec46eaad-0452-4c31-8087-4d703908fff5/1" />
+    
+            </div>
+    
+            <div class="jobs">
+    
+                <a href ="/"><h2> Jobs </h2> </a>
+    
+            </div>
+    
+            <div class="organizations">
+    
+                <a href="/organizations"><h2 class="active"> Organizations </h2></a>
+    
+            </div>
+    
+            <div class="about">
+    
+                <a href="/about"><h2> About </h2></a>
+    
+            </div>
+    
+            <div class="contact">
+    
+                <a href ="/contact"><h2> Contact </h2> </a>
+    
+            </div>
+    
+    </div>
+
+    <!-- Organizations Involved with background image and title-->
+    <div class="organizations-involved-container">
+
+        <div class="organization-involved-title">
+
+            <h1 id="organization-involved-text"> Organizations</h1>
+            <h1 id="organization-involved-text"> Involved</h1>
+
+        </div>
+
+    </div>
+
+    <!-- Organization cards with number of jobs, links, and title-->
+    <div class = "organization-cards-container">
+
+        <div class = "organization-card">
+
+            <div class = "organization-card-content">
+                
+                <img id =  "org-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEXuNCX////tHwD97OruLh3xZl3uLBrzenT829nuMSHvRTjtDgDtIw3++fnuKBPvPS7zgnz+8/L95uXsAAD2paDydG3zfnf4tbH60M7zh4H3sKzycGnwTkP1l5LxYln2qaT5wr/0kIr71tTwVUrwXFLvQzb2npn6yMa7ZmYLAAADEElEQVR4nO3c7VLiMBSAYRprpSQtFET5UEFc3fu/w8VhxzJyaJOBmqS+z+9Opq9zaGkEBgMAAAAAAAAAAAAAAAAAAAAAAAAAAADgVKYy36fQqVzPp6869X0a3THviyRJpn9U7vtMupGp++Rgm5a+T6YDuVpXyZdX1btRNeNFcqxvo1oPaG07ML5P62pyvb45Cdx71j25cxyuoJKb2z6MqjSgtb/j2Ed1f4sXB7T2EfebnPMDejSq63hHtXlAa4tIR3U/oFV73cF9jKP6/RbfMqpzHdmoZsZuQGu7J+X7pB3sb/HWA1rbxDOqZuQyoLXqIY5HR9srqGQ/qsG/HF2uoJJVGfijo80tvlkxCfnRMVObC/s+Dd9CHdVLB7T2GOYuh9stvlmxDO+q6n6LbxbaLsf1BrS2zQIaVZdbfGHfGMzesdMt/kNN7BunL0GMauYwoJ+bFmX2aP8H2Y4DSFTWgf+f5nP1NrROfAjg3bhq2Yj5Uj/mpnppO6p38RQu3o+3KkpjOarRFFbfn+FtRzWWwo2wu51qm6tqHIW7kbxBUZbtoxpDYXV3dpMpV09toxpB4cY0nWPa9gYg+ML2HbSyXEVcaLW11DyqYReuSrvTa7qqhlw4dNg3y8y5UQ248Nnt0Uc9yW9vAy58cXy20/KLMeDCW8dCRaE/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/Pgozkbywy7HhFC4nEvFfXbl46HIcdGE+Fg9NxM8ylvKxI4dPk4VeKP/zlUIKKaSQQgoppJBCCimkkEIKKaSQQgoppLDXhcJZ534KS3NqJhfO1emhKhUPLbSwrNE+Cq2/OdyhjgunP5wjoJDChELvKKQwodA7CilMKPSOwgsLr/7bbu46fgJW+tRsJy6zngnHKvHQQjpUz3q1iyGt2699GgoppJBCCimkkEIKKaSQQgoppJDCX11oppWgcP3tyzObqNKvzv/0NyzFT8cY0+Uv/p9ZW/6WrNMS3colDode4VgAAAAAAACE4R9U3GY2mtEy/wAAAABJRU5ErkJggg==" />
+                <h3 id ="org-title"> Alliance for Housing and Healing </h3>
+                <p id = "org-jobs-available"> 3 Jobs Available</p>
+                <button id = "org-view-more-btn"> View More</button>
+
+            </div>    
+
+        </div>
+
+ 
+        <div class = "organization-card">
+
+                <div class = "organization-card-content">
+                    
+                    <img id =  "org-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEXuNCX////tHwD97OruLh3xZl3uLBrzenT829nuMSHvRTjtDgDtIw3++fnuKBPvPS7zgnz+8/L95uXsAAD2paDydG3zfnf4tbH60M7zh4H3sKzycGnwTkP1l5LxYln2qaT5wr/0kIr71tTwVUrwXFLvQzb2npn6yMa7ZmYLAAADEElEQVR4nO3c7VLiMBSAYRprpSQtFET5UEFc3fu/w8VhxzJyaJOBmqS+z+9Opq9zaGkEBgMAAAAAAAAAAAAAAAAAAAAAAAAAAADgVKYy36fQqVzPp6869X0a3THviyRJpn9U7vtMupGp++Rgm5a+T6YDuVpXyZdX1btRNeNFcqxvo1oPaG07ML5P62pyvb45Cdx71j25cxyuoJKb2z6MqjSgtb/j2Ed1f4sXB7T2EfebnPMDejSq63hHtXlAa4tIR3U/oFV73cF9jKP6/RbfMqpzHdmoZsZuQGu7J+X7pB3sb/HWA1rbxDOqZuQyoLXqIY5HR9srqGQ/qsG/HF2uoJJVGfijo80tvlkxCfnRMVObC/s+Dd9CHdVLB7T2GOYuh9stvlmxDO+q6n6LbxbaLsf1BrS2zQIaVZdbfGHfGMzesdMt/kNN7BunL0GMauYwoJ+bFmX2aP8H2Y4DSFTWgf+f5nP1NrROfAjg3bhq2Yj5Uj/mpnppO6p38RQu3o+3KkpjOarRFFbfn+FtRzWWwo2wu51qm6tqHIW7kbxBUZbtoxpDYXV3dpMpV09toxpB4cY0nWPa9gYg+ML2HbSyXEVcaLW11DyqYReuSrvTa7qqhlw4dNg3y8y5UQ248Nnt0Uc9yW9vAy58cXy20/KLMeDCW8dCRaE/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/Pgozkbywy7HhFC4nEvFfXbl46HIcdGE+Fg9NxM8ylvKxI4dPk4VeKP/zlUIKKaSQQgoppJBCCimkkEIKKaSQQgoppLDXhcJZ534KS3NqJhfO1emhKhUPLbSwrNE+Cq2/OdyhjgunP5wjoJDChELvKKQwodA7CilMKPSOwgsLr/7bbu46fgJW+tRsJy6zngnHKvHQQjpUz3q1iyGt2699GgoppJBCCimkkEIKKaSQQgoppJDCX11oppWgcP3tyzObqNKvzv/0NyzFT8cY0+Uv/p9ZW/6WrNMS3colDode4VgAAAAAAACE4R9U3GY2mtEy/wAAAABJRU5ErkJggg==" />
+                    <h3 id ="org-title"> Alliance for Housing and Healing </h3>
+                    <p id = "org-jobs-available"> 3 Jobs Available</p>
+                    <button id = "org-view-more-btn"> View More</button>
+    
+                </div>    
+    
+        </div>
+
+        
+        <div class = "organization-card">
+
+                <div class = "organization-card-content">
+                    
+                    <img id =  "org-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEXuNCX////tHwD97OruLh3xZl3uLBrzenT829nuMSHvRTjtDgDtIw3++fnuKBPvPS7zgnz+8/L95uXsAAD2paDydG3zfnf4tbH60M7zh4H3sKzycGnwTkP1l5LxYln2qaT5wr/0kIr71tTwVUrwXFLvQzb2npn6yMa7ZmYLAAADEElEQVR4nO3c7VLiMBSAYRprpSQtFET5UEFc3fu/w8VhxzJyaJOBmqS+z+9Opq9zaGkEBgMAAAAAAAAAAAAAAAAAAAAAAAAAAADgVKYy36fQqVzPp6869X0a3THviyRJpn9U7vtMupGp++Rgm5a+T6YDuVpXyZdX1btRNeNFcqxvo1oPaG07ML5P62pyvb45Cdx71j25cxyuoJKb2z6MqjSgtb/j2Ed1f4sXB7T2EfebnPMDejSq63hHtXlAa4tIR3U/oFV73cF9jKP6/RbfMqpzHdmoZsZuQGu7J+X7pB3sb/HWA1rbxDOqZuQyoLXqIY5HR9srqGQ/qsG/HF2uoJJVGfijo80tvlkxCfnRMVObC/s+Dd9CHdVLB7T2GOYuh9stvlmxDO+q6n6LbxbaLsf1BrS2zQIaVZdbfGHfGMzesdMt/kNN7BunL0GMauYwoJ+bFmX2aP8H2Y4DSFTWgf+f5nP1NrROfAjg3bhq2Yj5Uj/mpnppO6p38RQu3o+3KkpjOarRFFbfn+FtRzWWwo2wu51qm6tqHIW7kbxBUZbtoxpDYXV3dpMpV09toxpB4cY0nWPa9gYg+ML2HbSyXEVcaLW11DyqYReuSrvTa7qqhlw4dNg3y8y5UQ248Nnt0Uc9yW9vAy58cXy20/KLMeDCW8dCRaE/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/Pgozkbywy7HhFC4nEvFfXbl46HIcdGE+Fg9NxM8ylvKxI4dPk4VeKP/zlUIKKaSQQgoppJBCCimkkEIKKaSQQgoppLDXhcJZ534KS3NqJhfO1emhKhUPLbSwrNE+Cq2/OdyhjgunP5wjoJDChELvKKQwodA7CilMKPSOwgsLr/7bbu46fgJW+tRsJy6zngnHKvHQQjpUz3q1iyGt2699GgoppJBCCimkkEIKKaSQQgoppJDCX11oppWgcP3tyzObqNKvzv/0NyzFT8cY0+Uv/p9ZW/6WrNMS3colDode4VgAAAAAAACE4R9U3GY2mtEy/wAAAABJRU5ErkJggg==" />
+                    <h3 id ="org-title"> Alliance for Housing and Healing </h3>
+                    <p id = "org-jobs-available"> 3 Jobs Available</p>
+                    <button id = "org-view-more-btn"> View More</button>
+    
+                </div>    
+    
+        </div>
+
+        
+        <div class = "organization-card">
+
+                <div class = "organization-card-content">
+                    
+                    <img id =  "org-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEXuNCX////tHwD97OruLh3xZl3uLBrzenT829nuMSHvRTjtDgDtIw3++fnuKBPvPS7zgnz+8/L95uXsAAD2paDydG3zfnf4tbH60M7zh4H3sKzycGnwTkP1l5LxYln2qaT5wr/0kIr71tTwVUrwXFLvQzb2npn6yMa7ZmYLAAADEElEQVR4nO3c7VLiMBSAYRprpSQtFET5UEFc3fu/w8VhxzJyaJOBmqS+z+9Opq9zaGkEBgMAAAAAAAAAAAAAAAAAAAAAAAAAAADgVKYy36fQqVzPp6869X0a3THviyRJpn9U7vtMupGp++Rgm5a+T6YDuVpXyZdX1btRNeNFcqxvo1oPaG07ML5P62pyvb45Cdx71j25cxyuoJKb2z6MqjSgtb/j2Ed1f4sXB7T2EfebnPMDejSq63hHtXlAa4tIR3U/oFV73cF9jKP6/RbfMqpzHdmoZsZuQGu7J+X7pB3sb/HWA1rbxDOqZuQyoLXqIY5HR9srqGQ/qsG/HF2uoJJVGfijo80tvlkxCfnRMVObC/s+Dd9CHdVLB7T2GOYuh9stvlmxDO+q6n6LbxbaLsf1BrS2zQIaVZdbfGHfGMzesdMt/kNN7BunL0GMauYwoJ+bFmX2aP8H2Y4DSFTWgf+f5nP1NrROfAjg3bhq2Yj5Uj/mpnppO6p38RQu3o+3KkpjOarRFFbfn+FtRzWWwo2wu51qm6tqHIW7kbxBUZbtoxpDYXV3dpMpV09toxpB4cY0nWPa9gYg+ML2HbSyXEVcaLW11DyqYReuSrvTa7qqhlw4dNg3y8y5UQ248Nnt0Uc9yW9vAy58cXy20/KLMeDCW8dCRaE/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/Pgozkbywy7HhFC4nEvFfXbl46HIcdGE+Fg9NxM8ylvKxI4dPk4VeKP/zlUIKKaSQQgoppJBCCimkkEIKKaSQQgoppLDXhcJZ534KS3NqJhfO1emhKhUPLbSwrNE+Cq2/OdyhjgunP5wjoJDChELvKKQwodA7CilMKPSOwgsLr/7bbu46fgJW+tRsJy6zngnHKvHQQjpUz3q1iyGt2699GgoppJBCCimkkEIKKaSQQgoppJDCX11oppWgcP3tyzObqNKvzv/0NyzFT8cY0+Uv/p9ZW/6WrNMS3colDode4VgAAAAAAACE4R9U3GY2mtEy/wAAAABJRU5ErkJggg==" />
+                    <h3 id ="org-title"> Alliance for Housing and Healing </h3>
+                    <p id = "org-jobs-available"> 3 Jobs Available</p>
+                    <button id = "org-view-more-btn"> View More</button>
+    
+                </div>    
+    
+        </div>
+
+        
+        <div class = "organization-card">
+
+                <div class = "organization-card-content">
+                    
+                    <img id =  "org-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEXuNCX////tHwD97OruLh3xZl3uLBrzenT829nuMSHvRTjtDgDtIw3++fnuKBPvPS7zgnz+8/L95uXsAAD2paDydG3zfnf4tbH60M7zh4H3sKzycGnwTkP1l5LxYln2qaT5wr/0kIr71tTwVUrwXFLvQzb2npn6yMa7ZmYLAAADEElEQVR4nO3c7VLiMBSAYRprpSQtFET5UEFc3fu/w8VhxzJyaJOBmqS+z+9Opq9zaGkEBgMAAAAAAAAAAAAAAAAAAAAAAAAAAADgVKYy36fQqVzPp6869X0a3THviyRJpn9U7vtMupGp++Rgm5a+T6YDuVpXyZdX1btRNeNFcqxvo1oPaG07ML5P62pyvb45Cdx71j25cxyuoJKb2z6MqjSgtb/j2Ed1f4sXB7T2EfebnPMDejSq63hHtXlAa4tIR3U/oFV73cF9jKP6/RbfMqpzHdmoZsZuQGu7J+X7pB3sb/HWA1rbxDOqZuQyoLXqIY5HR9srqGQ/qsG/HF2uoJJVGfijo80tvlkxCfnRMVObC/s+Dd9CHdVLB7T2GOYuh9stvlmxDO+q6n6LbxbaLsf1BrS2zQIaVZdbfGHfGMzesdMt/kNN7BunL0GMauYwoJ+bFmX2aP8H2Y4DSFTWgf+f5nP1NrROfAjg3bhq2Yj5Uj/mpnppO6p38RQu3o+3KkpjOarRFFbfn+FtRzWWwo2wu51qm6tqHIW7kbxBUZbtoxpDYXV3dpMpV09toxpB4cY0nWPa9gYg+ML2HbSyXEVcaLW11DyqYReuSrvTa7qqhlw4dNg3y8y5UQ248Nnt0Uc9yW9vAy58cXy20/KLMeDCW8dCRaE/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/FNouQ6E/Pgozkbywy7HhFC4nEvFfXbl46HIcdGE+Fg9NxM8ylvKxI4dPk4VeKP/zlUIKKaSQQgoppJBCCimkkEIKKaSQQgoppLDXhcJZ534KS3NqJhfO1emhKhUPLbSwrNE+Cq2/OdyhjgunP5wjoJDChELvKKQwodA7CilMKPSOwgsLr/7bbu46fgJW+tRsJy6zngnHKvHQQjpUz3q1iyGt2699GgoppJBCCimkkEIKKaSQQgoppJDCX11oppWgcP3tyzObqNKvzv/0NyzFT8cY0+Uv/p9ZW/6WrNMS3colDode4VgAAAAAAACE4R9U3GY2mtEy/wAAAABJRU5ErkJggg==" />
+                    <h3 id ="org-title"> Alliance for Housing and Healing </h3>
+                    <p id = "org-jobs-available"> 3 Jobs Available</p>
+                    <button id = "org-view-more-btn"> View More</button>
+    
+                </div>    
+    
+        </div>
+
+    </div>
+
+    <!-- Footer with contact links, information, and social media-->
+    <div class = "footer">
+
+            <div class = "org-icon footer-content">
+    
+                <img id="org-icon" src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png" />
+    
+            </div>
+    
+            <div class = "quick-links-footer footer-content">
+    
+                <div class="quick-links-content">
+                    <h3> Quick Links</h3>
+                    <h4 class = "link"> <a href="/about"> About Us </a></h4>
+                    <h4 class = "link"> <a href="/contact">Contact Us</a></h4>
+                    <h4 class = "link"> <a href="/organizations"> Organizations</a> </h4>
+                </div>
+    
+            </div>
+            
+            <div class = "social-media-footer footer-content">
+    
+                <h3> Follow Us</h3>
+                
+                <div class="social-media-btn-container">
+    
+                    <div class="social-media-btn">
+    
+                        <img id="social-media-btn" src = "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png" />
+    
+                    </div>
+    
+                    <div class="social-media-btn">
+    
+                        <img id="social-media-btn" src = "http://www.transparentpng.com/download/logo-instagram/Sj4fEy-instagram-png-logo-high-quality.png" />
+        
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class = "contact-footer footer-content">
+    
+                <h3> Contact Us</h3>
+                <h4 id="contact-email"> homelessinitiative@lacounty.gov</h4>
+    
+                <h4 id="contact-address"> 500 W. Temple Street, Room 493</h4>
+                <h4 id="contact-address"> Los Angeles, CA 90012</h4>
+    
+            </div>
+    
+    </div>
+    
+
+</html>
