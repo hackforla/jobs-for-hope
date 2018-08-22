@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
     <style>
-    
+
         /* All element settings*/
 
         body,html{
@@ -28,7 +28,7 @@
 
         }
 
-        a{  
+        a{
 
             text-decoration: none;
             color:white;
@@ -146,7 +146,7 @@
         .search-btn{
 
             width:100%;
-            padding:1em;    
+            padding:1em;
             border-radius:0.4em;
             border:1px solid #ffd100;
             background:#ffd100;
@@ -158,7 +158,7 @@
         .search-btn-content-container{
 
             width:17%;
-            
+
 
         }
 
@@ -210,7 +210,7 @@
             top:10em;
             margin-top:1.235em;
             padding-left:1em;
-            background-color: #f8f8f8;  
+            background-color: #f8f8f8;
         }
 
         .filter-options{
@@ -225,7 +225,7 @@
             padding:0.5em;
 
         }
-        
+
         #filters-title{
 
             padding:0.5em;
@@ -262,7 +262,7 @@
         .recent-postings-title{
 
             padding-left:1em;
-            
+
         }
 
         .posting-card{
@@ -303,7 +303,7 @@
             display:flex;
             flex-direction: column;
             padding:0em 1em;
-            
+
 
         }
 
@@ -311,7 +311,7 @@
             margin:0.3em 0;
             padding:0;
         }
-    
+
         #posting-img{
 
             width:90%;
@@ -341,7 +341,7 @@
             border: 1px #ffd100 solid;
 
         }
-        
+
         /* Footer contact section styling */
         .footer{
 
@@ -473,10 +473,10 @@
 
             </div>
 
-            <div class="search">
+            <form class="search">
 
                 <div class="keyword-search">
-                   
+
                     <div class="search-words-title">
 
                     <h3> Housing/Homeless Jobs</h3>
@@ -485,14 +485,14 @@
 
                     <div class="search-words-container">
 
-                        <input class="search-input" name="keywords" placeholder="Job Title or Keywords" />
+                        <input type="text" class="search-input"  name="keywords" placeholder="Job Title or Keywords" />
 
                     </div>
 
                 </div>
 
                 <div class="location-search">
-                   
+
                     <div class="search-words-title">
 
                     <h3> Location</h3>
@@ -501,14 +501,14 @@
 
                     <div class="location-container">
 
-                        <input class="location-input" name="location" placeholder="City or ZIP" />
+                        <input type="text" class="location-input" name="location" placeholder="City or ZIP" />
 
                     </div>
 
                 </div>
 
                 <div class="search-btn-content-container">
-                   
+
                     <div class="search-btn-title">
 
                         <h3> Explore</h3>
@@ -517,20 +517,20 @@
 
                     <div class="search-btn-container">
 
-                        <button type="button" class="search-btn">Search</button>
+                        <button type="submit" class="search-btn">Search</button>
 
                     </div>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
     <!-- Categories of jobs available and clickable links to each category -->
-    <div class="category-container"> 
+    <div class="category-container">
 
         <div class="category-title">
 
@@ -548,7 +548,7 @@
 
             </div>
 
-            
+
             <div class="category-head-container">
 
                 <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
@@ -557,7 +557,7 @@
 
             </div>
 
-            
+
             <div class="category-head-container">
 
                 <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
@@ -566,7 +566,7 @@
 
             </div>
 
-            
+
             <div class="category-head-container">
 
                 <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
@@ -575,7 +575,7 @@
 
             </div>
 
-            
+
             <div class="category-head-container">
 
                 <img id="heart-head-img" src="https://cdn2.iconfinder.com/data/icons/creative-head/100/Head__1-512.png" />
@@ -602,7 +602,7 @@
                 <select class="distance-selector">
 
                     <option>5 miles</option>
-                    
+
                     <option>10 miles</option>
 
                     <option>15 miles</option>
@@ -628,7 +628,7 @@
                 </div>
 
             </div>
-            
+
             <div class="department-type filter-criteria">
 
                 <p> Department Type</p>
@@ -659,7 +659,7 @@
                 </div>
 
             </div>
-            
+
             <div class="salary-range filter-criteria">
 
                 <p> Salary Range</p>
@@ -744,7 +744,7 @@
                     </div>
 
                     <div class="right-posting">
-                        
+
                         <button id="view-more-btn" type="button">View more</button>
 
                     </div>
@@ -761,56 +761,56 @@
     <div class = "footer">
 
         <div class = "org-icon footer-content">
-    
+
             <img id="org-icon" src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png" />
-    
+
         </div>
-    
+
         <div class = "quick-links-footer footer-content">
-    
+
             <div class="quick-links-content">
                     <h3> Quick Links</h3>
                     <h4 class = "link"> <a href="/about"> About Us </a></h4>
                     <h4 class = "link"> <a href="/contact">Contact Us</a></h4>
                     <h4 class = "link"> <a href="/organizations"> Organizations</a> </h4>
             </div>
-    
+
         </div>
-            
+
         <div class = "social-media-footer footer-content">
-    
+
             <h3> Follow Us</h3>
-                
+
             <div class="social-media-btn-container">
-    
+
                 <div class="social-media-btn">
-    
+
                     <img id="social-media-btn" src = "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png" />
-    
+
                 </div>
-    
+
                 <div class="social-media-btn">
-    
+
                     <img id="social-media-btn" src = "http://www.transparentpng.com/download/logo-instagram/Sj4fEy-instagram-png-logo-high-quality.png" />
-        
+
                 </div>
-    
+
             </div>
-    
+
         </div>
-    
+
         <div class = "contact-footer footer-content">
-    
+
             <h3> Contact Us</h3>
             <h4 id="contact-email"> homelessinitiative@lacounty.gov</h4>
-    
+
             <h4 id="contact-address"> 500 W. Temple Street, Room 493</h4>
             <h4 id="contact-address"> Los Angeles, CA 90012</h4>
-    
+
         </div>
-    
+
     </div>
-    
-    
+
+
 </body>
 </html>
