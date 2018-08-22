@@ -17,9 +17,12 @@ def detailed_jobs():
 def contact():
     return render_template("contact.html")
 
+<<<<<<< HEAD
 @app.route("/organizations")
 def organizations():
     return render_template("organizations.html")
 
+=======
+>>>>>>> b44dc248c30239ca6cf06dce227a0502effbfa39
 if __name__ =="__main__":
     app.run(debug=True)
