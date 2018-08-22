@@ -8,9 +8,6 @@
     <!-- CSS Example !-->
     <link rel = "stylesheet" type="text/css" href="./static/css/index.css" />
 
-    <!-- HTML Example !-->
-    <script src="./static/js/index.js"></script>
-
     <!-- Loads in Google Font for Open Sans-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -485,7 +482,7 @@
 
                     <div class="search-words-container">
 
-                        <input type="text" class="search-input"  name="keywords" placeholder="Job Title or Keywords" />
+                        <input type="text" class="search-input" value=""  name="keywords" placeholder="Job Title or Keywords" />
 
                     </div>
 
@@ -501,7 +498,7 @@
 
                     <div class="location-container">
 
-                        <input type="text" class="location-input" name="location" placeholder="City or ZIP" />
+                        <input type="text" value="" class="location-input" name="location" placeholder="City or ZIP" />
 
                     </div>
 
@@ -517,7 +514,7 @@
 
                     <div class="search-btn-container">
 
-                        <button type="submit" class="search-btn">Search</button>
+                        <button type="button" value="done" class="search-btn" onClick="searchField()">Search</button>
 
                     </div>
 
@@ -811,6 +808,9 @@
 
     </div>
 
+
+<!-- Javascript file-->
+    <script src="../static/js/index.js"></script>
 
 </body>
 </html>
