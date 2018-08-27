@@ -214,7 +214,6 @@ p{
     display:flex;
     align-items: center;
     align-content: space-around;
-    justify-content:center;
     width:100% - 2em;
     height:12em;
     margin:0em 2em;
