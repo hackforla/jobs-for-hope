@@ -197,21 +197,10 @@ p{
 }
 
 /* Recent job postings styling */
-.recent-postings-pseudo-container{
-
-    height:100%;
-    width:100%;
-    background:bisque;
-
-}
-
 .recent-postings-container{
 
-    height:10em;
     width:100%;
     margin-top:2em;
-
-
 }
 
 .recent-postings-title{
@@ -258,11 +247,11 @@ p{
     display:flex;
     flex-direction: column;
     padding:0em 1em;
-
+	margin-top: 5px;
 
 }
 
-h3,h4{
+h4{
     margin:0.3em 0;
     padding:0;
 }
@@ -281,7 +270,6 @@ h3,h4{
     width:25%;
     height:100%;
     justify-content: flex-end;
-    margin-top:auto;
 
 }
 
@@ -388,5 +376,27 @@ h3,h4{
 	.search {
 		margin: auto;
 		width: 730px;
+	}
+	.left-posting h3{
+		margin: 10px;
+	}
+}
+
+@media screen and (max-width: 910px){
+	.posting-card{
+		min-width: 300px;
+		overflow-x: scroll;
+	}
+	.left-posting h3{
+		width: 189px;
+	}
+	.middle-posting{
+		width: 300px;
+	}
+}
+
+@media screen and (min-width: 930px){
+	#posting-img{
+		width: 179px;
 	}
 }
