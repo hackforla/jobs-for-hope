@@ -12,11 +12,14 @@
     <!-- Loads in Google Font for Open Sans-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 
     <!-- Navigation bar with links to other pages-->
-    <div class="navbar">
+    <div class="navbar" id='myNavbar'>
 
         <div class="org">
 
@@ -24,29 +27,22 @@
 
         </div>
 
-        <div class="jobs">
+<!--         <div class="topnav" id="myTopnav"> -->
 
-            <a href ="/jobs"><h2 class="active"> Jobs </h2> </a>
+            <a href ="/jobs" class="jobs"><h2 class="active"> Jobs </h2> </a>
 
-        </div>
+            <a href="/organizations" class="organizations"><h2> Organizations </h2></a>
 
-        <div class="organizations">
+            <a href="/about" class="about"><h2> About </h2></a>
 
-            <a href="/organizations"><h2> Organizations </h2></a>
+            <a href ="/contact" class="contact">
+                <h2> Contact </h2> </a>
 
-        </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
 
-        <div class="about">
-
-            <a href="/about"><h2> About </h2></a>
-
-        </div>
-
-        <div class="contact">
-
-            <a href ="/contact"><h2> Contact </h2> </a>
-
-        </div>
+<!--         </div> -->
 
     </div>
 

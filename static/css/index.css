@@ -26,17 +26,20 @@ p{
 
 /* Navigation bar styling */
 .navbar{
-
-    display:flex;
-    flex-direction: row;
     background:#266294;
+    overflow: hidden;
+}
 
+/* Hide the link that should open and close the topnav on small screens */
+.navbar .icon {
+    display: none;
 }
 
 .org{
-
-    width:35%;
-    margin-right:17.5%;
+    height: 100px;
+    width:260px;
+    margin: ;
+ /*   margin-right:17.5%;*/
 
 }
 
@@ -49,7 +52,7 @@ p{
 
 .jobs,.about,.contact,.organizations{
 
-    padding:1em 2.5em;
+    padding:1em 1.2em;
     color:white;
     text-align:center;
 
@@ -372,13 +375,23 @@ h4{
 }
 
 @media screen and (min-width: 700px){
+
+    .navbar{
+        height: 100px;
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
 	.search {
 		margin: auto;
 		width: 730px;
 	}
+
 	.left-posting h3{
 		margin: 10px;
 	}
+
 }
 
 @media screen and (max-width: 910px){
@@ -398,4 +411,30 @@ h4{
 	#posting-img{
 		width: 179px;
 	}
+}
+
+/* Responsive navbar <699 pixels wide, hide all links. Show the link that contains should open and close the navbar (.icon) */
+@media screen and (max-width: 699px) {
+  .navbar a:not(:first-child) {display: none;}
+  .navbar a.icon {
+    float: right;
+    display: block;
+    font-size: 25px;
+    top: calc(100% / 2) ;
+  }
+}
+
+/* Add 'responsive' class to navbar with JS when user clicks on the icon.*/
+@media screen and (max-width: 699px) {
+  .navbar.responsive {position: relative;}
+  .navbar.responsive a.icon {
+    position: absolute;
+    right: 20px;
+    top: 45px;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
