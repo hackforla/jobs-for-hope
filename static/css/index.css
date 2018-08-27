@@ -383,3 +383,10 @@ h3,h4{
 		padding: 0 80px;
 	}
 }
+
+@media screen and (min-width: 700px){
+	.search {
+		margin: auto;
+		width: 730px;
+	}
+}
