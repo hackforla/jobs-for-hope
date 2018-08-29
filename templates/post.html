@@ -92,7 +92,7 @@
         }
 
         /* Contact banner styling */
-        .contact-banner{
+        /* .post-banner{
 
             display:flex;
             flex-direction: column;
@@ -104,9 +104,9 @@
             background-size:cover;
             background-position-y:40%;
 
-        }
+        } */
     
-        .contact-title{
+        .post-title{
 
             font-weight:bolder;
             color:white;
@@ -114,7 +114,7 @@
 
         }
 
-        .contact-content-container{
+        .post-content-container{
 
             display:flex;
             flex-direction:row;
@@ -138,7 +138,7 @@
 
         }
 
-        .contact-input{
+        .post-input{
 
             width:90%;
             margin-bottom:2em;
@@ -148,7 +148,7 @@
 
         }
 
-        #message{
+        #description{
 
             height:15em;
         }
@@ -299,13 +299,13 @@
 
         <div class="jobs">
 
-            <a href ="/"><h2> Jobs </h2> </a>
+            <a href ="/jobs"><h2> Jobs </h2> </a>
 
         </div>
 
         <div class="post">
     
-            <a href ="/post"><h2> Post </h2> </a>
+            <a href ="/"><h2 class="active"> Post </h2> </a>
 
         </div>
 
@@ -323,41 +323,41 @@
 
         <div class="contact">
 
-            <a href ="/contact"><h2 class="active"> Contact </h2> </a>
+            <a href ="/contact"><h2> Contact </h2> </a>
 
         </div>
 
     </div>
 
     <!-- Banner for contact image and message-->
-    <div class="contact-banner">
+    <!-- <div class="post-banner">
 
-        <h1 class="contact-title"> Getting </h1>
-        <h1 class="contact-title"> In Touch</h1>
+        <h1 class="post-title"> Getting </h1>
+        <h1 class="post-title"> In Touch</h1>
 
-    </div>
+    </div> -->
 
     <!-- Content container for the form and department information-->
-    <div class="contact-content-container">
+    <div class="post-content-container">
 
-        <div class="contact-form-container">
+        <div class="post-form-container">
 
-            <h2 id="contact-title">Contact Us</h2>
+            <h2 id="post-title">Post</h2>
 
             <!-- Put form action later-->
-            <form method="POST" name="contact-form">
+            <form method="POST" name="post-form">
 
-                <label>Full Name</label><br>
-                <input id="name" name="name" class="contact-input" /> <br>
-                
-                <label>Email</label><br>
-                <input id="email" name="email" class="contact-input" /> <br>
+                <label>Organization</label><br>
+                <input id="organization" name="organization" class="post-input" /> <br>
                 
                 <label>Phone</label><br>
-                <input id="phone" name="phone" class="contact-input" /> <br>
+                <input id="phone" name="phone" class="post-input" /> <br>
 
-                <label>Message</label><br>
-                <textarea id="message" name="message" class="contact-input" form="contact-form"></textarea>
+                <label>Position</label><br>
+                <input id="position" name="position" class="post-input" /> <br>
+
+                <label>Description</label><br>
+                <textarea id="description" name="description" class="post-input" form="contact-form"></textarea>
 
                 <button id="send-btn" type="submit">Send</button>
 
@@ -365,47 +365,6 @@
 
         </div>
 
-        <!-- Department information including the org name, director, and location-->
-        <div class="department-information-container">
-
-            <h2 id="department-title">
-
-                Office of Homeless Initiative
-
-            </h2>
-
-            <h3 class="department-info"  id="deparment-director">
-
-                Phil Ansell, Director
-
-            </h3>
-
-            <h3 class="department-info"  id="deparment-location">
-
-                Kenneth Hahn Hall of Administration
-
-            </h3>
-
-            <h3 class="department-info" id="department-address">
-
-                500 W. Temple Street, Room 493 <br>
-                Los Angeles, CA 90012
-
-            </h3>
-
-            <h3 class="department-info">
-
-                <a id="web-link" href="homelessinitiative@lacounty.gov">
-
-                    homelessinitiative@lacounty.gov
-
-                </a>
-
-            </h3>
-
-            <img id="county-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Seal_of_Los_Angeles_County%2C_California.svg/215px-Seal_of_Los_Angeles_County%2C_California.svg.png" />
-
-        </div>
 
     </div>
 
