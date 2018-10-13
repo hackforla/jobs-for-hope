@@ -2,430 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
     <!-- Put links to stylesheets and JS files here !-->
 
     <!-- CSS Example !-->
-    <link rel = "stylesheet" type="text/css" href="./static/css/index.css" />
+    <link rel = "stylesheet" type="text/css" href="../static/css/index.css" />
 
     <!-- Loads in Google Font for Open Sans-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-    <style>
-
-        /* All element settings*/
-
-        body,html{
-
-            margin:0;
-            padding:0;
-            background:white;
-            font-family: 'Open Sans';
-            color:black;
-
-        }
-
-        a{
-
-            text-decoration: none;
-            color:white;
-
-        }
-
-        p{
-
-            margin:0;
-            padding:0;
-
-        }
-
-        /* Navigation bar styling */
-        .navbar{
-
-            display:flex;
-            flex-direction: row;
-            background:#266294;
-
-        }
-
-        .org{
-
-            width:35%;
-            margin-right:17.5%;
-
-        }
-
-        #org-image{
-
-            width:100%;
-            height:100%;
-
-        }
-
-        .jobs,.about,.contact,.organizations{
-
-            padding:1em 2.5em;
-            color:white;
-            text-align:center;
-
-        }
-
-        .active{
-
-            padding-bottom:0.3em;
-            border-bottom: 0.2em #ffd100 solid;
-
-        }
-
-        /* Search section styling */
-        .search-container{
-
-            width:100%;
-            padding-bottom:4.5em;
-            display:flex;
-            align-items:center;
-            justify-content: center;
-            text-align: center;
-            background:gray;
-            background-repeat: no-repeat;
-            background-size: cover;
-            color:white;
-        }
-
-        .search-content{
-
-            width:80%;
-
-        }
-
-        .search-title{
-
-            padding-top:3em;
-            margin-bottom:0;
-            padding-bottom:0;
-            letter-spacing: 0.15em;
-
-        }
-
-        .search{
-
-            display:flex;
-            flex-direction: row;
-            text-align:left;
-
-        }
-
-        .keyword-search{
-
-            width:40%;
-            margin:0 8%;
-            padding-bottom:1em;
-
-        }
-
-        .search-input,.location-input{
-
-            width:100%;
-            padding:1em;
-            border-radius:0.25em;
-            border:1px white solid;
-            font-family:'Open Sans';
-
-        }
-
-        .location-search{
-
-            width:14%;
-            margin-right:5%;
-
-        }
-
-        .search-btn{
-
-            width:100%;
-            padding:1em;
-            border-radius:0.4em;
-            border:1px solid #ffd100;
-            background:#ffd100;
-            color:black;
-            font-family: 'Open Sans';
-
-        }
-
-        .search-btn-content-container{
-
-            width:17%;
-
-
-        }
-
-        /* Category styling */
-        .category-title{
-
-            text-align:center;
-
-        }
-
-        .categories-head-container{
-
-            display:flex;
-            flex-direction: row;
-            align-content: space-between;
-            justify-content: center;
-
-
-        }
-
-        .category-head-container{
-
-            display:flex;
-            flex-direction: column;
-            text-align: center;
-            margin:2em;
-
-        }
-
-        #heart-head-img{
-
-            height:7em;
-            border-radius:50%;
-
-        }
-
-        .postings-content-container{
-
-            display:flex;
-            flex-direction:row;
-
-        }
-
-        /* Filter side-bar stylings */
-        .filter-bar-container{
-
-            height: 100%; /* Full-height: remove this if you want "auto" height */
-            width: 300px; /* Set the width of the sidebar */
-            top:10em;
-            margin-top:1.235em;
-            padding-left:1em;
-            background-color: #f8f8f8;
-        }
-
-        .filter-options{
-
-            display:flex;
-            flex-direction: row;
-
-        }
-
-        .filter-criteria{
-
-            padding:0.5em;
-
-        }
-
-        #filters-title{
-
-            padding:0.5em;
-
-        }
-
-        .distance-selector{
-
-            margin-top:0.25em;
-            padding:0.75em;
-            border-radius:0.25em;
-            border:1px gray solid;
-
-        }
-
-        /* Recent job postings styling */
-        .recent-postings-pseudo-container{
-
-            height:100%;
-            width:100%;
-            background:bisque;
-
-        }
-
-        .recent-postings-container{
-
-            height:10em;
-            width:100%;
-            margin-top:2em;
-
-
-        }
-
-        .recent-postings-title{
-
-            padding-left:1em;
-
-        }
-
-        .posting-card{
-
-            display:flex;
-            align-items: center;
-            align-content: space-around;
-            justify-content:center;
-            width:100% - 2em;
-            height:12em;
-            margin:0em 2em;
-            border:0.4px solid gray;
-            border-radius:0.2em;
-            box-shadow: 8px 8px 6px -6px gray;
-
-
-        }
-
-        .posting-content{
-
-            padding-left:2em;
-            display:flex;
-            flex-direction:row;
-            align-items:center;
-
-        }
-
-        .left-posting{
-
-            width:30%;
-            display:flex;
-            flex-direction: column;
-        }
-
-        .middle-posting{
-
-            width:45%;
-            display:flex;
-            flex-direction: column;
-            padding:0em 1em;
-
-
-        }
-
-        h3,h4{
-            margin:0.3em 0;
-            padding:0;
-        }
-
-        #posting-img{
-
-            width:90%;
-            padding:0.5em;
-            border:0.5px solid gray;
-        }
-
-        .right-posting{
-
-            display:flex;
-            flex-direction: center;
-            width:25%;
-            height:100%;
-            justify-content: flex-end;
-            margin-top:auto;
-
-        }
-
-        #view-more-btn{
-
-            font-family: 'Open Sans';
-            font-weight: bold;
-            margin-right:3.5em;
-            padding:1em 2em;
-            background:#ffd100;
-            border-radius: 0.4em;
-            border: 1px #ffd100 solid;
-
-        }
-
-        /* Footer contact section styling */
-        .footer{
-
-            height:100%;
-            padding:2em 0em;
-            display:flex;
-            flex-direction:row;
-            background:#266294;
-            color:white;
-
-        }
-
-        .footer-content{
-
-            height:100%;
-            width:25%;
-            display:flex;
-            flex-direction:column;
-
-        }
-
-        .org-icon{
-
-            align-items:center;
-
-        }
-
-        #org-icon{
-
-            width:35%;
-
-        }
-
-        .quick-links-content{
-
-            margin-left:25%;
-            margin-right:25%;
-
-        }
-
-        .link{
-            padding-top:1em;
-            font-weight:100;
-        }
-
-        .social-media-footer{
-
-            display:flex;
-            align-items:center;
-            text-align:center;
-
-        }
-
-        .social-media-btn-container{
-
-            display:flex;
-            flex-direction:row;
-
-        }
-
-        #social-media-btn{
-
-            height:3em;
-            margin:0.2em;
-            border-radius:50%;
-            border:1px white solid;
-
-        }
-
-        #contact-email{
-
-            font-weight: 100;
-            margin-bottom:1em;
-
-        }
-
-        #contact-address{
-            font-weight:100;
-        }
-
-    </style>
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
 
     <!-- Navigation bar with links to other pages-->
-    <div class="navbar">
+    <div class="navbar" id='myNavbar'>
 
         <div class="org">
 
@@ -433,42 +27,29 @@
 
         </div>
 
-        <div class="jobs">
+<!--         <div class="topnav" id="myTopnav"> -->
 
-            <a href ="/jobs"><h2 class="active"> Jobs </h2> </a>
+            <a href ="/jobs" class="jobs"><h2 class="active"> Jobs </h2> </a>
 
-        </div>
+            <a href="/organizations" class="organizations"><h2> Organizations </h2></a>
 
-        <div class="organizations">
+            <a href="/about" class="about"><h2> About </h2></a>
 
-            <a href="/organizations"><h2> Organizations </h2></a>
+            <a href ="/contact" class="contact">
+                <h2> Contact </h2> </a>
 
-        </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
 
-        <div class="about">
-
-            <a href="/about"><h2> About </h2></a>
-
-        </div>
-
-        <div class="contact">
-
-            <a href ="/contact"><h2> Contact </h2> </a>
-
-        </div>
+<!--         </div> -->
 
     </div>
 
     <!--Search portion of the UI-->
     <div class="search-container">
 
-        <div class="search-content">
-
-            <div class="search-title">
-
                 <h1> Join the fight against homelessness in Los Angeles</h1>
-
-            </div>
 
             <form class="search">
 
@@ -522,9 +103,9 @@
 
             </form>
 
-        </div>
-
     </div>
+
+<!-- populate search results from API data here-->
 
     <!-- Categories of jobs available and clickable links to each category -->
     <div class="category-container">
@@ -720,6 +301,7 @@
                 <div class="posting-content">
 
                     <div class="left-posting">
+                        <h3> Housing Manager </h3>
                         <div class = "posting-image-container">
 
                             <img id="posting-img" src = "http://1minutereel.com/wp-content/uploads/2015/11/AHH_logo_color.jpg" />
@@ -735,7 +317,7 @@
                     </div>
 
                     <div class="middle-posting">
-                            <h3> Housing Manager </h3>
+
                             <h4> Alliance for Housing and Healing</h4>
                             <p> Alliance is currently seeking a Housing Manager who will be responsible for maintaining positive relationships with landlords to assist with housing...</p>
                     </div>
