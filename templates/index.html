@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <!-- Put links to stylesheets and JS files here !-->
 
-    <!-- CSS Example !-->
-    <link rel = "stylesheet" type="text/css" href="../static/css/index.css" />
+    <!-- CSS -->
+    <link rel = "stylesheet" type="text/css" href="../static/css/index.css"/>
 
-    <!-- Loads in Google Font for Open Sans-->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
     <!-- Font-Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <title>Jobs for Hope</title>
 </head>
+
 <body>
-
-    <!-- Navigation bar with links to other pages-->
-    <div class="navbar" id='myNavbar'>
-
-        <div class="org">
-
-            <img id="org-image" src = "http://dpss.lacounty.gov/wps/wcm/connect/ec46eaad-0452-4c31-8087-4d703908fff5/1/unspecified-3.png?MOD=AJPERES&CACHEID=ec46eaad-0452-4c31-8087-4d703908fff5/1" />
-
-        </div>
-
-<!--         <div class="topnav" id="myTopnav"> -->
-
+    <!-- Navigation bar -->
+    <header>
+        <nav class="navbar" id='myNavbar'>
+            <div class="org">
+                <img id="org-image" src = "http://dpss.lacounty.gov/wps/wcm/connect/ec46eaad-0452-4c31-8087-4d703908fff5/1/unspecified-3.png?MOD=AJPERES&CACHEID=ec46eaad-0452-4c31-8087-4d703908fff5/1" />
+            </div>
             <a href ="/jobs" class="jobs"><h2 class="active"> Jobs </h2> </a>
 
             <a href="/organizations" class="organizations"><h2> Organizations </h2></a>
@@ -41,74 +34,72 @@
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
-
-<!--         </div> -->
-
-    </div>
+        </nav>
+    </header>
 
     <!--Search portion of the UI-->
-    <div class="search-container">
+    <section role="search" class="search-container">
 
-                <h1> Join the fight against homelessness in Los Angeles</h1>
+        <h1> Join the fight against homelessness in Los Angeles</h1>
 
-            <form class="search">
+        <form class="search">
 
-                <div class="keyword-search">
+            <div class="keyword-search">
 
-                    <div class="search-words-title">
+                <div class="search-words-title">
 
-                    <h3> Housing/Homeless Jobs</h3>
-
-                    </div>
-
-                    <div class="search-words-container">
-
-                        <input type="text" class="search-input" value=""  name="keywords" placeholder="Job Title or Keywords" />
-
-                    </div>
+                <h3> Housing/Homeless Jobs</h3>
 
                 </div>
 
-                <div class="location-search">
+                <div class="search-words-container">
 
-                    <div class="search-words-title">
-
-                    <h3> Location</h3>
-
-                    </div>
-
-                    <div class="location-container">
-
-                        <input type="text" value="" class="location-input" name="location" placeholder="City or ZIP" />
-
-                    </div>
+                    <input type="text" class="search-input" value=""  name="keywords" placeholder="Job Title or Keywords" />
 
                 </div>
 
-                <div class="search-btn-content-container">
+            </div>
 
-                    <div class="search-btn-title">
+            <div class="location-search">
 
-                        <h3> Explore</h3>
+                <div class="search-words-title">
 
-                    </div>
-
-                    <div class="search-btn-container">
-
-                        <button type="button" value="done" class="search-btn" onClick="searchField()">Search</button>
-
-                    </div>
+                <h3> Location</h3>
 
                 </div>
 
-            </form>
+                <div class="location-container">
 
-    </div>
+                    <input type="text" value="" class="location-input" name="location" placeholder="City or ZIP" />
+
+                </div>
+
+            </div>
+
+            <div class="search-btn-content-container">
+
+                <div class="search-btn-title">
+
+                    <h3> Explore</h3>
+
+                </div>
+
+                <div class="search-btn-container">
+
+                    <button type="button" value="done" class="search-btn" onClick="searchField()">Search</button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
 
 <!-- populate search results from API data here-->
 
     <!-- Categories of jobs available and clickable links to each category -->
-    <div class="category-container">
+    <section role="application" class="category-container">
 
         <div class="category-title">
 
@@ -165,12 +156,12 @@
 
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- Recent job posting content-->
-    <div class="postings-content-container">
-        <div class="filter-bar-container">
+    <!-- Job posting section-->
+    <section class="postings-content-container">
+        <aside class="filter-bar-container">
 
             <b><p id="filters-title"> FILTERS</p></b>
 
@@ -290,9 +281,9 @@
 
             </div>
 
-        </div>
+        </aside>
 
-        <div class="recent-postings-container">
+        <section role="tablist"  class="recent-postings-container">
 
             <h2 class="recent-postings-title"> Recent Job Postings</h2>
 
@@ -331,13 +322,11 @@
                 </div>
 
             </div>
+        </section>
+    </aside>
 
-
-        </div>
-    </div>
-
-    <!-- Footer with contact links, information, and social media-->
-    <div class = "footer">
+    <!-- Footer-->
+    <footer class = "footer">
 
         <div class = "org-icon footer-content">
 
@@ -388,11 +377,10 @@
 
         </div>
 
-    </div>
+    </footer>
 
 
 <!-- Javascript file-->
-    <script src="../static/js/index.js"></script>
-
+    <script type="text/javascript" src="../static/js/index.js"></script>
 </body>
 </html>
