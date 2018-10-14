@@ -51,6 +51,8 @@ C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\deactivate
 6. templates folder: This folder contains all of the html templates that are rendered by the application. All Jinjas2 and HTML templates go here.
 7. utilities folder: This folder contains all of the helper tools used to write and read data to and from the database. It also contains utility scripts used for the application
 
-## Version Control
+## Dependencies
+-[SASS](https://sass-lang.com/)
+-[Gulp](https://gulpjs.com/)
 
 

@@ -1,0 +1,373 @@
+@import 'variables';
+
+body,html {
+    width: 100vw;
+    margin:0;
+    padding:0;
+    font-family: $main-font;
+    background: $bg-color;
+    color: set-text-color($bg-color);
+}
+
+a  {
+    text-decoration: none;
+    color: set-text-color($primary-color);
+}
+
+p  {
+    margin:0;
+    padding:0;
+}
+
+/* Navigation bar*/
+.navbar {
+    background: $primary-color;
+    /* Hide the link that should open and close the topnav on small screens */
+    .icon {
+        display: none;
+    }
+}
+
+.org {
+    height: 100px;
+    width:260px;
+}
+
+#org-image{
+    width:260px;
+    height:100%;
+}
+
+.jobs,.about,.contact,.organizations {
+    font-size: .8em;
+    padding:1em 1em;
+    color: set-text-color($primary-color);
+    text-align:center;
+}
+
+.active {
+    padding-bottom:0.3em;
+    border-bottom: 0.2em $secondary-color solid;
+}
+
+/* Search section styling */
+.search-container {
+    width:100%;
+    align-items: center;
+    padding-bottom:4.5em;
+    text-align: center;
+    background:gray;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+.search {
+    display:flex;
+    justify-content: space-around;
+    flex-flow: wrap;
+    flex-direction: row;
+    text-align:left;
+}
+
+
+.search-input, .location-input {
+    width: 200px;
+    padding:1em;
+    border-radius:0.25em;
+    border:1px white solid;
+    font-family:$main-font;
+}
+
+.keyword-search, .location-search, .search-btn-content-container {
+  margin: 10px;
+}
+
+.search-btn {
+    width:100%;
+    padding:1em;
+    border-radius:0.4em;
+    border:1px solid $secondary-color;
+    background: $secondary-color;
+    color: #111;
+    font-family: $main-font;
+}
+
+.search-btn-content-container {
+  margin:10px;
+    width: 75px;
+}
+
+/* Category styling */
+.category-title {
+    text-align:center;
+}
+
+.categories-head-container {
+    display:flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+}
+
+.category-head-container {
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    margin:2em;
+}
+
+#heart-head-img {
+    height:7em;
+    border-radius:50%;
+}
+
+.postings-content-container {
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:row;
+}
+
+/* Filter side-bar stylings */
+.filter-bar-container {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 300px; /* Set the width of the sidebar */
+    top:10em;
+    margin-top:1.235em;
+    padding-left:1em;
+    background-color: $light-color;
+}
+
+.filter-options {
+    display:flex;
+    flex-direction: row;
+}
+
+.filter-criteria {
+    padding:0.5em;
+}
+
+#filters-title {
+    padding:0.5em;
+}
+
+.distance-selector {
+    margin-top:0.25em;
+    padding:0.75em;
+    border-radius:0.25em;
+    border:1px gray solid;
+}
+
+/* Recent job postings styling */
+.recent-postings-container {
+    width:100%;
+    margin-top:2em;
+}
+
+.recent-postings-title {
+    padding-left:1em;
+}
+
+.posting-card {
+    display:flex;
+    align-items: center;
+    align-content: space-around;
+    width: calc(100% - 2em);
+    height:12em;
+    margin:0em 2em;
+    border:0.4px solid gray;
+    border-radius:0.2em;
+    box-shadow: 8px 8px 6px -6px gray;
+}
+
+.posting-content {
+    padding-left:2em;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+}
+
+.left-posting {
+    width:30%;
+    display:flex;
+    flex-direction: column;
+}
+
+.middle-posting {
+    width:45%;
+    display:flex;
+    flex-direction: column;
+    padding:0em 1em;
+    margin-top: 5px;
+}
+
+h4 {
+    margin:0.3em 0;
+    padding:0;
+}
+
+#posting-img {
+    width:90%;
+    padding:0.5em;
+    border:0.5px solid gray;
+}
+
+.right-posting {
+    display:flex;
+    flex-direction: center;
+    width:25%;
+    height:100%;
+    justify-content: flex-end;
+}
+
+#view-more-btn {
+    font-family: $main-font;
+    font-weight: bold;
+    margin-right:3.5em;
+    padding:1em 2em;
+    background:$secondary-color;
+    border-radius: 0.4em;
+    border: 1px $secondary-color solid;
+}
+
+/* Footer contact section styling */
+.footer {
+    height:100%;
+    width: 100vw;
+    padding:2em 0;
+    display:flex;
+    flex-direction:row;
+    background: $primary-color;
+    color: set-text-color($primary-color);
+}
+
+.footer-content {
+    height:100%;
+    width:25%;
+    display:flex;
+    flex-direction:column;
+}
+
+.org-icon {
+    align-items:center;
+}
+
+#org-icon {
+    width:35%;
+}
+
+.quick-links-content {
+    margin-left:25%;
+    margin-right:25%;
+}
+
+.link {
+    padding-top:1em;
+    font-weight:100;
+}
+
+.social-media-footer {
+    display:flex;
+    align-items:center;
+    text-align:center;
+}
+
+.social-media-btn-container {
+    display:flex;
+    flex-direction:row;
+}
+
+#social-media-btn {
+    height:3em;
+    margin:0.2em;
+    border-radius:50%;
+    border:1px white solid;
+}
+
+#contact-email {
+    font-weight: 100;
+    margin-bottom:1em;
+}
+
+#contact-address {
+    font-weight:100;
+}
+
+/* Media Queries */
+@media screen and (max-width: 490px){
+  .search-btn-content-container {
+    padding: 0 80px;
+  }
+}
+
+@media screen and (min-width: 700px){
+    .navbar {
+        height: 100px;
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .search {
+        margin: auto;
+        width: 730px;
+    }
+
+    .left-posting h3 {
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 910px){
+    .posting-card {
+        min-width: 300px;
+        overflow-x: scroll;
+    }
+    .left-posting h3 {
+        width: 189px;
+    }
+    .middle-posting {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 930px){
+    #posting-img {
+        width: 179px;
+    }
+}
+
+/* Responsive navbar <699 pixels wide, hide all links. Show the link that contains should open and close the navbar (.icon) */
+@media screen and (max-width: 699px) {
+    .navbar {
+        position: reltive;
+        a:not(:first-child) {
+            display: none;
+        }
+        a.icon {
+            position: absolute;
+            right: 20px;
+            top: 35px;
+            display: block;
+            font-size: 25px;
+        }
+    }
+}
+
+/* Add 'responsive' class to navbar with JS when user clicks on the icon.*/
+@media screen and (max-width: 699px) {
+    .navbar.responsive {
+        position: relative;
+        a.icon {
+            position: absolute;
+            right: 20px;
+            top: 35px;
+        }
+        a {
+            float: none;
+            display: block;
+            text-align: left;
+        }
+    }
+}
