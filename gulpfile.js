@@ -1,8 +1,7 @@
 const gulp         = require('gulp'),
       browserSync  = require('browser-sync').create(),
       sass         = require('gulp-sass'),
-      autoprefixer = require('gulp-autoprefixer'),
-      eslint       = require('gulp-eslint');
+      autoprefixer = require('gulp-autoprefixer');
 
 // Compile Sass & Inject Into Browser
 gulp.task('sass', function() {

@@ -10,12 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.18.13",
-    "eslint-plugin-html": "^4.0.6",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-sass": "^3.2.1"
   },
-  "dependencies": {
-    "gulp-eslint": "^5.0.0"
-  }
+  "dependencies": {}
 }
