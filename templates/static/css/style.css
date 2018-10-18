@@ -265,7 +265,14 @@ h4 {
   width: 100vw;
   padding: 2em 0;
   background: #266294;
-  color: #fff; }
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+#org-icon {
+  width: 100%;
+}
 
 .link {
   padding-top: 1em;
