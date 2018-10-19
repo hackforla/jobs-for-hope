@@ -233,33 +233,27 @@ h4 {
 
 /* Footer contact section styling */
 .footer {
-    height:100%;
-    width: 100vw;
+    //height:100%;
+    //width: 100vw;
     padding:2em 0;
-    display:flex;
-    flex-direction:row;
     background: $primary-color;
     color: set-text-color($primary-color);
-}
-
-.footer-content {
-    height:100%;
-    width:25%;
-    display:flex;
-    flex-direction:column;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+    ". i i . l l s s c c . ."
 }
 
 .org-icon {
-    align-items:center;
+  grid-area: i;
 }
 
 #org-icon {
-    width:35%;
+  width: 100%;
 }
 
-.quick-links-content {
-    margin-left:25%;
-    margin-right:25%;
+.quick-links-footer {
+  grid-area: l
 }
 
 .link {
@@ -268,14 +262,11 @@ h4 {
 }
 
 .social-media-footer {
-    display:flex;
-    align-items:center;
-    text-align:center;
+    grid-area: s;
 }
 
 .social-media-btn-container {
-    display:flex;
-    flex-direction:row;
+  display: flex;
 }
 
 #social-media-btn {
@@ -283,6 +274,10 @@ h4 {
     margin:0.2em;
     border-radius:50%;
     border:1px white solid;
+}
+
+.contact-footer {
+  grid-area: c;
 }
 
 #contact-email {
@@ -330,12 +325,39 @@ h4 {
     .middle-posting {
         width: 300px;
     }
+    .footer {
+      grid-template-areas:
+      ". . i i . . . l l . . ."
+      ". . s s . . . c c . . ."
+    }
+    .org-icon {
+      display: grid;
+      align-items: center;
+    }
 }
 
 @media screen and (min-width: 930px){
     #posting-img {
         width: 179px;
     }
+}
+
+@media screen and (max-width: 771px){
+  .footer {
+    justify-items: center;
+    text-align: center;
+    grid-template-areas:
+    "i i i i i i i i i i i i"
+    "l l l l l l l l l l l l"
+    "s s s s s s s s s s s s"
+    "c c c c c c c c c c c c"
+  }
+  #org-icon {
+    width: 40%;
+  }
+  .org-icon {
+    justify-items: center;
+  }
 }
 
 /* Responsive navbar <699 pixels wide, hide all links. Show the link that contains should open and close the navbar (.icon) */
