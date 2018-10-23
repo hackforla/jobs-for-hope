@@ -55,4 +55,5 @@ C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\deactivate
 -[SASS](https://sass-lang.com/)
 -[Gulp](https://gulpjs.com/)
 
-
+## Contributing
+1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
