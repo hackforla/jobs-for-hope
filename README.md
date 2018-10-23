@@ -3,13 +3,29 @@ Aggregate job opportunities with homeless service providers so that people can s
 
 ## Frontend Developer Setup(in use now)
 1. Fork repo to your github account
-2. Clone your forked repo to your local working directory.
+2. Clone the forked repo to your local working directory.
 3. Run `npm install` to install all frontend build tools and production dependencies
 4. Run `npm start` to run a live version of the project
 
+## Project Structure
+1. app.py: This is the main entrypoint into the application that contains the routes and associated business logic. This file also contains the main instantiation of the app object
+2. api.py: This is the main class for the REST API that allows interaction with the database
+3. requirements.txt: This is the file that contains all of the projects backend dependencies. Pip looks inside here when it installs all dependencies
+4. readme.md: This is the file that contains all instructions and descriptions about jobs-for-hope
+5. static folder: This folder contains all of the Javascript and CSS content. Place all JS and CSS into their respective folders.
+6. templates folder: This folder contains all of the html templates that are rendered by the application. All Jinjas2 and HTML templates go here.
+7. utilities folder: This folder contains all of the helper tools used to write and read data to and from the database. It also contains utility scripts used for the application
+
+## Dependencies
+-[React](https://reactjs.org/)
+-[SASS](https://sass-lang.com/)
+
+## Contributing
+1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
+
 ## Eventual-Backend Developer Setup(currently not in use)
 
-1. Download the required software for the project:
+~~1. Download the required software for the project:
 - Python 3.6 (https://www.python.org/downloads/release/python-360/)
   - Run this script using Python IF PIP DOES NOT COME INSTALLED (https://bootstrap.pypa.io/get-pip.py)
 - Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/download/gui/windows)
@@ -40,20 +56,5 @@ C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\deactivate
 - Navigate back to the root folder for the jobs-for-hope project. For example, for me: cd "C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\"
 - Then type in "python app.py". This should then run the application and print out a url to the screen
 - You should see the webpage popup at localhost:5000.
-- Congratulations, you have successfully set up your development environment.
+- Congratulations, you have successfully set up your development environment.~~
 
-## Project Structure
-1. app.py: This is the main entrypoint into the application that contains the routes and associated business logic. This file also contains the main instantiation of the app object
-2. api.py: This is the main class for the REST API that allows interaction with the database
-3. requirements.txt: This is the file that contains all of the projects backend dependencies. Pip looks inside here when it installs all dependencies
-4. readme.md: This is the file that contains all instructions and descriptions about jobs-for-hope
-5. static folder: This folder contains all of the Javascript and CSS content. Place all JS and CSS into their respective folders.
-6. templates folder: This folder contains all of the html templates that are rendered by the application. All Jinjas2 and HTML templates go here.
-7. utilities folder: This folder contains all of the helper tools used to write and read data to and from the database. It also contains utility scripts used for the application
-
-## Dependencies
--[SASS](https://sass-lang.com/)
--[Gulp](https://gulpjs.com/)
-
-## Contributing
-1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
