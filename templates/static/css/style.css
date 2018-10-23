@@ -261,69 +261,42 @@ h4 {
 
 /* Footer contact section styling */
 .footer {
-  height: 100%;
-  width: 100vw;
   padding: 2em 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
   background: #266294;
-  color: #fff; }
-
-.footer-content {
-  height: 100%;
-  width: 25%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column; }
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: ". i i . l l s s c c . ."; }
 
 .org-icon {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center; }
+  grid-area: i; }
 
 #org-icon {
-  width: 35%; }
+  width: 100%; }
 
-.quick-links-content {
-  margin-left: 25%;
-  margin-right: 25%; }
+.quick-links-footer {
+  grid-area: l; }
 
 .link {
   padding-top: 1em;
   font-weight: 100; }
 
 .social-media-footer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  text-align: center; }
+  grid-area: s; }
 
 .social-media-btn-container {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row; }
+  display: flex; }
 
 #social-media-btn {
   height: 3em;
   margin: 0.2em;
   border-radius: 50%;
   border: 1px white solid; }
+
+.contact-footer {
+  grid-area: c; }
 
 #contact-email {
   font-weight: 100;
@@ -363,11 +336,28 @@ h4 {
   .left-posting h3 {
     width: 189px; }
   .middle-posting {
-    width: 300px; } }
+    width: 300px; }
+  .footer {
+    grid-template-areas: ". . i i . . . l l . . ." ". . s s . . . c c . . ."; }
+  .org-icon {
+    display: grid;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; } }
 
 @media screen and (min-width: 930px) {
   #posting-img {
     width: 179px; } }
+
+@media screen and (max-width: 771px) {
+  .footer {
+    justify-items: center;
+    text-align: center;
+    grid-template-areas: "i i i i i i i i i i i i" "l l l l l l l l l l l l" "s s s s s s s s s s s s" "c c c c c c c c c c c c"; }
+  #org-icon {
+    width: 40%; }
+  .org-icon {
+    justify-items: center; } }
 
 /* Responsive navbar <699 pixels wide, hide all links. Show the link that contains should open and close the navbar (.icon) */
 @media screen and (max-width: 699px) {
