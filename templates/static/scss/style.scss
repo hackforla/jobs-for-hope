@@ -43,6 +43,9 @@ p  {
     padding:1em 1em;
     color: set-text-color($primary-color);
     text-align:center;
+    &:hover{
+      color: $accent-color;
+    }
 }
 
 .active {
@@ -54,12 +57,16 @@ p  {
 .search-container {
     width:100%;
     align-items: center;
-    padding-bottom:4.5em;
+    padding-top: 4.5em;
+    padding-bottom: 5em;
     text-align: center;
     background:gray;
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
+    h1{
+      margin: 0 auto;
+    }
 }
 
 .search {
@@ -68,6 +75,9 @@ p  {
     flex-flow: wrap;
     flex-direction: row;
     text-align:left;
+    h3 {
+      font-size: .9em;
+    }
 }
 
 
@@ -111,14 +121,15 @@ p  {
 }
 
 .category-head-container {
+    width: 4em;
     display:flex;
     flex-direction: column;
     text-align: center;
-    margin:2em;
+    margin: 1.5em;
 }
 
 #heart-head-img {
-    height:7em;
+    height:4em;
     border-radius:50%;
 }
 
