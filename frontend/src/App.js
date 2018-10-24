@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Route,
-  NavLink,
   BrowserRouter as Router
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -34,16 +33,10 @@ class App extends Component {
     const { searchField, onSearchChange } = this.props;
 
     return (
-      <div>
       <Router>
         <div className="App">
-          <header className="App-header">
-            <ul>
-              <li><NavLink className='link' to='/' exact={true}>Home</NavLink></li>
-              <li><NavLink className='link' to='/organizations'>Organizations</NavLink></li>
-              <li><NavLink className='link' to='/about'>About</NavLink></li>
-              <li><NavLink className='link' to='/contact'>Contact</NavLink></li>
-            </ul>
+          <header className="header">
+            <Navbar />
           </header>
          <Route exact path='/' render={() => (
             <Main
@@ -57,8 +50,6 @@ class App extends Component {
           <Footer />
         </div>
       </Router>
-
-      </div>
     );
   }
 }
