@@ -15,8 +15,11 @@
   li {
     list-style: none;
   }
-  a {
+  .link {
     color: set-text-color($primary-color);
     text-decoration: none;
+    &.active {
+      border-bottom: 0.2em $secondary-color solid;
+    }
   }
 }

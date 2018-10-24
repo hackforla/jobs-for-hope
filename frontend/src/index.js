@@ -8,7 +8,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(searchJobListing);
+const store = createStore(
+  searchJobListing,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 //Provider
 //add store as property to make it available to entire app
