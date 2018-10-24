@@ -1,14 +1,17 @@
 import React from 'react';
 import SearchBox from './SearchBox';
 
-const Main = ({ searchChange }) => (
+const Main = ({ onSearchChange }) => (
   <div>
     <h1>Main page</h1>
-    <SearchBox searchChange={searchChange} />
+    <SearchBox
+      onSearchChange={onSearchChange}
+    />
   </div>
 );
 
 export default Main;
+
   // <Searchbar />
-  // <SearchByCategory />
   // <Job Posting />
+  // <SearchByFilter />

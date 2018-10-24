@@ -19,17 +19,13 @@ import { setSearchField } from './store/actions';
 import './App.scss';
 
 
-const mapStateToProps = state => {
-  return {
-    searchField: state.searchField
-  }
-}
+const mapStateToProps = state => ({
+  searchField: state.searchField
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => ({
     onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-  }
-}
+})
 
 class App extends Component {
 
@@ -49,8 +45,11 @@ class App extends Component {
               <li><NavLink className='link' to='/contact'>Contact</NavLink></li>
             </ul>
           </header>
-         <Route exact path='/' component={Main}
-            changeSearch={onSearchChange}
+         <Route exact path='/' render={() => (
+            <Main
+              onSearchChange={onSearchChange}
+            />
+          )}
          />
          <Route path='/organizations' component={Organizations} />
          <Route path='/about' component={About} />
@@ -65,5 +64,3 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-//TODO: set up SASS
