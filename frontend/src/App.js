@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Link,
   BrowserRouter as Router
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,24 +11,20 @@ import Organizations from './components/Organizations';
 import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import SearchBox from './components/SearchBox';
+
 
 import { setSearchField } from './store/actions';
 
 import './App.scss';
 
 
-const mapStateToProps = state => {
-  return {
-    searchField: state.searchField
-  }
-}
+const mapStateToProps = state => ({
+  searchField: state.searchField
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => ({
     onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-  }
-}
+})
 
 class App extends Component {
 
@@ -38,30 +33,25 @@ class App extends Component {
     const { searchField, onSearchChange } = this.props;
 
     return (
-      <div>
       <Router>
         <div className="App">
-          <header className="App-header">
-            <ul>
-              <li><Link to='/'>Home</Link></li>
-              <li><Link to='/organizations'>Organizations</Link></li>
-              <li><Link to='/about'>About</Link></li>
-              <li><Link to='/contact'>Contact</Link></li>
-            </ul>
+          <header className="header">
+            <Navbar />
           </header>
-         <Route exact path='/' component={Main} />
+         <Route exact path='/' render={() => (
+            <Main
+              onSearchChange={onSearchChange}
+            />
+          )}
+         />
          <Route path='/organizations' component={Organizations} />
          <Route path='/about' component={About} />
          <Route path='/contact' component={Contact} />
           <Footer />
         </div>
       </Router>
-      <SearchBox searchChange={onSearchChange} />
-      </div>
     );
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-//TODO: set up SASS
