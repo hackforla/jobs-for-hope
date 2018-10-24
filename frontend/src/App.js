@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Organizations from './components/Organizations';
 import About from './components/About';
@@ -16,7 +16,7 @@ import SearchBox from './components/SearchBox';
 
 import { setSearchField } from './store/actions';
 
-import './App.css';
+import './App.scss';
 
 
 const mapStateToProps = state => {
