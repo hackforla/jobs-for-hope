@@ -4,19 +4,41 @@ import {
   Link,
   BrowserRouter as Router
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Organizations from './components/Organizations';
 import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import SearchBox from './components/SearchBox';
+
+import { setSearchField } from './store/actions';
 
 import './App.css';
 
+
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchField
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+  }
+}
+
 class App extends Component {
+
+//searchField is for matching search to job listing
   render() {
+    const { searchField, onSearchChange } = this.props;
+
     return (
+      <div>
       <Router>
         <div className="App">
           <header className="App-header">
@@ -34,11 +56,12 @@ class App extends Component {
           <Footer />
         </div>
       </Router>
+      <SearchBox searchChange={onSearchChange} />
+      </div>
     );
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-//TODO: Set up Router
-//TODO: Set up Redux
+//TODO: set up SASS
