@@ -1,7 +1,11 @@
 import React from 'react';
+import SearchBox from './SearchBox';
 
-const Main = () => (
-  <h1>Main page</h1>
+const Main = ({ searchChange }) => (
+  <div>
+    <h1>Main page</h1>
+    <SearchBox searchChange={searchChange} />
+  </div>
 );
 
 export default Main;
