@@ -1,17 +1,48 @@
-import { CHANGE_SEARCHFIELD } from './constants.js';
+import {
+  CHANGE_SEARCHFIELD,
+  FETCH_JOBS_PENDING,
+  FETCHED_JOBS_SUCCESS,
+  FETCHED_JOBS_FAILED,
+} from './constants.js';
 
-const initialState = {
-  searchField: ''
+const initialStateSearch = {
+  searchField: '',
 };
 
-//needs state and action parameters
-const searchJobListing = (state = initialState, action = {}) => {
+export const searchJobListing = (state = initialStateSearch, action = {}) => {
   switch (action.type) {
     case CHANGE_SEARCHFIELD:
-      return Object.assign({}, state, { searchField: action.payload })
+      return Object.assign({}, state, {
+        searchField: action.payload
+      });
     default:
       return state;
   }
 }
 
-export default searchJobListing;
+const initialStateJobs = {
+  isPending: false,
+  jobData: [],
+  isError: false
+};
+
+//new jobs reducer
+export const requestJobs = (state = initialStateJobs, action = {}) => {
+  switch (action.type) {
+    case FETCH_JOBS_PENDING:
+      return Object.assign({}, state, {
+        isPending: true,
+      });
+    case FETCHED_JOBS_SUCCESS:
+      return Object.assign({}, state, {
+        jobData: action.payload,
+        isPending: false,
+      });
+    case FETCHED_JOBS_FAILED:
+      return Object.assign({}, state, {
+        isError: action.payload,
+      });
+    default:
+      return state;
+  }
+}
