@@ -3,35 +3,35 @@ import './Contact.scss';
 
 const Contact = () => (
   <main>
-    <div className="contact-banner">
+    <div className="contact-banner" role="banner">
       <p className="contact-title"> Getting In Touch</p>
     </div>
     <div className="contact-content-container">
         <div className="contact-form-container">
             <h2 id="contact-title">Contact Us</h2>
-            <form method="POST" name="contact-form">
-                <label>Full Name</label><br />
-                <input id="name" name="name" className="contact-input" /> <br />
+            <form method="POST" name="contact-form" role="form" aria-labelledby="contact">
+                <label for="name">Full Name</label><br />
+                <input id="name" name="name" className="contact-input" /><br />
 
-                <label>Email</label><br />
-                <input id="email" name="email" className="contact-input" /> <br />
+                <label for="email">Email</label><br />
+                <input id="email" name="email" className="contact-input" /><br />
 
-                <label>Phone</label><br />
-                <input id="phone" name="phone" className="contact-input" /> <br />
-                <label>Message</label><br />
+                <label for="phone">Phone</label><br />
+                <input id="phone" name="phone" className="contact-input" /><br />
+                <label for="message">Message</label><br />
                 <textarea id="message" name="message" className="contact-input" form="contact-form"></textarea>
 
-                <button id="send-btn" type="submit">Send</button>
+                <input id="send-btn" type="submit" value="Send" />
             </form>
         </div>
-        <div className="department-information-container">
+        <div className="department-information-container" role="contentinfo">
             <h2 id="department-title">
                 Office of Homeless Initiative
             </h2>
-            <p className="department-info"  id="deparment-director">
+            <p className="department-info" id="deparment-director">
                 Phil Ansell, Director
             </p>
-            <p className="department-info"  id="deparment-location">
+            <p className="department-info" id="deparment-location">
                 Kenneth Hahn Hall of Administration
             </p>
             <p className="department-info" id="department-address">
