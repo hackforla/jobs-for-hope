@@ -1,0 +1,78 @@
+@import "../_variables.scss";
+
+/* Recent job postings styling */
+.recent-postings-container {
+  width:100%;
+  margin-top:2em;
+  ul{
+      list-style: none;
+    }
+}
+
+.recent-postings-title {
+  padding-left:1em;
+}
+
+.posting-card {
+  display:flex;
+  align-items: center;
+  align-content: space-around;
+  width: calc(100% - 2em);
+  height:12em;
+  margin:0em 2em;
+  border:1px solid gray;
+  border-radius:0.2em;
+  box-shadow: 8px 8px 6px -6px gray;
+}
+
+.posting-content {
+  padding-left:2em;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+}
+
+.left-posting {
+  width:30%;
+  display:flex;
+  flex-direction: column;
+}
+
+.middle-posting {
+  width:45%;
+  height: 100px;
+  display:flex;
+  flex-direction: column;
+  padding:0em 1em;
+  margin-top: 5px;
+  overflow-y: hidden;
+}
+
+h4 {
+  margin:0.3em 0;
+  padding:0;
+}
+
+#posting-img {
+  width:90%;
+  padding:0.5em;
+  border:0.5px solid gray;
+}
+
+.right-posting {
+  display:flex;
+  flex-direction: center;
+  width:25%;
+  height:100%;
+  justify-content: flex-end;
+}
+
+#view-more-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  margin-right:3.5em;
+  padding:1em 2em;
+  background:$secondary-color;
+  border-radius: 0.4em;
+  border: 1px $secondary-color solid;
+}

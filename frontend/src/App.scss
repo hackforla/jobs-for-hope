@@ -15,8 +15,12 @@ a  {
 }
 
 p  {
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+  margin: 0;
 }
 
 .header {
@@ -39,8 +43,6 @@ p  {
         list-style: none;
       }
       .link {
-        color: set-text-color($primary-color);
-        text-decoration: none;
         &.active {
           border-bottom: 0.2em $secondary-color solid;
         }
@@ -49,10 +51,8 @@ p  {
   }
 }
 
+/*FOOTER*/
 .footer {
-   position:fixed;
-   bottom:0px;
-   width:100%;
     padding: .5em 0;
     background: $primary-color;
     color: set-text-color($primary-color);
@@ -62,7 +62,6 @@ p  {
     grid-template-areas:
     ". i i l l s s c c c . ."
 }
-
 
 .org-icon {
   grid-area: i;
@@ -75,16 +74,10 @@ p  {
 
 .quick-links-footer {
   grid-area: l;
-    h3 {
-    margin:0;
-  }
 }
 
 .social-media-footer {
   grid-area: s;
-  h3 {
-    margin:0;
-  }
 }
 
 .social-media-btn-container {
@@ -100,9 +93,6 @@ p  {
 
 .contact-footer {
   grid-area: c;
-  h3 {
-    margin:0;
-  }
 }
 
 @media screen and (max-width: 770px){
