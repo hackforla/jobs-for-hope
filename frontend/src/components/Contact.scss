@@ -1,0 +1,140 @@
+/* Contact banner styling */
+.contact-banner{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 40vh;
+    background-image: linear-gradient(
+      rgba(42, 39, 39, 0.3),
+      rgba(42, 39, 39, 0.3)
+    ), url("../matt-collamer-555626-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-size: 110%;
+    background-position: 15% 40%;
+}
+
+.contact-title{
+  padding-left: 75px;
+  width: 20%;
+  font-weight:bolder;
+  color:white;
+  font-size: 4em;
+}
+
+.contact-content-container{
+
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    margin-top:3.5em;
+    padding-bottom:2em;
+
+}
+
+/* Department information styling */
+.department-information-container, .contact-form-container{
+
+    width:40%;
+
+}
+
+/* Contact form styling */
+.contact-form-container{
+
+    padding-left:10%;
+
+}
+
+.contact-input{
+
+    width:90%;
+    margin-bottom:2em;
+    padding:0.75em 1.75em;
+    border-radius:0.5em;
+    border:1px lightgray solid;
+
+}
+
+#message{
+
+    height:15em;
+}
+
+#send-btn{
+
+    width:33%;
+    font-family: 'Open Sans';
+    font-weight: bold;
+    font-size:1.2em;
+    margin-right:3.5em;
+    padding:0.3em 2.2em;
+    background:#ffd100;
+    border-radius: 0.4em;
+    border: 1px #ffd100 solid;
+
+}
+
+.department-information-container{
+
+    padding-right:10%;
+    text-align:right;
+}
+
+.department-info{
+
+    margin:1em 0em;
+    padding:0;
+    font-weight:100;
+
+}
+
+#department-address-continued{
+
+    margin:0;
+    padding:0;
+
+}
+
+#web-link{
+
+    color:#ffd100;
+
+}
+
+#county-img{
+    height:13em;
+    margin-top:2em;
+}
+
+@media screen and (max-width: 770px){
+    .contact-banner {
+    height: 35vh;
+    background-size: 140%;
+    background-position: 35% 30%;
+  }
+
+  .contact-title{
+    padding-left: 30px;
+    width: 30%;
+    font-weight:bolder;
+    color:white;
+    font-size: 3.2em;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .contact-banner {
+    height: 30vh;
+    background-size: 150%;
+    background-position: 35% 25%;
+  }
+
+  .contact-title{
+    padding-left: 10px;
+    width: 30%;
+    font-weight:bolder;
+    color:white;
+    font-size: 3em;
+  }
+}
