@@ -1,7 +1,10 @@
 import React from 'react';
+import CompanyCard from './CompanyCard';
 
+
+//have to map it to hardcode for now
 const Organizations = () => (
-  <h1>Organizations page</h1>
+  <CompanyCard />
 );
 
 export default Organizations;
