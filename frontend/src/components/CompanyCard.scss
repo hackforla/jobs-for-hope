@@ -1,0 +1,52 @@
+/* Organization cards styling */
+.organization-cards-container{
+    display:flex;
+    flex-wrap:wrap;
+    padding:1em 0em;
+    width:100%;
+}
+
+.organization-card{
+    width:33%;
+    padding:1em 1em;
+    box-sizing: border-box;
+    text-align:center;
+}
+
+.organization-card-content{
+    margin:2em 7%;
+    padding:3em 0em;
+    border:0.4px solid gray;
+    border-radius:0.2em;
+    box-shadow: 4px 4px 3px -3px gray;
+}
+
+#org-img{
+    height:10em;
+}
+
+#org-title{
+    margin:0 10%;
+    width:80%;
+    margin-top:1em;
+}
+
+#org-jobs-available{
+    margin-top:1em;
+    text-decoration: underline;
+}
+
+#org-view-more-btn{
+    width:55%;
+    padding:0.7em;
+    margin-top:1.5em;
+    border-radius:0.4em;
+    border:1px #ffd100 solid;
+    background: #ffd100;
+    font-weight: bold;
+    opacity: 0.75;
+}
+
+#org-view-more-btn:hover{
+    opacity:1;
+}
