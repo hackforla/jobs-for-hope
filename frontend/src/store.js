@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { searchJobListing, requestJobs } from './store/reducers'
 
@@ -6,7 +6,8 @@ const initialState= {}
 
 const rootReducer = combineReducers({ searchJobListing, requestJobs });
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
 const store = createStore(
   rootReducer,
