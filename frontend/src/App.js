@@ -11,22 +11,42 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-import { setSearchField, fetchJobs } from './store/actions';
+import { setSearchField, setSearchZip, fetchJobs } from './store/actions';
 
 import './App.scss';
 
 
 const mapStateToProps = state => ({
   searchField: state.searchJobListing.searchField,
+  zipcode: state.searchJobListing.zipcode,
   isPending: state.requestJobs.isPending,
   jobData: state.requestJobs.jobData,
-  isError: state.requestJobs.isError
+  isError: state.requestJobs.isError,
 })
 
 const mapDispatchToProps = dispatch => ({
     onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+    onZipSearchChange: (event) => dispatch(setSearchZip(event.target.value)),
     onfetchData: () => dispatch(fetchJobs())
 })
+
+  // let filteredJobs;
+
+  // const filterSearch = () => {
+
+  //   const { searchField, zipcode, jobData } = this.props;
+
+  //   if (searchField){
+  //   filteredJobs = jobData.filter(job => job.gsx$zipcode.$t.includes(zipcode))
+
+  //   filteredJobs = filteredJobs.filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
+
+  //   console.log(filteredJobs);
+  //   } else {
+  //     return filteredJobs = jobData;
+  //   }
+  // }
+
 
 class App extends Component {
 
@@ -36,10 +56,18 @@ componentDidMount() {
 
 //searchField is for matching search to job listing
   render() {
-    const { searchField, onSearchChange, jobData, isPending } = this.props;
+    const { searchField, zipcode, jobData, isPending } = this.props;
+
+    let filteredJobs;
+
+    filteredJobs = jobData
+    .filter(job => job.gsx$zipcode.$t.includes(zipcode))
+    .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
+
+    console.log(filteredJobs);
 
     return isPending ?
-      <h1>Loading</h1> :
+      <h1>Loading...</h1> :
       (
       <Router>
         <div className="App">
@@ -48,8 +76,9 @@ componentDidMount() {
           </header>
           <Route exact path='/' render={() => (
             <Main
-              onSearchChange={onSearchChange}
               {...this.props}
+              filteredJobs={filteredJobs}
+              // filterSearch={filterSearch}
             />
           )}
           />
