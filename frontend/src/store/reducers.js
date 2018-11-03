@@ -1,5 +1,6 @@
 import {
   CHANGE_SEARCHFIELD,
+  CHANGE_SEARCH_ZIPCODE,
   FETCH_JOBS_PENDING,
   FETCHED_JOBS_SUCCESS,
   FETCHED_JOBS_FAILED,
@@ -7,13 +8,24 @@ import {
 
 const initialStateSearch = {
   searchField: '',
+  zipcode: '',
+
 };
 
 export const searchJobListing = (state = initialStateSearch, action = {}) => {
   switch (action.type) {
+    // case CHANGE_SEARCHFIELD && CHANGE_SEARCH_ZIPCODE:
+    //   return Object.assign({}, state, {
+    //     searchField: action.payload,
+    //     zipcode: action.payload
+    //   });
     case CHANGE_SEARCHFIELD:
       return Object.assign({}, state, {
-        searchField: action.payload
+        searchField: action.payload,
+      });
+    case CHANGE_SEARCH_ZIPCODE:
+      return Object.assign({}, state, {
+        zipcode: action.payload,
       });
     default:
       return state;
@@ -38,6 +50,7 @@ export const requestJobs = (state = initialStateJobs, action = {}) => {
         jobData: action.payload,
         isPending: false,
       });
+
     case FETCHED_JOBS_FAILED:
       return Object.assign({}, state, {
         isError: action.payload,
