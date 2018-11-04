@@ -4,8 +4,13 @@ import {
   FETCH_JOBS_PENDING,
   FETCHED_JOBS_SUCCESS,
   FETCHED_JOBS_FAILED,
+  FETCH_ORGANIZATIONS_PENDING,
+  FETCHED_ORGANIZATIONS_SUCCESS,
+  FETCHED_ORGANIZATIONS_FAILED
 } from './constants.js';
 
+
+//job searchfield reducer
 const initialStateSearch = {
   searchField: '',
   zipcode: '',
@@ -14,11 +19,6 @@ const initialStateSearch = {
 
 export const searchJobListing = (state = initialStateSearch, action = {}) => {
   switch (action.type) {
-    // case CHANGE_SEARCHFIELD && CHANGE_SEARCH_ZIPCODE:
-    //   return Object.assign({}, state, {
-    //     searchField: action.payload,
-    //     zipcode: action.payload
-    //   });
     case CHANGE_SEARCHFIELD:
       return Object.assign({}, state, {
         searchField: action.payload,
@@ -32,13 +32,13 @@ export const searchJobListing = (state = initialStateSearch, action = {}) => {
   }
 }
 
+//new jobs reducer
 const initialStateJobs = {
   isPending: false,
   jobData: [],
   isError: false
 };
 
-//new jobs reducer
 export const requestJobs = (state = initialStateJobs, action = {}) => {
   switch (action.type) {
     case FETCH_JOBS_PENDING:
@@ -54,6 +54,34 @@ export const requestJobs = (state = initialStateJobs, action = {}) => {
     case FETCHED_JOBS_FAILED:
       return Object.assign({}, state, {
         isError: action.payload,
+      });
+    default:
+      return state;
+  }
+}
+
+//organizations reducer
+const initialStateOrganizations = {
+  orgsArePending: false,
+  organizationData: [],
+  orgsGetDataError: false
+};
+
+export const requestOrgs = (state = initialStateOrganizations, action = {}) => {
+  switch (action.type) {
+    case FETCH_ORGANIZATIONS_PENDING:
+      return Object.assign({}, state, {
+        orgsArePending: true,
+      });
+    case FETCHED_ORGANIZATIONS_SUCCESS:
+      return Object.assign({}, state, {
+        organizationData: action.payload,
+        orgsArePending: false,
+      });
+
+    case FETCHED_ORGANIZATIONS_FAILED:
+      return Object.assign({}, state, {
+        orgsGetDataError: action.payload,
       });
     default:
       return state;

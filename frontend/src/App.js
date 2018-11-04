@@ -11,7 +11,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-import { setSearchField, setSearchZip, fetchJobs } from './store/actions';
+import { setSearchField, setSearchZip, fetchJobs, fetchOrganizations } from './store/actions';
 
 import './App.scss';
 
@@ -19,15 +19,21 @@ import './App.scss';
 const mapStateToProps = state => ({
   searchField: state.searchJobListing.searchField,
   zipcode: state.searchJobListing.zipcode,
+
   isPending: state.requestJobs.isPending,
   jobData: state.requestJobs.jobData,
   isError: state.requestJobs.isError,
+
+  orgsArePending: state.requestOrgs.orgsArePending,
+  organizationData: state.requestOrgs.organizationData,
+  orgsGetDataError: state.requestOrgs.orgsGetDataError
 })
 
 const mapDispatchToProps = dispatch => ({
     onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
     onZipSearchChange: (event) => dispatch(setSearchZip(event.target.value)),
-    onfetchData: () => dispatch(fetchJobs())
+    onfetchData: () => dispatch(fetchJobs()),
+    onfetchOrgs: () => dispatch(fetchOrganizations())
 })
 
   // let filteredJobs;
@@ -52,6 +58,7 @@ class App extends Component {
 
 componentDidMount() {
   this.props.onfetchData();
+  this.props.onfetchOrgs();
 }
 
 //searchField is for matching search to job listing
