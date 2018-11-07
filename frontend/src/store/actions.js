@@ -38,7 +38,8 @@ export const fetchJobs = () => (dispatch) => {
         .catch(error => dispatch({
           type:FETCHED_JOBS_FAILED,
           payload: error
-        }))
+        })
+        )
 }
 
 //retrieve organizations' info from database
@@ -49,13 +50,15 @@ export const fetchOrganizations = () => (dispatch) => {
 
   fetch(url)
         .then(response => response.json())
-        .then(res => console.log(res))
-        .then( data => dispatch({
-          type: FETCHED_ORGANIZATIONS_SUCCESS,
-          payload: data.feed.entry
-        }))
+        // .then(res => {console.log(res); return res;}) //getting org data
+        .then( resp => dispatch({
+          type: FETCHED_ORGANIZATIONS_SUCCESS, //not getting right info...
+          orgPayload: resp.feed.entry
+        })
+        )
         .catch(error => dispatch({
           type:FETCHED_ORGANIZATIONS_FAILED,
-          payload: error
-        }))
+          orgPayload: error
+        })
+        )
 }

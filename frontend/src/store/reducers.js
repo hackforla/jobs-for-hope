@@ -75,13 +75,13 @@ export const requestOrgs = (state = initialStateOrganizations, action = {}) => {
       });
     case FETCHED_ORGANIZATIONS_SUCCESS:
       return Object.assign({}, state, {
-        organizationData: action.payload,
+        organizationData: action.orgPayload,
         orgsArePending: false,
       });
 
     case FETCHED_ORGANIZATIONS_FAILED:
       return Object.assign({}, state, {
-        orgsGetDataError: action.payload,
+        orgsGetDataError: action.orgPayload,
       });
     default:
       return state;
