@@ -15,7 +15,3 @@ const CompanyCard = ({ org }) => {
 }
 
 export default CompanyCard;
-
-//need db with: logo, org title, jobs available...
-
-//it's grabbing the job data instead, but the org data is fetching...
