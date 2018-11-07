@@ -4,8 +4,9 @@ Aggregate job opportunities with homeless service providers so that people can s
 ## Frontend Developer Setup(in use now)
 1. Fork repo to your github account
 2. Clone the forked repo to your local working directory.
-3. Run `npm install` to install all frontend build tools and production dependencies
-4. Run `npm start` to run a live version of the project
+3. Cd into `frontend` directory
+4. Run `npm install` to install all frontend build tools and production dependencies
+5. Run `npm start` to run a live version of the project
 
 ## Project Structure
 1. app.py: This is the main entrypoint into the application that contains the routes and associated business logic. This file also contains the main instantiation of the app object
