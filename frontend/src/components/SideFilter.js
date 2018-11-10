@@ -2,7 +2,7 @@ import React from 'react';
 
 import './SideFilter.scss'
 
-const SideFilter = () => {
+const SideFilter = ({checkedEmploymentType, onSetEmploymentTypeFT, onSetEmploymentTypePT}) => {
   return (
         <aside className="filter-bar-container">
             <b><p id="filters-title"> FILTERS</p></b>
@@ -17,11 +17,11 @@ const SideFilter = () => {
             <div className="employment-type filter-criteria">
                 <p>Employment Type</p>
                 <div className="filter-options">
-                    <input name="full-time" type="checkbox" />
+                    <input name="full-time" type="checkbox" onChange={event => onSetEmploymentTypeFT(event)} />
                     <p> Full Time (14)</p> <br />
                 </div>
                 <div className="filter-options">
-                    <input name="part-time" type="checkbox" />
+                    <input name="part-time" type="checkbox" onChange={event => onSetEmploymentTypePT(event)} />
                     <p> Part Time (14)</p> <br />
                 </div>
             </div>

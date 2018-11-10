@@ -6,7 +6,9 @@ import {
   FETCHED_JOBS_FAILED,
   FETCH_ORGANIZATIONS_PENDING,
   FETCHED_ORGANIZATIONS_SUCCESS,
-  FETCHED_ORGANIZATIONS_FAILED
+  FETCHED_ORGANIZATIONS_FAILED,
+  CHANGE_EMPLOYMENT_TYPE_FT,
+  CHANGE_EMPLOYMENT_TYPE_PT,
 } from './constants.js';
 
 export const setSearchField = text => {
@@ -61,4 +63,16 @@ export const fetchOrganizations = () => (dispatch) => {
           orgPayload: error
         })
         )
+}
+
+export const setEmploymentTypeFT = () => {
+  return {
+    type: CHANGE_EMPLOYMENT_TYPE_FT,
+  }
+}
+
+export const setEmploymentTypePT = () => {
+  return {
+    type: CHANGE_EMPLOYMENT_TYPE_PT,
+  }
 }

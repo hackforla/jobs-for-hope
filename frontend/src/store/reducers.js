@@ -6,7 +6,9 @@ import {
   FETCHED_JOBS_FAILED,
   FETCH_ORGANIZATIONS_PENDING,
   FETCHED_ORGANIZATIONS_SUCCESS,
-  FETCHED_ORGANIZATIONS_FAILED
+  FETCHED_ORGANIZATIONS_FAILED,
+  CHANGE_EMPLOYMENT_TYPE_FT,
+  CHANGE_EMPLOYMENT_TYPE_PT,
 } from './constants.js';
 
 
@@ -82,6 +84,26 @@ export const requestOrgs = (state = initialStateOrganizations, action = {}) => {
     case FETCHED_ORGANIZATIONS_FAILED:
       return Object.assign({}, state, {
         orgsGetDataError: action.orgPayload,
+      });
+    default:
+      return state;
+  }
+}
+
+const initialEmployType = {
+  FT: false,
+  PT: false
+};
+
+export const changeEmploymentType = (state = initialEmployType, action = {}) => {
+  switch (action.type) {
+    case CHANGE_EMPLOYMENT_TYPE_FT:
+      return Object.assign({}, state, {
+        FT: !state.FT
+      });
+    case CHANGE_EMPLOYMENT_TYPE_PT:
+      return Object.assign({}, state, {
+        PT: !state.PT
       });
     default:
       return state;

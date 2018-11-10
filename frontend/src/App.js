@@ -11,7 +11,14 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-import { setSearchField, setSearchZip, fetchJobs, fetchOrganizations } from './store/actions';
+import {
+  setSearchField,
+  setSearchZip,
+  fetchJobs,
+  fetchOrganizations,
+  setEmploymentTypeFT,
+  setEmploymentTypePT
+} from './store/actions';
 
 import './App.scss';
 
@@ -26,21 +33,26 @@ const mapStateToProps = state => ({
 
   orgsArePending: state.requestOrgs.orgsArePending,
   organizationData: state.requestOrgs.organizationData,
-  orgsGetDataError: state.requestOrgs.orgsGetDataError
+  orgsGetDataError: state.requestOrgs.orgsGetDataError,
+
+  employmentTypeFT: state.changeEmploymentType.FT,
+  employmentTypePT: state.changeEmploymentType.PT,
 })
 
 const mapDispatchToProps = dispatch => ({
     onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
     onZipSearchChange: (event) => dispatch(setSearchZip(event.target.value)),
-    onfetchData: () => dispatch(fetchJobs()),
-    onfetchOrgs: () => dispatch(fetchOrganizations())
+    onfetchJobs: () => dispatch(fetchJobs()),
+    onfetchOrgs: () => dispatch(fetchOrganizations()),
+    onSetEmploymentTypeFT: (event) => dispatch(setEmploymentTypeFT(event.target.checked)),
+    onSetEmploymentTypePT: (event) => dispatch(setEmploymentTypePT(event.target.checked))
 })
 
 
 class App extends Component {
 
 componentDidMount() {
-  this.props.onfetchData();
+  this.props.onfetchJobs();
   this.props.onfetchOrgs();
 }
 
@@ -57,6 +69,12 @@ componentDidMount() {
     .filter(job => job.gsx$zipcode.$t.includes(zipcode))
     .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
 
+    // const checkedEmploymentType = () => {
+      if(this.props.employmentTypeFT === true /*maybe*/){
+        filteredJobs.filter(job => job.gsx$duration.$t.includes('Full-time'))
+      }
+    // }
+
     console.log(filteredJobs);
 
     return isPending ?
@@ -71,6 +89,7 @@ componentDidMount() {
             (<Main
               {...this.props}
               filteredJobs={filteredJobs}
+              // checkedEmploymentType={checkedEmploymentType}
               // filterSearch={filterSearch}
             />
           )}
