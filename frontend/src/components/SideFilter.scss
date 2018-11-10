@@ -1,0 +1,29 @@
+@import "../_variables.scss";
+
+.filter-bar-container {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 225px; /* Set the width of the sidebar */
+    top:10em;
+    padding-left:1em;
+    background-color: $light-color;
+}
+
+.filter-options {
+    display:flex;
+    flex-direction: row;
+}
+
+.filter-criteria {
+    padding:0.5em;
+}
+
+#filters-title {
+    padding:0.5em;
+}
+
+.distance-selector {
+    margin-top:0.25em;
+    padding:0.75em;
+    border-radius:0.25em;
+    border:1px gray solid;
+}
