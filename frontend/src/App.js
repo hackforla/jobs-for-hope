@@ -58,10 +58,10 @@ componentDidMount() {
 
 //searchField is for matching search to job listing
   render() {
-    const { searchField, zipcode, jobData, isPending, organizationData } = this.props;
+    const { searchField, zipcode, jobData, isPending, organizationData, employmentTypeFT, employmentTypePT } = this.props;
 
-    console.log(jobData);
-    console.log(organizationData);
+    // console.log(jobData);
+    // console.log(organizationData);
 
     let filteredJobs;
 
@@ -70,9 +70,16 @@ componentDidMount() {
     .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
 
     // const checkedEmploymentType = () => {
-      if(this.props.employmentTypeFT === true /*maybe*/){
-        filteredJobs.filter(job => job.gsx$duration.$t.includes('Full-time'))
-      }
+    if(employmentTypeFT === true /*maybe*/){
+      console.log('FT')
+      filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t === 'Full-time')
+            console.log(`$from FT: ${filteredJobs}`)
+    }
+
+    if (employmentTypePT ===true) {
+      console.log('PT')
+      filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
+    }
     // }
 
     console.log(filteredJobs);
