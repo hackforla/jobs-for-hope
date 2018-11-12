@@ -7,7 +7,7 @@ const JobPostings = ({job}) => (
       <div className="left-posting">
         <h3>{job.title.$t}</h3>
         <div className="posting-location-duration">
-          <p> {job.gsx$zipcode.$t} | Full- Time</p>
+          <p> {job.gsx$zipcode.$t} | {job.gsx$duration.$t}</p>
         </div>
       </div>
       <div className="middle-posting">
