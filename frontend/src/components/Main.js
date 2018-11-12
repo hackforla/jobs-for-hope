@@ -3,18 +3,15 @@ import SearchBox from './SearchBox';
 import JobPostings from './JobPostings';
 import SideFilter from './SideFilter';
 
-const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, checkedEmploymentType, onSetEmploymentTypeFT, onSetEmploymentTypePT }) => (
+const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, onSetEmploymentTypeFT, onSetEmploymentTypePT }) => (
   <div>
     <SearchBox
       onSearchChange={onSearchChange}
       onZipSearchChange={onZipSearchChange}
-
-
     />
     <SideFilter
       onSetEmploymentTypeFT={onSetEmploymentTypeFT}
       onSetEmploymentTypePT={onSetEmploymentTypePT}
-      checkedEmploymentType={checkedEmploymentType}
     />
     <section role="tablist" className="recent-postings-container">
       <h2 className="recent-postings-title"> Recent Job Postings</h2>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import './SideFilter.scss'
 
-const SideFilter = ({checkedEmploymentType, onSetEmploymentTypeFT, onSetEmploymentTypePT}) => {
+const SideFilter = ({ onSetEmploymentTypeFT, onSetEmploymentTypePT }) => {
   return (
         <aside className="filter-bar-container">
             <b><p id="filters-title"> FILTERS</p></b>
