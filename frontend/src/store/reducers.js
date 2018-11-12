@@ -9,6 +9,9 @@ import {
   FETCHED_ORGANIZATIONS_FAILED,
   CHANGE_EMPLOYMENT_TYPE_FT,
   CHANGE_EMPLOYMENT_TYPE_PT,
+  CHANGE_DISTANCE,
+  // CHANGE_DISTANCE_25,
+  // CHANGE_DISTANCE_OVER50,
 } from './constants.js';
 
 
@@ -16,7 +19,6 @@ import {
 const initialStateSearch = {
   searchField: '',
   zipcode: '',
-
 };
 
 export const searchJobListing = (state = initialStateSearch, action = {}) => {
@@ -107,5 +109,28 @@ export const changeEmploymentType = (state = initialEmployType, action = {}) => 
       });
     default:
       return state;
+  }
+}
+
+const initialDistance = {
+  distance: ''
+}
+
+export const changeDistance = (state = initialDistance, action = {}) => {
+  switch (action.type) {
+    case CHANGE_DISTANCE:
+      return Object.assign({}, state, {
+        distance: action.payload
+      });
+      // case CHANGE_DISTANCE_25:
+      //   return Object.assign({}, state, {
+      //     distance: 25
+      // });
+      // case CHANGE_DISTANCE_OVER50:
+      //   return Object.assign({}, state, {
+      //     distance: 1000
+      // });
+        default:
+          return state;
   }
 }

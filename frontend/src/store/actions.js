@@ -9,6 +9,9 @@ import {
   FETCHED_ORGANIZATIONS_FAILED,
   CHANGE_EMPLOYMENT_TYPE_FT,
   CHANGE_EMPLOYMENT_TYPE_PT,
+  CHANGE_DISTANCE,
+  // CHANGE_DISTANCE_25,
+  // CHANGE_DISTANCE_OVER50
 } from './constants.js';
 
 export const setSearchField = text => {
@@ -76,3 +79,22 @@ export const setEmploymentTypePT = () => {
     type: CHANGE_EMPLOYMENT_TYPE_PT,
   }
 }
+
+export const setDistance = text => {
+  return {
+    type: CHANGE_DISTANCE,
+    payload: text
+  }
+}
+
+// export const setDistance25 = () => {
+//   return {
+//     type: CHANGE_DISTANCE_25
+//   }
+// }
+
+// export const setDistanceOver50 = () => {
+//   return {
+//     type: CHANGE_DISTANCE_OVER50
+//   }
+// }

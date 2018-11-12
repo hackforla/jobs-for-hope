@@ -3,7 +3,7 @@ import SearchBox from './SearchBox';
 import JobPostings from './JobPostings';
 import SideFilter from './SideFilter';
 
-const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, onSetEmploymentTypeFT, onSetEmploymentTypePT }) => (
+const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, onSetEmploymentTypeFT, onSetEmploymentTypePT, onSetDistance }) => (
   <div>
     <SearchBox
       onSearchChange={onSearchChange}
@@ -12,6 +12,7 @@ const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, onSetEmployment
     <SideFilter
       onSetEmploymentTypeFT={onSetEmploymentTypeFT}
       onSetEmploymentTypePT={onSetEmploymentTypePT}
+      onSetDistance={onSetDistance}
     />
     <section role="tablist" className="recent-postings-container">
       <h2 className="recent-postings-title"> Recent Job Postings</h2>

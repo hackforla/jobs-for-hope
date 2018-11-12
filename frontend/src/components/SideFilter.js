@@ -2,16 +2,17 @@ import React from 'react';
 
 import './SideFilter.scss'
 
-const SideFilter = ({ onSetEmploymentTypeFT, onSetEmploymentTypePT }) => {
+const SideFilter = ({ onSetEmploymentTypeFT, onSetEmploymentTypePT, onSetDistance }) => {
   return (
         <aside className="filter-bar-container">
             <b><p id="filters-title"> FILTERS</p></b>
             <div className="distance filter-criteria">
                 <p> Distance</p>
-                <select className="distance-selector">
-                    <option>10 miles</option>
-                    <option>25 miles</option>
-                    <option>50+ miles</option>
+                <select onChange={event => onSetDistance(event)} className="distance-selector">
+                    <option value=''></option>
+                    <option value='10'>10 miles</option>
+                    <option value='25'>25 miles</option>
+                    <option value='1000'>50+ miles</option>
                 </select>
             </div>
             <div className="employment-type filter-criteria">

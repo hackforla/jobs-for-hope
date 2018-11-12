@@ -17,7 +17,10 @@ import {
   fetchJobs,
   fetchOrganizations,
   setEmploymentTypeFT,
-  setEmploymentTypePT
+  setEmploymentTypePT,
+  setDistance,
+  // setDistance25,
+  // setDistanceOver50,
 } from './store/actions';
 
 import './App.scss';
@@ -37,15 +40,23 @@ const mapStateToProps = state => ({
 
   employmentTypeFT: state.changeEmploymentType.FT,
   employmentTypePT: state.changeEmploymentType.PT,
+
+  distance: state.changeDistance.distance
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
-    onZipSearchChange: (event) => dispatch(setSearchZip(event.target.value)),
-    onfetchJobs: () => dispatch(fetchJobs()),
-    onfetchOrgs: () => dispatch(fetchOrganizations()),
-    onSetEmploymentTypeFT: (event) => dispatch(setEmploymentTypeFT(event.target.checked)),
-    onSetEmploymentTypePT: (event) => dispatch(setEmploymentTypePT(event.target.checked))
+  onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+  onZipSearchChange: (event) => dispatch(setSearchZip(event.target.value)),
+
+  onfetchJobs: () => dispatch(fetchJobs()),
+  onfetchOrgs: () => dispatch(fetchOrganizations()),
+
+  onSetEmploymentTypeFT: (event) => dispatch(setEmploymentTypeFT(event.target.checked)),
+  onSetEmploymentTypePT: (event) => dispatch(setEmploymentTypePT(event.target.checked)),
+
+  onSetDistance: (event) => dispatch(setDistance(event.target.value))
+  // onSetDistance25:
+  // onSetDistanceOver50:
 })
 
 
@@ -77,6 +88,7 @@ componentDidMount() {
       filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
     }
 
+
     console.log(filteredJobs);
 
     return isPending ?
@@ -91,7 +103,6 @@ componentDidMount() {
             (<Main
               {...this.props}
               filteredJobs={filteredJobs}
-              // filterSearch={filterSearch}
             />
           )}
           />
