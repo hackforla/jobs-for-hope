@@ -69,18 +69,13 @@ componentDidMount() {
     .filter(job => job.gsx$zipcode.$t.includes(zipcode))
     .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
 
-    // const checkedEmploymentType = () => {
-    if(employmentTypeFT === true /*maybe*/){
-      console.log('FT')
+    if (employmentTypeFT === true && employmentTypePT === true) {
+      filteredJobs = filteredJobs;
+    } else if (employmentTypeFT === true) {
       filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t === 'Full-time')
-            console.log(`$from FT: ${filteredJobs}`)
-    }
-
-    if (employmentTypePT ===true) {
-      console.log('PT')
+    } else if (employmentTypePT ===true) {
       filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
     }
-    // }
 
     console.log(filteredJobs);
 
@@ -96,7 +91,6 @@ componentDidMount() {
             (<Main
               {...this.props}
               filteredJobs={filteredJobs}
-              // checkedEmploymentType={checkedEmploymentType}
               // filterSearch={filterSearch}
             />
           )}
