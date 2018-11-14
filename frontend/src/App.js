@@ -128,11 +128,6 @@ componentDidMount() {
         console.log(filteredJobs);
     }
 
-
-
-
-    // console.log(filteredJobs);
-
     return isPending ?
       <h1>Loading...</h1> :
       (
