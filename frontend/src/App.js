@@ -3,6 +3,7 @@ import {
   Route, BrowserRouter as Router
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { dist } from './utils/utils';
 
 import Navbar from './components/Navbar';
 import Main from './components/Main';
@@ -69,7 +70,7 @@ componentDidMount() {
 
 //searchField is for matching search to job listing
   render() {
-    const { searchField, zipcode, jobData, isPending, organizationData, employmentTypeFT, employmentTypePT } = this.props;
+    const { searchField, zipcode, jobData, isPending, organizationData, employmentTypeFT, employmentTypePT, distance } = this.props;
 
     // console.log(jobData);
     // console.log(organizationData);
@@ -88,8 +89,49 @@ componentDidMount() {
       filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
     }
 
+//this needs jobData again
+    if(distance === "10") {
+      //zipcode calc distance of each job posting: gsx$zipcode.$t
+      jobData
+        .map(job => {
+         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         return job;
+        })
 
-    console.log(filteredJobs);
+        filteredJobs = jobData
+        .filter(jobs => jobs.distance <= 10);
+
+      console.log(filteredJobs);
+    } else if (distance === "25") {
+      //zipcode calc distance of each job posting: gsx$zipcode.$t
+      jobData
+        .map(job => {
+         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         return job;
+        })
+
+        filteredJobs = jobData
+        .filter(jobs => jobs.distance <= 25);
+
+        console.log(filteredJobs);
+    } else if (distance === "1000") {
+      //zipcode calc distance of each job posting: gsx$zipcode.$t
+      jobData
+        .map(job => {
+         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         return job;
+        })
+
+        filteredJobs = jobData
+        .filter(jobs => jobs.distance <= 1000);
+
+        console.log(filteredJobs);
+    }
+
+
+
+
+    // console.log(filteredJobs);
 
     return isPending ?
       <h1>Loading...</h1> :
