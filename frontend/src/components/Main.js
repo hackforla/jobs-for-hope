@@ -9,23 +9,25 @@ const Main = ({ onSearchChange, onZipSearchChange, filteredJobs, onSetEmployment
       onSearchChange={onSearchChange}
       onZipSearchChange={onZipSearchChange}
     />
-    <SideFilter
-      onSetEmploymentTypeFT={onSetEmploymentTypeFT}
-      onSetEmploymentTypePT={onSetEmploymentTypePT}
-      onSetDistance={onSetDistance}
-    />
-    <section role="tablist" className="recent-postings-container">
-      <h2 className="recent-postings-title"> Recent Job Postings</h2>
-      <ul>
-      {filteredJobs.map( (job, index) =>
-        <li key={index}>
-        <JobPostings
-          job={job}
-        />
-        </li>
-      )}
-      </ul>
-  </section>
+    <div className="filters-postings-wrapper">
+      <SideFilter
+        onSetEmploymentTypeFT={onSetEmploymentTypeFT}
+        onSetEmploymentTypePT={onSetEmploymentTypePT}
+        onSetDistance={onSetDistance}
+      />
+      <section role="tablist" className="recent-postings-container">
+        <h2 className="recent-postings-title"> Recent Job Postings</h2>
+        <ul>
+        {filteredJobs.map( (job, index) =>
+          <li key={index}>
+          <JobPostings
+            job={job}
+          />
+          </li>
+        )}
+        </ul>
+      </section>
+    </div>
   </div>
 );
 

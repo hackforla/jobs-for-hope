@@ -51,6 +51,10 @@ h3 {
   }
 }
 
+.filters-postings-wrapper {
+  display: flex;
+}
+
 /*FOOTER*/
 .footer {
     padding: .5em 0;
@@ -104,6 +108,12 @@ h3 {
   .org-icon {
     display: grid;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 765px){
+  .filters-postings-wrapper {
+    flex-wrap: wrap;
   }
 }
 

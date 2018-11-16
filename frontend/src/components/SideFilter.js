@@ -5,7 +5,7 @@ import './SideFilter.scss'
 const SideFilter = ({ onSetEmploymentTypeFT, onSetEmploymentTypePT, onSetDistance }) => {
   return (
         <aside className="filter-bar-container">
-            <b><p id="filters-title"> FILTERS</p></b>
+            <p className="filters-title"> FILTERS</p>
             <div className="distance filter-criteria">
                 <p> Distance</p>
                 <select onChange={event => onSetDistance(event)} className="distance-selector">
