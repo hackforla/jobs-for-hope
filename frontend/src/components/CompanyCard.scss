@@ -10,13 +10,13 @@
     width:50%;
     min-width: 270px;
     max-width: 340px;
-    padding:1em 1em;
+    padding: .5em;
     box-sizing: border-box;
     text-align:center;
 }
 
 .organization-card-content{
-    height: 280px;
+    height: 300px;
     margin:2em 7%;
     padding:3em 0em;
     border: 0.5px solid #ddd;
@@ -31,25 +31,29 @@
 #org-title{
     margin:0 10%;
     width:85%;
+    height: 60px;
     margin-top:1em;
+    font-size: 1.1em;
     font-weight: lighter;
 }
 
 #org-jobs-available{
     margin: 1em 0 1.3em 0;
+    font-size: 0.95em;
     text-decoration: underline;
 }
 
 #org-view-more-link{
     width:55%;
-    padding:0.7em;
+    padding:0.4em 2.6em;
     border-radius:0.4em;
     border:1px #ffd100 solid;
     background: #ffd100;
     font-weight: bold;
-    opacity: 0.75;
+    color: #404142;
+    opacity: 1;
 }
 
 #org-view-more-link:hover{
-    opacity:1;
+    opacity: 0.75;
 }
