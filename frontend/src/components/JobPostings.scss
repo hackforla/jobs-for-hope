@@ -41,10 +41,14 @@
 
 .left-posting {
   @extend %shared-padding;
+  min-width: 120px;
+  max-width: 150px;
+  margin-left: 15px;
 }
 
 .middle-posting {
   height: 100px;
+  width: 100%;
   display:flex;
   flex-direction: column;
   overflow-y: hidden;
@@ -67,11 +71,12 @@ h4 {
   flex-direction: center;
   height:100%;
   justify-content: flex-end;
+  margin-right: 15px;
   @extend %shared-padding;
   #view-more-btn {
     font-family: $main-font;
     font-weight: bold;
-    padding:1em 2em;
+    padding: 1em 2.5em;
     background:$secondary-color;
     border-radius: 0.4em;
     border: 1px $secondary-color solid;
