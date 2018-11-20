@@ -7,39 +7,42 @@
 }
 
 .organization-card{
-    width:33%;
+    width:50%;
+    min-width: 270px;
+    max-width: 340px;
     padding:1em 1em;
     box-sizing: border-box;
     text-align:center;
 }
 
 .organization-card-content{
+    height: 280px;
     margin:2em 7%;
     padding:3em 0em;
-    border:0.4px solid gray;
+    border: 0.5px solid #ddd;
     border-radius:0.2em;
     box-shadow: 4px 4px 3px -3px gray;
 }
 
 #org-img{
-    height:10em;
+    height: 9.5em;
 }
 
 #org-title{
     margin:0 10%;
-    width:80%;
+    width:85%;
     margin-top:1em;
+    font-weight: lighter;
 }
 
 #org-jobs-available{
-    margin-top:1em;
+    margin: 1em 0 1.3em 0;
     text-decoration: underline;
 }
 
-#org-view-more-btn{
+#org-view-more-link{
     width:55%;
     padding:0.7em;
-    margin-top:1.5em;
     border-radius:0.4em;
     border:1px #ffd100 solid;
     background: #ffd100;
@@ -47,6 +50,6 @@
     opacity: 0.75;
 }
 
-#org-view-more-btn:hover{
+#org-view-more-link:hover{
     opacity:1;
 }
