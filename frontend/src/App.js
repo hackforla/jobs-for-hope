@@ -159,5 +159,3 @@ componentDidMount() {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-

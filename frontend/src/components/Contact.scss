@@ -1,40 +1,20 @@
 @import "../_variables.scss";
 
-/* Contact banner styling */
-.contact-banner{
-  display:flex;
-  align-items: center;
-  flex-wrap: wrap;
-  height: 40vh;
-  background-image: linear-gradient(
-    rgba(42, 39, 39, 0.3),
-    rgba(42, 39, 39, 0.3)
-  ), url("../matt-collamer-555626-unsplash.jpg");
-  background-repeat: no-repeat;
-  background-size:cover;
-  background-size: 110%;
-  background-position: 15% 40%;
-  .contact-title {
-    padding-left: 75px;
-    width: 20%;
-    font-weight: bolder;
-    color: $bg-color;
-    font-size: 4em;
-  }
-}
-
 .contact-content-container{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-top:3.5em;
   padding-bottom:2em;
-
 }
 
 /* Department information styling */
 .department-information-container, .contact-form-container{
   flex-growth: 1;
+}
+
+.banner {
+  background-position: 15% 35% ;
 }
 
 /* Contact form styling */

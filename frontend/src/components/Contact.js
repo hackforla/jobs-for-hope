@@ -1,11 +1,11 @@
 import React from 'react';
 import './Contact.scss';
+import Banner from './Banner';
 
 const Contact = () => (
   <main>
-    <div className="contact-banner" role="banner">
-      <p className="contact-title"> Getting In Touch</p>
-    </div>
+    <Banner titleUpper='Getting' titleLower={'In Touch'} imageName='homeless_poster' />
+
     <div className="contact-content-container">
         <div className="contact-form-container">
             <h2 id="contact-title">Contact Us</h2>
