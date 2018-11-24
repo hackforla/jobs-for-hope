@@ -5,8 +5,12 @@
   width:100%;
   margin-top:2em;
   ul{
-      list-style: none;
+    list-style: none;
+    margin-right: 40px;
+    li {
+      margin-bottom: 10px;
     }
+  }
 }
 
 .recent-postings-title {
@@ -18,34 +22,37 @@
   align-items: center;
   align-content: space-around;
   width: calc(100% - 2em);
-  height:12em;
+  height: 200px;
   margin:0em 2em;
   border:1px solid gray;
   border-radius:0.2em;
   box-shadow: 8px 8px 6px -6px gray;
 }
 
+%shared-padding {
+  padding: 0 15px;
+}
+
 .posting-content {
-  padding-left:2em;
   display:flex;
   flex-direction:row;
   align-items:center;
 }
 
 .left-posting {
-  width:30%;
-  display:flex;
-  flex-direction: column;
+  @extend %shared-padding;
+  min-width: 120px;
+  max-width: 150px;
+  margin-left: 15px;
 }
 
 .middle-posting {
-  width:45%;
   height: 100px;
+  width: 100%;
   display:flex;
   flex-direction: column;
-  padding:0em 1em;
-  margin-top: 5px;
   overflow-y: hidden;
+  @extend %shared-padding;
 }
 
 h4 {
@@ -62,17 +69,58 @@ h4 {
 .right-posting {
   display:flex;
   flex-direction: center;
-  width:25%;
   height:100%;
   justify-content: flex-end;
+  margin-right: 15px;
+  @extend %shared-padding;
+  #view-more-btn {
+    font-family: $main-font;
+    font-weight: bold;
+    padding: 1em 2.5em;
+    background:$secondary-color;
+    border-radius: 0.4em;
+    border: 1px $secondary-color solid;
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 }
 
-#view-more-btn {
-  font-family: $main-font;
-  font-weight: bold;
-  margin-right:3.5em;
-  padding:1em 2em;
-  background:$secondary-color;
-  border-radius: 0.4em;
-  border: 1px $secondary-color solid;
+@media screen and (max-width: 550px){
+  .recent-postings-container {
+    ul {
+      padding: 0;
+      .posting-card {
+        height: 250px;
+      }
+      .posting-content {
+        flex-direction: column;
+        p {
+          text-align: center;
+        }
+        .left-posting {
+          h3 {
+            text-align: center;
+          }
+        }
+        .middle-posting {
+          h4 {
+            text-align: center;
+          }
+        }
+        padding: 6px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px){
+  .recent-postings-container {
+    ul {
+      padding: 0;
+      .posting-content {
+        padding: 20px;
+      }
+    }
+  }
 }
