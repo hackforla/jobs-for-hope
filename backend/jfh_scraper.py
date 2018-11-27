@@ -39,13 +39,29 @@ def print_vars():
     print "Salary: ", salary
     print "Information: ", info_link
 
-def insert_to_db(org, job_title, job_location, job_post_date, full_or_part, salary, info_link):
+def create_table_jobs():
     global c
-    global today
-    query = "INSERT INTO jobs (org, date, job_title, job_location, job_post_date, full_or_part, salary, info_link) VALUES ('" + org + "','" + today  + "','" + job_title + "','" + job_location + "','" + job_post_date + "','" + full_or_part + "','" + salary + "','" + info_link + "')"
-    print query
+    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_location VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
     try:
         c.execute(query)
+        db.commit()
+    except sqlite3.IntegrityError:
+       error_handler('SQL ERROR FOR QUERY: ' + query)
+
+def drop_table_jobs():
+    global c
+    query = 'DROP TABLE IF EXISTS jobs '
+    try:
+        c.execute(query)
+        db.commit()
+    except sqlite3.IntegrityError:
+       error_handler('SQL ERROR FOR QUERY: ' + query)
+
+def insert_job(values):
+    global c
+    query = "INSERT INTO jobs (org, date, job_title, job_location, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?)"
+    try:
+        c.execute(query, values)
         db.commit()
     except sqlite3.IntegrityError:
        error_handler('SQL ERROR FOR QUERY: ' + query)
@@ -60,16 +76,9 @@ def get_soup(url):
 db = sqlite3.connect("jobs_for_hope.db")
 c = db.cursor()
 
-# Clear SQL Table
-
-try:
-    query = "DELETE FROM jobs"
-    c.execute(query)
-    db.commit()
-except sqlite3.IntegrityError:
-   error_handler('SQL ERROR FOR QUERY: ' + query)
-
-today = date.today().strftime("%Y-%m-%d")
+# Clear and recreate SQL schema
+drop_table_jobs()
+create_table_jobs()
 
 reset_vars()
 
@@ -85,7 +94,7 @@ reset_vars()
 # Use the examples from others below for traversing the HTML DOM tree for each page to pull out those fields
 #
 # When you're satisfied that your code is pulling the right fields, use this command to pop it into the database:
-# insert_to_db(organization, job_title, job_location, job_post_date, full_or_part, salary, info_link)
+# insert_job(organization, job_title, job_location, job_post_date, full_or_part, salary, info_link)
 #
 
 # 211 LA County
@@ -98,7 +107,7 @@ for html_element in soup.find_all("div", {"class": "jobBtn"}):
     for child in html_element.find_all("a"):
         job_title = child.text
         info_link = child.get('href')
-    insert_to_db(organization, job_title, job_location, job_post_date, full_or_part, salary, info_link)
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
@@ -237,8 +246,8 @@ for html_element in soup.find_all("tr", {"class": "reqitem"}):
     for child in html_element.find_all("td", {"class": "cities"}):
         job_location = child.text
     if(job_location == "Los Angeles"):
-        insert_to_db(organization, job_title, job_location, job_post_date, full_or_part, salary, info_link)
-        
+        insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+
 reset_vars()
 
 

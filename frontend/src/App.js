@@ -82,7 +82,7 @@ componentDidMount() {
     .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
 
     if (employmentTypeFT === true && employmentTypePT === true) {
-      filteredJobs = filteredJobs;
+      // No further filtering
     } else if (employmentTypeFT === true) {
       filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t === 'Full-time')
     } else if (employmentTypePT ===true) {
