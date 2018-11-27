@@ -22,14 +22,6 @@ const SearchBox = ({ onSearchChange, onZipSearchChange }) => {
                   <input type="search" className="location-input" name="location" placeholder="City or ZIP" onChange={onZipSearchChange}/>
               </div>
           </div>
-          <div className="search-btn-content-container">
-              <div className="search-btn-title">
-                  <h3> Explore</h3>
-              </div>
-              <div className="search-btn-container">
-                  <button type="button" value="done" className="search-btn">Search</button>
-              </div>
-          </div>
       </form>
     </section>
   )
@@ -38,3 +30,13 @@ const SearchBox = ({ onSearchChange, onZipSearchChange }) => {
 
 export default SearchBox;
 
+
+//submit button not needed since searches automatically filter
+          // <div className="search-btn-content-container">
+          //     <div className="search-btn-title">
+          //         <h3> Explore</h3>
+          //     </div>
+          //     <div className="search-btn-container">
+          //         <button type="button" value="done" className="search-btn">Search</button>
+          //     </div>
+          // </div>
