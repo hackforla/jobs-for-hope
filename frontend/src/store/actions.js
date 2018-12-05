@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   CHANGE_SEARCHFIELD,
   CHANGE_SEARCH_ZIPCODE,
@@ -32,40 +33,40 @@ export const setSearchZip = text => {
 export const fetchJobs = () => (dispatch) => {
   dispatch({ type: FETCH_JOBS_PENDING });
 
-  const url = "https://spreadsheets.google.com/feeds/list/16npDyyzNjgZ2h5uZmRNs2T2RRUCJtHB_1eHpmxUr1SI/od6/public/values?alt=json"
-
-  fetch(url)
-        .then(response => response.json())
-        .then( data => dispatch({
-          type: FETCHED_JOBS_SUCCESS,
-          payload: data.feed.entry
-        }))
-        .catch(error => dispatch({
-          type:FETCHED_JOBS_FAILED,
-          payload: error
-        })
-        )
+  axios
+    .get("/jobs")
+    .then(res =>
+      dispatch({
+        type: FETCHED_JOBS_SUCCESS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: FETCHED_JOBS_FAILED,
+        payload: err
+      })
+);
 }
 
 //retrieve organizations' info from database
 export const fetchOrganizations = () => (dispatch) => {
   dispatch({ type: FETCH_ORGANIZATIONS_PENDING });
 
-  const url = "https://spreadsheets.google.com/feeds/list/16npDyyzNjgZ2h5uZmRNs2T2RRUCJtHB_1eHpmxUr1SI/3/public/values?alt=json"
-
-  fetch(url)
-        .then(response => response.json())
-        // .then(res => {console.log(res); return res;}) //getting org data
-        .then( resp => dispatch({
-          type: FETCHED_ORGANIZATIONS_SUCCESS, //not getting right info...
-          orgPayload: resp.feed.entry
-        })
-        )
-        .catch(error => dispatch({
-          type:FETCHED_ORGANIZATIONS_FAILED,
-          orgPayload: error
-        })
-        )
+  axios
+    .get("/orgs")
+    .then(res =>
+      dispatch({
+        type: FETCHED_ORGANIZATIONS_SUCCESS,
+        orgPayload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: FETCHED_ORGANIZATIONS_FAILED,
+        orgPayload: err
+      })
+    );
 }
 
 export const setEmploymentTypeFT = () => {
