@@ -232,8 +232,16 @@ reset_vars()
 # Brilliant Corners
 
 organization = "Brilliant Corners"
+soup = get_soup("https://careers.jobscore.com/careers/brilliantcorners")
 
-## SCRAPING CODE
+for job_container in soup.find_all("div",{"class":"js-job-container"}):
+    job_title = job_container.find("span",{"class","js-job-title"}).a.text
+    info_link = 'https://careers.jobscore.com' + job_container.find("span",{"class","js-job-title"}).a['href']
+    job_location = job_container.find("span",{"class","js-job-location"}).text.strip()
+
+    job_soup = get_soup(info_link)
+    full_or_part = job_soup.find("h2", {"class":"js-subtitle"}).text.split(' | ')[2]
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
