@@ -164,8 +164,6 @@ reset_vars()
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
-url = "https://alliancehh.org/about/jobs/"
-
 soup = get_soup("https://alliancehh.org/about/jobs/")
 
 for html_element in soup.find_all('h4'):
@@ -195,6 +193,19 @@ reset_vars()
 # Antelope Valley Domestic Violence Council (Valley Oasis)
 
 organization = "Antelope Valley Domestic Violence Council (Valley Oasis)"
+soup = get_soup("http://www.valleyoasis.org/job-opportunities.html")
+
+for html_element in soup.find("div",{"itemtype": "http://schema.org/WebPage"}).find_all('a'):
+    temp_link = html_element['href']
+    job_title = html_element.text
+
+    if (html_element['href'][0:4] == 'http'):
+        info_link = temp_link
+    else:
+        info_link = 'http://www.valleyoasis.org' + temp_link
+
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+
 
 ## SCRAPING CODE
 
