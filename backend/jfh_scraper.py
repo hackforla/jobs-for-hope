@@ -206,9 +206,6 @@ for html_element in soup.find("div",{"itemtype": "http://schema.org/WebPage"}).f
 
     insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
-
-## SCRAPING CODE
-
 reset_vars()
 
 
@@ -219,8 +216,12 @@ reset_vars()
 # Ascencia
 
 organization = "Ascencia"
+soup = get_soup("https://www.ascenciaca.org/about/employment/")
 
-## SCRAPING CODE
+for html_element in soup.find('div',{'class':"siteorigin-widget-tinymce textwidget"}).find_all('a'):
+    job_title = html_element.text
+    info_link = html_element['href']
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
