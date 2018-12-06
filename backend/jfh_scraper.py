@@ -249,6 +249,7 @@ reset_vars()
 # Catholic Charities Of Los Angeles, Inc.
 
 organization = "Catholic Charities Of Los Angeles, Inc."
+soup = get_soup("https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang")
 
 ## SCRAPING CODE
 
@@ -258,8 +259,12 @@ reset_vars()
 # Center for the Pacific Asian Family, Inc.
 
 organization = "Center for the Pacific Asian Family, Inc."
+soup = get_soup("http://nurturingchange.org/get-involved/employment/")
 
-## SCRAPING CODE
+for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
+    job_title = html_element.text
+    link_info = html_element['href']
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
