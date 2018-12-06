@@ -2,6 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 from datetime import date, datetime
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+# import re
+# import pandas as pd
+# import os
 
 # FUNCTIONS
 
@@ -71,6 +76,28 @@ def get_soup(url):
     soup = BeautifulSoup(page.text, "lxml")
     return soup
 
+def month_string_to_num(string):
+    m = {
+    'jan': 1,
+    'feb': 2,
+    'mar': 3,
+    'apr': 4,
+    'may': 5,
+    'jun': 6,
+    'jul': 7,
+    'aug': 8,
+    'sep': 9,
+    'oct': 10,
+    'nov': 11,
+    'dec': 12
+    }
+    s = string.strip()[:3].lower()
+    try:
+        out = m[s]
+        return out
+    except:
+        raise ValueError('Not a month')
+
 # SQL CONNECTION
 
 db = sqlite3.connect("jobs_for_hope.db")
@@ -99,15 +126,15 @@ reset_vars()
 
 # 211 LA County
 
-organization = "211 LA County"
+# organization = "211 LA County"
 
-soup = get_soup("https://www.211la.org/careers")
+# soup = get_soup("https://www.211la.org/careers")
 
-for html_element in soup.find_all("div", {"class": "jobBtn"}):
-    for child in html_element.find_all("a"):
-        job_title = child.text
-        info_link = child.get('href')
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+# for html_element in soup.find_all("div", {"class": "jobBtn"}):
+#     for child in html_element.find_all("a"):
+#         job_title = child.text
+#         info_link = child.get('href')
+#     insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
@@ -137,8 +164,30 @@ reset_vars()
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
+url = "https://alliancehh.org/about/jobs/"
 
-## SCRAPING CODE
+soup = get_soup("https://alliancehh.org/about/jobs/")
+
+for html_element in soup.find_all('h4'):
+    job_title = html_element.a.text
+    info_link = html_element.a['href']
+    listing_soup = get_soup(info_link)
+
+    if listing_soup.body.find_all('p', string="Job Type: Full-time"):
+        full_or_part = 'Full-time'
+    elif listing_soup.body.find_all('p', string="Job Type: Part-time"):
+        full_or_part = 'Part-time'
+
+    date_text = listing_soup.body.find_all('span', {'class': 'subtitle'})[0].text.split()
+
+    month_string = date_text[2]
+    day = int(date_text[3][0:len(date_text[3])-1])
+    year = int(date_text[4])
+    month = month_string_to_num(month_string)
+
+    job_post_date = datetime(year, month, day)
+
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
 
 reset_vars()
 
