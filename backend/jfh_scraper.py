@@ -98,6 +98,15 @@ def month_string_to_num(string):
     except:
         raise ValueError('Not a month')
 
+def update_db():
+    global job_title
+    global job_location
+    global job_post_date
+    global full_or_part
+    global salary
+    global info_link
+    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+
 # SQL CONNECTION
 
 db = sqlite3.connect("jobs_for_hope.db")
@@ -553,8 +562,33 @@ reset_vars()
 # Prototypes, A Program of Healthright 360
 
 organization = "Prototypes, A Program of Healthright 360"
+soup = get_soup("https://www.healthright360.org/jobs")
 
-## SCRAPING CODE
+while soup:
+    for html_element in soup.find_all('div',{'class':'views-row'}):
+        job_title = html_element.find('span',{'class':'field-content'}).a.text
+        location_div = html_element.find('div',{'class':'views-field-field-job-city'})
+        if location_div:
+            job_location = location_div.find('span',{'class':'field-content'}).text
+        info_div = html_element.find('div',{'class':'views-field-url'})
+        info_link = info_div.find('span',{'class':'field-content'}).a['href']
+        info_soup = get_soup(info_link)
+        salary_div = info_soup.find('div',{'class':'views-field-field-compensation-range'})
+        if salary_div:
+            salary = salary_div.find('span',{'class':'field-content'}).text
+            hours_div = info_soup.find('div',{'class':'views-field-field-hours-week'})
+        if hours_div:
+            hours = hours_div.find('span',{'class':'field-content'}).text
+            full_or_part = hours + ' hours/week'
+        # print_vars()
+        update_db()
+    # If there are more pages, update soup to next page and scrape
+    if soup.find('a',{'title':'Go to next page'}):
+        next_page_button = soup.find('a',{'title':'Go to next page'})
+        next_page_url = "https://www.healthright360.org" + next_page_button['href']
+        soup = get_soup(next_page_url)
+    else:
+        soup = False
 
 reset_vars()
 
