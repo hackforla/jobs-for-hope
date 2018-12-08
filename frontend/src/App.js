@@ -20,8 +20,6 @@ import {
   setEmploymentTypeFT,
   setEmploymentTypePT,
   setDistance,
-  // setDistance25,
-  // setDistanceOver50,
 } from './store/actions';
 
 import './App.scss';
@@ -56,24 +54,32 @@ const mapDispatchToProps = dispatch => ({
   onSetEmploymentTypePT: (event) => dispatch(setEmploymentTypePT(event.target.checked)),
 
   onSetDistance: (event) => dispatch(setDistance(event.target.value))
-  // onSetDistance25:
-  // onSetDistanceOver50:
 })
 
 
 class App extends Component {
+  state ={
+    filteredJobs: []
+  }
 
-componentDidMount() {
-  this.props.onfetchJobs();
-  this.props.onfetchOrgs();
-}
+  componentDidMount() {
+    this.props.onfetchJobs();
+    this.props.onfetchOrgs();
+  }
+
+  userJobTitle = () => {
+    let populateFilteredJobs = this.props.jobData
+    .filter(job => job.gsx$zipcode.$t.includes(this.props.zipcode))
+    .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()))
+
+    this.setState({
+      filteredJobs: populateFilteredJobs
+    })
+  }
 
 //searchField is for matching search to job listing
   render() {
     const { searchField, zipcode, jobData, isPending, organizationData, employmentTypeFT, employmentTypePT, distance } = this.props;
-
-    // console.log(jobData);
-    // console.log(organizationData);
 
     let filteredJobs;
 
@@ -139,7 +145,8 @@ componentDidMount() {
           <Route exact path='/' render={() =>
             (<Main
               {...this.props}
-              filteredJobs={filteredJobs}
+              filteredJobs={this.state.filteredJobs}
+              userJobTitle={this.userJobTitle}
             />
           )}
           />

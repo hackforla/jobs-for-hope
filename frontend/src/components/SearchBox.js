@@ -1,7 +1,7 @@
 import React from 'react';
 import './SearchBox.scss';
 
-const SearchBox = ({ onSearchChange, onZipSearchChange }) => {
+const SearchBox = ({ userJobTitle, onSearchChange, onZipSearchChange }) => {
   return (
     <section role="search" className="search-container">
       <h1> Join the fight against homelessness in Los Angeles</h1>
@@ -21,6 +21,11 @@ const SearchBox = ({ onSearchChange, onZipSearchChange }) => {
               <div className="location-container">
                   <input type="search" className="location-input" name="location" placeholder="City or ZIP" onChange={onZipSearchChange}/>
               </div>
+          </div>
+          <div className="search-btn-container">
+            <button
+              type="button" className="search-btn"
+              onClick={userJobTitle}>Search</button>
           </div>
       </form>
     </section>
