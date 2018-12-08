@@ -35,6 +35,3 @@ const Main = ({ filterByEmploymentType, calcDistance, userJobTitle, onSearchChan
 );
 
 export default Main;
-
-
-  // Todo: <SearchByFilter />

@@ -153,60 +153,7 @@ class App extends Component {
 
 //searchField is for matching search to job listing
   render() {
-    const { searchField, zipcode, jobData, isPending, organizationData, employmentTypeFT, employmentTypePT, distance } = this.props;
-
-    let filteredJobs;
-
-    filteredJobs = jobData
-    .filter(job => job.gsx$zipcode.$t.includes(zipcode))
-    .filter(job => job.title.$t.toLowerCase().includes(searchField.toLowerCase()))
-
-    if (employmentTypeFT === true && employmentTypePT === true) {
-      filteredJobs = filteredJobs;
-    } else if (employmentTypeFT === true) {
-      filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t === 'Full-time')
-    } else if (employmentTypePT ===true) {
-      filteredJobs = filteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
-    }
-
-//this needs jobData again
-    if(distance === "10") {
-      //zipcode calc distance of each job posting: gsx$zipcode.$t
-      jobData
-        .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
-         return job;
-        })
-
-        filteredJobs = jobData
-        .filter(jobs => jobs.distance <= 10);
-
-      console.log(filteredJobs);
-    } else if (distance === "25") {
-      //zipcode calc distance of each job posting: gsx$zipcode.$t
-      jobData
-        .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
-         return job;
-        })
-
-        filteredJobs = jobData
-        .filter(jobs => jobs.distance <= 25);
-
-        console.log(filteredJobs);
-    } else if (distance === "1000") {
-      //zipcode calc distance of each job posting: gsx$zipcode.$t
-      jobData
-        .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
-         return job;
-        })
-
-        filteredJobs = jobData
-        .filter(jobs => jobs.distance <= 1000);
-
-        console.log(filteredJobs);
-    }
+    const { isPending, organizationData } = this.props;
 
     return isPending ?
       <h1>Loading...</h1> :
