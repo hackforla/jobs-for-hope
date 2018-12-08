@@ -582,6 +582,7 @@ while soup:
             full_or_part = hours + ' hours/week'
         # print_vars()
         update_db()
+        reset_vars()
     # If there are more pages, update soup to next page and scrape
     if soup.find('a',{'title':'Go to next page'}):
         next_page_button = soup.find('a',{'title':'Go to next page'})
