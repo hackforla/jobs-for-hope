@@ -726,8 +726,6 @@ listings_container = soup.find('ul',{'class':'display-posts-listing'})
 for listing in listings_container.find_all('li'):
     job_title = listing.text
     info_link = listing.a['href']
-    print(job_title)
-    print(info_link)
     update_db()
 
 reset_vars()
@@ -736,6 +734,9 @@ reset_vars()
 # The People Concern (Formerly OPCC & LAMP)
 
 organization = "The People Concern"
+# soup = get_soup('https://www.thepeopleconcern.org/careers.php')
+
+
 
 ## SCRAPING CODE
 
