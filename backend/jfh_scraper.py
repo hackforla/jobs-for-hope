@@ -799,8 +799,21 @@ reset_vars()
 # Union Station Homeless Services
 
 organization = "Union Station Homeless Services"
+soup = get_soup('https://unionstationhs.org/about/employment/')
 
-## SCRAPING CODE
+jobs_container = soup.find('dl',{'class':'employment-opportunities'})
+info_link = 'https://unionstationhs.org/about/employment/'
+
+for job_listing in jobs_container.find_all('dt'):
+    job_heading = job_listing.h3.text.split(' Posted ')
+    job_title = job_heading[0]
+    date = job_heading[1].split(' ')
+    month = month_string_to_num(date[0])
+    day = int(date[1][0:len(date[1])-1])
+    year = int(date[2])
+    job_post_date = datetime(year, month, day)
+    print_vars()
+    update_db()
 
 reset_vars()
 
