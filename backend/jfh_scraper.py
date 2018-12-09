@@ -790,7 +790,6 @@ jobs_div = soup.find('h3', text='Job Opportunities').parent
 for job_div in jobs_div.find_all('li'):
     job_title = job_div.text
     info_link = job_div.a['href']
-    print_vars()
     update_db()
 
 reset_vars()
@@ -812,7 +811,6 @@ for job_listing in jobs_container.find_all('dt'):
     day = int(date[1][0:len(date[1])-1])
     year = int(date[2])
     job_post_date = datetime(year, month, day)
-    print_vars()
     update_db()
 
 reset_vars()
@@ -839,8 +837,14 @@ reset_vars()
 # Upward Bound House
 
 organization = "Upward Bound House"
+soup = get_soup('https://upwardboundhouse.org/about-us/careers/')
 
-## SCRAPING CODE
+jobs_div = soup.find('h1', text='Careers').parent
+
+for job_listing in jobs_div.find_all('a'):
+    job_title = job_listing.text
+    info_link = job_listing['href']
+    update_db()
 
 reset_vars()
 
