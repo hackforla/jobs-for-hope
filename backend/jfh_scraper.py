@@ -783,8 +783,15 @@ reset_vars()
 # The Whole Child
 
 organization = "The Whole Child"
+soup = get_soup('https://www.thewholechild.info/about/careers-internships/')
 
-## SCRAPING CODE
+jobs_div = soup.find('h3', text='Job Opportunities').parent
+
+for job_div in jobs_div.find_all('li'):
+    job_title = job_div.text
+    info_link = job_div.a['href']
+    print_vars()
+    update_db()
 
 reset_vars()
 
