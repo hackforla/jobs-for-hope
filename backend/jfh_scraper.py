@@ -682,6 +682,7 @@ reset_vars()
 # St. Joseph Center
 
 organization = "St. Joseph Center"
+# soup = get_soup('https://stjosephctr.org/careers/')
 
 ## SCRAPING CODE
 
@@ -718,8 +719,16 @@ reset_vars()
 # The Clare Foundation, Inc.
 
 organization = "The Clare Foundation"
+soup = get_soup('http://clarefoundation.org/careers/')
 
-## SCRAPING CODE
+listings_container = soup.find('ul',{'class':'display-posts-listing'})
+
+for listing in listings_container.find_all('li'):
+    job_title = listing.text
+    info_link = listing.a['href']
+    print(job_title)
+    print(info_link)
+    update_db()
 
 reset_vars()
 
