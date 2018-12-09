@@ -597,8 +597,15 @@ reset_vars()
 # Safe Place for Youth
 
 organization = "Safe Place for Youth"
+soup = get_soup("http://www.safeplaceforyouth.org/employment_opportunities")
 
-## SCRAPING CODE
+jobs_div = soup.find('div', {'id':'yui_3_16_0_ym19_1_1492463820306_5454'})
+
+for job_listing in jobs_div.find_all('p'):
+    listing_element = job_listing.find('a')
+    job_title = listing_element.text
+    info_link = listing_element['href']
+    update_db()
 
 reset_vars()
 
