@@ -195,6 +195,7 @@ for html_element in soup.find_all('h4'):
     job_post_date = datetime(year, month, day)
 
     insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    reset_vars()
 
 reset_vars()
 
@@ -636,6 +637,10 @@ reset_vars()
 # Shields For Families, Inc.
 
 organization = "Shields For Families"
+# soup = get_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
+
+# job_listing_pattern = re.compile('\{"JobId".*\}')
+# soup.find("script", text=job_listing_pattern)
 
 ## SCRAPING CODE
 
@@ -645,6 +650,7 @@ reset_vars()
 # Skid Row Housing Trust
 
 organization = "Skid Row Housing Trust"
+# soup = get_soup('https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=37F34A94DC3DBD8AA2C5ACCA82E66F1E&jpt=#')
 
 ## SCRAPING CODE
 
@@ -654,8 +660,21 @@ reset_vars()
 # Special Service for Groups, Inc.
 
 organization = "Special Service for Groups"
+soup = get_soup('http://www.ssg.org/about-us/careers/')
+article = soup.find('article')
 
-## SCRAPING CODE
+for html_element in article.find_all('p'):
+    if 'Posted ' in html_element.text:
+        job_element = html_element.find('a')
+        job_title = job_element.text
+        info_link = job_element['href']
+        date = html_element.text.split('Posted ')[1].split('/')
+        month = int(date[0])
+        day = int(date[1])
+        year = int(date[2])
+        job_post_date = datetime(year, month, day)
+        update_db()
+        reset_vars()
 
 reset_vars()
 
