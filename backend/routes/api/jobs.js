@@ -13,4 +13,25 @@ router.get('/', (req, res) => {
     .catch(err => res.status('404').json({ "error": "Error loading jobs" }));
 });
 
-module.exports = router;
+// @route   GET api/jobs/all
+// @desc    Get all jobs v2
+// @access  Public
+router.get('/all/', (req, res) => {
+  const sqlite3 = require('sqlite3').verbose()
+  const db = new sqlite3.Database('jobs_for_hope.db')
+  jobs = []
+  db.all('SELECT * from jobs', (err, rows) => {
+    if(err) {
+      console.error(err)
+      db.close()
+      res.status('404').json({'error': 'Error loading jobs'})
+    }
+    rows.forEach(row => {
+      jobs.push({date: row.date, org: row.org, job_title: row.job_title, job_location: row.job_location, job_post_date: row.job_post_date, full_or_part: row.full_or_part, salary: row.salary, info_link: row.info_link, zipcode: '', duration: '', responsibilities: ''})
+    });
+    res.send(jobs)
+  });
+  db.close()
+})
+
+module.exports = router
