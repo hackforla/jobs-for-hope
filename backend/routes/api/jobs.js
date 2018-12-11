@@ -27,7 +27,17 @@ router.get('/all/', (req, res) => {
       res.status('404').json({'error': 'Error loading jobs'})
     }
     rows.forEach(row => {
-      jobs.push({date: row.date, org: row.org, job_title: row.job_title, job_location: row.job_location, job_post_date: row.job_post_date, full_or_part: row.full_or_part, salary: row.salary, info_link: row.info_link, zipcode: '', duration: '', responsibilities: ''})
+      jobs.push({
+        date: row.date,
+        org: row.org,
+        title: row.job_title,
+        location: row.job_location,
+        post_date: row.job_post_date,
+        hours: row.full_or_part,
+        salary: row.salary,
+        info_link: row.info_link,
+        zipcode: '',
+        responsibilities: ''})
     });
     res.send(jobs)
   });
