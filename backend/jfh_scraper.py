@@ -4,9 +4,6 @@ import sqlite3
 from datetime import date, datetime
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-# import re
-# import pandas as pd
-# import os
 
 # FUNCTIONS
 
