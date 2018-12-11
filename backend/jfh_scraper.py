@@ -76,6 +76,13 @@ def get_soup(url):
     soup = BeautifulSoup(page.text, "lxml")
     return soup
 
+def get_javascript_soup(url):
+    browser = webdriver.Chrome('./chromedriver')
+    browser.get(url)
+    innerHTML = browser.execute_script("return document.body.innerHTML")
+    browser.quit()
+    return BeautifulSoup(innerHTML, "lxml")
+
 def month_string_to_num(string):
     m = {
     'jan': 1,
@@ -148,27 +155,41 @@ reset_vars()
 reset_vars()
 
 # A Community of Friends
-# PROBLEM: Page fires JS to construct the HTML, so this must be scraped with a headless browser. But this is how it would work were it not for that:
-#organization = "A Community of Friends"
-#
-#page = requests.get('https://recruiting.paylocity.com/recruiting/jobs/List/1438/A-COMMUNITY-OF-FRIENDS')
-#page_text = page.text.encode('utf-8').decode('ascii', 'ignore')
-#soup = BeautifulSoup(page.text, "lxml")
-#
-#for html_element in soup.find_all("div", {"class": "job-listing-job-item"}):
-#    for child in html_element.find_all("div", {"class": "job-title-column"}):
-#        for child2 in child.find_all("span", {"class": "job-item-title"}):
-#            for child3 in child2.find_all("a"):
-#                job_title = child3.text
-#                info_link = child3.get('href')                
-#        for child2 in child.find_all("span", {"class": ""}):
-#            job_post_date = child2.text
-#    for child in html_element.find_all("div", {"class": "location-column"}):
-#        for child2 in child.find_all("span", {"class": "job-item-title"}):
-#            job_location = child2.text
-#    print_vars()
-#
-#reset_vars()
+# JS-Rendered Page; Scraped with Selenium
+url = "https://recruiting.paylocity.com/recruiting/jobs/List/1438/A-COMMUNITY-OF-FRIENDS"
+soup = get_javascript_soup(url)
+
+job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
+
+for job_listing in job_listings:
+    job_description = job_listing.find_all('span')
+    # Get job title and link
+    job_title = job_description[0].a.text
+    info_link = 'https://recruiting.paylocity.com' + job_description[0].a['href']
+    # Get date as string
+    date = job_description[1].text
+    # Clean up date string by removing trailing -'s, then split and convert to datetime object
+    if date[len(date)-2] == '-':
+        date = date[0:len(date)-3]
+    date = date.strip().split('/')
+    month = int(date[0])
+    day = int(date[1])
+    year = int(date[2])
+    job_post_date = datetime(year, month, day)
+    # Get Location
+    job_location = job_listing.find('div',{'class':'location-column'}).span.text
+    # Get soup of job listing to scrape more info
+    listing_soup = get_soup(info_link)
+    listing_body = listing_soup.find('body').find_all('p')
+    # Retrieve Full/Part-time and Salary info if available
+    if 'Status' in listing_body[1].text:
+        full_or_part = listing_body[1].text[8:]
+    if 'Salary' in listing_body[2].text:
+        salary = listing_body[2].text[14:]
+    update_db()
+    reset_vars()
+
+reset_vars()
 
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
