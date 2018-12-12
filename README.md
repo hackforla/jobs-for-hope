@@ -24,38 +24,38 @@ Aggregate job opportunities with homeless service providers so that people can s
 ## Contributing
 1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
 
-## Eventual-Backend Developer Setup(currently not in use)
+## Eventual-Backend Developer Setup
 
-~~1. Download the required software for the project:~~
-~~- Python 3.6 (https://www.python.org/downloads/release/python-360/)
+1. Download the required software for the project:
+- Python 3.6 (https://www.python.org/downloads/release/python-360/)
   - Run this script using Python IF PIP DOES NOT COME INSTALLED (https://bootstrap.pypa.io/get-pip.py)
-- Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/download/gui/windows)~~
+- Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/download/gui/windows)
 
-~~2. Install virtualenv using pip~~
-~~- First, navigate to the folder which contains Python
+2. Install virtualenv using pip
+- First, navigate to the folder which contains Python
 - Next, navigate to the "Scripts" folder. You should see a file called "pip.py"
 - Copy the path to the Scripts folder and then go to the command line or terminal
 - Inside of terminal, type: "cd <PATH TO YOUR SCRIPTS FOLDER>". For example, for me: cd "C:\Users\Ryanluu2017\AppData\Local\Programs\Python\Python36\Scripts"
 - Afterwards, type "pip install virtualenv". This should create a file named "virtualenv.exe"
-- Type "ls" or "dir" in your Scripts directory and ensure that you can see "virtualenv.exe"~~
+- Type "ls" or "dir" in your Scripts directory and ensure that you can see "virtualenv.exe"
 
-~~3. Activate the virtualenv
+3. Activate the virtualenv
 - Once you can locate the aforementioned file, type in "virtualenv.exe <PATH TO YOUR PROJECT FOLDER>". For example, for me: virtualenv.exe "C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\"
 - If all goes well, a virtual environment will be started in your project folder. You can verify this by going into the folder you entered above and looking at the project structure. You should see a new "Scripts" folder.
 - Navigate inside of the "Scripts" folder and then type in "activate". For example, for me: C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\activate
-- You should see that "(jobs-for-hope)" should be displayed to the left of your path. This notifies you that you are in the virtual environment.~~
+- You should see that "(jobs-for-hope)" should be displayed to the left of your path. This notifies you that you are in the virtual environment.
 
-~~4. Install all required libraries~~
-~~- Now that you are in the virtual environment and while you are still inside the "Scripts" folder, run "pip install -r requirements.txt". This will install all of the requirements for the projects into your virtual environment.
-- You should notice that Python will install all required packages, which include Flask, Flask-Restful, and gunicorn~~
+4. Install all required libraries
+- Now that you are in the virtual environment and while you are still inside the "Scripts" folder, run "pip install -r requirements.txt". This will install all of the requirements for the projects into your virtual environment.
+- You should notice that Python will install all required packages, which include Flask, Flask-Restful, and gunicorn
 
-~~5. Deactivate the virtualenv
+5. Deactivate the virtualenv
 - When you are done working on the project, you can deactivate the environment by navigating to the "Scripts" folder inside your project directory and typing in "deactivate". You should see that the project name will be removed from the left of your path. For example, for me:
-C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\deactivate~~
+C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\Scripts\deactivate
 
-~~6. Running the application~~
-~~- Navigate back to the root folder for the jobs-for-hope project. For example, for me: cd "C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\"
+6. Running the application
+- Navigate back to the root folder for the jobs-for-hope project. For example, for me: cd "C:\Users\Ryanluu2017\Documents\Programming\jobs-for-hope\"
 - Then type in "python app.py". This should then run the application and print out a url to the screen
 - You should see the webpage popup at localhost:5000.
-- Congratulations, you have successfully set up your development environment.~~
+- Congratulations, you have successfully set up your development environment.
 
