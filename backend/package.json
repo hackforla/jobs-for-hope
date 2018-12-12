@@ -9,6 +9,17 @@
     "server": "nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "standard",
+      "git add"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,6 +29,9 @@
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "nodemon": "^1.18.7",
+    "standard": "^12.0.1"
   }
 }
