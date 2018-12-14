@@ -14,40 +14,41 @@ def error_handler(error_msg):
 def reset_vars():
     global job_title
     global job_location
+    global job_zip_code
     global job_post_date
     global full_or_part
     global salary
     global info_link
-    global job_zip_code
+
     
     job_title = ""
     job_location = ""
+    job_zip_code = ""
     job_post_date = ""
     full_or_part = ""
     salary = ""
     info_link = ""
-    job_zip_code = ""
 
 def print_vars():
     global job_title
     global job_location
+    global job_zip_code
     global job_post_date
     global full_or_part
     global salary
     global info_link
-    global job_zip_code
     
     print "Title: ", job_title
     print "Location: ", job_location
+    print "Zip Code: ", job_zip_code
     print "Post Date: ", job_post_date
     print "Full or Part-Time: ", full_or_part
     print "Salary: ", salary
     print "Information: ", info_link
-    print "Zip Code: ", job_zip_code
 
 def create_table_jobs():
     global c
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_location VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
     try:
         c.execute(query)
         db.commit()
@@ -65,7 +66,7 @@ def drop_table_jobs():
 
 def insert_job(values):
     global c
-    query = "INSERT INTO jobs (org, date, job_title, job_location, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?)"
+    query = "INSERT INTO jobs (org, date, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?)"
     try:
         c.execute(query, values)
         db.commit()
@@ -109,12 +110,12 @@ def month_string_to_num(string):
 def update_db(organization_name):
     global job_title
     global job_location
+    global job_zip_code
     global job_post_date
     global full_or_part
     global salary
     global info_link
-    global job_zip_code
-    insert_job((organization_name, job_title, job_location, job_post_date, full_or_part, salary, info_link, job_zip_code))
+    insert_job((organization_name, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 # SQL CONNECTION
 
@@ -132,14 +133,14 @@ reset_vars()
 #
 # URLs for each organization's job litsings is here: https://docs.google.com/spreadsheets/d/16npDyyzNjgZ2h5uZmRNs2T2RRUCJtHB_1eHpmxUr1SI/edit#gid=1092475733
 #
-# There are six possible fields to find on the pages: job_title, job_location, job_post_date, full_or_part, salary, info_link
+# There are seven possible fields to find on the pages: job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link
 #
 # The only two required fields are job_title and info_link. Everything else is gravy.
 #
 # Use the examples from others below for traversing the HTML DOM tree for each page to pull out those fields
 #
 # When you're satisfied that your code is pulling the right fields, use this command to pop it into the database:
-# insert_job(organization, job_title, job_location, job_post_date, full_or_part, salary, info_link)
+# insert_job(organization, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
 #
 
 # 211 LA County
@@ -276,7 +277,7 @@ for job_container in soup.find_all("div",{"class":"js-job-container"}):
     job_soup = get_soup(info_link)
     full_or_part = job_soup.find("h2", {"class":"js-subtitle"}).text.split(' | ')[2]
     update_db(organization)
-    
+
 reset_vars()
 
 
