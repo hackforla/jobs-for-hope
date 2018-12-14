@@ -18,13 +18,15 @@ def reset_vars():
     global full_or_part
     global salary
     global info_link
+    global job_zip_code
     
     job_title = ""
     job_location = ""
     job_post_date = ""
     full_or_part = ""
     salary = ""
-    info_link = ""    
+    info_link = ""
+    job_zip_code = ""
 
 def print_vars():
     global job_title
@@ -33,6 +35,7 @@ def print_vars():
     global full_or_part
     global salary
     global info_link
+    global job_zip_code
     
     print "Title: ", job_title
     print "Location: ", job_location
@@ -40,6 +43,7 @@ def print_vars():
     print "Full or Part-Time: ", full_or_part
     print "Salary: ", salary
     print "Information: ", info_link
+    print "Zip Code: ", job_zip_code
 
 def create_table_jobs():
     global c
@@ -74,7 +78,7 @@ def get_soup(url):
     return soup
 
 def get_javascript_soup(url):
-    browser = webdriver.Chrome('./chromedriver')
+    browser = webdriver.Chrome('./venv/bin/chromedriver')
     browser.get(url)
     innerHTML = browser.execute_script("return document.body.innerHTML")
     browser.quit()
@@ -102,14 +106,15 @@ def month_string_to_num(string):
     except:
         raise ValueError('Not a month')
 
-def update_db():
+def update_db(organization_name):
     global job_title
     global job_location
     global job_post_date
     global full_or_part
     global salary
     global info_link
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    global job_zip_code
+    insert_job((organization_name, job_title, job_location, job_post_date, full_or_part, salary, info_link, job_zip_code))
 
 # SQL CONNECTION
 
@@ -147,12 +152,13 @@ reset_vars()
 #     for child in html_element.find_all("a"):
 #         job_title = child.text
 #         info_link = child.get('href')
-#     insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+#     update_db(organization)
 
 reset_vars()
 
 # A Community of Friends
 # JS-Rendered Page; Scraped with Selenium
+organization = "A Community of Friends"
 url = "https://recruiting.paylocity.com/recruiting/jobs/List/1438/A-COMMUNITY-OF-FRIENDS"
 soup = get_javascript_soup(url)
 
@@ -183,7 +189,7 @@ for job_listing in job_listings:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
         salary = listing_body[2].text[14:]
-    update_db()
+    update_db(organization)
     reset_vars()
 
 reset_vars()
@@ -212,7 +218,7 @@ for html_element in soup.find_all('h4'):
 
     job_post_date = datetime(year, month, day)
 
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    update_db(organization)
     reset_vars()
 
 reset_vars()
@@ -232,7 +238,7 @@ for html_element in soup.find("div",{"itemtype": "http://schema.org/WebPage"}).f
     else:
         info_link = 'http://www.valleyoasis.org' + temp_link
 
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    update_db(organization)
 
 reset_vars()
 
@@ -249,7 +255,7 @@ soup = get_soup("https://www.ascenciaca.org/about/employment/")
 for html_element in soup.find('div',{'class':"siteorigin-widget-tinymce textwidget"}).find_all('a'):
     job_title = html_element.text
     info_link = html_element['href']
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    update_db(organization)
 
 reset_vars()
 
@@ -269,8 +275,8 @@ for job_container in soup.find_all("div",{"class":"js-job-container"}):
 
     job_soup = get_soup(info_link)
     full_or_part = job_soup.find("h2", {"class":"js-subtitle"}).text.split(' | ')[2]
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
-
+    update_db(organization)
+    
 reset_vars()
 
 
@@ -292,7 +298,7 @@ soup = get_soup("http://nurturingchange.org/get-involved/employment/")
 for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
     job_title = html_element.text
     link_info = html_element['href']
-    insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+    update_db(organization)
 
 reset_vars()
 
@@ -348,7 +354,7 @@ for html_element in soup.find_all("tr", {"class": "reqitem"}):
     for child in html_element.find_all("td", {"class": "cities"}):
         job_location = child.text
     if(job_location == "Los Angeles"):
-        insert_job((organization, job_title, job_location, job_post_date, full_or_part, salary, info_link))
+        update_db(organization)
 
 reset_vars()
 
@@ -599,8 +605,7 @@ while soup:
         if hours_div:
             hours = hours_div.find('span',{'class':'field-content'}).text
             full_or_part = hours + ' hours/week'
-        # print_vars()
-        update_db()
+        update_db(organization)
         reset_vars()
     # If there are more pages, update soup to next page and scrape
     if soup.find('a',{'title':'Go to next page'}):
@@ -624,7 +629,7 @@ for job_listing in jobs_div.find_all('p'):
     listing_element = job_listing.find('a')
     job_title = listing_element.text
     info_link = listing_element['href']
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -647,7 +652,7 @@ for html_element in soup.find_all('h4'):
     job_title = html_element.a.text
     info_link = html_element.a['href']
     job_location = html_element.span.text.split(']')[1]
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -691,7 +696,7 @@ for html_element in article.find_all('p'):
         day = int(date[1])
         year = int(date[2])
         job_post_date = datetime(year, month, day)
-        update_db()
+        update_db(organization)
         reset_vars()
 
 reset_vars()
@@ -744,7 +749,7 @@ listings_container = soup.find('ul',{'class':'display-posts-listing'})
 for listing in listings_container.find_all('li'):
     job_title = listing.text
     info_link = listing.a['href']
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -792,7 +797,7 @@ for job_div in job_grid.find_all('div',{'class':'wpjb-col-main'}):
     else:
         year = datetime.now().year-1
     job_post_date = datetime(year, month, day)
-    update_db()
+    update_db(organization)
     reset_vars()
 
 reset_vars()
@@ -808,7 +813,7 @@ jobs_div = soup.find('h3', text='Job Opportunities').parent
 for job_div in jobs_div.find_all('li'):
     job_title = job_div.text
     info_link = job_div.a['href']
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -829,7 +834,7 @@ for job_listing in jobs_container.find_all('dt'):
     day = int(date[1][0:len(date[1])-1])
     year = int(date[2])
     job_post_date = datetime(year, month, day)
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -862,7 +867,7 @@ jobs_div = soup.find('h1', text='Careers').parent
 for job_listing in jobs_div.find_all('a'):
     job_title = job_listing.text
     info_link = job_listing['href']
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
@@ -886,7 +891,7 @@ jobs_container = soup.find(text='Current Openings:').parent.parent.parent
 for job_listing in jobs_container.find_all('a'):
     job_title = job_listing.text
     info_link = job_listing['href']
-    update_db()
+    update_db(organization)
 
 reset_vars()
 
