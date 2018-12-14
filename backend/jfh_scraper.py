@@ -389,8 +389,12 @@ reset_vars()
 # Coalition for Responsible Community Development
 
 organization = "Coalition for Responsible Community Development"
+soup = get_soup('http://www.coalitionrcd.org/get-involved/work-at-crcd/')
 
-## SCRAPING CODE
+for job_module in soup.find_all('div',{'class':'et_pb_toggle'}):
+    job_title = job_module.find('h5').text.strip()
+    job_link = 'http://www.coalitionrcd.org/get-involved/work-at-crcd/'
+    update_db(organization)
 
 reset_vars()
 
@@ -436,8 +440,28 @@ reset_vars()
 # Downtown Women's Center
 
 organization = "Downtown Women's Center"
+soup = get_soup('https://www.downtownwomenscenter.org/career-opportunities/')
 
-## SCRAPING CODE
+job_lists = soup.find('div',{'class':'post'}).find_all('ul')
+
+for i in range(len(job_lists)):
+    job_list = job_lists[i]
+    if i==0:
+        full_or_part = 'Full-Time'
+    elif i==1:
+        full_or_part = 'Part-Time'
+    else:
+        full_or_part = 'On-Call'
+    for job_entry in job_list.find_all('li'):
+        job_title = job_entry.a.text
+        link_info = job_entry.a['href']
+        job_soup = get_soup(link_info)
+        job_details = job_soup.find('div',{'aria-label':'Job Details'})
+        if job_details:
+            job_location = job_details.find('span',{'aria-label':'Job Location'}).text
+            salary = job_details.find('span',{'aria-label':'Salary Range'}).text
+        update_db(organization)
+        reset_vars()
 
 reset_vars()
 
