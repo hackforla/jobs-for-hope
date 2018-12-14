@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 from datetime import date, datetime
+from datecleaner import month_string_to_num, stringToDate
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -84,28 +85,6 @@ def get_javascript_soup(url):
     innerHTML = browser.execute_script("return document.body.innerHTML")
     browser.quit()
     return BeautifulSoup(innerHTML, "lxml")
-
-def month_string_to_num(string):
-    m = {
-    'jan': 1,
-    'feb': 2,
-    'mar': 3,
-    'apr': 4,
-    'may': 5,
-    'jun': 6,
-    'jul': 7,
-    'aug': 8,
-    'sep': 9,
-    'oct': 10,
-    'nov': 11,
-    'dec': 12
-    }
-    s = string.strip()[:3].lower()
-    try:
-        out = m[s]
-        return out
-    except:
-        raise ValueError('Not a month')
 
 def update_db(organization_name):
     global job_title
