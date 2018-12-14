@@ -341,7 +341,7 @@ soup = get_soup("http://nurturingchange.org/get-involved/employment/")
 
 for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
     job_title = html_element.text
-    link_info = html_element['href']
+    info_link = html_element['href']
     update_db(organization)
 
 reset_vars()
@@ -446,20 +446,22 @@ job_lists = soup.find('div',{'class':'post'}).find_all('ul')
 
 for i in range(len(job_lists)):
     job_list = job_lists[i]
-    if i==0:
-        full_or_part = 'Full-Time'
-    elif i==1:
-        full_or_part = 'Part-Time'
-    else:
-        full_or_part = 'On-Call'
     for job_entry in job_list.find_all('li'):
+        if i==0:
+            full_or_part = 'Full-Time'
+        elif i==1:
+            full_or_part = 'Part-Time'
+        else:
+            full_or_part = 'On-Call'
         job_title = job_entry.a.text
-        link_info = job_entry.a['href']
-        job_soup = get_soup(link_info)
+        info_link = job_entry.a['href']
+        job_soup = get_soup(info_link)
         job_details = job_soup.find('div',{'aria-label':'Job Details'})
         if job_details:
             job_location = job_details.find('span',{'aria-label':'Job Location'}).text
             salary = job_details.find('span',{'aria-label':'Salary Range'}).text
+        print_vars()
+        reset_vars()
         update_db(organization)
         reset_vars()
 
