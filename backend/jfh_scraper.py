@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 from datetime import date, datetime
-from datecleaner import month_string_to_num, stringToDate
+from datecleaner import month_to_num, string_to_date
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -194,7 +194,7 @@ for html_element in soup.find_all('h4'):
     month_string = date_text[2]
     day = int(date_text[3][0:len(date_text[3])-1])
     year = int(date_text[4])
-    month = month_string_to_num(month_string)
+    month = month_to_num(month_string)
 
     job_post_date = datetime(year, month, day)
 
@@ -770,7 +770,7 @@ for job_div in job_grid.find_all('div',{'class':'wpjb-col-main'}):
     minor_line = job_div.find('div',{'class':'wpjb-line-minor'})
     job_location = minor_line.find('span',{'class':'wpjb-job_location'}).text.strip()
     date = minor_line.find('span',{'class':'wpjb-job_created_at'}).text.strip().split(', ')
-    month = month_string_to_num(date[0])
+    month = month_to_num(date[0])
     day = int(date[1])
     if month <= datetime.now().month:
         year = datetime.now().year
@@ -810,7 +810,7 @@ for job_listing in jobs_container.find_all('dt'):
     job_heading = job_listing.h3.text.split(' Posted ')
     job_title = job_heading[0]
     date = job_heading[1].split(' ')
-    month = month_string_to_num(date[0])
+    month = month_to_num(date[0])
     day = int(date[1][0:len(date[1])-1])
     year = int(date[2])
     job_post_date = datetime(year, month, day)

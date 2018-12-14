@@ -1,7 +1,7 @@
 from datetime import date, datetime
 import re
 
-def month_string_to_num(string):
+def month_to_num(string):
     m = {
     'jan': 1,
     '1': 1,
@@ -35,7 +35,7 @@ def month_string_to_num(string):
     except:
         raise ValueError('Not a month')
 
-def stringToDate(dateString, ordering=['month','day','year']):
+def string_to_date(dateString, ordering=['month','day','year']):
     if len(ordering) != 3:
        console.log('Error: convertStringToDate method has an optional second argument that requires an array with exactly 3 elements (year, month, day)')
        return
