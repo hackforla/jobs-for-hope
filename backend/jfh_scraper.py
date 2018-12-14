@@ -120,6 +120,9 @@ def date_ago(timeLength, timeUnit):
     elif timeUnit[:4] == 'year':
         return today - timedelta(days=365*timeLength)
 
+def clean_location(string):
+    return string.split(',')[0].strip()
+
 # SQL CONNECTION
 
 db = sqlite3.connect("jobs_for_hope.db")
@@ -366,8 +369,19 @@ reset_vars()
 # City of Pomona
 
 organization = "City of Pomona"
+soup = get_javascript_soup_delayed('http://agency.governmentjobs.com/pomona/default.cfm','jobtitle')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'class':'NEOGOV_joblist'})
+
+for job_entry in jobs_table.find('tbody').find_all('tr'):
+    job_details = job_entry.find_all('td')
+    job_title = job_details[0].find('a').text.strip()
+    info_link = 'http://agency.governmentjobs.com/pomona/' + job_details[0].find('a')['href']
+    full_or_part = job_details[1].text.strip()
+    salary = job_details[2].text.strip()
+    job_location = 'Pomona'
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
