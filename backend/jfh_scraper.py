@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from datecleaner import month_to_num, string_to_date
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # FUNCTIONS
 
@@ -20,7 +23,6 @@ def reset_vars():
     global full_or_part
     global salary
     global info_link
-
     
     job_title = ""
     job_location = ""
@@ -80,11 +82,23 @@ def get_soup(url):
     return soup
 
 def get_javascript_soup(url):
-    browser = webdriver.Chrome('./venv/bin/chromedriver')
+    browser = webdriver.Chrome('./chromedriver')
     browser.get(url)
     innerHTML = browser.execute_script("return document.body.innerHTML")
     browser.quit()
     return BeautifulSoup(innerHTML, "lxml")
+
+def get_javascript_soup_delayed(url, dynamicElement):
+    driver = webdriver.Chrome('./chromedriver')
+    driver.get(url)
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
+        )
+    finally:
+        innerHTML = driver.execute_script("return document.body.innerHTML")
+        driver.quit()
+        return BeautifulSoup(innerHTML, "lxml")
 
 def update_db(organization_name):
     global job_title
@@ -95,6 +109,16 @@ def update_db(organization_name):
     global salary
     global info_link
     insert_job((organization_name, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+
+def date_ago(timeLength, timeUnit):
+    timeUnit = timeUnit.strip().lower()
+    today = datetime.today()
+    if timeUnit[:3] == 'day':
+        return today - timedelta(days=timeLength)
+    elif timeUnit[:5] == 'month':
+        return today - timedelta(days=30*timeLength)
+    elif timeUnit[:4] == 'year':
+        return today - timedelta(days=365*timeLength)
 
 # SQL CONNECTION
 
@@ -124,15 +148,15 @@ reset_vars()
 
 # 211 LA County
 
-# organization = "211 LA County"
+organization = "211 LA County"
 
-# soup = get_soup("https://www.211la.org/careers")
+soup = get_soup("https://www.211la.org/careers")
 
-# for html_element in soup.find_all("div", {"class": "jobBtn"}):
-#     for child in html_element.find_all("a"):
-#         job_title = child.text
-#         info_link = child.get('href')
-#     update_db(organization)
+for html_element in soup.find_all("div", {"class": "jobBtn"}):
+    for child in html_element.find_all("a"):
+        job_title = child.text
+        info_link = child.get('href')
+    update_db(organization)
 
 reset_vars()
 
@@ -169,6 +193,7 @@ for job_listing in job_listings:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
         salary = listing_body[2].text[14:]
+    print_vars()
     update_db(organization)
     reset_vars()
 
@@ -263,9 +288,45 @@ reset_vars()
 # Catholic Charities Of Los Angeles, Inc.
 
 organization = "Catholic Charities Of Los Angeles, Inc."
-soup = get_soup("https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang")
+url = "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang"
+catholicDriver = webdriver.Chrome('./chromedriver')
+catholicDriver.get(url)
+innerHTML
+try:
+    element = WebDriverWait(catholicDriver, 10).until(
+        EC.presence_of_element_located((By.ID, "btnShowAllJobs"))
+    )
+finally:
+    python_button = catholicDriver.find_element_by_id('btnShowAllJobs')
+    python_button.click()
 
-## SCRAPING CODE
+try:
+    element2 = WebDriverWait(catholicDriver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "current-openings-item"))
+    )
+finally:
+    innerHTML = catholicDriver.execute_script("return document.body.innerHTML")
+    catholicDriver.quit()
+
+soup = BeautifulSoup(innerHTML, "lxml")
+
+current_openings = soup.find_all('div',{'class':'current-openings-details'})
+
+for opening_detail in current_openings:
+    job_title = opening_detail.find('span',{'class':'current-opening-title'}).text.strip()
+    if (opening_detail.find('span', {'class':'current-opening-location-item'})):
+        job_location = opening_detail.find('span', {'class':'current-opening-location-item'}).text.strip()
+    # Calculate post date relative to current date and store it
+    posted_ago = opening_detail.find('span',{'class':'current-opening-post-date'}).text.split(' ')
+    if (posted_ago[0] == 'a'):
+        job_post_date = date_ago(1, posted_ago[1])
+    else:
+        job_post_date = date_ago(int(posted_ago[0]), posted_ago[1])
+    if (opening_detail.find('span', {'class':'current-opening-worker-catergory'})):
+        full_or_part = opening_detail.find('span', {'class':'current-opening-worker-catergory'}).text.strip()
+    info_link = 'https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang'
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
