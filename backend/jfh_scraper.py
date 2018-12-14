@@ -347,8 +347,18 @@ reset_vars()
 # Chrysalis
 
 organization = "Chrysalis"
+soup = get_soup("http://changelives.applicantstack.com/x/openings")
 
-## SCRAPING CODE
+jobs_table = soup.find('tbody')
+
+for job_entry in jobs_table.find_all('tr'):
+    job_details = job_entry.find_all('td')
+    job_title = job_details[0].find('a').text
+    info_link = job_details[0].find('a')['href']
+    job_location = job_details[2].text
+    print_vars()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
