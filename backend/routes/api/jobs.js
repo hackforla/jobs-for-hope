@@ -34,6 +34,7 @@ router.get('/all/', (req, res) => {
         date: row.date,
         org: row.org,
         title: row.job_title,
+        summary: row.job_summary,
         location: row.job_location,
         zipcode: row.job_zip_code,
         post_date: row.job_post_date,
