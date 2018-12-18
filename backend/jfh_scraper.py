@@ -69,7 +69,7 @@ def drop_table_jobs():
 
 def insert_job(values):
     global c
-    query = "INSERT INTO jobs (org, date, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?)"
+    query = "INSERT INTO jobs (org, date, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?,?)"
     try:
         c.execute(query, values)
         db.commit()
