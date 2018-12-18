@@ -12,7 +12,7 @@ const JobPostings = ({job}) => (
       </div>
       <div className="middle-posting">
         <h4>{job.org}</h4>
-        <p>{job.info_link}</p>
+        <p>{job.summary}</p>
       </div>
       <div className="right-posting">
         <button id="view-more-btn" type="button">View more</button>
