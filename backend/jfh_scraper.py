@@ -974,7 +974,7 @@ reset_vars()
 
 # Weingart Center Association
 
-organization = "eingart Center Association"
+organization = "Weingart Center Association"
 soup = get_soup('http://weingart.org/index.php/get-involved')
 
 jobs_container = soup.find(text='Current Openings:').parent.parent.parent
