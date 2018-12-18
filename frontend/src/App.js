@@ -69,8 +69,8 @@ class App extends Component {
 
   userJobTitle = () => {
     let populateFilteredJobs = this.props.jobData
-    .filter(job => job.gsx$zipcode.$t.includes(this.props.zipcode))
-    .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()))
+    .filter(job => job.zipcode.includes(this.props.zipcode))
+    .filter(job => job.title.toLowerCase().includes(this.props.searchField.toLowerCase()))
 
     this.setState({
       filteredJobs: populateFilteredJobs
@@ -85,14 +85,14 @@ class App extends Component {
     //this needs jobData again
     if(distance === "10") {
       //if jobTitle...gotta filter by job title first!
-      //use zipcodes to calculate distance of each job posting: gsx$zipcode.$t
+      //use zipcodes to calculate distance of each job posting: zipcode
       populateFilteredJobs = populateFilteredJobs
         .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         job.distance = dist(zipcode, job.zipcode);
          return job;
         })
         .filter(jobs => jobs.distance <= 10)
-        .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()));
+        .filter(job => job.title.toLowerCase().includes(this.props.searchField.toLowerCase()));
 
       this.setState({
         filteredJobs: populateFilteredJobs
@@ -101,11 +101,11 @@ class App extends Component {
     } else if (distance === "25") {
      populateFilteredJobs = populateFilteredJobs
         .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         job.distance = dist(zipcode, job.zipcode);
          return job;
         })
         .filter(jobs => jobs.distance <= 25)
-        .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()));
+        .filter(job => job.title.toLowerCase().includes(this.props.searchField.toLowerCase()));
 
       this.setState({
         filteredJobs: populateFilteredJobs
@@ -113,11 +113,11 @@ class App extends Component {
     } else if (distance === "1000") {
      populateFilteredJobs = populateFilteredJobs
         .map(job => {
-         job.distance = dist(zipcode, job.gsx$zipcode.$t);
+         job.distance = dist(zipcode, job.zipcode);
          return job;
         })
         .filter(jobs => jobs.distance <= 1000)
-        .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()));
+        .filter(job => job.title.toLowerCase().includes(this.props.searchField.toLowerCase()));
 
       this.setState({
         filteredJobs: populateFilteredJobs
@@ -135,16 +135,16 @@ class App extends Component {
       })
     } else if (employmentTypeFT === true) {
       this.setState({
-        filteredJobs: populateFilteredJobs.filter(job => job.gsx$duration.$t === 'Full-time')
+        filteredJobs: populateFilteredJobs.filter(job => job.hours === 'Full-time')
       })
     } else if (employmentTypePT ===true) {
       this.setState({
-      filteredJobs: populateFilteredJobs.filter(job => job.gsx$duration.$t.includes('Part-time'))
+      filteredJobs: populateFilteredJobs.filter(job => job.hours.includes('Part-time'))
       })
     }
 
     populateFilteredJobs = this.state.filteredJobs
-    .filter(job => job.title.$t.toLowerCase().includes(this.props.searchField.toLowerCase()))
+    .filter(job => job.title.toLowerCase().includes(this.props.searchField.toLowerCase()))
 
     this.setState({
       filteredJobs: populateFilteredJobs

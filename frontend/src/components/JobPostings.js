@@ -5,14 +5,14 @@ const JobPostings = ({job}) => (
   <div className="posting-card">
     <div className="posting-content">
       <div className="left-posting">
-        <h3>{job.title.$t}</h3>
+        <h3>{job.title}</h3>
         <div className="posting-location-duration">
-          <p> {job.gsx$zipcode.$t} | {job.gsx$duration.$t}</p>
+          <p> {job.zipcode} | {job.hours}</p>
         </div>
       </div>
       <div className="middle-posting">
-        <h4>{job.gsx$employername.$t}</h4>
-        <p>{job.gsx$responsibilities.$t}</p>
+        <h4>{job.org}</h4>
+        <p>{job.info_link}</p>
       </div>
       <div className="right-posting">
         <button id="view-more-btn" type="button">View more</button>
