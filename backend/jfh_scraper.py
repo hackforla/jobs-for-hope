@@ -294,7 +294,7 @@ organization = "Catholic Charities Of Los Angeles, Inc."
 url = "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang"
 catholicDriver = webdriver.Chrome('./chromedriver')
 catholicDriver.get(url)
-innerHTML
+
 try:
     element = WebDriverWait(catholicDriver, 10).until(
         EC.presence_of_element_located((By.ID, "btnShowAllJobs"))
