@@ -13,8 +13,7 @@ router.get('/', (req, res) => {
     .catch(err => {
       console.error(err)
       res.status('404').json({ 'error': 'Error loading jobs' })
-    }
-    )
+    })
 })
 
 // @route   GET api/jobs/all
@@ -36,12 +35,12 @@ router.get('/all/', (req, res) => {
         org: row.org,
         title: row.job_title,
         location: row.job_location,
+        zipcode: row.job_zip_code,
         post_date: row.job_post_date,
         hours: row.full_or_part,
         salary: row.salary,
-        info_link: row.info_link,
-        zipcode: '',
-        responsibilities: '' })
+        info_link: row.info_link
+      })
     })
     res.send(jobs)
   })
