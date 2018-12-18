@@ -17,6 +17,7 @@
 .env.test.local
 .env.production.local
 *.swp
+*.pyc
 
 npm-debug.log*
 yarn-debug.log*
