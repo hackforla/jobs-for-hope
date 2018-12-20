@@ -23,6 +23,7 @@ def reset_vars():
     global full_or_part
     global salary
     global info_link
+    global job_blurb
     
     job_title = ""
     job_location = ""
@@ -31,6 +32,7 @@ def reset_vars():
     full_or_part = ""
     salary = ""
     info_link = ""
+    job_blurb = ""
 
 def print_vars():
     global job_title
@@ -40,6 +42,7 @@ def print_vars():
     global full_or_part
     global salary
     global info_link
+    global job_blurb
     
     print "Title: ", job_title
     print "Location: ", job_location
@@ -48,10 +51,11 @@ def print_vars():
     print "Full or Part-Time: ", full_or_part
     print "Salary: ", salary
     print "Information: ", info_link
+    print "Job Blurb: ", job_blurb
 
 def create_table_jobs():
     global c
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR, job_blurb VARCHAR)'
     try:
         c.execute(query)
         db.commit()
@@ -69,7 +73,7 @@ def drop_table_jobs():
 
 def insert_job(values):
     global c
-    query = "INSERT INTO jobs (org, date, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?)"
+    query = "INSERT INTO jobs (org, date, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link, job_blurb) VALUES (?,date('now'),?,?,?,?,?,?,?,?)"
     try:
         c.execute(query, values)
         db.commit()
@@ -108,7 +112,8 @@ def update_db(organization_name):
     global full_or_part
     global salary
     global info_link
-    insert_job((organization_name, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    global job_blurb
+    insert_job((organization_name, job_title, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link, job_blurb))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -472,6 +477,7 @@ reset_vars()
 
 organization = "East San Gabriel Valley Coalition for the Homeless"
 
+## Only 1 job listing and it's poorly formatted; skip?
 ## SCRAPING CODE
 
 reset_vars()
@@ -481,7 +487,10 @@ reset_vars()
 
 organization = "Exodus Recovery, Inc."
 
-## SCRAPING CODE
+url = 'https://www.exodusrecovery.com/employment/'
+soup = get_javascript_soup(url)
+
+
 
 reset_vars()
 
