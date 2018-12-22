@@ -134,6 +134,12 @@ def date_ago(timeLength, timeUnit):
 def clean_location(string):
     return string.split(',')[0].strip()
 
+def city_to_zip(location):
+    return int(search.by_city_and_state(location, 'CA')[0].zipcode)
+
+def zip_to_city(cityzip):
+    return search.by_zipcode(cityzip).major_city
+
 # SQL CONNECTION
 
 db = sqlite3.connect("jobs_for_hope.db")
@@ -558,12 +564,11 @@ for row in soup.find_all('tr')[2:]:
     full_or_part = job_details[4].text.strip()
     if location_details.isdigit():
         job_zip_code = int(location_details)
-        job_location = search.by_zipcode(job_zip_code).major_city
+        job_location = zip_to_city(job_zip_code)
     else:
         job_location = location_details
-        job_zip_code = int(search.by_city_and_state(job_location, 'CA')[0].zipcode)
-    print_vars()
-    # update_db(organization)
+        job_zip_code = city_to_zip(job_location)
+    update_db(organization)
     reset_vars()
 
 
@@ -574,6 +579,7 @@ reset_vars()
 
 organization = "Homeless Health Care Los Angeles"
 
+## Can't scrape; website formatting is too sloppy and not standardized
 ## SCRAPING CODE
 
 reset_vars()
@@ -583,6 +589,7 @@ reset_vars()
 
 organization = "Housing Works"
 
+## Can't scrape; no job listings
 ## SCRAPING CODE
 
 reset_vars()
@@ -591,8 +598,22 @@ reset_vars()
 # Illumination Foundation
 
 organization = "Illumination Foundation"
+soup = get_soup('https://www.ifhomeless.org/careers/')
 
-## SCRAPING CODE
+job_listings = soup.find_all('div',{'class':'list-data'})
+
+for listing in job_listings:
+    job_info = listing.find('div',{'class':'job-info'})
+    job_title = job_info.find('span',{'class':'job-title'}).text.strip()
+    info_link = job_info.h4.a['href']
+    full_or_part = listing.find('div',{'class':'job-type'}).text.strip()
+    job_location = clean_location(listing.find('div',{'class':'job-location'}).text.strip())
+    job_zip_code = city_to_zip(job_location)
+    relative_date = listing.find('div',{'class':'job-date'}).text.strip().split(' ')
+    job_post_date = date_ago(int(relative_date[1]), relative_date[2])
+    job_summary = listing.find('div',{'class':'job-description'}).p.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
