@@ -622,7 +622,19 @@ reset_vars()
 
 organization = "Inner City Law Center"
 
-## SCRAPING CODE
+## PROBLEM: mostly law jobs / not entry level; poorly formatted website; job info is in PDF, so we can only scrape job title + link
+## Code below scrapes most of the listings correctly, but there are some listings that say 'Click Here' instead of job title because of poor formatting of website
+
+# soup = get_soup('http://www.innercitylaw.org/careers/')
+
+# job_listings = soup.find('div',{'class':'entry-content'}).find('ul')
+
+# for listing in job_listings.find_all('li'):
+#     job_title = listing.a.text
+#     info_link = listing.a['href']
+#     update_db(organization)
+#     reset_vars()
+
 
 reset_vars()
 
@@ -630,8 +642,20 @@ reset_vars()
 # Jewish Family Service of Los Angeles
 
 organization = "Jewish Family Service of Los Angeles"
+soup = get_javascript_soup('https://chm.tbe.taleo.net/chm02/ats/careers/searchResults.jsp?org=JFSLA&cws=1&org=JFSLA')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'id':'cws-search-results'})
+
+for job_row in jobs_table.find_all('tr')[1:]:
+    row_cells = job_row.find_all('td')
+    job_title = row_cells[1].a.text.strip()
+    info_link = row_cells[1].a['href']
+    job_location = clean_location(row_cells[2].text)
+    job_zip_code = city_to_zip(job_location)
+    job_soup = get_soup(info_link)
+    full_or_part = job_soup.find(text="Employment Duration:").parent.parent.b.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
