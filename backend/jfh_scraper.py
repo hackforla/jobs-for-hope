@@ -8,6 +8,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from uszipcode import SearchEngine
+search = SearchEngine()
 
 # CONSTANTS
 
@@ -28,7 +30,6 @@ def reset_vars():
     global full_or_part
     global salary
     global info_link
-    global job_blurb
     
     job_title = ""
     job_summary = ""
@@ -38,7 +39,6 @@ def reset_vars():
     full_or_part = ""
     salary = ""
     info_link = ""
-    job_blurb = ""
 
 def print_vars():
     global job_title
@@ -49,7 +49,6 @@ def print_vars():
     global full_or_part
     global salary
     global info_link
-    global job_blurb
     
     print "Title: ", job_title
     print "Summary: ", job_summary
@@ -468,7 +467,7 @@ soup = get_soup('https://www.downtownwomenscenter.org/career-opportunities/')
 
 job_lists = soup.find('div',{'class':'post'}).find_all('ul')
 
-for i in range(len(job_lists)):
+for i in range(len(job_lists)):x
     job_list = job_lists[i]
     for job_entry in job_list.find_all('li'):
         if i==0:
@@ -485,8 +484,6 @@ for i in range(len(job_lists)):
         if job_details:
             job_location = job_details.find('span',{'aria-label':'Job Location'}).text
             salary = job_details.find('span',{'aria-label':'Salary Range'}).text
-        print_vars()
-        reset_vars()
         update_db(organization)
         reset_vars()
 
@@ -506,11 +503,25 @@ reset_vars()
 # Exodus Recovery, Inc.
 
 organization = "Exodus Recovery, Inc."
-
 url = 'https://www.exodusrecovery.com/employment/'
 soup = get_javascript_soup(url)
 
+scraping = True
 
+while scraping:
+    job_posts = soup.find_all('article',{'class':'et_pb_post'})
+    for post in job_posts:
+        job_entry = post.find('h2',{'class':'entry-title'})
+        job_title = job_entry.text
+        info_link = job_entry.a['href']
+        job_summary = post.find('div',{'class':'post-content'}).p.text
+        update_db(organization)
+        reset_vars()
+    ## Check if more job entries on website to scrape
+    if soup.find(text="« Older Entries"):
+        soup = get_javascript_soup(soup.find(text="« Older Entries").parent['href'])
+    else:
+        scraping = False
 
 reset_vars()
 
@@ -519,6 +530,7 @@ reset_vars()
 
 organization = "Harbor Interfaith Services, Inc."
 
+## BAD WEBSITE?
 ## SCRAPING CODE
 
 reset_vars()
@@ -527,8 +539,33 @@ reset_vars()
 # Hathaway-Sycamores Child and Family Services
 
 organization = "Hathaway-Sycamores Child and Family Services"
+url = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/controller.cfm'
 
-## SCRAPING CODE
+## Use Selenium browser to click on all positions button and get soup
+browser = webdriver.Chrome('./chromedriver')
+browser.get(url)
+python_button = browser.find_element_by_id('AllJobs')
+python_button.click()
+innerHTML = browser.execute_script("return document.body.innerHTML")
+soup = BeautifulSoup(innerHTML, "lxml")
+browser.quit()
+
+for row in soup.find_all('tr')[2:]:
+    job_details = row.find_all('td')
+    job_title = job_details[0].text.strip()
+    info_link = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/' + job_details[0].a['href']
+    location_details = job_details[2].text.strip()
+    full_or_part = job_details[4].text.strip()
+    if location_details.isdigit():
+        job_zip_code = int(location_details)
+        job_location = search.by_zipcode(job_zip_code).major_city
+    else:
+        job_location = location_details
+        job_zip_code = int(search.by_city_and_state(job_location, 'CA')[0].zipcode)
+    print_vars()
+    # update_db(organization)
+    reset_vars()
+
 
 reset_vars()
 
