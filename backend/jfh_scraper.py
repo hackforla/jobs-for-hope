@@ -691,8 +691,15 @@ reset_vars()
 # LA Family Housing Corporation
 
 organization = "LA Family Housing Corporation"
+soup = get_soup('https://lafh.org/employment-at-lafh/')
 
-## SCRAPING CODE
+jobs_div = soup.find('div',{'class':'sqs-block-content'})
+job_items = jobs_div.find_all('p')
+
+for job_item in job_items[3:len(job_items)-2]:
+    job_title = job_item.a.text.strip()
+    info_link = 'https://lafh.org' + job_item.a['href']
+    update_db(organization)
 
 reset_vars()
 
