@@ -664,7 +664,7 @@ reset_vars()
 
 organization = "Jovenes, Inc."
 
-## Site not working / no jobs
+## PROBLEM: Site not working / no jobs
 ## SCRAPING CODE
 
 reset_vars()
@@ -708,6 +708,7 @@ reset_vars()
 
 organization = "LifeSTEPS - Life Skills Training & Educational Programs"
 
+## PROBLEM: Can't scrape - no jobs listed
 ## SCRAPING CODE
 
 reset_vars()
@@ -716,8 +717,15 @@ reset_vars()
 # Los Angeles Centers For Alcohol and Drug Abuse
 
 organization = "Los Angeles Centers For Alcohol and Drug Abuse"
+soup = get_soup('http://lacada.com/2018/careers-2/')
 
-## SCRAPING CODE
+jobs_wrapper = soup.find('div',{'class':'wpb_wrapper'})
+
+for job_opening in jobs_wrapper.find_all('a')[2:]:
+    job_title = job_opening.text.strip()
+    info_link = job_opening['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
