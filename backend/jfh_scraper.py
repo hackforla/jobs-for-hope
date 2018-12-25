@@ -759,8 +759,28 @@ reset_vars()
 # Los Angeles Homeless Services Authority
 
 organization = "Los Angeles Homeless Services Authority"
+soup = get_javascript_soup('https://www.governmentjobs.com/careers/lahsa')
 
-## SCRAPING CODE
+while soup:
+    job_table = soup.find('tbody')
+    for job_row in job_table.find_all('tr'):
+        job_title = job_row.find('td',{'class':'job-table-title'}).a.text.strip()
+        info_link = 'https://www.governmentjobs.com' + job_row.find('td',{'class':'job-table-title'}).a['href']
+        salary = job_row.find('td',{'class':'job-table-salary'}).text
+        full_or_part = job_row.find('td',{'class':'job-table-type'}).text
+        # Get soup for job listing to get more info
+        job_soup = get_soup(info_link)
+        info_container = job_soup.find('div',{'class':'summary container'})
+        job_location = clean_location(info_container.find('div',{'id':'location-label-id'}).parent.find_all('div')[2].text)
+        job_zip_code = city_to_zip(job_location)
+        job_summary = job_soup.find('div',{'id':'details-info'}).find('p').text
+        print_vars()
+        reset_vars()
+    if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
+        next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
+        soup = get_javascript_soup(next_page_url)
+    else:
+        soup = False
 
 reset_vars()
 
