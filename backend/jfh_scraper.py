@@ -839,7 +839,7 @@ soup = get_soup('http://nationalhealthfoundation.org/careers/')
 job_listings = soup.find('div',{'class':'tf-sh-78847e2ef97967b68fdec32a2997ab8f'})
 
 for job_item in job_listings.find_all('a'):
-    job_title = job_item.text
+    job_title = job_item.text.strip()
     info_link = job_item['href']
     update_db(organization)
     reset_vars()
@@ -850,8 +850,15 @@ reset_vars()
 # Neighborhood Legal Services of Los Angeles County
 
 organization = "Neighborhood Legal Services of Los Angeles County"
+soup = get_soup('http://www.nlsla.org/current-employment-opportunities/')
 
-## SCRAPING CODE
+job_listings = soup.find('article').find_all('a')
+
+for job_item in job_listings:
+    job_title = job_item.text.strip()
+    info_link = 'http://www.nlsla.org/current-employment-opportunities/' + job_item['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
