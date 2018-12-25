@@ -733,8 +733,25 @@ reset_vars()
 # Los Angeles Gay & Lesbian Community Services Center
 
 organization = "Los Angeles Gay & Lesbian Community Services Center"
+soup = get_javascript_soup('https://lalgbtcenter.org/about-the-center/careers')
 
-## SCRAPING CODE
+job_divs = soup.find_all('div', {'class':'ui-accordion-content'})
+
+for job_div in job_divs:
+    for job_listing in job_div.find_all('li'):
+        job_title = job_listing.text.strip()
+        info_link = 'https://lalgbtcenter.org' + job_listing.find_all('a')[-1]['href']
+        update_db(organization)
+        reset_vars()
+
+job_lists = soup.find_all('ul', {'class':'ui-accordion-content'})
+
+for job_list in job_lists:
+    for job_listing in job_list.find_all('li'):
+        job_title = job_listing.text.strip()
+        info_link = 'https://lalgbtcenter.org' + job_listing.find_all('a')[-1]['href']
+        update_db(organization)
+        reset_vars()
 
 reset_vars()
 
