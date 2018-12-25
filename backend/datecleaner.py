@@ -69,7 +69,7 @@ def string_to_date(dateString, ordering=['month','day','year']):
         year = '20' + year
     year = int(re.sub("[^0-9]", "", year))
     # Parse month string to int
-    month = month_string_to_num(date[monthIndex].strip())
+    month = month_to_num(date[monthIndex].strip())
     # Parse day string to int
     day = date[dayIndex].strip()
     day = int(re.sub("[^0-9]", "", day))

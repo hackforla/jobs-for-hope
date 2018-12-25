@@ -867,6 +867,7 @@ reset_vars()
 
 organization = "New Directions For Veterans"
 
+## PROBLEM: Site poorly written for scraping and only has 3 listings
 ## SCRAPING CODE
 
 reset_vars()
@@ -875,8 +876,22 @@ reset_vars()
 # Penny Lane Centers
 
 organization = "Penny Lane Centers"
+soup = get_soup('https://pennylanecenters.jobs.net/search')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'id':'job-result-table'})
+
+for job_row in jobs_table.find_all('tr',{'class':'job-result'}):
+    job_title_cell = job_row.find('td',{'class':'job-result-title-cell'})
+    job_title = job_title_cell.a.text.strip()
+    info_link = 'https://pennylanecenters.jobs.net' + job_title_cell.a['href']
+    job_location = clean_location(job_row.find('div',{'class':'job-location-line'}).text)
+    job_zip_code = city_to_zip(job_location)
+    # Get Job Soup
+    job_soup = get_soup(info_link)
+    full_or_part = job_soup.find('li',{'class':'job-employee-type'}).find('div',{'class':'secondary-text-color'}).text
+    job_post_date = string_to_date(job_soup.find('li',{'class':'job-date-posted'}).find('div',{'class':'secondary-text-color'}).text)
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
