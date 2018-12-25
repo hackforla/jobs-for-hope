@@ -834,8 +834,15 @@ reset_vars()
 # National Health Foundation
 
 organization = "National Health Foundation"
+soup = get_soup('http://nationalhealthfoundation.org/careers/')
 
-## SCRAPING CODE
+job_listings = soup.find('div',{'class':'tf-sh-78847e2ef97967b68fdec32a2997ab8f'})
+
+for job_item in job_listings.find_all('a'):
+    job_title = job_item.text
+    info_link = job_item['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
