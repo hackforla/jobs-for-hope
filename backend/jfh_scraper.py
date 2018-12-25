@@ -110,6 +110,19 @@ def get_javascript_soup_delayed(url, dynamicElement):
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
+def get_javascript_soup_delayed_and_click(url, dynamicElement):
+    driver = webdriver.Chrome('./chromedriver')
+    driver.get(url)
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
+        )
+    finally:
+        element.click()
+        innerHTML = driver.execute_script("return document.body.innerHTML")
+        driver.quit()
+        return BeautifulSoup(innerHTML, "lxml")
+
 def update_db(organization_name):
     global job_title
     global job_summary
@@ -774,7 +787,7 @@ while soup:
         job_location = clean_location(info_container.find('div',{'id':'location-label-id'}).parent.find_all('div')[2].text)
         job_zip_code = city_to_zip(job_location)
         job_summary = job_soup.find('div',{'id':'details-info'}).find('p').text
-        print_vars()
+        update_db(organization)
         reset_vars()
     if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
         next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
@@ -789,6 +802,7 @@ reset_vars()
 
 organization = "Lutheran Social Services"
 
+## PROBLEM: Website has no job listings?
 ## SCRAPING CODE
 
 reset_vars()
@@ -798,7 +812,21 @@ reset_vars()
 
 organization = "Mental Health America of Los Angeles"
 
-## SCRAPING CODE
+url = 'http://mhala.hrmdirect.com/employment/job-openings.php?nohd'
+
+soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
+
+job_listings = soup.find_all('tr',{'class':'reqitem'})
+
+for job_row in job_listings:
+    job_title = job_row.find('td',{'class':'posTitle'}).text.strip()
+    info_link = 'http://mhala.hrmdirect.com/employment/' + job_row.find('td',{'class':'posTitle'}).a['href']
+    job_location = job_row.find('td',{'class':'cities'}).text
+    job_zip_code = city_to_zip(job_location)
+    job_soup = get_soup(info_link)
+    job_summary = job_soup.find(text="Summary:").parent.parent.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
