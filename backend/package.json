@@ -7,7 +7,8 @@
     "start": "node server.js",
     "client": "npm start --prefix ../frontend",
     "server": "nodemon server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "mocha"
   },
   "husky": {
     "hooks": {
@@ -20,6 +21,11 @@
       "git add"
     ]
   },
+  "standard": {
+    "ignore": [
+      "test/*"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -29,9 +35,13 @@
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.7",
+    "s": "^0.1.1",
     "standard": "^12.0.1"
   }
 }

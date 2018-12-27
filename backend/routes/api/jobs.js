@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 // @route   GET api/jobs/all
 // @desc    Get all jobs v2
 // @access  Public
-router.get('/all/', (req, res) => {
+router.get('/all', (req, res) => {
   const sqlite3 = require('sqlite3').verbose()
   const db = new sqlite3.Database('jobs_for_hope.db')
   const jobs = []
