@@ -17,14 +17,14 @@
   },
   "lint-staged": {
     "*.js": [
-      "standard",
+      "standard --verbose",
       "git add"
     ]
   },
   "standard": {
-    "ignore": [
-      "test/*"
-    ]
+    "env": {
+      "mocha": true
+    }
   },
   "author": "",
   "license": "ISC",

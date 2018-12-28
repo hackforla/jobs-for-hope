@@ -1,8 +1,4 @@
-const mocha = require('mocha')
-const describe = mocha.describe
-const it = mocha.it
-const before = mocha.before
-const after = mocha.after
+/* eslint no-unused-expressions: "off" */
 const chai = require('chai')
 const expect = chai.expect
 
