@@ -228,7 +228,6 @@ for job_listing in job_listings:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
         salary = listing_body[2].text[14:]
-    print_vars()
     update_db(organization)
     reset_vars()
 
@@ -398,7 +397,6 @@ for job_entry in jobs_table.find_all('tr'):
     info_link = job_details[0].find('a')['href']
     job_summary = info_link
     job_location = job_details[2].text
-    print_vars()
     update_db(organization)
     reset_vars()
 
