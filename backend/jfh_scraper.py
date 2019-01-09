@@ -1,3 +1,6 @@
+# vim: set fileencoding=utf8
+# Editor configs above to save file in Unicode since this file contains
+# non-ASCII characters
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
@@ -8,6 +11,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from uszipcode import SearchEngine
+search = SearchEngine()
 
 # CONSTANTS
 
@@ -108,6 +113,19 @@ def get_javascript_soup_delayed(url, dynamicElement):
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
+def get_javascript_soup_delayed_and_click(url, dynamicElement):
+    driver = webdriver.Chrome('./chromedriver')
+    driver.get(url)
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
+        )
+    finally:
+        element.click()
+        innerHTML = driver.execute_script("return document.body.innerHTML")
+        driver.quit()
+        return BeautifulSoup(innerHTML, "lxml")
+
 def update_db(organization_name):
     global job_title
     global job_summary
@@ -131,6 +149,12 @@ def date_ago(timeLength, timeUnit):
 
 def clean_location(string):
     return string.split(',')[0].strip()
+
+def city_to_zip(location):
+    return int(search.by_city_and_state(location, 'CA')[0].zipcode)
+
+def zip_to_city(cityzip):
+    return search.by_zipcode(cityzip).major_city
 
 # SQL CONNECTION
 
@@ -207,7 +231,6 @@ for job_listing in job_listings:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
         salary = listing_body[2].text[14:]
-    print_vars()
     update_db(organization)
     reset_vars()
 
@@ -311,14 +334,6 @@ catholicDriver = webdriver.Chrome('./chromedriver')
 catholicDriver.get(url)
 
 try:
-    element = WebDriverWait(catholicDriver, 10).until(
-        EC.presence_of_element_located((By.ID, "btnShowAllJobs"))
-    )
-finally:
-    python_button = catholicDriver.find_element_by_id('btnShowAllJobs')
-    python_button.click()
-
-try:
     element2 = WebDriverWait(catholicDriver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "current-openings-item"))
     )
@@ -377,7 +392,6 @@ for job_entry in jobs_table.find_all('tr'):
     info_link = job_details[0].find('a')['href']
     job_summary = info_link
     job_location = job_details[2].text
-    print_vars()
     update_db(organization)
     reset_vars()
 
@@ -482,8 +496,6 @@ for i in range(len(job_lists)):
         if job_details:
             job_location = job_details.find('span',{'aria-label':'Job Location'}).text
             salary = job_details.find('span',{'aria-label':'Salary Range'}).text
-        print_vars()
-        reset_vars()
         update_db(organization)
         reset_vars()
 
@@ -494,6 +506,7 @@ reset_vars()
 
 organization = "East San Gabriel Valley Coalition for the Homeless"
 
+## Only 1 job listing and it's poorly formatted; skip?
 ## SCRAPING CODE
 
 reset_vars()
@@ -502,8 +515,25 @@ reset_vars()
 # Exodus Recovery, Inc.
 
 organization = "Exodus Recovery, Inc."
+url = 'https://www.exodusrecovery.com/employment/'
+soup = get_javascript_soup(url)
 
-## SCRAPING CODE
+scraping = True
+
+while scraping:
+    job_posts = soup.find_all('article',{'class':'et_pb_post'})
+    for post in job_posts:
+        job_entry = post.find('h2',{'class':'entry-title'})
+        job_title = job_entry.text
+        info_link = job_entry.a['href']
+        job_summary = post.find('div',{'class':'post-content'}).p.text
+        update_db(organization)
+        reset_vars()
+    ## Check if more job entries on website to scrape
+    if soup.find(text="« Older Entries"):
+        soup = get_javascript_soup(soup.find(text="« Older Entries").parent['href'])
+    else:
+        scraping = False
 
 reset_vars()
 
@@ -512,6 +542,7 @@ reset_vars()
 
 organization = "Harbor Interfaith Services, Inc."
 
+## BAD WEBSITE?
 ## SCRAPING CODE
 
 reset_vars()
@@ -520,8 +551,32 @@ reset_vars()
 # Hathaway-Sycamores Child and Family Services
 
 organization = "Hathaway-Sycamores Child and Family Services"
+url = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/controller.cfm'
 
-## SCRAPING CODE
+## Use Selenium browser to click on all positions button and get soup
+browser = webdriver.Chrome('./chromedriver')
+browser.get(url)
+python_button = browser.find_element_by_id('AllJobs')
+python_button.click()
+innerHTML = browser.execute_script("return document.body.innerHTML")
+soup = BeautifulSoup(innerHTML, "lxml")
+browser.quit()
+
+for row in soup.find_all('tr')[2:]:
+    job_details = row.find_all('td')
+    job_title = job_details[0].text.strip()
+    info_link = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/' + job_details[0].a['href']
+    location_details = job_details[2].text.strip()
+    full_or_part = job_details[4].text.strip()
+    if location_details.isdigit():
+        job_zip_code = int(location_details)
+        job_location = zip_to_city(job_zip_code)
+    else:
+        job_location = location_details
+        job_zip_code = city_to_zip(job_location)
+    update_db(organization)
+    reset_vars()
+
 
 reset_vars()
 
@@ -530,6 +585,7 @@ reset_vars()
 
 organization = "Homeless Health Care Los Angeles"
 
+## Can't scrape; website formatting is too sloppy and not standardized
 ## SCRAPING CODE
 
 reset_vars()
@@ -539,6 +595,7 @@ reset_vars()
 
 organization = "Housing Works"
 
+## Can't scrape; no job listings
 ## SCRAPING CODE
 
 reset_vars()
@@ -547,8 +604,22 @@ reset_vars()
 # Illumination Foundation
 
 organization = "Illumination Foundation"
+soup = get_soup('https://www.ifhomeless.org/careers/')
 
-## SCRAPING CODE
+job_listings = soup.find_all('div',{'class':'list-data'})
+
+for listing in job_listings:
+    job_info = listing.find('div',{'class':'job-info'})
+    job_title = job_info.find('span',{'class':'job-title'}).text.strip()
+    info_link = job_info.h4.a['href']
+    full_or_part = listing.find('div',{'class':'job-type'}).text.strip()
+    job_location = clean_location(listing.find('div',{'class':'job-location'}).text.strip())
+    job_zip_code = city_to_zip(job_location)
+    relative_date = listing.find('div',{'class':'job-date'}).text.strip().split(' ')
+    job_post_date = date_ago(int(relative_date[1]), relative_date[2])
+    job_summary = listing.find('div',{'class':'job-description'}).p.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -557,7 +628,19 @@ reset_vars()
 
 organization = "Inner City Law Center"
 
-## SCRAPING CODE
+## PROBLEM: mostly law jobs / not entry level; poorly formatted website; job info is in PDF, so we can only scrape job title + link
+## Code below scrapes most of the listings correctly, but there are some listings that say 'Click Here' instead of job title because of poor formatting of website
+
+# soup = get_soup('http://www.innercitylaw.org/careers/')
+
+# job_listings = soup.find('div',{'class':'entry-content'}).find('ul')
+
+# for listing in job_listings.find_all('li'):
+#     job_title = listing.a.text
+#     info_link = listing.a['href']
+#     update_db(organization)
+#     reset_vars()
+
 
 reset_vars()
 
@@ -565,8 +648,20 @@ reset_vars()
 # Jewish Family Service of Los Angeles
 
 organization = "Jewish Family Service of Los Angeles"
+soup = get_javascript_soup('https://chm.tbe.taleo.net/chm02/ats/careers/searchResults.jsp?org=JFSLA&cws=1&org=JFSLA')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'id':'cws-search-results'})
+
+for job_row in jobs_table.find_all('tr')[1:]:
+    row_cells = job_row.find_all('td')
+    job_title = row_cells[1].a.text.strip()
+    info_link = row_cells[1].a['href']
+    job_location = clean_location(row_cells[2].text)
+    job_zip_code = city_to_zip(job_location)
+    job_soup = get_soup(info_link)
+    full_or_part = job_soup.find(text="Employment Duration:").parent.parent.b.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -575,6 +670,7 @@ reset_vars()
 
 organization = "Jovenes, Inc."
 
+## PROBLEM: Site not working / no jobs
 ## SCRAPING CODE
 
 reset_vars()
@@ -583,8 +679,17 @@ reset_vars()
 # JWCH Institute, Inc.
 
 organization = "JWCH Institute"
+soup = get_soup('http://jwchinstitute.org/about-us/work-at-jwch/')
 
-## SCRAPING CODE
+jobs_list = soup.find('ul',{'class':'lcp_catlist'})
+
+for job_entry in jobs_list.find_all('li'):
+    job_title = job_entry.a.text.strip()
+    info_link = job_entry.a['href']
+    job_soup = get_soup(info_link)
+    job_summary = job_soup.find(text="Position Purpose:").parent.parent.text
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -592,8 +697,15 @@ reset_vars()
 # LA Family Housing Corporation
 
 organization = "LA Family Housing Corporation"
+soup = get_soup('https://lafh.org/employment-at-lafh/')
 
-## SCRAPING CODE
+jobs_div = soup.find('div',{'class':'sqs-block-content'})
+job_items = jobs_div.find_all('p')
+
+for job_item in job_items[3:len(job_items)-2]:
+    job_title = job_item.a.text.strip()
+    info_link = 'https://lafh.org' + job_item.a['href']
+    update_db(organization)
 
 reset_vars()
 
@@ -602,6 +714,7 @@ reset_vars()
 
 organization = "LifeSTEPS - Life Skills Training & Educational Programs"
 
+## PROBLEM: Can't scrape - no jobs listed
 ## SCRAPING CODE
 
 reset_vars()
@@ -610,8 +723,15 @@ reset_vars()
 # Los Angeles Centers For Alcohol and Drug Abuse
 
 organization = "Los Angeles Centers For Alcohol and Drug Abuse"
+soup = get_soup('http://lacada.com/2018/careers-2/')
 
-## SCRAPING CODE
+jobs_wrapper = soup.find('div',{'class':'wpb_wrapper'})
+
+for job_opening in jobs_wrapper.find_all('a')[2:]:
+    job_title = job_opening.text.strip()
+    info_link = job_opening['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -619,8 +739,25 @@ reset_vars()
 # Los Angeles Gay & Lesbian Community Services Center
 
 organization = "Los Angeles Gay & Lesbian Community Services Center"
+soup = get_javascript_soup('https://lalgbtcenter.org/about-the-center/careers')
 
-## SCRAPING CODE
+job_divs = soup.find_all('div', {'class':'ui-accordion-content'})
+
+for job_div in job_divs:
+    for job_listing in job_div.find_all('li'):
+        job_title = job_listing.text.strip()
+        info_link = 'https://lalgbtcenter.org' + job_listing.find_all('a')[-1]['href']
+        update_db(organization)
+        reset_vars()
+
+job_lists = soup.find_all('ul', {'class':'ui-accordion-content'})
+
+for job_list in job_lists:
+    for job_listing in job_list.find_all('li'):
+        job_title = job_listing.text.strip()
+        info_link = 'https://lalgbtcenter.org' + job_listing.find_all('a')[-1]['href']
+        update_db(organization)
+        reset_vars()
 
 reset_vars()
 
@@ -628,8 +765,28 @@ reset_vars()
 # Los Angeles Homeless Services Authority
 
 organization = "Los Angeles Homeless Services Authority"
+soup = get_javascript_soup('https://www.governmentjobs.com/careers/lahsa')
 
-## SCRAPING CODE
+while soup:
+    job_table = soup.find('tbody')
+    for job_row in job_table.find_all('tr'):
+        job_title = job_row.find('td',{'class':'job-table-title'}).a.text.strip()
+        info_link = 'https://www.governmentjobs.com' + job_row.find('td',{'class':'job-table-title'}).a['href']
+        salary = job_row.find('td',{'class':'job-table-salary'}).text
+        full_or_part = job_row.find('td',{'class':'job-table-type'}).text
+        # Get soup for job listing to get more info
+        job_soup = get_soup(info_link)
+        info_container = job_soup.find('div',{'class':'summary container'})
+        job_location = clean_location(info_container.find('div',{'id':'location-label-id'}).parent.find_all('div')[2].text)
+        job_zip_code = city_to_zip(job_location)
+        job_summary = job_soup.find('div',{'id':'details-info'}).find('p').text
+        update_db(organization)
+        reset_vars()
+    if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
+        next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
+        soup = get_javascript_soup(next_page_url)
+    else:
+        soup = False
 
 reset_vars()
 
@@ -638,6 +795,7 @@ reset_vars()
 
 organization = "Lutheran Social Services"
 
+## PROBLEM: Website has no job listings?
 ## SCRAPING CODE
 
 reset_vars()
@@ -647,7 +805,21 @@ reset_vars()
 
 organization = "Mental Health America of Los Angeles"
 
-## SCRAPING CODE
+url = 'http://mhala.hrmdirect.com/employment/job-openings.php?nohd'
+
+soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
+
+job_listings = soup.find_all('tr',{'class':'reqitem'})
+
+for job_row in job_listings:
+    job_title = job_row.find('td',{'class':'posTitle'}).text.strip()
+    info_link = 'http://mhala.hrmdirect.com/employment/' + job_row.find('td',{'class':'posTitle'}).a['href']
+    job_location = job_row.find('td',{'class':'cities'}).text
+    job_zip_code = city_to_zip(job_location)
+    job_soup = get_soup(info_link)
+    job_summary = job_soup.find(text="Summary:").parent.parent.text.strip()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -655,8 +827,15 @@ reset_vars()
 # National Health Foundation
 
 organization = "National Health Foundation"
+soup = get_soup('http://nationalhealthfoundation.org/careers/')
 
-## SCRAPING CODE
+job_listings = soup.find('div',{'class':'tf-sh-78847e2ef97967b68fdec32a2997ab8f'})
+
+for job_item in job_listings.find_all('a'):
+    job_title = job_item.text.strip()
+    info_link = job_item['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -664,8 +843,15 @@ reset_vars()
 # Neighborhood Legal Services of Los Angeles County
 
 organization = "Neighborhood Legal Services of Los Angeles County"
+soup = get_soup('http://www.nlsla.org/current-employment-opportunities/')
 
-## SCRAPING CODE
+job_listings = soup.find('article').find_all('a')
+
+for job_item in job_listings:
+    job_title = job_item.text.strip()
+    info_link = 'http://www.nlsla.org/current-employment-opportunities/' + job_item['href']
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -674,6 +860,7 @@ reset_vars()
 
 organization = "New Directions For Veterans"
 
+## PROBLEM: Site poorly written for scraping and only has 3 listings
 ## SCRAPING CODE
 
 reset_vars()
@@ -682,17 +869,50 @@ reset_vars()
 # Penny Lane Centers
 
 organization = "Penny Lane Centers"
+soup = get_soup('https://pennylanecenters.jobs.net/search')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'id':'job-result-table'})
+
+for job_row in jobs_table.find_all('tr',{'class':'job-result'}):
+    job_title_cell = job_row.find('td',{'class':'job-result-title-cell'})
+    job_title = job_title_cell.a.text.strip()
+    info_link = 'https://pennylanecenters.jobs.net' + job_title_cell.a['href']
+    job_location = clean_location(job_row.find('div',{'class':'job-location-line'}).text)
+    job_zip_code = city_to_zip(job_location)
+    # Get Job Soup
+    job_soup = get_soup(info_link)
+    full_or_part = job_soup.find('li',{'class':'job-employee-type'}).find('div',{'class':'secondary-text-color'}).text
+    job_post_date = string_to_date(job_soup.find('li',{'class':'job-date-posted'}).find('div',{'class':'secondary-text-color'}).text)
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
 
 # People Assisting the Homeless (PATH)
-
 organization = "People Assisting the Homeless"
+soup = get_soup('https://path.catsone.com/careers')
 
-## SCRAPING CODE
+jobs_table = soup.find('div',{'class':'JobGrid-etzr7g-4'})
+
+for job_entry in jobs_table.find_all('a'):
+    info_link = 'https://path.catsone.com' + job_entry['href']
+    job_row = job_entry.find('div',{'class':'row'})
+    job_divs = job_row.find_all('div')
+    job_title = job_divs[0].text.strip()
+    job_location = clean_location(job_divs[2].text.strip())
+    job_zip_code = city_to_zip(job_location)
+    update_db(organization)
+    reset_vars()
+    # Possible to get more info by scraping each job link, but the listings are extremely poorly written/standardized; scraper below works for most of the listings, but a few poorly written listings break the scraper
+    # job_soup = get_soup(info_link)
+    # job_description = job_soup.find('div',{'class':'Job__StyledDescription-s1h17u0t-0'})
+    # if '\n' in job_description.find_all('strong')[0].text:
+    #     full_or_part = job_description.find_all('strong')[0].text.split('\n')[1].strip()
+    #     salary = job_description.find_all('strong')[0].text.split('\n')[2].strip().split(': ')[1]
+    # else:
+    #     full_or_part = job_description.find_all('strong')[1].text.strip()
+    #     salary = job_description.find_all('strong')[2].text.split('\n')[0].split(':')[1].strip()
 
 reset_vars()
 
@@ -925,9 +1145,9 @@ reset_vars()
 # The Whole Child
 
 organization = "The Whole Child"
-soup = get_soup('https://www.thewholechild.info/about/careers-internships/')
+soup = get_javascript_soup('https://www.thewholechild.org/about/careers-internships/')
 
-jobs_div = soup.find('h3', text='Job Opportunities').parent
+jobs_div = soup.find('h3', text='Job Opportunities').next_sibling
 
 for job_div in jobs_div.find_all('li'):
     job_title = job_div.text
