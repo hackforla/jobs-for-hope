@@ -6,7 +6,7 @@ Aggregate job opportunities with homeless service providers so that people can s
 2. Clone the forked repo to your local working directory.
 3. Cd into `frontend` directory
 4. Run `npm install` to install all frontend build tools and production dependencies
-5. Run `npm start` to run a live version of the project
+5. Proceed to step 2 in Backend instructions
 
 ## Backend Developer Setup
 1. Steps 1-2 from Frontend instructions
