@@ -1,3 +1,6 @@
+# vim: set fileencoding=utf8
+# Editor configs above to save file in Unicode since this file contains
+# non-ASCII characters
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
