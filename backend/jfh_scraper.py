@@ -484,7 +484,7 @@ soup = get_soup('https://www.downtownwomenscenter.org/career-opportunities/')
 
 job_lists = soup.find('div',{'class':'post'}).find_all('ul')
 
-for i in range(len(job_lists)):x
+for i in range(len(job_lists)):
     job_list = job_lists[i]
     for job_entry in job_list.find_all('li'):
         if i==0:
