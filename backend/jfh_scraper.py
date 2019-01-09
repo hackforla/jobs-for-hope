@@ -1145,9 +1145,9 @@ reset_vars()
 # The Whole Child
 
 organization = "The Whole Child"
-soup = get_soup('https://www.thewholechild.info/about/careers-internships/')
+soup = get_javascript_soup('https://www.thewholechild.org/about/careers-internships/')
 
-jobs_div = soup.find('h3', text='Job Opportunities').parent
+jobs_div = soup.find('h3', text='Job Opportunities').next_sibling
 
 for job_div in jobs_div.find_all('li'):
     job_title = job_div.text
