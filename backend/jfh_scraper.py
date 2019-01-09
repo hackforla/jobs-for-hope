@@ -334,14 +334,6 @@ catholicDriver = webdriver.Chrome('./chromedriver')
 catholicDriver.get(url)
 
 try:
-    element = WebDriverWait(catholicDriver, 10).until(
-        EC.presence_of_element_located((By.ID, "btnShowAllJobs"))
-    )
-finally:
-    python_button = catholicDriver.find_element_by_id('btnShowAllJobs')
-    python_button.click()
-
-try:
     element2 = WebDriverWait(catholicDriver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "current-openings-item"))
     )
