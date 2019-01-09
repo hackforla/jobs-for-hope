@@ -78,7 +78,7 @@ Aggregate job opportunities with homeless service providers so that people can s
 
 4. Print the db schema
 
-        .schema;
+        .schema
 
 5. Print the jobs table row count
 
