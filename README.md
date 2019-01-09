@@ -113,5 +113,3 @@ Aggregate job opportunities with homeless service providers so that people can s
 -[axios](https://www.npmjs.com/package/axios)
 
 ## Contributing
-1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
-
