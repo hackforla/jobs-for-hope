@@ -108,6 +108,9 @@ Aggregate job opportunities with homeless service providers so that people can s
 ## Dependencies
 -[React](https://reactjs.org/)
 -[SASS](https://sass-lang.com/)
+-[Redux](https://redux.js.org/)
+-[Redux-thunk](https://github.com/reduxjs/redux-thunk)
+-[axios](https://www.npmjs.com/package/axios)
 
 ## Contributing
 1. CSS: This project uses SASS so please make any styling changes to the /templates/static/scss/style.scss file.
