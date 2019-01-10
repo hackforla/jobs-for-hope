@@ -997,12 +997,19 @@ reset_vars()
 # Shields For Families, Inc.
 
 organization = "Shields For Families"
-# soup = get_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
+soup = get_javascript_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
 
-# job_listing_pattern = re.compile('\{"JobId".*\}')
-# soup.find("script", text=job_listing_pattern)
+job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
 
-## SCRAPING CODE
+for job_listing in job_listings:
+    job_title = job_listing.find('span', {'class':'job-item-title'}).a.text.strip()
+    info_link = 'https://recruiting.paylocity.com' + job_listing.find('span', {'class':'job-item-title'}).a['href']
+    if job_listing.find('div',{'class':'location-column'}).text:
+        job_location = job_listing.find('div',{'class':'location-column'}).text
+        job_zip_code = city_to_zip(job_location)
+    job_post_date = string_to_date(job_listing.find('div',{'class':'job-title-column'}).find_all('span')[1].text.split(' - ')[0])
+    print_vars()
+    reset_vars()
 
 reset_vars()
 
@@ -1017,13 +1024,16 @@ job_listings = soup.find_all('div', {'class':'jobInfo'})
 for job_listing in job_listings:
     job_title = job_listing.find('span', {'class':'jobTitle'}).a.text.strip()
     info_link = 'https://www.paycomonline.net' + job_listing.find('span',{'class':'jobTitle'}).a['href']
-    job_location = clean_location(job_listing.find('span', {'class':'jobLocation'}).text.split(' - ')[1])
-    job_zip_code = city_to_zip(job_location)
-    job_summary = job_listing.find('span', {'class':'jobDescription'}).text.strip()
-    if  ('ft' in str(job_listing.find('span', {'class':'jobType'}).text).lower()) or ('full' in str(job_listing.find('span', {'class':'jobType'}).text).lower()):
-        full_or_part = 'full'
-    else:
-        full_or_part = 'part'
+    if job_listing.find('span', {'class':'jobLocation'}).text:
+        job_location = clean_location(job_listing.find('span', {'class':'jobLocation'}).text.split(' - ')[1])
+        job_zip_code = city_to_zip(job_location)
+    if job_listing.find('span', {'class':'jobDescription'}).text:
+        job_summary = job_listing.find('span', {'class':'jobDescription'}).text.strip()
+    if job_listing.find('span', {'class':'jobType'}).text:
+        if  ('ft' in str(job_listing.find('span', {'class':'jobType'}).text).lower()) or ('full' in str(job_listing.find('span', {'class':'jobType'}).text).lower()):
+            full_or_part = 'full'
+        else:
+            full_or_part = 'part'
     update_db(organization)
     reset_vars()
 
