@@ -93,6 +93,7 @@ def get_soup(url):
 
 def get_javascript_soup(url):
     browser = webdriver.Chrome('./chromedriver')
+    browser.implicitly_wait(10)
     browser.get(url)
     innerHTML = browser.execute_script("return document.body.innerHTML")
     browser.quit()
@@ -770,7 +771,7 @@ reset_vars()
 # Los Angeles Homeless Services Authority
 
 organization = "Los Angeles Homeless Services Authority"
-soup = get_javascript_soup('https://www.governmentjobs.com/careers/lahsa')
+soup = get_javascript_soup_delayed('https://www.governmentjobs.com/careers/lahsa', 'job-table-title')
 
 while soup:
     job_table = soup.find('tbody')
@@ -789,7 +790,7 @@ while soup:
         reset_vars()
     if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
         next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
-        soup = get_javascript_soup(next_page_url)
+        soup = get_javascript_soup_delayed(next_page_url, 'job-table-title')
     else:
         soup = False
 
