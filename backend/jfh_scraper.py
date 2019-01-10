@@ -990,6 +990,7 @@ for html_element in soup.find_all('h4'):
     job_summary = info_link
     job_location = html_element.span.text.split(']')[1]
     update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -1008,7 +1009,7 @@ for job_listing in job_listings:
         job_location = job_listing.find('div',{'class':'location-column'}).text
         job_zip_code = city_to_zip(job_location)
     job_post_date = string_to_date(job_listing.find('div',{'class':'job-title-column'}).find_all('span')[1].text.split(' - ')[0])
-    print_vars()
+    update_db(organization)
     reset_vars()
 
 reset_vars()
