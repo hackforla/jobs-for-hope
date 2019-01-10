@@ -1130,11 +1130,19 @@ reset_vars()
 # The People Concern (Formerly OPCC & LAMP)
 
 organization = "The People Concern"
-# soup = get_soup('https://www.thepeopleconcern.org/careers.php')
+soup = get_javascript_soup('https://theapplicantmanager.com/careers?co=lc')
 
+jobs_table = soup.find('table',{'id':'careers_table'}).tbody.find_all('tr')
 
-
-## SCRAPING CODE
+for job_row in jobs_table:
+    job_entry = job_row.find_all('td')
+    job_title = job_entry[0].a.text
+    info_link = 'https://theapplicantmanager.com/' + job_entry[0].a['href']
+    job_location = job_entry[1].text
+    full_or_part = job_entry[3].text
+    job_post_date = job_entry[4].text
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
