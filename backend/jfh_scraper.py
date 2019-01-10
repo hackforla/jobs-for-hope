@@ -1024,7 +1024,7 @@ for job_listing in job_listings:
         full_or_part = 'full'
     else:
         full_or_part = 'part'
-    print_vars()
+    update_db(organization)
     reset_vars()
 
 reset_vars()
