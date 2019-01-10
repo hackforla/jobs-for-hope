@@ -37,19 +37,19 @@ def month_to_num(string):
 
 def string_to_date(dateString, ordering=['month','day','year']):
     if len(ordering) != 3:
-       console.log('Error: convertStringToDate method has an optional second argument that requires an array with exactly 3 elements (year, month, day)')
+       print('Error: convertStringToDate method has an optional second argument that requires an array with exactly 3 elements (year, month, day)')
        return
     # Convert ordering to lowercase
     for i in range(len(ordering)):
         ordering[i] = ordering[i].lower()
     # Check if ordering args contains 'month', 'day', and 'year'
     if ('year' not in ordering) | ('month' not in ordering) | ('day' not in ordering):
-        console.log('Error: Ordering array must include year, month, and day among 3 args')
+        print('Error: Ordering array must include year, month, and day among 3 args')
         return
     # Check if ordering args are exactly 'month', 'day', and 'year'
     for ele in ordering:
         if ele not in ['year', 'month', 'day']:
-            console.log('Error: One of the args in ordering is not year, month, or day')
+            print('Error: One of the args in ordering is not year, month, or day')
             return
     # Find and store year, month, and day indices
     yearIndex = ordering.index('year')

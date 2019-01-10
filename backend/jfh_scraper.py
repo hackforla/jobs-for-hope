@@ -1,3 +1,6 @@
+# vim: set fileencoding=utf8
+# Editor configs above to save file in Unicode since this file contains
+# non-ASCII characters
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
@@ -332,14 +335,6 @@ catholicDriver = webdriver.Chrome('./chromedriver')
 catholicDriver.get(url)
 
 try:
-    element = WebDriverWait(catholicDriver, 10).until(
-        EC.presence_of_element_located((By.ID, "btnShowAllJobs"))
-    )
-finally:
-    python_button = catholicDriver.find_element_by_id('btnShowAllJobs')
-    python_button.click()
-
-try:
     element2 = WebDriverWait(catholicDriver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "current-openings-item"))
     )
@@ -485,7 +480,7 @@ soup = get_soup('https://www.downtownwomenscenter.org/career-opportunities/')
 
 job_lists = soup.find('div',{'class':'post'}).find_all('ul')
 
-for i in range(len(job_lists)):x
+for i in range(len(job_lists)):
     job_list = job_lists[i]
     for job_entry in job_list.find_all('li'):
         if i==0:
@@ -1151,9 +1146,9 @@ reset_vars()
 # The Whole Child
 
 organization = "The Whole Child"
-soup = get_soup('https://www.thewholechild.info/about/careers-internships/')
+soup = get_javascript_soup('https://www.thewholechild.org/about/careers-internships/')
 
-jobs_div = soup.find('h3', text='Job Opportunities').parent
+jobs_div = soup.find('h3', text='Job Opportunities').next_sibling
 
 for job_div in jobs_div.find_all('li'):
     job_title = job_div.text
