@@ -1067,8 +1067,7 @@ for job_entry in jobs_table:
     full_or_part = job_entry.find('td',{'class':'srJobListTypeOfEmployment'}).text
     job_location = clean_location(job_entry.find('td',{'class':'srJobListLocation'}).text)
     job_zip_code = city_to_zip(job_location)
-    print_vars()
-    # update_db(organization)
+    update_db(organization)
     reset_vars()
 
 reset_vars()
