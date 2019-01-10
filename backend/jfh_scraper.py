@@ -1056,9 +1056,20 @@ reset_vars()
 # St. Joseph Center
 
 organization = "St. Joseph Center"
-# soup = get_soup('https://stjosephctr.org/careers/')
+soup = get_javascript_soup('https://stjosephctr.org/careers/')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'class':'srJobList'}).tbody.find_all('tr')[1:]
+
+for job_entry in jobs_table:
+    job_title = job_entry.find('td',{'class':'srJobListJobTitle'}).text.strip()
+    onClickLink = job_entry['onclick']
+    info_link = onClickLink[13:len(onClickLink)-3]
+    full_or_part = job_entry.find('td',{'class':'srJobListTypeOfEmployment'}).text
+    job_location = clean_location(job_entry.find('td',{'class':'srJobListLocation'}).text)
+    job_zip_code = city_to_zip(job_location)
+    print_vars()
+    # update_db(organization)
+    reset_vars()
 
 reset_vars()
 
