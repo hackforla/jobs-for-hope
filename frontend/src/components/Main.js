@@ -9,22 +9,22 @@ const Main = (props) => {
   return (
     <div>
       <SearchBox
-      onSearchChange={this.props.onSearchChange}
-      onZipSearchChange={this.props.onZipSearchChange}
-      userJobTitle={this.props.userJobTitle}
+      onSearchChange={props.onSearchChange}
+      onZipSearchChange={props.onZipSearchChange}
+      userJobTitle={props.userJobTitle}
       />
       <div className="filters-postings-wrapper">
         <SideFilter
-        onSetEmploymentTypeFT={this.props.onSetEmploymentTypeFT}
-        onSetEmploymentTypePT={this.props.onSetEmploymentTypePT}
-        onSetDistance={this.props.onSetDistance}
-        calcDistance={this.props.calcDistance}
-        filterByEmploymentType={this.props.filterByEmploymentType}
+        onSetEmploymentTypeFT={props.onSetEmploymentTypeFT}
+        onSetEmploymentTypePT={props.onSetEmploymentTypePT}
+        onSetDistance={props.onSetDistance}
+        calcDistance={props.calcDistance}
+        filterByEmploymentType={props.filterByEmploymentType}
         />
         <section role="tablist" className="recent-postings-container">
           <h2 className="recent-postings-title">Recent Job Postings</h2>
           <ul>
-            {this.props.filteredJobs.map( (job, index) =>
+            {props.filteredJobs.map( (job, index) =>
               <li key={index}>
               <JobPostings
               job={job}
