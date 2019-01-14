@@ -48,4 +48,18 @@ router.get('/all', (req, res) => {
   db.close()
 })
 
+// @route   GET api/jobs/all
+// @desc    Get all jobs v2
+// @access  Public
+router.get('/scrape', (req, res) => {
+  const { spawn } = require('child_process')
+  const pyProg = spawn('python', ['./jfh_scraper.py'])
+
+  pyProg.stdout.on('data', function (data) {
+    console.log(data.toString())
+    res.write(data)
+    res.end('end')
+  })
+})
+
 module.exports = router
