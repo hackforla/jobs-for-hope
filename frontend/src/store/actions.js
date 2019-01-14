@@ -34,7 +34,7 @@ export const fetchJobs = () => (dispatch) => {
   dispatch({ type: FETCH_JOBS_PENDING });
 
   axios
-    .get("/jobs/all")
+    .get("/jobs")
     .then(res =>
       dispatch({
         type: FETCHED_JOBS_SUCCESS,
