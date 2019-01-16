@@ -12,10 +12,6 @@ def run(url):
 
     while soup:
         job_table = soup.find('tbody')
-        if not job_table:
-            print('faild scraping page', next_page_url)
-        else:
-            print('page scraped', next_page_url)
         for job_row in job_table.find_all('tr'):
             globals.job_title = job_row.find('td',{'class':'job-table-title'}).a.text.strip()
             globals.info_link = 'https://www.governmentjobs.com' + job_row.find('td',{'class':'job-table-title'}).a['href']
