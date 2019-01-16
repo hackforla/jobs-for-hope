@@ -22,6 +22,7 @@ full_or_part = ''
 salary = ''
 info_link = ''
 
+# add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = ['penny_lane_centers.py']
 
 # FUNCTIONS
