@@ -1,5 +1,5 @@
 import globals
-from globals import clean_location, city_to_zip, get_soup, get_javascript_soup, get_javascript_soup_delayed, update_db, reset_vars
+from globals import clean_location, city_to_zip, get_javascript_soup_delayed, update_db, reset_vars
 
 organization = 'Los Angeles Homeless Services Authority'
 url = 'https://www.governmentjobs.com/careers/lahsa'
@@ -27,7 +27,7 @@ def run(url):
             reset_vars()
         if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
             next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
-            soup = get_javascript_soup(next_page_url)
+            soup = get_javascript_soup_delayed(next_page_url, 'job-table-title')
         else:
             soup = False
 
