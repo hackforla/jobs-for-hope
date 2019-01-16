@@ -21,10 +21,12 @@ globals.reset_vars()
 # load and run scrapers
 for i in scraperloader.getScrapers():
     try:
-        scraper = scraperloader.loadScraper(i)
-        organization = scraper.organization
-        print(organization)
-        scraper.run(scraper.url)
+        # filter to run target scrapers
+        if len(globals.active_scrapers) > 0 and i['name'] in globals.active_scrapers:
+            scraper = scraperloader.loadScraper(i)
+            organization = scraper.organization
+            print(organization)
+            scraper.run(scraper.url)
     except Exception:
         traceback.print_exc()
         print('scraper failed', organization)

@@ -22,6 +22,8 @@ full_or_part = ''
 salary = ''
 info_link = ''
 
+active_scrapers = ['ACOF.py']
+
 # FUNCTIONS
 
 def error_handler(error_msg):
