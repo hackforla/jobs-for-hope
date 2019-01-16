@@ -25,10 +25,10 @@ for i in scraperloader.getScrapers():
         if len(globals.active_scrapers) > 0 and i['name'] in globals.active_scrapers:
             scraper = scraperloader.loadScraper(i)
             organization = scraper.organization
-            print(organization)
+            print organization
             scraper.run(scraper.url)
     except Exception:
         traceback.print_exc()
-        print('scraper failed', organization)
+        print 'Scraper failed:', organization
 
     globals.reset_vars()
