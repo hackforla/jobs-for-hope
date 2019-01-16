@@ -1,4 +1,5 @@
 import globals
+from globals import get_soup, get_javascript_soup, update_db, reset_vars
 from datetime import datetime
 
 # A Community of Friends
@@ -7,7 +8,7 @@ organization = "A Community of Friends"
 url = "https://recruiting.paylocity.com/recruiting/jobs/List/1438/A-COMMUNITY-OF-FRIENDS"
 
 def run(url):
-    soup = globals.get_javascript_soup(url)
+    soup = get_javascript_soup(url)
     job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
 
     for job_listing in job_listings:
@@ -29,12 +30,12 @@ def run(url):
         # Get Location
         globals.job_location = job_listing.find('div',{'class':'location-column'}).span.text
         # Get soup of job listing to scrape more info
-        listing_soup = globals.get_soup(globals.info_link)
+        listing_soup = get_soup(globals.info_link)
         listing_body = listing_soup.find('body').find_all('p')
         # Retrieve Full/Part-time and Salary info if available
         if 'Status' in listing_body[1].text:
             globals.full_or_part = listing_body[1].text[8:]
         if 'Salary' in listing_body[2].text:
             globals.salary = listing_body[2].text[14:]
-        globals.update_db(organization)
-        globals.reset_vars()
+        update_db(organization)
+        reset_vars()
