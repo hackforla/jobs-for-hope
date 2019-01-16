@@ -7,10 +7,6 @@ import globals
 
 pdf_message = 'See PDF document.'
 
-# GLOBALS
-
-scrapers = []
-
 # SQL CONNECTION
 
 globals.db = sqlite3.connect("jobs_for_hope.db")
