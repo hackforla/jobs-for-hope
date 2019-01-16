@@ -23,7 +23,7 @@ salary = ''
 info_link = ''
 
 # add scraper filenames for a whitelist, run all of them if empty
-active_scrapers = ['penny_lane_centers.py']
+active_scrapers = ['los_angeles_homeless_services_authority.py']
 
 # FUNCTIONS
 
