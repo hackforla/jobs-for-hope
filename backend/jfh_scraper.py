@@ -810,7 +810,7 @@ url = 'http://mhala.hrmdirect.com/employment/job-openings.php?nohd'
 
 soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
 
-job_listings = soup.find_all('tr',{'class':'reqitem'})
+job_listings = soup.find_all('tr',{'class':'ReqRowClick'})
 
 for job_row in job_listings:
     job_title = job_row.find('td',{'class':'posTitle'}).text.strip()
@@ -818,7 +818,13 @@ for job_row in job_listings:
     job_location = job_row.find('td',{'class':'cities'}).text
     job_zip_code = city_to_zip(job_location)
     job_soup = get_soup(info_link)
-    job_summary = job_soup.find(text="Summary:").parent.parent.text.strip()
+    summary = job_soup.find(string=["Summary:", "Summary: "])
+    if summary:
+        summary_parent = summary.parent
+        summary_parent.clear()
+        job_summary = summary_parent.find_parent("p").text.strip()
+    else:
+        job_summary = info_link
     update_db(organization)
     reset_vars()
 
