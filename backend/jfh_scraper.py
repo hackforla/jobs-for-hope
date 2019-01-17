@@ -95,14 +95,21 @@ def get_soup(url):
     return soup
 
 def get_javascript_soup(url):
-    browser = webdriver.Chrome('./chromedriver')
-    browser.get(url)
-    innerHTML = browser.execute_script("return document.body.innerHTML")
-    browser.quit()
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+    driver.implicitly_wait(10)
+    driver.get(url)
+    innerHTML = driver.execute_script("return document.body.innerHTML")
+    driver.quit()
     return BeautifulSoup(innerHTML, "lxml")
 
 def get_javascript_soup_delayed(url, dynamicElement):
-    driver = webdriver.Chrome('./chromedriver')
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -114,7 +121,10 @@ def get_javascript_soup_delayed(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 def get_javascript_soup_delayed_and_click(url, dynamicElement):
-    driver = webdriver.Chrome('./chromedriver')
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -330,7 +340,10 @@ reset_vars()
 
 organization = "Catholic Charities Of Los Angeles, Inc."
 url = "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang"
-catholicDriver = webdriver.Chrome('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument('window-size=800x841')
+options.add_argument('headless')
+catholicDriver = webdriver.Chrome('./chromedriver', chrome_options=options)
 catholicDriver.get(url)
 
 try:
@@ -554,7 +567,10 @@ organization = "Hathaway-Sycamores Child and Family Services"
 url = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/controller.cfm'
 
 ## Use Selenium browser to click on all positions button and get soup
-browser = webdriver.Chrome('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument('window-size=800x841')
+options.add_argument('headless')
+browser = webdriver.Chrome('./chromedriver', chrome_options=options)
 browser.get(url)
 python_button = browser.find_element_by_id('AllJobs')
 python_button.click()
@@ -765,7 +781,7 @@ reset_vars()
 # Los Angeles Homeless Services Authority
 
 organization = "Los Angeles Homeless Services Authority"
-soup = get_javascript_soup('https://www.governmentjobs.com/careers/lahsa')
+soup = get_javascript_soup_delayed('https://www.governmentjobs.com/careers/lahsa', 'job-table-title')
 
 while soup:
     job_table = soup.find('tbody')
@@ -784,7 +800,7 @@ while soup:
         reset_vars()
     if not 'disabled' in soup.find('li',{'class':'PagedList-skipToNext'}).get("class"):
         next_page_url = 'https://www.governmentjobs.com/careers/lahsa?' + soup.find('li',{'class':'PagedList-skipToNext'}).a['href'].split('?')[1]
-        soup = get_javascript_soup(next_page_url)
+        soup = get_javascript_soup_delayed(next_page_url, 'job-table-title')
     else:
         soup = False
 
@@ -809,7 +825,7 @@ url = 'http://mhala.hrmdirect.com/employment/job-openings.php?nohd'
 
 soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
 
-job_listings = soup.find_all('tr',{'class':'reqitem'})
+job_listings = soup.find_all('tr',{'class':'ReqRowClick'})
 
 for job_row in job_listings:
     job_title = job_row.find('td',{'class':'posTitle'}).text.strip()
@@ -817,7 +833,13 @@ for job_row in job_listings:
     job_location = job_row.find('td',{'class':'cities'}).text
     job_zip_code = city_to_zip(job_location)
     job_soup = get_soup(info_link)
-    job_summary = job_soup.find(text="Summary:").parent.parent.text.strip()
+    summary = job_soup.find(string=["Summary:", "Summary: "])
+    if summary:
+        summary_parent = summary.parent
+        summary_parent.clear()
+        job_summary = summary_parent.find_parent("p").text.strip()
+    else:
+        job_summary = info_link
     update_db(organization)
     reset_vars()
 
@@ -989,6 +1011,7 @@ for html_element in soup.find_all('h4'):
     job_summary = info_link
     job_location = html_element.span.text.split(']')[1]
     update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -996,12 +1019,19 @@ reset_vars()
 # Shields For Families, Inc.
 
 organization = "Shields For Families"
-# soup = get_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
+soup = get_javascript_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
 
-# job_listing_pattern = re.compile('\{"JobId".*\}')
-# soup.find("script", text=job_listing_pattern)
+job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
 
-## SCRAPING CODE
+for job_listing in job_listings:
+    job_title = job_listing.find('span', {'class':'job-item-title'}).a.text.strip()
+    info_link = 'https://recruiting.paylocity.com' + job_listing.find('span', {'class':'job-item-title'}).a['href']
+    if job_listing.find('div',{'class':'location-column'}).text:
+        job_location = job_listing.find('div',{'class':'location-column'}).text
+        job_zip_code = city_to_zip(job_location)
+    job_post_date = string_to_date(job_listing.find('div',{'class':'job-title-column'}).find_all('span')[1].text.split(' - ')[0])
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -1009,9 +1039,25 @@ reset_vars()
 # Skid Row Housing Trust
 
 organization = "Skid Row Housing Trust"
-# soup = get_soup('https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=37F34A94DC3DBD8AA2C5ACCA82E66F1E&jpt=#')
+soup = get_javascript_soup('https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=37F34A94DC3DBD8AA2C5ACCA82E66F1E&jpt=#')
 
-## SCRAPING CODE
+job_listings = soup.find_all('div', {'class':'jobInfo'})
+
+for job_listing in job_listings:
+    job_title = job_listing.find('span', {'class':'jobTitle'}).a.text.strip()
+    info_link = 'https://www.paycomonline.net' + job_listing.find('span',{'class':'jobTitle'}).a['href']
+    if job_listing.find('span', {'class':'jobLocation'}).text:
+        job_location = clean_location(job_listing.find('span', {'class':'jobLocation'}).text.split(' - ')[1])
+        job_zip_code = city_to_zip(job_location)
+    if job_listing.find('span', {'class':'jobDescription'}).text:
+        job_summary = job_listing.find('span', {'class':'jobDescription'}).text.strip()
+    if job_listing.find('span', {'class':'jobType'}).text:
+        if  ('ft' in str(job_listing.find('span', {'class':'jobType'}).text).lower()) or ('full' in str(job_listing.find('span', {'class':'jobType'}).text).lower()):
+            full_or_part = 'full'
+        else:
+            full_or_part = 'part'
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -1042,9 +1088,19 @@ reset_vars()
 # St. Joseph Center
 
 organization = "St. Joseph Center"
-# soup = get_soup('https://stjosephctr.org/careers/')
+soup = get_javascript_soup('https://stjosephctr.org/careers/')
 
-## SCRAPING CODE
+jobs_table = soup.find('table',{'class':'srJobList'}).tbody.find_all('tr')[1:]
+
+for job_entry in jobs_table:
+    job_title = job_entry.find('td',{'class':'srJobListJobTitle'}).text.strip()
+    onClickLink = job_entry['onclick']
+    info_link = onClickLink[13:len(onClickLink)-3]
+    full_or_part = job_entry.find('td',{'class':'srJobListTypeOfEmployment'}).text
+    job_location = clean_location(job_entry.find('td',{'class':'srJobListLocation'}).text)
+    job_zip_code = city_to_zip(job_location)
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
@@ -1095,11 +1151,19 @@ reset_vars()
 # The People Concern (Formerly OPCC & LAMP)
 
 organization = "The People Concern"
-# soup = get_soup('https://www.thepeopleconcern.org/careers.php')
+soup = get_javascript_soup('https://theapplicantmanager.com/careers?co=lc')
 
+jobs_table = soup.find('table',{'id':'careers_table'}).tbody.find_all('tr')
 
-
-## SCRAPING CODE
+for job_row in jobs_table:
+    job_entry = job_row.find_all('td')
+    job_title = job_entry[0].a.text
+    info_link = 'https://theapplicantmanager.com/' + job_entry[0].a['href']
+    job_location = job_entry[1].text
+    full_or_part = job_entry[3].text
+    job_post_date = job_entry[4].text
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 

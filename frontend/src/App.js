@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 class App extends Component {
-  state ={
+  state = {
     filteredJobs: []
   }
 
