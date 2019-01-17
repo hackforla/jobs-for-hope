@@ -95,15 +95,21 @@ def get_soup(url):
     return soup
 
 def get_javascript_soup(url):
-    browser = webdriver.Chrome('./chromedriver')
-    browser.implicitly_wait(10)
-    browser.get(url)
-    innerHTML = browser.execute_script("return document.body.innerHTML")
-    browser.quit()
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+    driver.implicitly_wait(10)
+    driver.get(url)
+    innerHTML = driver.execute_script("return document.body.innerHTML")
+    driver.quit()
     return BeautifulSoup(innerHTML, "lxml")
 
 def get_javascript_soup_delayed(url, dynamicElement):
-    driver = webdriver.Chrome('./chromedriver')
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -115,7 +121,10 @@ def get_javascript_soup_delayed(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 def get_javascript_soup_delayed_and_click(url, dynamicElement):
-    driver = webdriver.Chrome('./chromedriver')
+    options = webdriver.ChromeOptions()
+    options.add_argument('window-size=800x841')
+    options.add_argument('headless')
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -331,7 +340,10 @@ reset_vars()
 
 organization = "Catholic Charities Of Los Angeles, Inc."
 url = "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang"
-catholicDriver = webdriver.Chrome('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument('window-size=800x841')
+options.add_argument('headless')
+catholicDriver = webdriver.Chrome('./chromedriver', chrome_options=options)
 catholicDriver.get(url)
 
 try:
@@ -555,7 +567,10 @@ organization = "Hathaway-Sycamores Child and Family Services"
 url = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/controller.cfm'
 
 ## Use Selenium browser to click on all positions button and get soup
-browser = webdriver.Chrome('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument('window-size=800x841')
+options.add_argument('headless')
+browser = webdriver.Chrome('./chromedriver', chrome_options=options)
 browser.get(url)
 python_button = browser.find_element_by_id('AllJobs')
 python_button.click()
