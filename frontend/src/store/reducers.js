@@ -12,6 +12,8 @@ import {
   CHANGE_DISTANCE,
   // CHANGE_DISTANCE_25,
   // CHANGE_DISTANCE_OVER50,
+  SHOW_MODAL,
+  HIDE_MODAL,
 } from './constants.js';
 
 
@@ -132,5 +134,27 @@ export const changeDistance = (state = initialDistance, action = {}) => {
       // });
         default:
           return state;
+  }
+}
+
+const initialModalState = {
+  visibility: false,
+  content: null,
+}
+
+export const changeModal = (state = initialModalState, action) => {
+  switch (action.type) {
+    case SHOW_MODAL:
+      return Object.assign({}, state, {
+        visibility: action.visibility,
+        content: action.content,
+      });
+    case HIDE_MODAL:
+      return Object.assign({}, state, {
+        visibility: action.visibility,
+        content: null,
+      })
+    default:
+      return state;
   }
 }
