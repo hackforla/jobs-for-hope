@@ -13,6 +13,8 @@ import {
   CHANGE_DISTANCE,
   // CHANGE_DISTANCE_25,
   // CHANGE_DISTANCE_OVER50
+  SHOW_MODAL,
+  HIDE_MODAL,
 } from './constants.js';
 
 export const setSearchField = text => {
@@ -35,7 +37,7 @@ export const fetchJobs = () => (dispatch) => {
 
   axios
     .get("/jobs")
-    .then(res =>
+    .then(res => 
       dispatch({
         type: FETCHED_JOBS_SUCCESS,
         payload: res.data
@@ -99,3 +101,15 @@ export const setDistance = text => {
 //     type: CHANGE_DISTANCE_OVER50
 //   }
 // }
+
+export const setShowModal = (job) => ({
+  type: SHOW_MODAL,
+  visibility: true,
+  content: job,
+})
+
+export const setHideModal = () => ({
+  type: HIDE_MODAL,
+  visibility: false,
+  content: null,
+})

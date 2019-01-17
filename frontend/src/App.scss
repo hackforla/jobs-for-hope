@@ -23,6 +23,10 @@ h3 {
   margin: 0;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .header {
   background-color: $primary-color;
   .navbar {
