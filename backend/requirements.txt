@@ -1,3 +1,6 @@
 BeautifulSoup4
 lxml
 requests
+datetime
+selenium
+uszipcode
