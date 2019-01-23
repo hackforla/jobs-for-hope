@@ -47,15 +47,15 @@ class Modal extends React.Component {
             <button className="modal-button" onClick={() => this.handleHide()}>
               Hide Modal
             </button>
-            <h3>{this.props.modalContent.title.$t}</h3>
-            <p>{this.props.modalContent.gsx$employername.$t}</p>
-            <p>{this.props.modalContent.gsx$duration.$t}</p>
-            <p>{this.props.modalContent.gsx$joblocation.$t}</p>
-            <p>{this.props.modalContent.updated.$t}</p>
+            <h3>{this.props.modalContent.title}</h3>
+            <p>{this.props.modalContent.org}</p>
+            <p>{this.props.modalContent.hours}</p>
+            <p>{this.props.modalContent.location}</p>
+            <p>{this.props.modalContent.date}</p>
             <h3>Job Description</h3>
-            <p>{this.props.modalContent.gsx$responsibilities.$t}</p>
+            <p>{this.props.modalContent.summary}</p>
             <h3>Requirements</h3>
-            <p>{this.props.modalContent.gsx$skillsrequired.$t}</p>
+            <p>{this.props.modalContent.info_link}</p>
           </div>
         </div>
       </Portal>

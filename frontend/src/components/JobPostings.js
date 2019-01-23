@@ -13,17 +13,17 @@ class JobPostings extends React.Component {
       <div className="posting-card">
       <div className="posting-content">
         <div className="left-posting">
-          <h3>{this.props.job.title.$t}</h3>
+          <h3>{this.props.job.title}</h3>
           <div className="posting-location-duration">
-            <p> {this.props.job.gsx$zipcode.$t} | {this.props.job.gsx$duration.$t}</p>
+            <p> {this.props.job.zipcode} | {this.props.job.hours}</p>
           </div>
         </div>
         <div className="middle-posting">
-          <h4>{this.props.job.gsx$employername.$t}</h4>
-          <p>{this.props.job.gsx$responsibilities.$t}</p>
+          <h4>{this.props.job.org}</h4>
+          <p>{this.props.job.summary}</p>
         </div>
         <div className="right-posting">
-          <button 
+          <button
             id="view-more-btn"
             type="button"
             onClick={() => this.handleShow(this.props.job)}

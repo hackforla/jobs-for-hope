@@ -37,7 +37,7 @@ export const fetchJobs = () => (dispatch) => {
 
   axios
     .get("/jobs")
-    .then(res => 
+    .then(res =>
       dispatch({
         type: FETCHED_JOBS_SUCCESS,
         payload: res.data
