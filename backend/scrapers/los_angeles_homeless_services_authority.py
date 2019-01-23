@@ -1,5 +1,5 @@
 import globals
-from globals import clean_location, city_to_zip, get_javascript_soup_delayed, update_db, reset_vars
+from globals import clean_location, city_to_zip, get_soup, get_javascript_soup_delayed, update_db, reset_vars
 
 organization = 'Los Angeles Homeless Services Authority'
 url = 'https://www.governmentjobs.com/careers/lahsa'
