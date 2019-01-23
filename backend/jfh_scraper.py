@@ -151,7 +151,9 @@ def update_db(organization_name):
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
     today = datetime.today()
-    if timeUnit[:3] == 'day':
+    if timeUnit[:4] == 'hour':
+    		return today - timedelta(hours=timeLength)
+    elif timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
         return today - timedelta(days=30*timeLength)
@@ -1120,8 +1122,47 @@ reset_vars()
 # Step Up on Second Street, Inc.
 
 organization = "Step Up on Second Street"
+url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
+soup = get_javascript_soup(url)
 
-## SCRAPING CODE
+
+###
+current_openings = soup.findAll(attrs={"data-tn-element" : "jobLink[]"})
+
+for current_opening in current_openings:
+
+	detail_page_link = current_opening.find('a')['href']
+	detail_page_soup = get_soup(detail_page_link)
+	detail_page_desc = detail_page_soup.find('div', {"data-tn-component": "jobDescription"})
+
+	job_title = detail_page_desc.find('h1').text.strip()
+
+	job_summary_parts = detail_page_desc.findAll(['p', 'li'])
+	job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
+
+	job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
+	job_zip_code = city_to_zip(job_location)
+
+	posted_ago = job_summary_parts[-1].get_text().split(' ')
+	length = posted_ago[1]
+	if (length[-1:] == '+'):
+		length = length[:1]
+	length = int(length)
+	unit = posted_ago[2]
+	job_post_date = date_ago(length, unit)
+
+	full_or_part = detail_page_desc.find('dt' , string="Job Type").findNext().get_text()
+
+	salary_search = detail_page_desc.find('dt' , string="Salary")
+	if (salary_search is not None):
+		salary = salary_search.findNext().get_text()
+	else:
+		salary = ""
+
+	info_link = detail_page_link
+
+	update_db(organization)
+	reset_vars()
 
 reset_vars()
 
