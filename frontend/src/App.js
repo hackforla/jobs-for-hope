@@ -67,6 +67,13 @@ class App extends Component {
     this.props.onfetchOrgs();
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state.filteredJobs.length > 0) {
+      return {};
+    }
+    return { filteredJobs: props.jobData };
+  }
+
   userJobTitle = () => {
     let populateFilteredJobs = this.props.jobData
     .filter(job => job.zipcode.includes(this.props.zipcode))
