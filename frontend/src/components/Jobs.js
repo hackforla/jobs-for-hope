@@ -2,10 +2,10 @@ import React from 'react';
 import SearchBox from './SearchBox';
 import JobPostings from './JobPostings';
 import SideFilter from './SideFilter';
-import './Main.css';
+import './Jobs.css';
 import Modal from './Modal';
 
-const Main = (props) => {
+const Jobs = (props) => {
   return (
     <div>
       <SearchBox
@@ -39,4 +39,4 @@ const Main = (props) => {
   )
 }
 
-export default Main;
+export default Jobs;

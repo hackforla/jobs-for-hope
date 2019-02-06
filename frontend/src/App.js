@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { dist } from './utils/utils';
 
 import Navbar from './components/Navbar';
-import Main from './components/Main';
+import Jobs from './components/Jobs';
 import Organizations from './components/Organizations';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -171,7 +171,7 @@ class App extends Component {
             <Navbar />
           </header>
           <Route exact path='/' render={() =>
-            (<Main
+            (<Jobs
               {...this.props}
               filteredJobs={this.state.filteredJobs}
               userJobTitle={this.userJobTitle}
