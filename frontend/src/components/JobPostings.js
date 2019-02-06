@@ -13,12 +13,12 @@ class JobPostings extends React.Component {
       <div className="posting-card">
       <div className="posting-content">
         <div className="left-posting">
-          <h3>{this.props.job.title}</h3>
           <div className="posting-location-duration">
             <p> {this.props.job.zipcode} | {this.props.job.hours}</p>
           </div>
         </div>
         <div className="middle-posting">
+          <h3>{this.props.job.title}</h3>
           <h4>{this.props.job.org}</h4>
           <p>{this.props.job.summary}</p>
         </div>
