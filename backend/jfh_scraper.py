@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import re
 from uszipcode import SearchEngine
 search = SearchEngine()
 
@@ -239,6 +240,16 @@ for job_listing in job_listings:
     listing_soup = get_soup(info_link)
     listing_body = listing_soup.find('body').find_all('p')
     # Retrieve Full/Part-time and Salary info if available
+    if 'Location' in listing_body[0].text:
+        location_string = listing_body[0].text.split(':')[1].lstrip()
+        zip_code_result = re.search(r'(\d{5})', location_string)
+        if zip_code_result != None:
+            job_zip_code = zip_code_result.group(1)
+        # can't get city since there's no standard. It could be
+        # "Hollywood", "Koreatown, Los angeles, California", or even
+        # "Multiple Locations"
+    if len(job_zip_code) == 0:
+        job_zip_code = city_to_zip(job_location)
     if 'Status' in listing_body[1].text:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
