@@ -1,6 +1,7 @@
 import globals
 from globals import get_soup, get_javascript_soup, update_db, reset_vars
 from datetime import datetime
+import re
 
 # A Community of Friends
 # JS-Rendered Page; Scraped with Selenium
@@ -33,6 +34,16 @@ def run(url):
         listing_soup = get_soup(globals.info_link)
         listing_body = listing_soup.find('body').find_all('p')
         # Retrieve Full/Part-time and Salary info if available
+        if 'Location' in listing_body[0].text:
+            location_string = listing_body[0].text.split(':')[1].lstrip()
+            zip_code_result = re.search(r'(\d{5})', location_string)
+            if zip_code_result != None:
+                globals.job_zip_code = zip_code_result.group(1)
+            # can't get city since there's no standard. It could be
+            # "Hollywood", "Koreatown, Los angeles, California", or even
+            # "Multiple Locations"
+        if len(globals.job_zip_code) == 0:
+            globals.job_zip_code = globals.city_to_zip(globals.job_location)
         if 'Status' in listing_body[1].text:
             globals.full_or_part = listing_body[1].text[8:]
         if 'Salary' in listing_body[2].text:
