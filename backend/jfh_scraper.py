@@ -430,7 +430,7 @@ reset_vars()
 organization = "City of Pomona"
 soup = get_javascript_soup_delayed('http://agency.governmentjobs.com/pomona/default.cfm','jobtitle')
 
-jobs_table = soup.find('table',{'class':'NEOGOV_joblist'})
+jobs_table = soup.find('table',{'class':'table'})
 
 for job_entry in jobs_table.find('tbody').find_all('tr'):
     job_details = job_entry.find_all('td')
