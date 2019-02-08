@@ -996,11 +996,12 @@ soup = get_soup("http://www.safeplaceforyouth.org/employment_opportunities")
 jobs_div = soup.find('div', {'id':'yui_3_16_0_ym19_1_1492463820306_5454'})
 
 for job_listing in jobs_div.find_all('p'):
-    listing_element = job_listing.find('a')
-    job_title = listing_element.text
-    info_link = listing_element['href']
-    job_summary = pdf_message
-    update_db(organization)
+    listing_element = job_listing.find_all('a')
+    if len(listing_element) > 0:
+        job_title = listing_element[0].text
+        info_link = listing_element[0]['href']
+        job_summary = pdf_message
+        update_db(organization)
 
 reset_vars()
 
