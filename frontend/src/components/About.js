@@ -1,25 +1,25 @@
-import React from 'react';
+import React from 'react'
 
-import Banner from './Banner';
-import './About.scss';
+import Banner from './Banner'
+import './About.scss'
 
 const About = (props) => {
-  return(
+  return (
     <div>
       <Banner titleUpper={'A Paycheck With'} titleLower={'A Purpose'} imageName='homeless_sitting' />
-      <div className = "text">
+      <div className='text'>
         <div className='about-side-nav'>
-          <a href="#">Who We Are</a>
-          <a href="#">Initiative</a>
-          <a href="#">Our Efforts</a>
+          <a href='#'>Who We Are</a>
+          <a href='#'>Initiative</a>
+          <a href='#'>Our Efforts</a>
         </div>
-        <div className= "who-we-are">
-          <h2 id="whoweare"> Los Angeles County </h2>
-          <p id ="pBlock">The County of Los Angeles provides services to the over 10 million residents who call Los County home. With more than 35 departments and 200 commissions the county operates one of the largest local government organizations in the world. </p>
-          <a href ="http://www.lacounty.gov">http://www.lacounty.gov</a>
+        <div className='who-we-are'>
+          <h2 id='whoweare'> Los Angeles County </h2>
+          <p id='pBlock'>The County of Los Angeles provides services to the over 10 million residents who call Los County home. With more than 35 departments and 200 commissions the county operates one of the largest local government organizations in the world. </p>
+          <a href='http://www.lacounty.gov'>http://www.lacounty.gov</a>
         </div>
-        <div className = "initiative">
-          <h2 id="initiative1">Los Angeles Homeless Initiative</h2>
+        <div className='initiative'>
+          <h2 id='initiative1'>Los Angeles Homeless Initiative</h2>
 
           <br />
           <p>From Pomona to San Pedro, Echo Park to Eagle Rock, Central L.A. to Westwood, homeless encampments have cropped up in communities well outside Los Angeles’ traditional epicenter of homelessness., downtown’s Skid Row. On street corners and sidewalks, along riverbeds and railways, in small communities and large cities, human suffering is on heartbreaking display. Some of our most vulnerable residents – families, individuals, veterans, youth, and the mentally ill – struggle to emerge from homelessness and rebuild their lives.
@@ -32,8 +32,8 @@ const About = (props) => {
           With the help of Measure H funds, new job opportunities for homeless service providers across Los Angeles will enable us to significantly ramp up service to those in need. These opportunities range from front-line outreach workers, housing navigators, to managers and executives. They are calling for qualified, motivates individuals to join the vital field of homeless services. It’s a meaningful way to contribute to the movement to combat and prevent homelessness across the Country – and the “Help Wanted” sign is out.
           </p>
         </div>
-        <div className="efforts">
-          <h2 id = "ourefforts">Our Efforts</h2>
+        <div className='efforts'>
+          <h2 id='ourefforts'>Our Efforts</h2>
 
           <br />
 
@@ -46,27 +46,26 @@ const About = (props) => {
           </p>
           <br />
           <br />
-          <div className="learn-more">
-          <h3>Learn More:</h3>
-          <br />
-          <a href = "">Collaboration with Faith Organizations</a>
-          <br />
-          <br />
-          <a href="">C3 Outreach Team in Action</a>
-          <br />
-          <br />
-          <a href= "">Quarterly Report</a>
-          <br />
-          <br />
-          <a href="">Impact Dashboard</a>
+          <div className='learn-more'>
+            <h3>Learn More:</h3>
+            <br />
+            <a href=''>Collaboration with Faith Organizations</a>
+            <br />
+            <br />
+            <a href=''>C3 Outreach Team in Action</a>
+            <br />
+            <br />
+            <a href=''>Quarterly Report</a>
+            <br />
+            <br />
+            <a href=''>Impact Dashboard</a>
+          </div>
         </div>
-      </div>
-
 
       </div>
 
     </div>
-  );
+  )
 }
 
-export default About;
+export default About

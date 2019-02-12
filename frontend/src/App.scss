@@ -1,22 +1,23 @@
 @import "_variables.scss";
 
-body,html {
-    width: 100%;
-    margin:0;
-    padding:0;
-    font-family: $main-font;
-    background: $bg-color;
-    color: set-text-color($bg-color);
+body,
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $main-font;
+  background: $bg-color;
+  color: set-text-color($bg-color);
 }
 
-a  {
-    text-decoration: none;
-    color: set-text-color($primary-color);
+a {
+  text-decoration: none;
+  color: set-text-color($primary-color);
 }
 
-p  {
-    margin: 0;
-    padding: 0;
+p {
+  margin: 0;
+  padding: 0;
 }
 
 h3 {
@@ -61,14 +62,13 @@ button:hover {
 
 /*FOOTER*/
 .footer {
-    padding: .5em 0;
-    background: $primary-color;
-    color: set-text-color($primary-color);
-    display: grid;
-    // align-items: start;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-areas:
-    ". i i l l s s c c c . ."
+  padding: 0.5em 0;
+  background: $primary-color;
+  color: set-text-color($primary-color);
+  display: grid;
+  // align-items: start;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: ". i i l l s s c c c . .";
 }
 
 .org-icon {
@@ -93,21 +93,21 @@ button:hover {
 }
 
 #social-media-btn {
-    height:3em;
-    margin:0.2em;
-    border-radius:50%;
-    border:1px white solid;
+  height: 3em;
+  margin: 0.2em;
+  border-radius: 50%;
+  border: 1px white solid;
 }
 
 .contact-footer {
   grid-area: c;
 }
 
-@media screen and (max-width: 770px){
+@media screen and (max-width: 770px) {
   .footer {
     grid-template-areas:
-    ". i i . . s s s s . . ."
-    ". l l l . c c c c . . ."
+      ". i i . . s s s s . . ."
+      ". l l l . c c c c . . .";
   }
   .org-icon {
     display: grid;
@@ -115,19 +115,19 @@ button:hover {
   }
 }
 
-@media screen and (max-width: 765px){
+@media screen and (max-width: 765px) {
   .filters-postings-wrapper {
     flex-wrap: wrap;
   }
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 450px) {
   .footer {
     justify-items: center;
     text-align: center;
     grid-template-areas:
-    ". i i s s s s s l l l l "
-    "c c c c c c c c c c c c"
+      ". i i s s s s s l l l l "
+      "c c c c c c c c c c c c";
   }
   #org-icon {
     width: 100%;
