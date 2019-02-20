@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios";
 import {
   CHANGE_SEARCHFIELD,
   CHANGE_SEARCH_ZIPCODE,
@@ -15,28 +15,28 @@ import {
   // CHANGE_DISTANCE_OVER50
   SHOW_MODAL,
   HIDE_MODAL
-} from './constants.js'
+} from "./constants.js";
 
 export const setSearchField = text => {
   return {
     type: CHANGE_SEARCHFIELD,
     payload: text
-  }
-}
+  };
+};
 
 export const setSearchZip = text => {
   return {
     type: CHANGE_SEARCH_ZIPCODE,
     payload: text
-  }
-}
+  };
+};
 
 // retrieve jobs from database
 export const fetchJobs = () => dispatch => {
-  dispatch({ type: FETCH_JOBS_PENDING })
+  dispatch({ type: FETCH_JOBS_PENDING });
 
   axios
-    .get('/api/jobs')
+    .get("/api/jobs")
     .then(res =>
       dispatch({
         type: FETCHED_JOBS_SUCCESS,
@@ -48,15 +48,15 @@ export const fetchJobs = () => dispatch => {
         type: FETCHED_JOBS_FAILED,
         payload: err
       })
-    )
-}
+    );
+};
 
 // retrieve organizations' info from database
 export const fetchOrganizations = () => dispatch => {
-  dispatch({ type: FETCH_ORGANIZATIONS_PENDING })
+  dispatch({ type: FETCH_ORGANIZATIONS_PENDING });
 
   axios
-    .get('/api/orgs')
+    .get("/api/orgs")
     .then(res =>
       dispatch({
         type: FETCHED_ORGANIZATIONS_SUCCESS,
@@ -68,27 +68,27 @@ export const fetchOrganizations = () => dispatch => {
         type: FETCHED_ORGANIZATIONS_FAILED,
         orgPayload: err
       })
-    )
-}
+    );
+};
 
 export const setEmploymentTypeFT = () => {
   return {
     type: CHANGE_EMPLOYMENT_TYPE_FT
-  }
-}
+  };
+};
 
 export const setEmploymentTypePT = () => {
   return {
     type: CHANGE_EMPLOYMENT_TYPE_PT
-  }
-}
+  };
+};
 
 export const setDistance = text => {
   return {
     type: CHANGE_DISTANCE,
     payload: text
-  }
-}
+  };
+};
 
 // export const setDistance25 = () => {
 //   return {
@@ -106,10 +106,10 @@ export const setShowModal = job => ({
   type: SHOW_MODAL,
   visibility: true,
   content: job
-})
+});
 
 export const setHideModal = () => ({
   type: HIDE_MODAL,
   visibility: false,
   content: null
-})
+});

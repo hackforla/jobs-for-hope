@@ -1,36 +1,37 @@
 @import "../_variables.scss";
 
-.contact-content-container{
+.contact-content-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-top:3.5em;
-  padding-bottom:2em;
+  margin-top: 3.5em;
+  padding-bottom: 2em;
 }
 
 /* Department information styling */
-.department-information-container, .contact-form-container{
+.department-information-container,
+.contact-form-container {
   flex-growth: 1;
 }
 
 .banner {
-  background-position: 15% 35% ;
+  background-position: 15% 35%;
 }
 
 /* Contact form styling */
-.contact-input{
+.contact-input {
   width: 90%;
   margin-bottom: 2em;
-  padding:0.75em 1.75em;
+  padding: 0.75em 1.75em;
   border-radius: 0.5em;
   border: 1px lightgray solid;
 }
 
-#message{
+#message {
   height: 15em;
 }
 
-#send-btn{
+#send-btn {
   font-family: $main-font;
   font-weight: bold;
   font-size: 1.2em;
@@ -41,52 +42,52 @@
   border: 1px $secondary-color solid;
 }
 
-.department-information-container{
+.department-information-container {
   text-align: center;
 }
 
-.department-info{
+.department-info {
   margin: 1em 0em;
   padding: 0;
   font-weight: 100;
 }
 
-#department-address-continued{
+#department-address-continued {
   margin: 0;
   padding: 0;
 }
 
-#web-link{
+#web-link {
   color: $primary-color;
 }
 
-#county-img{
+#county-img {
   height: 13em;
   margin-top: 2em;
 }
 
-@media screen and (max-width: 770px){
-    .contact-banner {
+@media screen and (max-width: 770px) {
+  .contact-banner {
     height: 35vh;
     background-size: 140%;
     background-position: 35% 30%;
   }
 
-  .contact-title{
+  .contact-title {
     padding-left: 30px;
     width: 30%;
     font-size: 3.2em;
   }
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 450px) {
   .contact-banner {
     height: 30vh;
     background-size: 150%;
     background-position: 35% 25%;
   }
 
-  .contact-title{
+  .contact-title {
     padding-left: 10px;
     width: 30%;
     font-size: 3em;

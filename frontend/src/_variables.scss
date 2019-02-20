@@ -1,16 +1,16 @@
 /*Variables*/
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 $bg-color: #fff;
-$main-font: 'Open Sans';
+$main-font: "Open Sans";
 
 $primary-color: #266294; //blue
 $secondary-color: #ffd500; //yellow
 $light-color: #ddd; //light gray
 $accent-color: #f00; //red
 
-@function set-text-color($bg-color){
-  @if(lightness($bg-color) > 50){
+@function set-text-color($bg-color) {
+  @if (lightness($bg-color) > 50) {
     @return #000;
   } @else {
     @return #fff;
