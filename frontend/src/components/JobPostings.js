@@ -1,7 +1,7 @@
-import React from 'react';
-import './JobPostings.scss';
-import { connect } from 'react-redux';
-import { setShowModal } from '../store/actions';
+import React from "react";
+import "./JobPostings.scss";
+import { connect } from "react-redux";
+import { setShowModal } from "../store/actions";
 
 class JobPostings extends React.Component {
   handleShow(job) {
@@ -9,41 +9,53 @@ class JobPostings extends React.Component {
   }
 
   render() {
-    let zipcode_hours = (this.props.job.zipcode.length > 0)
-      ? (this.props.job.hours.length > 0)
-        ? <p>{this.props.job.zipcode} | {this.props.job.hours}</p>
-        : <p>{this.props.job.zipcode}</p>
-      : (this.props.job.hours.length > 0)
-        ? <p>{this.props.job.hours}</p>
-        : <p></p>
+    const { job } = this.props;
     return (
       <div className="posting-card">
-      <div className="posting-content">
-        <div className="left-posting">
-        <div><img></img></div>
-          <div className="posting-location-duration">
-            {zipcode_hours}
+        <div className="posting-content">
+          <div className="left-posting">
+            <div className="organization-img-wrapper">
+              <img
+                id="org-img"
+                alt="company logo"
+                src={`/logos/211la.org.png`}
+              />
+            </div>
+            {job.zipcode && (
+              <div className="posting-location-duration">{job.zipcode}</div>
+            )}
+            {job.hours && (
+              <div className="posting-location-duration">{job.hours}</div>
+            )}
+          </div>
+          <div className="middle-posting">
+            <h3>{job.title}</h3>
+            <h4>{job.org}</h4>
+            <p>
+              {job.summary.toLowerCase().startsWith("http") ? (
+                <a href={job.summary} target="_blank" rel="noopener noreferrer">
+                  Details
+                </a>
+              ) : (
+                job.summary
+              )}
+            </p>
+          </div>
+          <div className="right-posting">
+            <button
+              id="view-more-btn"
+              type="button"
+              onClick={() => this.handleShow(job)}
+            >
+              View more
+            </button>
           </div>
         </div>
-        <div className="middle-posting">
-          <h3>{this.props.job.title}</h3>
-          <h4>{this.props.job.org}</h4>
-          <p>{this.props.job.summary}</p>
-        </div>
-        <div className="right-posting">
-          <button
-            id="view-more-btn"
-            type="button"
-            onClick={() => this.handleShow(this.props.job)}
-          >View more
-          </button>
-        </div>
       </div>
-    </div>
     );
   }
-};
+}
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps)(JobPostings);

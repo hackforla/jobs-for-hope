@@ -8,6 +8,7 @@ const app = express()
 // Use Routes
 app.use('/api/jobs', jobs)
 app.use('/api/orgs', orgs)
+app.use(express.static('public'))
 
 const port = process.env.PORT || 5000
 
