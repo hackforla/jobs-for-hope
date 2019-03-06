@@ -1,7 +1,7 @@
 #!/bin/python2.7
 # python tools/quickstart.py
 # cat organizations.sql | sqlite3 test.db
-# sqlite3 test.db "select * from organizaitons"
+# sqlite3 test.db "select * from organizations"
 
 import pickle
 import os.path
@@ -18,7 +18,9 @@ RANGE_NAME = 'Organizations!A2:D'
 
 CREATE_TABLE_ORGANIZATIONS = "CREATE TABLE IF NOT EXISTS organizations(id INTEGER PRIMARY KEY, name TEXT, url TEXT, region TEXT, logo TEXT);\n"
 INSERT_ROW_ORGANIZATION = "INSERT INTO organizations ('name', 'url', 'region', 'logo') VALUES ('%s', '%s', '%s', '%s');\n"
-OUTPUT_FILE = "organizations.sql"
+CREATE_TABLE_REGIONS = "CREATE TABLE IF NOT EXISTS regions(id INTEGER PRIMARY KEY, name TEXT);\n"
+INSERT_ROW_REGION = "INSERT INTO regions ('name') VALUES ('%s');\n"
+OUTPUT_FILE = "setup.sql"
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -56,6 +58,23 @@ def main():
     else:
         #print('Org, URL, Regions(s), Logo:')
         with open(OUTPUT_FILE, 'w') as f:
+            # regions table
+            f.write(CREATE_TABLE_REGIONS)
+            regions = {}
+            for row in values:
+                # Print columns A and E, which correspond to indices 0 and 3.
+                if len(row) >= 2: # XXX check this condition
+                    #print('%s' % (row[0]))
+                    #print('%s' % (row[0].replace('\n', ',').split(',')))
+                    service_regions = row[2].replace('\n', ',').split(',')
+                    for region in service_regions:
+                        if len(region) > 0:
+                            regions[region.lstrip()] = 1
+            for key, value in regions.items():
+                print('%s %d' % (key, value))
+                f.write(INSERT_ROW_REGION % (key))
+
+            # organization table
             f.write(CREATE_TABLE_ORGANIZATIONS)
             for row in values:
                 # Print columns A and E, which correspond to indices 0 and 3.
