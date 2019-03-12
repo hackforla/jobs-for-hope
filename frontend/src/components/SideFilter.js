@@ -3,11 +3,13 @@ import React from "react";
 import "./SideFilter.scss";
 
 const SideFilter = ({
-  filterByEmploymentType,
   calcDistance,
   onSetEmploymentTypeFT,
   onSetEmploymentTypePT,
-  onSetDistance
+  onSetDistance,
+  onSetDistanceZip,
+  organizations,
+  onSetOrganization
 }) => {
   return (
     <aside className="filter-bar-container">
@@ -17,17 +19,24 @@ const SideFilter = ({
         <select
           onChange={event => {
             onSetDistance(event);
-            setTimeout(function() {
-              calcDistance();
-            }, 1000);
+            // setTimeout(function() {
+            //   calcDistance();
+            // }, 1000);
           }}
           className="distance-selector"
         >
-          <option value="" />
+          <option value="">(Any)</option>
           <option value="10">10 miles</option>
           <option value="25">25 miles</option>
-          <option value="1000">50+ miles</option>
+          <option value="50">50 miles</option>
         </select>
+        <p style={{ fontSize: "small" }}>From Zip Code</p>
+        <input
+          onChange={e => {
+            onSetDistanceZip(e);
+          }}
+          className="distance-zip"
+        />
       </div>
       <div className="employment-type filter-criteria">
         <p>Employment Type</p>
@@ -36,10 +45,10 @@ const SideFilter = ({
             name="full-time"
             type="checkbox"
             onChange={event => {
-              onSetEmploymentTypeFT(event);
-              setTimeout(function() {
-                filterByEmploymentType();
-              }, 1000);
+              onSetEmploymentTypeFT(event.target.checked);
+              // setTimeout(function() {
+              //   filterByEmploymentType();
+              // }, 1000);
             }}
           />
           <p>Full Time</p> <br />
@@ -49,10 +58,10 @@ const SideFilter = ({
             name="part-time"
             type="checkbox"
             onChange={event => {
-              onSetEmploymentTypePT(event);
-              setTimeout(function() {
-                filterByEmploymentType();
-              }, 1000);
+              onSetEmploymentTypePT(event.target.checked);
+              // setTimeout(function() {
+              //   filterByEmploymentType();
+              // }, 1000);
             }}
           />
           <p>Part Time</p> <br />
