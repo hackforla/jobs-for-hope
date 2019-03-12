@@ -68,7 +68,7 @@ def create_table_jobs():
     query = '''
     CREATE TABLE IF NOT EXISTS jobs (
         date DATE,
-        org VARCHAR,
+        organization_id INTEGER NOT NULL,
         job_title VARCHAR,
         job_summary VARCHAR,
         job_location VARCHAR,
@@ -76,7 +76,8 @@ def create_table_jobs():
         job_post_date DATE,
         full_or_part VARCHAR,
         salary VARCHAR,
-        info_link VARCHAR
+        info_link VARCHAR,
+        FOREIGN KEY (organization_id) REFERENCES organizations (id)
     ) '''
     try:
         c.execute(query)
@@ -96,8 +97,8 @@ def drop_table_jobs():
 def insert_job(values):
     global c
     query = '''
-    INSERT INTO jobs (job_title, org, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
-    VALUES (?,date('now'),?,?,?,?,?,?,?,?) '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (?,?,date('now'),?,?,?,?,?,?,?) '''
     try:
         c.execute(query, values)
         db.commit()
@@ -160,7 +161,8 @@ def update_db(organization_name):
     global full_or_part
     global salary
     global info_link
-    insert_job((job_title, organization_name, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    organization_id = select_organization_id_by_name(organization_name)
+    insert_job((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -182,6 +184,13 @@ def city_to_zip(location):
 
 def zip_to_city(cityzip):
     return search.by_zipcode(cityzip).major_city
+
+def select_organization_id_by_name(name):
+    global c
+    c.execute("SELECT id from organizations WHERE name=?", [name])
+
+    rows = c.fetchall()
+    return rows[0]
 
 # SQL CONNECTION
 
