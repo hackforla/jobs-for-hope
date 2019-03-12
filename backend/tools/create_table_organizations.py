@@ -17,13 +17,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of the spreadsheet.
 SPREADSHEET_ID = '16npDyyzNjgZ2h5uZmRNs2T2RRUCJtHB_1eHpmxUr1SI'
+# columns A-D: Organization, URL, Regions, Logo
 RANGE_NAME = 'Organizations!A2:D'
-
-SQL_CREATE_TABLE_REGIONS = """CREATE TABLE IF NOT EXISTS regions(id INTEGER PRIMARY KEY, name TEXT);\n"""
-SQL_CREATE_TABLE_ORGANIZATIONS = "CREATE TABLE IF NOT EXISTS organizations(id INTEGER PRIMARY KEY, name TEXT, url TEXT, FOREIGN_KEY(region) REFERENCES regions(id), logo TEXT);\n"
-SQL_INSERT_ROW_REGION = "INSERT INTO regions ('name') VALUES ('%s');\n"
-SQL_INSERT_ROW_ORGANIZATION = "INSERT INTO organizations ('name', 'url', 'region', 'logo') VALUES ('%s', '%s', '%s', '%s');\n"
-OUTPUT_FILE = "setup.sql"
 
 def error_handler(error_msg):
     print(error_msg)
@@ -143,46 +138,39 @@ def main():
     if not values:
         print('No data found.')
     else:
-        #print('Org, URL, Regions(s), Logo:')
-        with open(OUTPUT_FILE, 'w') as f:
-            conn = create_connection(database)
-            if conn is None:
-                print("Error! cannot create the database connection.")
-            create_table(conn, sql_create_regions_table)
-            create_table(conn, sql_create_organizations_table)
+        conn = create_connection(database)
+        if conn is None:
+            print("Error! cannot create the database connection.")
 
-            # regions table
-            f.write(SQL_CREATE_TABLE_REGIONS)
-            regions = {}
-            for row in values:
-                # Print columns A and E, which correspond to indices 0 and 3.
-                if len(row) >= 2: # XXX check this condition
-                    #print('%s' % (row[0]))
-                    #print('%s' % (row[0].replace('\n', ',').split(',')))
-                    service_regions = row[2].replace('\n', ',').split(',')
-                    for region in service_regions:
-                        if len(region) > 0:
-                            regions[region.lstrip()] = 1
-            for key, value in regions.items():
-                print('%s %d' % (key, value))
-                f.write(SQL_INSERT_ROW_REGION % (key))
-                create_region(conn, [key])
-            select_all_regions(conn)
+        create_table(conn, sql_create_regions_table)
+        create_table(conn, sql_create_organizations_table)
 
-            # organization table
-            f.write(SQL_CREATE_TABLE_ORGANIZATIONS)
-            for row in values:
-                # Print columns A and E, which correspond to indices 0 and 3.
-                if len(row) == 4:
-                    #print('%s, %s, %s, %s' % (row[0], row[1], row[2], row[3]))
-                    f.write(SQL_INSERT_ROW_ORGANIZATION % (row[0].encode('utf8'), row[1].encode('utf8'), row[2].encode('utf8'), row[3].encode('utf8')))
-                    # get region_id from region name
-                    region_name = row[2].replace('\n', ',').split(',')[0]
-                    region_id = select_region_id_by_name(conn, [region_name])
-                    create_organization(conn, [row[0], row[1], region_id[0], row[3]])
+        # regions table
+        regions = {}
+        for row in values:
+            # Print columns A and E, which correspond to indices 0 and 3.
+            if row[2] is not None:
+                service_regions = row[2].replace('\n', ',').split(',')
+                for region in service_regions:
+                    if len(region) > 0:
+                        regions[region.lstrip()] = 1
+        for key, value in regions.items():
+            #print('%s %d' % (key, value))
+            create_region(conn, [key])
+        select_all_regions(conn)
 
-            select_all_organizations(conn)
-            conn.commit()
-            conn.close()
+        # organization table
+        for row in values:
+            if len(row) == 4:
+                # get region_id from region name
+                # TODO take the first region listed for now. This needs to be
+                # reworked.
+                region_name = row[2].replace('\n', ',').split(',')[0]
+                region_id = select_region_id_by_name(conn, [region_name])
+                create_organization(conn, [row[0], row[1], region_id[0], row[3]])
+
+        select_all_organizations(conn)
+        conn.commit()
+        conn.close()
 if __name__ == '__main__':
     main()
