@@ -65,7 +65,19 @@ def print_vars():
 
 def create_table_jobs():
     global c
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_summary VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+    query = '''
+    CREATE TABLE IF NOT EXISTS jobs (
+        date DATE,
+        org VARCHAR,
+        job_title VARCHAR,
+        job_summary VARCHAR,
+        job_location VARCHAR,
+        job_zip_code VARCHAR,
+        job_post_date DATE,
+        full_or_part VARCHAR,
+        salary VARCHAR,
+        info_link VARCHAR
+    ) '''
     try:
         c.execute(query)
         db.commit()
@@ -83,7 +95,9 @@ def drop_table_jobs():
 
 def insert_job(values):
     global c
-    query = "INSERT INTO jobs (org, date, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?,?,?)"
+    query = '''
+    INSERT INTO jobs (job_title, org, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (?,date('now'),?,?,?,?,?,?,?,?) '''
     try:
         c.execute(query, values)
         db.commit()
@@ -146,7 +160,7 @@ def update_db(organization_name):
     global full_or_part
     global salary
     global info_link
-    insert_job((organization_name, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_job((job_title, organization_name, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
