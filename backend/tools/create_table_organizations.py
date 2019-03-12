@@ -42,7 +42,8 @@ def create_table(conn, create_table_sql):
 
 def create_region(conn, region):
     sql = ''' INSERT INTO regions (name)
-              VALUES (?) '''
+              VALUES (?)
+              ON CONFLICT(name) DO NOTHING '''
     try:
         curr = conn.cursor()
         curr.execute(sql, region)
@@ -53,7 +54,11 @@ def create_region(conn, region):
 
 def create_organization(conn, organization):
     sql = ''' INSERT INTO organizations (name, url, region_id, logo)
-              VALUES (?, ?, ?, ?) '''
+              VALUES (?, ?, ?, ?)
+              ON CONFLICT(name) DO UPDATE SET
+                url=excluded.url,
+                region_id=excluded.region_id,
+                logo=excluded.logo '''
     try:
         c = conn.cursor()
         c.execute(sql, organization)
@@ -95,12 +100,12 @@ def main():
     sql_create_regions_table = """
     CREATE TABLE IF NOT EXISTS regions (
         id INTEGER PRIMARY KEY,
-        name TEXT
+        name TEXT UNIQUE NOT NULL
     ) """
     sql_create_organizations_table = """
     CREATE TABLE IF NOT EXISTS organizations (
         id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
+        name TEXT UNIQUE NOT NULL,
         url TEXT NOT NULL,
         region_id INTEGER NOT NULL,
         logo TEXT,
@@ -133,7 +138,7 @@ def main():
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                 range=RANGE_NAME).execute()
     values = result.get('values', [])
-    database = "test.db"
+    database = "jobs_for_hope.db"
 
     if not values:
         print('No data found.')
