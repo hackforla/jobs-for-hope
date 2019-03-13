@@ -1,18 +1,18 @@
 import { codes } from './mapCodes';
 
 //calculate radius from zipcode
-var lookup = function(zip) {
+var lookup = function (zip) {
     if (zip !== null && zip !== undefined && typeof zip === "string" && isNaN(zip.charAt(0))) {
-      return codes[zip.slice(0, 3)];
+        return codes[zip.slice(0, 3)];
     }
     return codes[zip];
 };
 
-var deg2rad = function(value) {
+var deg2rad = function (value) {
     return value * 0.017453292519943295;
 };
 
-export const dist = function(zipA, zipB) {
+export const dist = function (zipA, zipB) {
     zipA = lookup(zipA);
     zipB = lookup(zipB);
     if (!zipA || !zipB) {
@@ -23,10 +23,10 @@ export const dist = function(zipA, zipB) {
     var zipBLatitudeRadians = deg2rad(zipB.latitude);
 
     var distance = Math.sin(zipALatitudeRadians)
-                * Math.sin(zipBLatitudeRadians)
-                + Math.cos(zipALatitudeRadians)
-                * Math.cos(zipBLatitudeRadians)
-                * Math.cos(deg2rad(zipA.longitude - zipB.longitude));
+        * Math.sin(zipBLatitudeRadians)
+        + Math.cos(zipALatitudeRadians)
+        * Math.cos(zipBLatitudeRadians)
+        * Math.cos(deg2rad(zipA.longitude - zipB.longitude));
 
     distance = Math.acos(distance) * 3958.56540656;
     return Math.round(distance);

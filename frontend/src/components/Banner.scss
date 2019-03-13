@@ -1,6 +1,5 @@
 @import "../_variables.scss";
 
-
 h1 {
   margin: 0;
   padding: 0;
@@ -12,8 +11,8 @@ h1 {
   align-items: center;
   height: 40vh;
   background-repeat: no-repeat;
-  background-size:cover;
-  z-index: 1
+  background-size: cover;
+  z-index: 1;
 }
 
 .banner-title {
@@ -27,7 +26,6 @@ h1 {
   z-index: 3;
 }
 
-
 .banner::before {
   position: absolute;
   z-index: 2;
@@ -36,14 +34,11 @@ h1 {
   bottom: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(
-    rgba(42, 39, 39, 0.4),
-    rgba(42, 39, 39, 0.4)
-  );
-  content: '';
+  background: linear-gradient(rgba(42, 39, 39, 0.4), rgba(42, 39, 39, 0.4));
+  content: "";
 }
 
-@media screen and (max-width: 770px){
+@media screen and (max-width: 770px) {
   .banner {
     height: 33vh;
   }
@@ -54,7 +49,7 @@ h1 {
   }
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 450px) {
   .banner {
     height: 30vh;
   }

@@ -22,6 +22,10 @@
     ]
   },
   "standard": {
+    "ignore": [
+      "venv/**",
+      "node-modules/**"
+    ],
     "env": {
       "mocha": true
     }
