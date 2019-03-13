@@ -166,6 +166,11 @@ def main():
 
         # organization table
         for row in values:
+            if len(row) == 3:
+                # get region_id from region name
+                region_name = row[2].replace('\n', ',').split(',')[0]
+                region_id = select_region_id_by_name(conn, [region_name])
+                create_organization(conn, [row[0], row[1], region_id[0], ''])
             if len(row) == 4:
                 # get region_id from region name
                 # TODO take the first region listed for now. This needs to be
