@@ -379,6 +379,9 @@ for opening_detail in current_openings:
     posted_ago = opening_detail.find('span',{'class':'current-opening-post-date'}).text.split(' ')
     if (posted_ago[0] == 'a'):
         job_post_date = date_ago(1, posted_ago[1])
+    elif (posted_ago[0] == '30+'):
+        # over 30 days ago
+        job_post_date = date_ago(31, posted_ago[1])
     else:
         job_post_date = date_ago(int(posted_ago[0]), posted_ago[1])
     if (opening_detail.find('span', {'class':'current-opening-worker-catergory'})):
