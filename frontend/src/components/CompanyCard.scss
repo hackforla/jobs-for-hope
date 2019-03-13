@@ -1,60 +1,66 @@
 /* Organization cards styling */
-.organization-cards-container{
-    display:flex;
-    flex-wrap:wrap;
-    padding:1em 0em;
-    width:100%;
+
+.organization-card {
+  margin: 0 auto;
+  width: 100%;
+  //   min-width: 270px;
+  //   max-width: 340px;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-.organization-card{
-    margin: 0 auto;
-    width:50%;
-    min-width: 270px;
-    max-width: 340px;
-    padding: .5em;
-    box-sizing: border-box;
-    text-align:center;
+.organization-card-content {
+  height: 300px;
+  margin: 0;
+  padding: 0em 0em;
+  border: 0.5px solid #ddd;
+  border-radius: 0.2em;
+  box-shadow: 4px 4px 3px -3px gray;
 }
 
-.organization-card-content{
-    height: 300px;
-    margin:2em 7%;
-    padding:3em 0em;
-    border: 0.5px solid #ddd;
-    border-radius:0.2em;
-    box-shadow: 4px 4px 3px -3px gray;
+.organization-img-wrapper {
+  margin-top: 5%;
+  height: 45%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#org-img{
-    height: 9.5em;
+#org-img {
+  max-width: 60%;
+  max-height: 100%;
 }
 
-#org-title{
-    margin:0 10%;
-    width:85%;
-    height: 60px;
-    margin-top:1em;
-    font-size: 1.1em;
-    font-weight: lighter;
+#org-title {
+  margin: 0;
+  width: 90%;
+  height: 20%;
+  margin-top: 0.5em;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 1.1em;
+  font-weight: lighter;
 }
 
-#org-jobs-available{
-    margin: 1em 0 1.3em 0;
-    font-size: 0.95em;
-    text-decoration: underline;
+#org-jobs-available {
+  margin: 0em 0 1.3em 0;
+  font-size: 0.95em;
+  text-decoration: underline;
 }
 
-#org-view-more-link{
-    width:55%;
-    padding:0.4em 2.6em;
-    border-radius:0.4em;
-    border:1px #ffd100 solid;
-    background: #ffd100;
-    font-weight: bold;
-    color: #404142;
-    opacity: 1;
+#org-view-more-link {
+  width: 55%;
+  padding: 0.3em 1.6em;
+  border-radius: 0.4em;
+  border: 1px #ffd100 solid;
+  background: #ffd100;
+  font-weight: bold;
+  color: #404142;
+  opacity: 1;
 }
 
-#org-view-more-link:hover{
-    opacity: 0.75;
+#org-view-more-link:hover {
+  opacity: 0.75;
 }

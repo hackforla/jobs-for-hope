@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import re
 from uszipcode import SearchEngine
 search = SearchEngine()
 
@@ -239,6 +240,16 @@ for job_listing in job_listings:
     listing_soup = get_soup(info_link)
     listing_body = listing_soup.find('body').find_all('p')
     # Retrieve Full/Part-time and Salary info if available
+    if 'Location' in listing_body[0].text:
+        location_string = listing_body[0].text.split(':')[1].lstrip()
+        zip_code_result = re.search(r'(\d{5})', location_string)
+        if zip_code_result != None:
+            job_zip_code = zip_code_result.group(1)
+        # can't get city since there's no standard. It could be
+        # "Hollywood", "Koreatown, Los angeles, California", or even
+        # "Multiple Locations"
+    if len(job_zip_code) == 0:
+        job_zip_code = city_to_zip(job_location)
     if 'Status' in listing_body[1].text:
         full_or_part = listing_body[1].text[8:]
     if 'Salary' in listing_body[2].text:
@@ -418,7 +429,7 @@ reset_vars()
 organization = "City of Pomona"
 soup = get_javascript_soup_delayed('http://agency.governmentjobs.com/pomona/default.cfm','jobtitle')
 
-jobs_table = soup.find('table',{'class':'NEOGOV_joblist'})
+jobs_table = soup.find('table',{'class':'table'})
 
 for job_entry in jobs_table.find('tbody').find_all('tr'):
     job_details = job_entry.find_all('td')
@@ -984,11 +995,12 @@ soup = get_soup("http://www.safeplaceforyouth.org/employment_opportunities")
 jobs_div = soup.find('div', {'id':'yui_3_16_0_ym19_1_1492463820306_5454'})
 
 for job_listing in jobs_div.find_all('p'):
-    listing_element = job_listing.find('a')
-    job_title = listing_element.text
-    info_link = listing_element['href']
-    job_summary = pdf_message
-    update_db(organization)
+    listing_element = job_listing.find_all('a')
+    if len(listing_element) > 0:
+        job_title = listing_element[0].text
+        info_link = listing_element[0]['href']
+        job_summary = pdf_message
+        update_db(organization)
 
 reset_vars()
 

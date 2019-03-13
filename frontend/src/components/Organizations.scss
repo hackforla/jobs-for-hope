@@ -26,3 +26,27 @@
   }
 }
 
+.organization-cards-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 1em 0em;
+  width: 100%;
+}
+
+@media screen and (max-width: 976px) {
+  .organization-cards-container {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .organization-cards-container {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .organization-cards-container {
+    grid-template-columns: auto;
+  }
+}

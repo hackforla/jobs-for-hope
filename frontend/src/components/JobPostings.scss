@@ -2,31 +2,34 @@
 
 /* Recent job postings styling */
 .recent-postings-container {
-  width:100%;
-  margin-top:2em;
-  ul{
+  width: 100%;
+  margin-top: 2em;
+
+  ul {
     list-style: none;
-    margin-right: 40px;
+    padding: 0.5em;
+    //margin-right: 40px;
     li {
       margin-bottom: 10px;
     }
   }
+  a {
+    text-decoration: underline;
+    color: blue;
+  }
 }
 
 .recent-postings-title {
-  padding-left:1em;
+  padding-left: 1em;
 }
 
 .posting-card {
-  display:flex;
-  align-items: center;
-  align-content: space-around;
-  width: calc(100% - 2em);
-  height: 200px;
-  margin:0em 2em;
-  border:1px solid gray;
-  border-radius:0.2em;
-  box-shadow: 8px 8px 6px -6px gray;
+  width: 100%;
+  padding: 0.5em;
+  margin: 0em;
+  border: 1px solid lightgray;
+  border-radius: 0;
+  box-shadow: 4px 4px 6px 0 lightgray;
 }
 
 %shared-padding {
@@ -34,90 +37,110 @@
 }
 
 .posting-content {
-  display:flex;
-  flex-direction:row;
-  align-items:center;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 8em;
 }
 
 .left-posting {
-  @extend %shared-padding;
-  min-width: 120px;
-  max-width: 150px;
-  margin-left: 15px;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .middle-posting {
-  height: 100px;
-  width: 100%;
-  display:flex;
+  width: 60%;
+  flex-grow: 3;
+  display: flex;
   flex-direction: column;
+  justify-content: space-between;
   overflow-y: hidden;
-  @extend %shared-padding;
 }
 
 h4 {
-  margin:0.3em 0;
-  padding:0;
+  margin: 0.3em 0;
+  padding: 0;
 }
 
 #posting-img {
-  width:90%;
-  padding:0.5em;
-  border:0.5px solid gray;
+  width: 90%;
+  padding: 0.5em;
+  border: 0.5px solid gray;
 }
 
 .right-posting {
-  display:flex;
-  flex-direction: center;
-  height:100%;
-  justify-content: flex-end;
-  margin-right: 15px;
-  @extend %shared-padding;
-  #view-more-btn {
-    font-family: $main-font;
-    font-weight: bold;
-    padding: 1em 2.5em;
-    background:$secondary-color;
-    border-radius: 0.4em;
-    border: 1px $secondary-color solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 15%;
+  height: 100%;
+  padding: 0.5em;
+  align-items: flex-end;
+}
+
+#view-more-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  background: $secondary-color;
+  border-radius: 0.4em;
+  border: 1px $secondary-color solid;
+  margin: auto 0 0 auto;
+}
+
+@media screen and (max-width: 976px) {
+  .posting-content {
+    height: 12em;
+  }
+}
+@media screen and (max-width: 550px) {
+  .posting-content {
+    flex-direction: column;
+    padding: 0.5em;
+    height: auto;
+  }
+  .left-posting {
+    width: 100%;
+    padding: 0;
+    margin: 0.5em;
+  }
+  .middle-posting {
+    width: 100%;
+    padding: 0;
+    margin: 0.5em;
+  }
+  .right-posting {
+    width: 100%;
+    padding: 0;
+    margin: 0.5em;
   }
 }
 
-@media screen and (max-width: 550px){
-  .recent-postings-container {
-    ul {
-      padding: 0;
-      .posting-card {
-        height: 250px;
-      }
-      .posting-content {
-        flex-direction: column;
-        p {
-          text-align: center;
-        }
-        .left-posting {
-          h3 {
-            text-align: center;
-          }
-        }
-        .middle-posting {
-          h4 {
-            text-align: center;
-          }
-        }
-        padding: 6px;
-      }
-    }
-  }
+.org-img-wrapper {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex: 0 0 70%;
 }
 
-@media screen and (max-width: 450px){
-  .recent-postings-container {
-    ul {
-      padding: 0;
-      .posting-content {
-        padding: 20px;
-      }
-    }
-  }
+.org-img {
+  max-width: 90%;
+  max-height: 90%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.posting-location-duration {
+  flex: 0 0 10%;
+  font-size: 0.8em;
+}
+
+.posting-date {
+  font-size: 0.8em;
 }

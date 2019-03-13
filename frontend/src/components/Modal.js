@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { setHideModal } from '../store/actions';
-import Portal from './Portal';
+import React from "react";
+import { connect } from "react-redux";
+import { setHideModal } from "../store/actions";
+import Portal from "./Portal";
 
 class Modal extends React.Component {
   constructor(props) {
@@ -11,23 +11,23 @@ class Modal extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown);
-    document.addEventListener('mousedown', this.onClickOutside);
+    document.addEventListener("keydown", this.onKeyDown);
+    document.addEventListener("mousedown", this.onClickOutside);
   }
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown);
-    document.removeEventListener('mousedown', this.onClickOutside);
+    document.removeEventListener("keydown", this.onKeyDown);
+    document.removeEventListener("mousedown", this.onClickOutside);
   }
 
   handleHide() {
     return this.props.dispatch(setHideModal());
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     if (e.keyCode === 27) {
       this.handleHide();
     }
-  }
+  };
 
   setWrapperRef(node) {
     this.wrapperRef = node;
@@ -42,7 +42,12 @@ class Modal extends React.Component {
   render() {
     const modal = this.props.modalVisibility ? (
       <Portal>
-        <div className="modal-container" aria-modal="true" tabIndex="-1" role="dialog">
+        <div
+          className="modal-container"
+          aria-modal="true"
+          tabIndex="-1"
+          role="dialog"
+        >
           <div className="modal" ref={this.setWrapperRef}>
             <button className="modal-button" onClick={() => this.handleHide()}>
               Hide Modal
@@ -59,17 +64,15 @@ class Modal extends React.Component {
           </div>
         </div>
       </Portal>
-      ) : null;
+    ) : null;
 
-    return (
-      modal
-    )
+    return modal;
   }
 }
 
 const mapStateToProps = state => ({
   modalVisibility: state.changeModal.visibility,
-  modalContent: state.changeModal.content,
-})
+  modalContent: state.changeModal.content
+});
 
 export default connect(mapStateToProps)(Modal);
