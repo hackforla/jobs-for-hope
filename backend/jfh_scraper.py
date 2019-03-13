@@ -152,7 +152,7 @@ def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
     today = datetime.today()
     if timeUnit[:4] == 'hour':
-    		return today - timedelta(hours=timeLength)
+        return today - timedelta(hours=timeLength)
     elif timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
@@ -1131,38 +1131,38 @@ current_openings = soup.findAll(attrs={"data-tn-element" : "jobLink[]"})
 
 for current_opening in current_openings:
 
-	detail_page_link = current_opening.find('a')['href']
-	detail_page_soup = get_soup(detail_page_link)
-	detail_page_desc = detail_page_soup.find('div', {"data-tn-component": "jobDescription"})
+    detail_page_link = current_opening.find('a')['href']
+    detail_page_soup = get_soup(detail_page_link)
+    detail_page_desc = detail_page_soup.find('div', {"data-tn-component": "jobDescription"})
 
-	job_title = detail_page_desc.find('h1').text.strip()
+    job_title = detail_page_desc.find('h1').text.strip()
 
-	job_summary_parts = detail_page_desc.findAll(['p', 'li'])
-	job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
+    job_summary_parts = detail_page_desc.findAll(['p', 'li'])
+    job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
 
-	job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
-	job_zip_code = city_to_zip(job_location)
+    job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
+    job_zip_code = city_to_zip(job_location)
 
-	posted_ago = job_summary_parts[-1].get_text().split(' ')
-	length = posted_ago[1]
-	if (length[-1:] == '+'):
-		length = length[:1]
-	length = int(length)
-	unit = posted_ago[2]
-	job_post_date = date_ago(length, unit)
+    posted_ago = job_summary_parts[-1].get_text().split(' ')
+    length = posted_ago[1]
+    if (length[-1:] == '+'):
+        length = length[:1]
+    length = int(length)
+    unit = posted_ago[2]
+    job_post_date = date_ago(length, unit)
 
-	full_or_part = detail_page_desc.find('dt' , string="Job Type").findNext().get_text()
+    full_or_part = detail_page_desc.find('dt' , string="Job Type").findNext().get_text()
 
-	salary_search = detail_page_desc.find('dt' , string="Salary")
-	if (salary_search is not None):
-		salary = salary_search.findNext().get_text()
-	else:
-		salary = ""
+    salary_search = detail_page_desc.find('dt' , string="Salary")
+    if (salary_search is not None):
+        salary = salary_search.findNext().get_text()
+    else:
+        salary = ""
 
-	info_link = detail_page_link
+    info_link = detail_page_link
 
-	update_db(organization)
-	reset_vars()
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
