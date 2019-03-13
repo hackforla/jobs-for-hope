@@ -190,6 +190,8 @@ def select_organization_id_by_name(name):
     c.execute("SELECT id from organizations WHERE name=?", [name])
 
     rows = c.fetchall()
+    if len(rows) == 0:
+        print('organization doesn\'t exist: %s' % name)
     return rows[0]
 
 # SQL CONNECTION
@@ -733,7 +735,7 @@ reset_vars()
 
 # JWCH Institute, Inc.
 
-organization = "JWCH Institute"
+organization = "JWCH Institute, Inc."
 soup = get_soup('http://jwchinstitute.org/about-us/work-at-jwch/')
 
 jobs_list = soup.find('ul',{'class':'lcp_catlist'})
@@ -791,9 +793,9 @@ for job_opening in jobs_list:
 reset_vars()
 
 
-# Los Angeles Gay & Lesbian Community Services Center
+# Los Angeles LGBT Center
 
-organization = "Los Angeles Gay & Lesbian Community Services Center"
+organization = "Los Angeles LGBT Center"
 soup = get_javascript_soup('https://lalgbtcenter.org/about-the-center/careers')
 
 job_divs = soup.find_all('div', {'class':'ui-accordion-content'})
@@ -951,7 +953,7 @@ reset_vars()
 
 
 # People Assisting the Homeless (PATH)
-organization = "People Assisting the Homeless"
+organization = "People Assisting the Homeless (PATH)"
 soup = get_soup('https://path.catsone.com/careers')
 
 jobs_table = soup.find('div',{'class':'JobGrid-etzr7g-4'})
@@ -1058,7 +1060,7 @@ reset_vars()
 
 # Shields For Families, Inc.
 
-organization = "Shields For Families"
+organization = "Shields For Families, Inc."
 soup = get_javascript_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
 
 job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
@@ -1107,7 +1109,7 @@ reset_vars()
 # XXX timeout
 # Special Service for Groups, Inc.
 
-organization = "Special Service for Groups"
+organization = "Special Service for Groups, Inc."
 soup = get_soup('http://www.ssg.org/about-us/careers/')
 article = soup.find('article')
 
@@ -1153,7 +1155,7 @@ reset_vars()
 
 # Step Up on Second Street, Inc.
 
-organization = "Step Up on Second Street"
+organization = "Step Up on Second Street, Inc."
 url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
 soup = get_javascript_soup(url)
 
@@ -1219,7 +1221,7 @@ reset_vars()
 
 # The Clare Foundation, Inc.
 
-organization = "The Clare Foundation"
+organization = "The Clare Foundation, Inc."
 soup = get_soup('http://clarefoundation.org/careers/')
 
 listings_container = soup.find('ul',{'class':'display-posts-listing'})
