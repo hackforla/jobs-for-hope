@@ -24,9 +24,17 @@
 
 .distance-selector {
   margin-top: 0.25em;
-  padding: 0.75em;
+  padding: 0.3em;
   border-radius: 0.25em;
   border: 1px gray solid;
+}
+
+.distance-zip {
+  margin-top: 0.25em;
+  padding: 0.3em;
+  border-radius: 0.25em;
+  border: 1px gray solid;
+  width: 8em;
 }
 
 @media screen and (max-width: 765px) {

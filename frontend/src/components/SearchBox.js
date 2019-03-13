@@ -1,7 +1,12 @@
 import React from "react";
 import "./SearchBox.scss";
 
-const SearchBox = ({ userJobTitle, onSearchChange, onZipSearchChange }) => {
+const SearchBox = ({
+  onSearchChange,
+  onZipSearchChange,
+  organizations,
+  onSetOrganization
+}) => {
   return (
     <section role="search" className="search-container">
       <h1> Join the fight against homelessness in Los Angeles</h1>
@@ -15,7 +20,7 @@ const SearchBox = ({ userJobTitle, onSearchChange, onZipSearchChange }) => {
               type="search"
               className="search-input"
               name="keywords"
-              placeholder="Job Title or Keywords"
+              placeholder="Job Title"
               onChange={onSearchChange}
             />
           </div>
@@ -29,15 +34,31 @@ const SearchBox = ({ userJobTitle, onSearchChange, onZipSearchChange }) => {
               type="search"
               className="location-input"
               name="location"
-              placeholder="City or ZIP"
+              placeholder="Zip Code"
               onChange={onZipSearchChange}
             />
           </div>
         </div>
-        <div className="search-btn-container">
-          <button type="button" className="search-btn" onClick={userJobTitle}>
-            Search
-          </button>
+
+        <div className="organization-search">
+          <div className="search-words-title">
+            <h3> Organization</h3>
+          </div>
+          <div className="location-container">
+            <select
+              onChange={event => {
+                onSetOrganization(event);
+              }}
+              className="organization-input"
+            >
+              <option value="">(Any)</option>
+
+              {organizations &&
+                organizations.map(org => {
+                  return <option value={org}>{org}</option>;
+                })}
+            </select>
+          </div>
         </div>
       </form>
     </section>
@@ -45,13 +66,3 @@ const SearchBox = ({ userJobTitle, onSearchChange, onZipSearchChange }) => {
 };
 
 export default SearchBox;
-
-// submit button not needed since searches automatically filter
-// <div className="search-btn-content-container">
-//     <div className="search-btn-title">
-//         <h3> Explore</h3>
-//     </div>
-//     <div className="search-btn-container">
-//         <button type="button" value="done" className="search-btn">Search</button>
-//     </div>
-// </div>

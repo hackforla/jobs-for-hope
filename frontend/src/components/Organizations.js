@@ -3,7 +3,7 @@ import CompanyCard from "./CompanyCard";
 import Banner from "./Banner";
 import "./Organizations.scss";
 
-const Organizations = ({ organizationData }) => (
+const Organizations = ({ organizations }) => (
   <div>
     <Banner titleUpper="Organizations" titleLower="Involved" imageName="city" />
     <div className="orgs-intro">
@@ -18,7 +18,7 @@ const Organizations = ({ organizationData }) => (
       </p>
     </div>
     <div className="organization-cards-container">
-      {organizationData.map((org, index) => (
+      {organizations.map((org, index) => (
         <CompanyCard key={index} org={org} />
       ))}
     </div>

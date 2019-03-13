@@ -4,8 +4,8 @@
 .search-container {
   width: 100%;
   align-items: center;
-  padding-top: 4.5em;
-  padding-bottom: 5em;
+  padding-top: 3.5em;
+  padding-bottom: 3em;
   text-align: center;
   background: url("../LA-landscape.jpg");
   background-position: 5% 40%;
@@ -29,14 +29,27 @@
 }
 
 .keyword-search,
-.location-search {
+.location-search,
+.organization-search {
   width: 200px;
+}
+
+.organization-search {
+  width: 400px;
 }
 
 .search-input,
 .location-input {
   width: 100%;
-  padding: 1em;
+  padding: 0.75em;
+  border-radius: 0.25em;
+  border: 1px white solid;
+  font-family: $main-font;
+}
+
+.organization-input {
+  width: 100%;
+  padding: 0.65em;
   border-radius: 0.25em;
   border: 1px white solid;
   font-family: $main-font;
@@ -44,6 +57,7 @@
 
 .keyword-search,
 .location-search,
+.organization-search,
 .search-btn-content-container {
   margin: 10px;
 }
