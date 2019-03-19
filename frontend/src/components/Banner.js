@@ -8,7 +8,9 @@ const Banner = props => {
     <div
       className="banner"
       role="banner"
-      style={{ backgroundImage: `url(${imageUrl})` }}
+      style={{
+        backgroundImage: `url(${imageUrl})`
+      }}
     >
       <h1 className="banner-title">
         {props.titleUpper} <br /> {props.titleLower}

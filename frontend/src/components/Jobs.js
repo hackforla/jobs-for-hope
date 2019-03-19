@@ -2,10 +2,17 @@ import React from "react";
 import SearchBox from "./SearchBox";
 import JobPostings from "./JobPostings";
 import SideFilter from "./SideFilter";
-import "./Jobs.css";
+import "./Jobs.scss";
 import Modal from "./Modal";
 import { dist } from "../utils/utils";
-import Paginator from "./Paginator";
+import { css } from "@emotion/core";
+import { RotateLoader } from "react-spinners";
+
+const override = css`
+  display: block;
+  margin: auto auto;
+  border-color: red;
+`;
 
 class Jobs extends React.Component {
   state = {
@@ -17,42 +24,16 @@ class Jobs extends React.Component {
     radius: "",
     distanceZip: "",
     filteredJobs: [],
-    paginatedJobs: [],
-    itemsPerPage: 12,
-    totalPages: 0,
-    currentPage: 0,
-    organization: "",
-    organizations: []
+    itemCount: 0,
+    organizationId: "",
+    organizations: [],
+    modalVisible: false,
+    modalJob: null
   };
 
   componentDidMount() {
-    this.setState({ organizations: this.getDistinctOrganizations() });
     this.filterJobs();
   }
-
-  getDistinctOrganizations = () => {
-    const orgs = [];
-    for (let i = 0; i < this.props.jobs.length; i++) {
-      const org = this.props.jobs[i].org;
-      if (!orgs.includes(org)) {
-        orgs.push(org);
-      }
-    }
-    orgs.sort(org => org);
-    return orgs;
-  };
-
-  paginateJobs = () => {
-    this.setState(prevState => {
-      const start = prevState.currentPage * prevState.itemsPerPage;
-      const end = Math.min(
-        start + prevState.itemsPerPage,
-        prevState.filteredJobs.length + 1
-      );
-      const paginatedJobs = prevState.filteredJobs.slice(start, end);
-      this.setState({ paginatedJobs });
-    });
-  };
 
   filterJobs = () => {
     const {
@@ -62,20 +43,21 @@ class Jobs extends React.Component {
       employmentTypePT,
       radius,
       distanceZip,
-      itemsPerPage,
-      organization
+      organizationId
     } = this.state;
     const filteredJobs = this.props.jobs
-      .filter(job => !organization || job.org === organization)
+      .filter(job => {
+        return !organizationId || job.organization_id === organizationId;
+      })
       .filter(job => job.zipcode.includes(zipSearch))
       .filter(job => job.title.toLowerCase().includes(search.toLowerCase()))
       .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
       .filter(this.getDistanceFilter(radius, distanceZip))
       // Sort by organization, position title
       .sort((a, b) => {
-        if (a.org < b.org) {
+        if (a.organization_name < b.organization_name) {
           return -1;
-        } else if (a.org > b.org) {
+        } else if (a.organization_name > b.organization_name) {
           return 1;
         } else if (a.title < b.title) {
           return -1;
@@ -84,14 +66,10 @@ class Jobs extends React.Component {
         }
         return 0;
       });
-    this.setState(
-      {
-        filteredJobs,
-        currentPage: 0,
-        totalPages: Math.ceil(filteredJobs.length / itemsPerPage)
-      },
-      this.paginateJobs
-    );
+    this.setState({
+      filteredJobs,
+      itemCount: filteredJobs.length
+    });
   };
 
   getEmploymentTypeFilter = (employmentTypeFT, employmentTypePT) => {
@@ -141,122 +119,79 @@ class Jobs extends React.Component {
   };
 
   onSetOrganization = e => {
-    this.setState({ organization: e.target.value }, this.filterJobs);
+    this.setState(
+      { organizationId: e.target.value ? Number(e.target.value) : "" },
+      this.filterJobs
+    );
   };
 
-  goToPage = pageNo => {
-    this.setState({ currentPage: pageNo }, this.paginateJobs);
+  onShowModal = job => {
+    this.setState({ modalVisible: true, modalJob: job });
   };
 
-  onChangeItemsPerPage = e => {
-    this.setState({ itemsPerPage: Number(e.target.value) }, this.paginateJobs);
+  onHideModal = () => {
+    this.setState({ modalVisible: false, modalJob: null });
   };
 
   render() {
-    const {
-      paginatedJobs,
-      userJobTitle,
-      totalPages,
-      currentPage,
-      itemsPerPage,
-      organizations
-    } = this.state;
+    const { filteredJobs, userJobTitle, itemCount } = this.state;
     return (
       <div>
-        <SearchBox
-          onSearchChange={this.onSearchChange}
-          onZipSearchChange={this.onZipSearchChange}
-          userJobTitle={userJobTitle}
-          organizations={organizations}
-          onSetOrganization={this.onSetOrganization}
-        />
-        <div className="filters-postings-wrapper">
-          <SideFilter
-            onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
-            onSetEmploymentTypePT={this.onSetEmploymentTypePT}
-            onSetDistance={this.onSetDistance}
-            onSetDistanceZip={this.onSetDistanceZip}
-          />
-          <section role="tablist" className="recent-postings-container">
-            <h2 className="recent-postings-title">Recent Job Postings</h2>
-            <Paginator
-              totalPages={totalPages}
-              currentPage={currentPage}
-              goTo={this.goToPage}
-              buttonCount={7}
+        {this.props.isPending ? (
+          <div
+            style={{
+              height: "200",
+              width: "100%",
+              margin: "100px auto",
+              display: "flex",
+              justifyContent: "space-around"
+            }}
+          >
+            <RotateLoader
+              css={override}
+              sizeUnit={"px"}
+              size={15}
+              color={"#266294"}
+              loading={true}
             />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                margin: "0 12px 6px 0"
-              }}
-            >
-              <span>
-                <span style={{ margin: "2px 4px 2px 10px" }}>Page:</span>
-                <span style={{ margin: "2px 4px" }}>{currentPage + 1}</span>
-                <span style={{ margin: "2px 4px" }}>/</span>
-                <span style={{ margin: "2px 14px 2px 4px" }}>{totalPages}</span>
-              </span>
-              <span>
-                <span>{"Items Per Page: "}</span>
-                <select
-                  value={itemsPerPage}
-                  onChange={this.onChangeItemsPerPage}
-                >
-                  <option value="6">6</option>
-                  <option value="12">12</option>
-                  <option value="18">18</option>
-                  <option value="24">24</option>
-                  <option value="48">48</option>
-                </select>
-              </span>
-            </div>
-            <ul>
-              {paginatedJobs.map((job, index) => (
-                <li key={index}>
-                  <JobPostings job={job} />
-                </li>
-              ))}
-            </ul>
-            <Paginator
-              totalPages={totalPages}
-              currentPage={currentPage}
-              goTo={this.goToPage}
-              buttonCount={7}
+          </div>
+        ) : (
+          <div>
+            <SearchBox
+              onSearchChange={this.onSearchChange}
+              onZipSearchChange={this.onZipSearchChange}
+              userJobTitle={userJobTitle}
+              organizations={this.props.organizations}
+              onSetOrganization={this.onSetOrganization}
             />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                margin: "0 12px 6px 0"
-              }}
-            >
-              <span>
-                <span style={{ margin: "2px 4px 2px 10px" }}>Page:</span>
-                <span style={{ margin: "2px 4px" }}>{currentPage + 1}</span>
-                <span style={{ margin: "2px 4px" }}>/</span>
-                <span style={{ margin: "2px 14px 2px 4px" }}>{totalPages}</span>
-              </span>
-              <span>
-                <span>{"Items Per Page: "}</span>
-                <select
-                  value={itemsPerPage}
-                  onChange={this.onChangeItemsPerPage}
-                >
-                  <option value="6">6</option>
-                  <option value="12">12</option>
-                  <option value="18">18</option>
-                  <option value="24">24</option>
-                  <option value="48">48</option>
-                </select>
-              </span>
+            <div className="filters-postings-wrapper">
+              <SideFilter
+                onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+                onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+                onSetDistance={this.onSetDistance}
+                onSetDistanceZip={this.onSetDistanceZip}
+              />
+              <section role="tablist" className="recent-postings-container">
+                <h2 className="recent-postings-title">
+                  Recent Job Postings {`(${itemCount})`}
+                </h2>
+                <ul>
+                  {filteredJobs.map((job, index) => (
+                    <li key={index}>
+                      <JobPostings job={job} onShowModal={this.onShowModal} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
             </div>
-          </section>
-        </div>
-        <Modal />
+            }
+            <Modal
+              modalVisible={this.state.modalVisible}
+              modalJob={this.state.modalJob}
+              onHideModal={this.onHideModal}
+            />
+          </div>
+        )}
       </div>
     );
   }

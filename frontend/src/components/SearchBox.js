@@ -55,7 +55,7 @@ const SearchBox = ({
 
               {organizations &&
                 organizations.map(org => {
-                  return <option value={org}>{org}</option>;
+                  return <option value={org.id}>{org.name}</option>;
                 })}
             </select>
           </div>
