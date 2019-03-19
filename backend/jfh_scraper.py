@@ -719,7 +719,7 @@ for job_entry in jobs_list.find_all('li'):
     job_title = job_entry.a.text.strip()
     info_link = job_entry.a['href']
     job_soup = get_soup(info_link)
-    job_summary = job_soup.find(text="Position Purpose:").parent.parent.text
+    job_summary = job_soup.find(text=re.compile("Position Purpose:")).parent.parent.text
     update_db(organization)
     reset_vars()
 
