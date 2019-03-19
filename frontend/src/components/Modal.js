@@ -1,7 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
-import { setHideModal } from "../store/actions";
 import Portal from "./Portal";
+import Iframe from "react-iframe";
+const moment = require("moment");
 
 class Modal extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Modal extends React.Component {
   }
 
   handleHide() {
-    return this.props.dispatch(setHideModal());
+    this.props.onHideModal();
   }
 
   onKeyDown = e => {
@@ -40,7 +40,8 @@ class Modal extends React.Component {
   }
 
   render() {
-    const modal = this.props.modalVisibility ? (
+    const job = this.props.modalJob;
+    const modal = this.props.modalVisible ? (
       <Portal>
         <div
           className="modal-container"
@@ -49,18 +50,45 @@ class Modal extends React.Component {
           role="dialog"
         >
           <div className="modal" ref={this.setWrapperRef}>
-            <button className="modal-button" onClick={() => this.handleHide()}>
-              Hide Modal
-            </button>
-            <h3>{this.props.modalContent.title}</h3>
-            <p>{this.props.modalContent.org}</p>
-            <p>{this.props.modalContent.hours}</p>
-            <p>{this.props.modalContent.location}</p>
-            <p>{this.props.modalContent.date}</p>
-            <h3>Job Description</h3>
-            <p>{this.props.modalContent.summary}</p>
-            <h3>Requirements</h3>
-            <p>{this.props.modalContent.info_link}</p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                flex: "0 0 auto"
+              }}
+            >
+              <h2>{job.title}</h2>
+              <button
+                className="modal-button"
+                onClick={() => this.handleHide()}
+              >
+                Hide Modal
+              </button>
+            </div>
+            <h3 style={{ flex: "0 0 auto" }}>{job.organization_name}</h3>
+            <p style={{ flex: "0 0 auto" }}>
+              {job.hours} {job.location}
+            </p>
+            {job.post_date ? (
+              <p style={{ flex: "0 0 auto" }}>
+                Job Posted: {moment(job.post_date).format("MM/DD/YYYY")}
+              </p>
+            ) : null}
+            {job.summary ? <div>{"Description: " + job.summary}</div> : null}
+            <p />
+            <div style={{ flex: "0 1 auto" }}>
+              <hr />
+              {!job.info_link ? null : (
+                <div className="iframe-container">
+                  <iframe
+                    src={job.info_link}
+                    className="iframe"
+                    title="job posting"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Portal>
@@ -70,9 +98,11 @@ class Modal extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  modalVisibility: state.changeModal.visibility,
-  modalContent: state.changeModal.content
-});
+// const mapStateToProps = state => ({
+//   modalVisibility: state.changeModal.visibility,
+//   modalContent: state.changeModal.content
+// });
 
-export default connect(mapStateToProps)(Modal);
+//export default connect(mapStateToProps)(Modal);
+
+export default Modal;

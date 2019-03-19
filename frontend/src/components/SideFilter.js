@@ -67,21 +67,6 @@ const SideFilter = ({
           <p>Part Time</p> <br />
         </div>
       </div>
-      <div className="experience-level filter-criteria">
-        <p> Experience Level</p>
-        <div className="filter-options">
-          <input name="entry-level" type="checkbox" />
-          <p>Entry Level</p> <br />
-        </div>
-        <div className="filter-options">
-          <input name="mid-level" type="checkbox" />
-          <p>Mid Level</p> <br />
-        </div>
-        <div className="filter-options">
-          <input name="senior-level" type="checkbox" />
-          <p>Senior Level</p> <br />
-        </div>
-      </div>
     </aside>
   );
 };
