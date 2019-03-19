@@ -26,6 +26,24 @@ info_link = ''
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = ['a_community_of_friends.py']
 
+# EXCEPITONS
+
+class Error(Exception):
+    '''Base class for exceptions in the parser'''
+    pass
+
+class ParseError(Error):
+    '''Exception raised for error in parsing
+
+    Attributes:
+        url -- expression where the error occured
+        msg -- explanation of the error
+    '''
+
+    def __init__(self, url, msg):
+        self.url = url
+        self.msp = msg
+
 # FUNCTIONS
 
 def error_handler(error_msg):
