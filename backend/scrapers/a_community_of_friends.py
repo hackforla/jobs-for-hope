@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, get_javascript_soup, update_db, reset_vars
+from globals import get_soup, get_javascript_soup, update_db
 from datetime import datetime
 import re
 
@@ -49,4 +49,3 @@ def run(url):
         if 'Salary' in listing_body[2].text:
             globals.salary = listing_body[2].text[14:]
         update_db(organization)
-        reset_vars()

@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, get_javascript_soup, update_db, reset_vars, clean_location, city_to_zip, date_ago
+from globals import get_soup, get_javascript_soup, update_db, clean_location, city_to_zip, date_ago
 
 # Step Up on Second Street, Inc.
 
@@ -42,4 +42,3 @@ def run(url):
         globals.info_link = detail_page_link
 
         update_db(organization)
-        reset_vars()
