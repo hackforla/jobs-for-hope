@@ -398,11 +398,11 @@ reset_vars()
 
 organization = "Center for the Pacific Asian Family, Inc."
 soup = get_soup("http://nurturingchange.org/get-involved/employment/")
+jobs_list = soup.select('div.entry-content div.small-12.columns > p > a')
 
-for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
-    job_title = html_element.text
-    info_link = html_element['href']
-    job_summary = pdf_message
+for job_entry in jobs_list:
+    job_title = job_entry.text
+    info_link = job_entry['href']
     update_db(organization)
 
 reset_vars()
