@@ -1,6 +1,7 @@
 import React from "react";
 import "./Contact.scss";
 import Banner from "./Banner";
+const countyLogo = require("../images/Seal_of_Los_Angeles_County.png");
 
 const Contact = () => (
   <main>
@@ -57,11 +58,7 @@ const Contact = () => (
             homelessinitiative@lacounty.gov
           </a>
         </p>
-        <img
-          id="county-img"
-          alt="LA County Seal"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Seal_of_Los_Angeles_County%2C_California.svg/215px-Seal_of_Los_Angeles_County%2C_California.svg.png"
-        />
+        <img id="county-img" alt="LA County Seal" src={countyLogo} />
       </div>
     </div>
   </main>

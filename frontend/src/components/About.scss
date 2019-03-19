@@ -1,3 +1,65 @@
+@import "../_variables.scss";
+
 .banner {
   background-position: 10% 20%;
+}
+
+.about-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.about-side-nav {
+  background-color: $light-color;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 15%;
+  padding: 1em;
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      margin: 15px;
+      list-style: none;
+    }
+    .link {
+      color: black;
+      &:active {
+        border-bottom: 0.2em $secondary-color solid;
+      }
+      &:hover {
+        border-bottom: 0.2em $secondary-color solid;
+      }
+    }
+  }
+}
+
+.about-content {
+  flex: 1 1 70%;
+  padding: 1em;
+}
+
+.about-logo {
+  flex: 0 0 15%;
+  padding: 1em;
+}
+
+.learn-more {
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      margin: 15px;
+      list-style: none;
+      a {
+        color: black;
+        &:active {
+          border-bottom: 0.2em $secondary-color solid;
+        }
+        &:hover {
+          border-bottom: 0.2em $secondary-color solid;
+        }
+      }
+    }
+  }
 }

@@ -30,26 +30,37 @@ button:hover {
 
 .header {
   background-color: $primary-color;
+  display: flex;
+  width: 100%;
   .navbar {
     font-size: calc(10px + 1.5vmin);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
     #org-image {
-      width: 100%;
-      max-width: 414px;
+      max-width: 200px;
+      display: inline;
     }
-    ul {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      max-width: 550px;
+    .nav-links {
       display: flex;
-      justify-content: space-around;
-      li {
-        margin: 15px;
-        list-style: none;
-      }
-      .link {
-        &.active {
-          border-bottom: 0.2em $secondary-color solid;
+      flex-direction: row;
+      ul {
+        margin: 0;
+        padding: 0;
+        max-width: 550px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        li {
+          margin: 15px;
+          list-style: none;
+        }
+        .link {
+          &.active {
+            border-bottom: 0.2em $secondary-color solid;
+          }
         }
       }
     }
@@ -121,7 +132,44 @@ button:hover {
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 770px) {
+  .header {
+    display: flex;
+    width: 100%;
+    .navbar {
+      font-size: calc(10px + 1.5vmin);
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      #org-image {
+        max-width: 200px;
+        display: inline;
+      }
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        ul {
+          margin: 0;
+          padding: 0;
+          max-width: 550px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          li {
+            margin: 15px;
+            list-style: none;
+          }
+          .link {
+            &.active {
+              border-bottom: 0.2em $secondary-color solid;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .footer {
     justify-items: center;
     text-align: center;

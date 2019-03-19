@@ -30,14 +30,10 @@ class App extends Component {
       })
       .then(jobs => {
         this.setState(prevState => {
-          // Add logo property to each job, by "joining" with organizations by
-          // name - when db has foreign key set up, we will be able to join by
-          // organization id, instead.
-          const jobsWithLogos = jobs.map(job => {
-            const org = prevState.organizations.find(
-              organization => organization["gsx$name"]["$t"] === job.org
-            );
-            job.logo = (org && org["gsx$logo"]["$t"]) || "";
+          // Process each job to clean up db data. At present, this means:
+          // 1. normalize hours property to say "", "Full-Time", "Part-Time"
+          // or ""Full-Time / Part-Time"
+          const cleanedJobs = jobs.map(job => {
             let type = [];
             const hours = (job.hours && job.hours.toLowerCase()) || "";
             if (hours.includes("full") || hours.includes("ft")) {
@@ -49,7 +45,7 @@ class App extends Component {
             job.hours = type.join(" / ");
             return job;
           });
-          return { jobs: jobsWithLogos, isPending: false };
+          return { jobs: cleanedJobs, isPending: false };
         });
       });
   }
@@ -57,18 +53,33 @@ class App extends Component {
   render() {
     const { isPending, organizations, jobs } = this.state;
 
-    return isPending ? (
-      <h1>Loading...</h1>
-    ) : (
+    return (
       <Router>
         <div className="App">
           <header className="header">
             <Navbar />
           </header>
-          <Route exact path="/" render={() => <Jobs jobs={jobs} />} />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Jobs
+                jobs={jobs}
+                organizations={organizations}
+                key={isPending}
+                isPending={isPending}
+              />
+            )}
+          />
           <Route
             path="/organizations"
-            render={() => <Organizations organizations={organizations} />}
+            render={() => (
+              <Organizations
+                organizations={organizations}
+                isPending={isPending}
+                key={isPending}
+              />
+            )}
           />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />

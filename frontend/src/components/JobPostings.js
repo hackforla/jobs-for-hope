@@ -1,12 +1,10 @@
 import React from "react";
 import "./JobPostings.scss";
-import { connect } from "react-redux";
-import { setShowModal } from "../store/actions";
 import moment from "moment";
 
 class JobPostings extends React.Component {
-  handleShow (job) {
-    return this.props.dispatch(setShowModal(job))
+  handleShow(job) {
+    return this.props.onShowModal(job);
   }
 
   render() {
@@ -24,7 +22,13 @@ class JobPostings extends React.Component {
               <img
                 className="org-img"
                 alt="company logo"
-                src={job.logo ? `/logos/${job.logo}` : `/logos/jobsforhope.png`}
+                width="100%"
+                height="100%"
+                src={
+                  job.organization_logo
+                    ? `/logos/${job.organization_logo}`
+                    : `/logos/jobsforhope.png`
+                }
               />
             </div>
 
@@ -35,7 +39,7 @@ class JobPostings extends React.Component {
           </div>
           <div className="middle-posting">
             <h3 style={{ marginTop: "0", marginBottom: "0" }}>{job.title}</h3>
-            <h4>{job.org}</h4>
+            <h4>{job.organization_name}</h4>
             <p>
               {job.summary.toLowerCase().startsWith("http") ? (
                 <a href={job.summary} target="_blank" rel="noopener noreferrer">
@@ -64,6 +68,4 @@ class JobPostings extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
-
-export default connect(mapStateToProps)(JobPostings)
+export default JobPostings;
