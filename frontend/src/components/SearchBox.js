@@ -8,7 +8,7 @@ const SearchBox = ({
   onSetOrganization
 }) => {
   return (
-    <section role="search" className="search-container">
+    <section role='search' className='search-container'>
       <h1> Join the fight against homelessness in Los Angeles</h1>
       <form className="search">
         <div className="keyword-search">

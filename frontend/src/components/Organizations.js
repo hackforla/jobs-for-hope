@@ -51,6 +51,6 @@ const Organizations = ({ organizations, isPending }) => (
       </div>
     )}
   </div>
-);
+)
 
-export default Organizations;
+export default Organizations

@@ -8,12 +8,12 @@ class Portal extends React.Component {
     super(props);
     this.el = document.createElement("div");
   }
-  componentDidMount() {
-    modalRoot.appendChild(this.el);
+  componentDidMount () {
+    modalRoot.appendChild(this.el)
   }
 
-  componentWillUnmount() {
-    modalRoot.removeChild(this.el);
+  componentWillUnmount () {
+    modalRoot.removeChild(this.el)
   }
 
   render() {

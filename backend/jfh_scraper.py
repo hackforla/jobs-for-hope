@@ -284,6 +284,7 @@ for job_listing in job_listings:
 
 reset_vars()
 
+'''
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
@@ -1155,12 +1156,10 @@ reset_vars()
 
 # Step Up on Second Street, Inc.
 
-organization = "Step Up on Second Street, Inc."
+organization = "Step Up on Second Street"
 url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
 soup = get_javascript_soup(url)
 
-
-###
 current_openings = soup.findAll(attrs={"data-tn-element" : "jobLink[]"})
 
 for current_opening in current_openings:
@@ -1201,6 +1200,7 @@ for current_opening in current_openings:
 reset_vars()
 
 
+'''
 # Tarzana Treatment Centers, Inc.
 
 organization = "Tarzana Treatment Centers"
@@ -1388,6 +1388,7 @@ for job_listing in jobs_container.find_all('a'):
     update_db(organization)
 
 reset_vars()
+'''
 
 
 db.close()
