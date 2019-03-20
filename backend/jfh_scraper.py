@@ -379,6 +379,9 @@ for opening_detail in current_openings:
     posted_ago = opening_detail.find('span',{'class':'current-opening-post-date'}).text.split(' ')
     if (posted_ago[0] == 'a'):
         job_post_date = date_ago(1, posted_ago[1])
+    elif (posted_ago[0] == '30+'):
+        # over 30 days ago
+        job_post_date = date_ago(31, posted_ago[1])
     else:
         job_post_date = date_ago(int(posted_ago[0]), posted_ago[1])
     if (opening_detail.find('span', {'class':'current-opening-worker-catergory'})):
@@ -395,11 +398,11 @@ reset_vars()
 
 organization = "Center for the Pacific Asian Family, Inc."
 soup = get_soup("http://nurturingchange.org/get-involved/employment/")
+jobs_list = soup.select('div.entry-content div.small-12.columns > p > a')
 
-for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
-    job_title = html_element.text
-    info_link = html_element['href']
-    job_summary = pdf_message
+for job_entry in jobs_list:
+    job_title = job_entry.text
+    info_link = job_entry['href']
     update_db(organization)
 
 reset_vars()
@@ -716,7 +719,7 @@ for job_entry in jobs_list.find_all('li'):
     job_title = job_entry.a.text.strip()
     info_link = job_entry.a['href']
     job_soup = get_soup(info_link)
-    job_summary = job_soup.find(text="Position Purpose:").parent.parent.text
+    job_summary = job_soup.find(text=re.compile("Position Purpose:")).parent.parent.text
     update_db(organization)
     reset_vars()
 
@@ -752,11 +755,11 @@ reset_vars()
 # Los Angeles Centers For Alcohol and Drug Abuse
 
 organization = "Los Angeles Centers For Alcohol and Drug Abuse"
-soup = get_soup('http://lacada.com/2018/careers-2/')
+soup = get_soup('http://www.lacada.com/2018/career-opportunities/')
 
-jobs_wrapper = soup.find('div',{'class':'wpb_wrapper'})
+jobs_list = soup.select('div.wpb_wrapper > p > a')
 
-for job_opening in jobs_wrapper.find_all('a')[2:]:
+for job_opening in jobs_list:
     job_title = job_opening.text.strip()
     info_link = job_opening['href']
     update_db(organization)
@@ -1076,6 +1079,9 @@ for job_listing in job_listings:
 reset_vars()
 
 
+'''
+# FIXME
+# XXX timeout
 # Special Service for Groups, Inc.
 
 organization = "Special Service for Groups"
@@ -1099,6 +1105,8 @@ for html_element in article.find_all('p'):
 reset_vars()
 
 
+# FIXME
+# XXX new website coming soon
 # St. Joseph Center
 
 organization = "St. Joseph Center"
@@ -1117,6 +1125,7 @@ for job_entry in jobs_table:
     reset_vars()
 
 reset_vars()
+'''
 
 
 # Step Up on Second Street, Inc.
