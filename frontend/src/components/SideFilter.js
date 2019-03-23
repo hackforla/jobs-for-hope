@@ -3,13 +3,14 @@ import React from "react";
 import "./SideFilter.scss";
 
 const SideFilter = ({
-  calcDistance,
   onSetEmploymentTypeFT,
   onSetEmploymentTypePT,
   onSetDistance,
   onSetDistanceZip,
-  organizations,
-  onSetOrganization
+  employmentTypeFT,
+  employmentTypePT,
+  radius,
+  distanceZip
 }) => {
   return (
     <aside className="filter-bar-container">
@@ -17,11 +18,9 @@ const SideFilter = ({
       <div className="distance filter-criteria">
         <p> Distance</p>
         <select
+          value={radius}
           onChange={event => {
             onSetDistance(event);
-            // setTimeout(function() {
-            //   calcDistance();
-            // }, 1000);
           }}
           className="distance-selector"
         >
@@ -32,6 +31,7 @@ const SideFilter = ({
         </select>
         <p style={{ fontSize: "small" }}>From Zip Code</p>
         <input
+          value={distanceZip}
           onChange={e => {
             onSetDistanceZip(e);
           }}
@@ -44,11 +44,9 @@ const SideFilter = ({
           <input
             name="full-time"
             type="checkbox"
+            checked={employmentTypeFT}
             onChange={event => {
               onSetEmploymentTypeFT(event.target.checked);
-              // setTimeout(function() {
-              //   filterByEmploymentType();
-              // }, 1000);
             }}
           />
           <p>Full Time</p> <br />
@@ -57,11 +55,9 @@ const SideFilter = ({
           <input
             name="part-time"
             type="checkbox"
+            checked={employmentTypePT}
             onChange={event => {
               onSetEmploymentTypePT(event.target.checked);
-              // setTimeout(function() {
-              //   filterByEmploymentType();
-              // }, 1000);
             }}
           />
           <p>Part Time</p> <br />

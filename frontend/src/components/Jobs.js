@@ -7,6 +7,7 @@ import Modal from "./Modal";
 import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
+import { withRouter } from "react-router-dom";
 
 const override = css`
   display: block;
@@ -16,23 +17,29 @@ const override = css`
 
 class Jobs extends React.Component {
   state = {
+    isBusy: false,
     search: "",
     zipSearch: "",
     jobTitle: "",
-    employmentTypeFT: true,
-    employmentTypePT: true,
+    employmentTypeFT: false,
+    employmentTypePT: false,
     radius: "",
     distanceZip: "",
     filteredJobs: [],
     itemCount: 0,
-    organizationId: "",
+    organizationId: "", // Needs to be tracked as a string, e.g. "3", for compatibility with select option values
     organizations: [],
     modalVisible: false,
     modalJob: null
   };
 
   componentDidMount() {
-    this.filterJobs();
+    const organizationId = this.props.match.params.organization_id;
+    if (organizationId) {
+      this.setState({ organizationId }, this.filterJobs);
+    } else {
+      this.filterJobs();
+    }
   }
 
   filterJobs = () => {
@@ -47,7 +54,9 @@ class Jobs extends React.Component {
     } = this.state;
     const filteredJobs = this.props.jobs
       .filter(job => {
-        return !organizationId || job.organization_id === organizationId;
+        return (
+          !organizationId || job.organization_id === Number(organizationId)
+        );
       })
       .filter(job => job.zipcode.includes(zipSearch))
       .filter(job => job.title.toLowerCase().includes(search.toLowerCase()))
@@ -66,9 +75,12 @@ class Jobs extends React.Component {
         }
         return 0;
       });
-    this.setState({
-      filteredJobs,
-      itemCount: filteredJobs.length
+    this.setState(prevState => {
+      return {
+        filteredJobs,
+        itemCount: filteredJobs.length,
+        isBusy: false
+      };
     });
   };
 
@@ -95,32 +107,38 @@ class Jobs extends React.Component {
   };
 
   onSearchChange = e => {
-    this.setState({ search: e.target.value }, this.filterJobs);
+    this.setState({ search: e.target.value, isBusy: true }, this.filterJobs);
   };
 
   onZipSearchChange = e => {
-    this.setState({ zipSearch: e.target.value }, this.filterJobs);
+    this.setState({ zipSearch: e.target.value, isBusy: true }, this.filterJobs);
   };
 
   onSetEmploymentTypeFT = checked => {
-    this.setState({ employmentTypeFT: checked }, this.filterJobs);
+    this.setState({ employmentTypeFT: checked, isBusy: true }, this.filterJobs);
   };
 
   onSetEmploymentTypePT = checked => {
-    this.setState({ employmentTypePT: checked }, this.filterJobs);
+    this.setState({ employmentTypePT: checked, isBusy: true }, this.filterJobs);
   };
 
   onSetDistance = e => {
-    this.setState({ radius: e.target.value }, this.filterJobs);
+    this.setState({ radius: e.target.value, isBusy: true }, this.filterJobs);
   };
 
   onSetDistanceZip = e => {
-    this.setState({ distanceZip: e.target.value }, this.filterJobs);
+    this.setState(
+      { distanceZip: e.target.value, isBusy: true },
+      this.filterJobs
+    );
   };
 
   onSetOrganization = e => {
     this.setState(
-      { organizationId: e.target.value ? Number(e.target.value) : "" },
+      {
+        organizationId: e.target.value ? Number(e.target.value) : "",
+        isBusy: true
+      },
       this.filterJobs
     );
   };
@@ -134,47 +152,58 @@ class Jobs extends React.Component {
   };
 
   render() {
-    const { filteredJobs, userJobTitle, itemCount } = this.state;
+    const {
+      filteredJobs,
+      userJobTitle,
+      itemCount,
+      organizationId,
+      isBusy
+    } = this.state;
     return (
       <div>
-        {this.props.isPending ? (
-          <div
-            style={{
-              height: "200",
-              width: "100%",
-              margin: "100px auto",
-              display: "flex",
-              justifyContent: "space-around"
-            }}
-          >
-            <RotateLoader
-              css={override}
-              sizeUnit={"px"}
-              size={15}
-              color={"#266294"}
-              loading={true}
+        <div>
+          <SearchBox
+            onSearchChange={this.onSearchChange}
+            onZipSearchChange={this.onZipSearchChange}
+            userJobTitle={userJobTitle}
+            organizations={this.props.organizations}
+            organizationId={organizationId}
+            onSetOrganization={this.onSetOrganization}
+          />
+          <div className="filters-postings-wrapper">
+            <SideFilter
+              onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+              onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+              onSetDistance={this.onSetDistance}
+              onSetDistanceZip={this.onSetDistanceZip}
+              employmentTypeFT={this.state.employmentTypeFT}
+              employmentTypePT={this.state.employmentTypePT}
+              radius={this.state.radius}
+              distanceZip={this.state.distanceZip}
             />
-          </div>
-        ) : (
-          <div>
-            <SearchBox
-              onSearchChange={this.onSearchChange}
-              onZipSearchChange={this.onZipSearchChange}
-              userJobTitle={userJobTitle}
-              organizations={this.props.organizations}
-              onSetOrganization={this.onSetOrganization}
-            />
-            <div className="filters-postings-wrapper">
-              <SideFilter
-                onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
-                onSetEmploymentTypePT={this.onSetEmploymentTypePT}
-                onSetDistance={this.onSetDistance}
-                onSetDistanceZip={this.onSetDistanceZip}
-              />
-              <section role="tablist" className="recent-postings-container">
-                <h2 className="recent-postings-title">
-                  Recent Job Postings {`(${itemCount})`}
-                </h2>
+            <section role="tablist" className="recent-postings-container">
+              <h2 className="recent-postings-title">
+                Recent Job Postings {`(${itemCount})`}
+              </h2>
+              {this.props.isPending || isBusy ? (
+                <div
+                  style={{
+                    height: "200",
+                    width: "100%",
+                    margin: "100px auto",
+                    display: "flex",
+                    justifyContent: "space-around"
+                  }}
+                >
+                  <RotateLoader
+                    css={override}
+                    sizeUnit={"px"}
+                    size={15}
+                    color={"#266294"}
+                    loading={true}
+                  />
+                </div>
+              ) : (
                 <ul>
                   {filteredJobs.map((job, index) => (
                     <li key={index}>
@@ -182,19 +211,20 @@ class Jobs extends React.Component {
                     </li>
                   ))}
                 </ul>
-              </section>
-            </div>
-            }
-            <Modal
-              modalVisible={this.state.modalVisible}
-              modalJob={this.state.modalJob}
-              onHideModal={this.onHideModal}
-            />
+              )}
+            </section>
           </div>
-        )}
+          }
+          <Modal
+            modalVisible={this.state.modalVisible}
+            modalJob={this.state.modalJob}
+            onHideModal={this.onHideModal}
+          />
+        </div>
+        }
       </div>
     );
   }
 }
 
-export default Jobs;
+export default withRouter(Jobs);

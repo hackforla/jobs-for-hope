@@ -59,9 +59,22 @@ class App extends Component {
           <header className="header">
             <Navbar />
           </header>
+
           <Route
             exact
             path="/"
+            render={() => (
+              <Jobs
+                jobs={jobs}
+                organizations={organizations}
+                key={isPending}
+                isPending={isPending}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/jobs/:organization_id"
             render={() => (
               <Jobs
                 jobs={jobs}
@@ -83,6 +96,7 @@ class App extends Component {
           />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
+
           <Footer />
         </div>
       </Router>
