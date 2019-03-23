@@ -1,0 +1,61 @@
+@import "../_variables.scss";
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+.banner-title {
+  position: absolute;
+  padding-left: 75px;
+  padding-right: 75px;
+  width: 100%;
+  font-weight: bolder;
+  color: $bg-color;
+  font-size: 4em;
+  z-index: 3;
+}
+
+.banner::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(rgba(42, 39, 39, 0.4), rgba(42, 39, 39, 0.4));
+  content: "";
+}
+
+@media screen and (max-width: 770px) {
+  .banner {
+    height: 33vh;
+  }
+
+  .banner-title {
+    font-size: 4em;
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .banner {
+    height: 30vh;
+  }
+
+  .banner-title {
+    font-size: 2em;
+    padding: 0 10px;
+  }
+}

@@ -220,3 +220,19 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/vim,linux,macos,windows,visualstudiocode,python
+
+# Beginning of node exclusions
+node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# End of node exclusions
+# Start of project-specific exclusions
+
+jobs_for_hope.db
+
+# End of project-specific exclusions
