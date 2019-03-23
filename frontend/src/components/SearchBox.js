@@ -5,7 +5,8 @@ const SearchBox = ({
   onSearchChange,
   onZipSearchChange,
   organizations,
-  onSetOrganization
+  onSetOrganization,
+  organizationId
 }) => {
   return (
     <section role="search" className="search-container">
@@ -49,13 +50,17 @@ const SearchBox = ({
               onChange={event => {
                 onSetOrganization(event);
               }}
+              value={organizationId}
               className="organization-input"
             >
               <option value="">(Any)</option>
-
               {organizations &&
                 organizations.map(org => {
-                  return <option value={org.id}>{org.name}</option>;
+                  return (
+                    <option key={org.id} value={org.id}>
+                      {org.name}
+                    </option>
+                  );
                 })}
             </select>
           </div>
