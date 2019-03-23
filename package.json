@@ -23,6 +23,8 @@
   },
   "standard": {
     "ignore": [
+      "templates/**",
+      "client/**",
       "venv/**",
       "node-modules/**"
     ],
