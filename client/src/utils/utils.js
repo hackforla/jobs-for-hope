@@ -1,35 +1,40 @@
-import { codes } from './mapCodes';
+import { codes } from "./mapCodes";
 
 //calculate radius from zipcode
-var lookup = function (zip) {
-    if (zip !== null && zip !== undefined && typeof zip === "string" && isNaN(zip.charAt(0))) {
-        return codes[zip.slice(0, 3)];
-    }
-    return codes[zip];
+var lookup = function(zip) {
+  if (
+    zip !== null &&
+    zip !== undefined &&
+    typeof zip === "string" &&
+    isNaN(zip.charAt(0))
+  ) {
+    return codes[zip.slice(0, 3)];
+  }
+  return codes[zip];
 };
 
-var deg2rad = function (value) {
-    return value * 0.017453292519943295;
+var deg2rad = function(value) {
+  return value * 0.017453292519943295;
 };
 
-export const dist = function (zipA, zipB) {
-    zipA = lookup(zipA);
-    zipB = lookup(zipB);
-    if (!zipA || !zipB) {
-        return null;
-    }
+export const dist = function(zipA, zipB) {
+  zipA = lookup(zipA);
+  zipB = lookup(zipB);
+  if (!zipA || !zipB) {
+    return null;
+  }
 
-    var zipALatitudeRadians = deg2rad(zipA.latitude);
-    var zipBLatitudeRadians = deg2rad(zipB.latitude);
+  var zipALatitudeRadians = deg2rad(zipA.latitude);
+  var zipBLatitudeRadians = deg2rad(zipB.latitude);
 
-    var distance = Math.sin(zipALatitudeRadians)
-        * Math.sin(zipBLatitudeRadians)
-        + Math.cos(zipALatitudeRadians)
-        * Math.cos(zipBLatitudeRadians)
-        * Math.cos(deg2rad(zipA.longitude - zipB.longitude));
+  var distance =
+    Math.sin(zipALatitudeRadians) * Math.sin(zipBLatitudeRadians) +
+    Math.cos(zipALatitudeRadians) *
+      Math.cos(zipBLatitudeRadians) *
+      Math.cos(deg2rad(zipA.longitude - zipB.longitude));
 
-    distance = Math.acos(distance) * 3958.56540656;
-    return Math.round(distance);
+  distance = Math.acos(distance) * 3958.56540656;
+  return Math.round(distance);
 };
 
 // Software License Agreement (BSD License)
