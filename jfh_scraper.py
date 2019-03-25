@@ -65,7 +65,20 @@ def print_vars():
 
 def create_table_jobs():
     global c
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_summary VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+    query = '''
+    CREATE TABLE IF NOT EXISTS jobs (
+        date DATE,
+        organization_id INTEGER NOT NULL,
+        job_title VARCHAR,
+        job_summary VARCHAR,
+        job_location VARCHAR,
+        job_zip_code VARCHAR,
+        job_post_date DATE,
+        full_or_part VARCHAR,
+        salary VARCHAR,
+        info_link VARCHAR,
+        FOREIGN KEY (organization_id) REFERENCES organizations (id)
+    ) '''
     try:
         c.execute(query)
         db.commit()
@@ -83,7 +96,9 @@ def drop_table_jobs():
 
 def insert_job(values):
     global c
-    query = "INSERT INTO jobs (org, date, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?,?,?)"
+    query = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (?,?,date('now'),?,?,?,?,?,?,?) '''
     try:
         c.execute(query, values)
         db.commit()
@@ -146,12 +161,15 @@ def update_db(organization_name):
     global full_or_part
     global salary
     global info_link
-    insert_job((organization_name, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    organization_id = select_organization_id_by_name(organization_name)
+    insert_job((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
     today = datetime.today()
-    if timeUnit[:3] == 'day':
+    if timeUnit[:4] == 'hour':
+        return today - timedelta(hours=timeLength)
+    elif timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
         return today - timedelta(days=30*timeLength)
@@ -166,6 +184,15 @@ def city_to_zip(location):
 
 def zip_to_city(cityzip):
     return search.by_zipcode(cityzip).major_city
+
+def select_organization_id_by_name(name):
+    global c
+    c.execute("SELECT id from organizations WHERE name=?", [name])
+
+    rows = c.fetchall()
+    if len(rows) == 0:
+        print('organization doesn\'t exist: %s' % name)
+    return rows[0]
 
 # SQL CONNECTION
 
@@ -257,6 +284,7 @@ for job_listing in job_listings:
 
 reset_vars()
 
+'''
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
@@ -377,6 +405,9 @@ for opening_detail in current_openings:
     posted_ago = opening_detail.find('span',{'class':'current-opening-post-date'}).text.split(' ')
     if (posted_ago[0] == 'a'):
         job_post_date = date_ago(1, posted_ago[1])
+    elif (posted_ago[0] == '30+'):
+        # over 30 days ago
+        job_post_date = date_ago(31, posted_ago[1])
     else:
         job_post_date = date_ago(int(posted_ago[0]), posted_ago[1])
     if (opening_detail.find('span', {'class':'current-opening-worker-catergory'})):
@@ -393,11 +424,11 @@ reset_vars()
 
 organization = "Center for the Pacific Asian Family, Inc."
 soup = get_soup("http://nurturingchange.org/get-involved/employment/")
+jobs_list = soup.select('div.entry-content div.small-12.columns > p > a')
 
-for html_element in soup.find_all('div',{'class':'small-12 columns'})[4].find_all('a'):
-    job_title = html_element.text
-    info_link = html_element['href']
-    job_summary = pdf_message
+for job_entry in jobs_list:
+    job_title = job_entry.text
+    info_link = job_entry['href']
     update_db(organization)
 
 reset_vars()
@@ -705,7 +736,7 @@ reset_vars()
 
 # JWCH Institute, Inc.
 
-organization = "JWCH Institute"
+organization = "JWCH Institute, Inc."
 soup = get_soup('http://jwchinstitute.org/about-us/work-at-jwch/')
 
 jobs_list = soup.find('ul',{'class':'lcp_catlist'})
@@ -714,7 +745,7 @@ for job_entry in jobs_list.find_all('li'):
     job_title = job_entry.a.text.strip()
     info_link = job_entry.a['href']
     job_soup = get_soup(info_link)
-    job_summary = job_soup.find(text="Position Purpose:").parent.parent.text
+    job_summary = job_soup.find(text=re.compile("Position Purpose:")).parent.parent.text
     update_db(organization)
     reset_vars()
 
@@ -750,11 +781,11 @@ reset_vars()
 # Los Angeles Centers For Alcohol and Drug Abuse
 
 organization = "Los Angeles Centers For Alcohol and Drug Abuse"
-soup = get_soup('http://lacada.com/2018/careers-2/')
+soup = get_soup('http://www.lacada.com/2018/career-opportunities/')
 
-jobs_wrapper = soup.find('div',{'class':'wpb_wrapper'})
+jobs_list = soup.select('div.wpb_wrapper > p > a')
 
-for job_opening in jobs_wrapper.find_all('a')[2:]:
+for job_opening in jobs_list:
     job_title = job_opening.text.strip()
     info_link = job_opening['href']
     update_db(organization)
@@ -763,9 +794,9 @@ for job_opening in jobs_wrapper.find_all('a')[2:]:
 reset_vars()
 
 
-# Los Angeles Gay & Lesbian Community Services Center
+# Los Angeles LGBT Center
 
-organization = "Los Angeles Gay & Lesbian Community Services Center"
+organization = "Los Angeles LGBT Center"
 soup = get_javascript_soup('https://lalgbtcenter.org/about-the-center/careers')
 
 job_divs = soup.find_all('div', {'class':'ui-accordion-content'})
@@ -923,7 +954,7 @@ reset_vars()
 
 
 # People Assisting the Homeless (PATH)
-organization = "People Assisting the Homeless"
+organization = "People Assisting the Homeless (PATH)"
 soup = get_soup('https://path.catsone.com/careers')
 
 jobs_table = soup.find('div',{'class':'JobGrid-etzr7g-4'})
@@ -1030,7 +1061,7 @@ reset_vars()
 
 # Shields For Families, Inc.
 
-organization = "Shields For Families"
+organization = "Shields For Families, Inc."
 soup = get_javascript_soup('https://recruiting.paylocity.com/recruiting/jobs/List/1853/Shields-For-Families')
 
 job_listings = soup.find_all('div',{'class':'job-listing-job-item'})
@@ -1074,9 +1105,12 @@ for job_listing in job_listings:
 reset_vars()
 
 
+'''
+# FIXME
+# XXX timeout
 # Special Service for Groups, Inc.
 
-organization = "Special Service for Groups"
+organization = "Special Service for Groups, Inc."
 soup = get_soup('http://www.ssg.org/about-us/careers/')
 article = soup.find('article')
 
@@ -1097,6 +1131,8 @@ for html_element in article.find_all('p'):
 reset_vars()
 
 
+# FIXME
+# XXX new website coming soon
 # St. Joseph Center
 
 organization = "St. Joseph Center"
@@ -1115,17 +1151,56 @@ for job_entry in jobs_table:
     reset_vars()
 
 reset_vars()
+'''
 
 
 # Step Up on Second Street, Inc.
 
 organization = "Step Up on Second Street"
+url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
+soup = get_javascript_soup(url)
 
-## SCRAPING CODE
+current_openings = soup.findAll(attrs={"data-tn-element" : "jobLink[]"})
+
+for current_opening in current_openings:
+
+    detail_page_link = current_opening.find('a')['href']
+    detail_page_soup = get_soup(detail_page_link)
+    detail_page_desc = detail_page_soup.find('div', {"data-tn-component": "jobDescription"})
+
+    job_title = detail_page_desc.find('h1').text.strip()
+
+    job_summary_parts = detail_page_desc.findAll(['p', 'li'])
+    job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
+
+    job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
+    job_zip_code = city_to_zip(job_location)
+
+    posted_ago = job_summary_parts[-1].get_text().split(' ')
+    length = posted_ago[1]
+    if (length[-1:] == '+'):
+        length = length[:1]
+    length = int(length)
+    unit = posted_ago[2]
+    job_post_date = date_ago(length, unit)
+
+    full_or_part = detail_page_desc.find('dt' , string="Job Type").findNext().get_text()
+
+    salary_search = detail_page_desc.find('dt' , string="Salary")
+    if (salary_search is not None):
+        salary = salary_search.findNext().get_text()
+    else:
+        salary = ""
+
+    info_link = detail_page_link
+
+    update_db(organization)
+    reset_vars()
 
 reset_vars()
 
 
+'''
 # Tarzana Treatment Centers, Inc.
 
 organization = "Tarzana Treatment Centers"
@@ -1146,7 +1221,7 @@ reset_vars()
 
 # The Clare Foundation, Inc.
 
-organization = "The Clare Foundation"
+organization = "The Clare Foundation, Inc."
 soup = get_soup('http://clarefoundation.org/careers/')
 
 listings_container = soup.find('ul',{'class':'display-posts-listing'})
@@ -1313,6 +1388,7 @@ for job_listing in jobs_container.find_all('a'):
     update_db(organization)
 
 reset_vars()
+'''
 
 
 db.close()

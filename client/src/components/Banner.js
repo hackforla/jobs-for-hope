@@ -21,4 +21,4 @@ const Banner = props => {
 
 // It should be taking a title and an image prop
 
-export default Banner;
+export default Banner
