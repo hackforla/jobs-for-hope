@@ -1,3 +1,4 @@
+import sys
 import traceback
 import scraperloader
 import sqlite3
@@ -17,6 +18,10 @@ globals.drop_table_jobs()
 globals.create_table_jobs()
 
 globals.reset_vars()
+
+# set the active scraper if one is passed in
+if len(sys.argv) - 1 == 1:
+    globals.active_scrapers = [sys.argv[1]]
 
 # load and run scrapers
 for i in scraperloader.getScrapers():

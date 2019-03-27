@@ -24,7 +24,7 @@ salary = ''
 info_link = ''
 
 # add scraper filenames for a whitelist, run all of them if empty
-active_scrapers = ['a_community_of_friends.py']
+active_scrapers = []
 
 # EXCEPITONS
 
