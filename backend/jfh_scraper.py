@@ -1106,9 +1106,6 @@ for job_listing in job_listings:
 reset_vars()
 
 
-'''
-# FIXME
-# XXX timeout
 # Special Service for Groups, Inc.
 
 organization = "Special Service for Groups, Inc."
@@ -1132,6 +1129,7 @@ for html_element in article.find_all('p'):
 reset_vars()
 
 
+'''
 # FIXME
 # XXX new website coming soon
 # St. Joseph Center
