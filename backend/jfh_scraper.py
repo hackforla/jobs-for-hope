@@ -284,7 +284,6 @@ for job_listing in job_listings:
 
 reset_vars()
 
-'''
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
@@ -1200,7 +1199,6 @@ for current_opening in current_openings:
 reset_vars()
 
 
-'''
 # Tarzana Treatment Centers, Inc.
 
 organization = "Tarzana Treatment Centers"
@@ -1388,7 +1386,6 @@ for job_listing in jobs_container.find_all('a'):
     update_db(organization)
 
 reset_vars()
-'''
 
 
 db.close()
