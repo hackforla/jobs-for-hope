@@ -1157,7 +1157,7 @@ reset_vars()
 
 # Step Up on Second Street, Inc.
 
-organization = "Step Up on Second Street"
+organization = "Step Up on Second Street, Inc."
 url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
 soup = get_javascript_soup(url)
 
