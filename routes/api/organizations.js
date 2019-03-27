@@ -1,35 +1,23 @@
-const express = require('express')
-const router = express.Router()
+const sqliteService = require("../../services/organization_service_sqlite");
+const postgresService = require( "../../services/organization_service");
+const express = require( "express");
 
-router.get('/', (req, res) => {
-  const sqlite3 = require('sqlite3').verbose()
-  const db = new sqlite3.Database('jobs_for_hope.db')
-  const organizations = []
-  const sql = `
-    select o.id, o.name, o.url, o.logo, count(j.organization_id) as job_count
-    from organizations o
-    left join jobs j on o.id = j.organization_id
-    group by o.id, o.name, o.url, o.logo
-  `
-  db.all(sql, (err, rows) => {
-    if (err) {
-      console.error(err)
-      db.close()
-      res.status('404').json({ 'error': 'Error loading jobs' })
-    }
-    rows.forEach(row => {
-      organizations.push({
-        id: row.id,
-        name: row.name,
-        url: row.url,
-        logo: row.logo,
-        job_count: row.job_count
+const router = express.Router();
+
+const db = process.env.DATABASE;
+const svc = db === "sqlite" ? sqliteService : postgresService;
+
+router.get("/", (req, res) => {
+    svc
+      .getAll()
+      .then(resp => {
+        res.send(resp);
       })
-    })
-    res.send(organizations)
-  })
-  db.close()
-})
+      .catch(err => {
+        res.status("404").json({ error: err.toString() });
+      });
+  
+});
 
 // Used to keep org data in a google sheet
 // router.get('/', (req, res) => {
@@ -43,4 +31,4 @@ router.get('/', (req, res) => {
 //     })
 // })
 
-module.exports = router
+module.exports = router;
