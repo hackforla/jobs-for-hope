@@ -1129,9 +1129,6 @@ for html_element in article.find_all('p'):
 reset_vars()
 
 
-'''
-# FIXME
-# XXX new website coming soon
 # St. Joseph Center
 
 organization = "St. Joseph Center"
@@ -1150,7 +1147,6 @@ for job_entry in jobs_table:
     reset_vars()
 
 reset_vars()
-'''
 
 
 # Step Up on Second Street, Inc.
