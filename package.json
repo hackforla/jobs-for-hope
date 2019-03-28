@@ -10,34 +10,14 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "mocha"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "standard --verbose",
-      "git add"
-    ]
-  },
-  "standard": {
-    "ignore": [
-      "templates/**",
-      "client/**",
-      "venv/**",
-      "node-modules/**"
-    ],
-    "env": {
-      "mocha": true
-    }
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^4.1.0",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
+    "pg": "^7.9.0",
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
@@ -47,7 +27,7 @@
     "lint-staged": "^8.1.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.7",
-    "s": "^0.1.1",
-    "standard": "^12.0.1"
+    "prettier": "1.16.4",
+    "s": "^0.1.1"
   }
 }
