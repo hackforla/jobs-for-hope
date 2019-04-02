@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, get_javascript_soup, update_db, clean_location, city_to_zip, date_ago
+from globals import get_soup, get_javascript_soup, update_db, reset_vars, clean_location, city_to_zip, date_ago
 
 # Step Up on Second Street, Inc.
 
@@ -23,7 +23,14 @@ def run(url):
         globals.job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
 
         globals.job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
-        globals.job_zip_code = city_to_zip(globals.job_location)
+
+        location_parts = globals.job_location.split(',')
+        if len(location_parts) > 1 and len(location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
+            # skip job if state is not CA
+            print('Skip location: %s' % globals.job_location)
+            reset_vars()
+            continue
+        globals.job_zip_code = city_to_zip(location_parts[0])
 
         posted_ago = job_summary_parts[-1].get_text().split(' ')
         length = posted_ago[1]
