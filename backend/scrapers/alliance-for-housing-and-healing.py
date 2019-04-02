@@ -1,6 +1,6 @@
 from datetime import datetime
 import globals
-from globals import get_soup, get_javascript_soup, update_db, reset_vars, clean_location, city_to_zip, date_ago
+from globals import get_soup, update_db
 from datecleaner import month_to_num
 
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
