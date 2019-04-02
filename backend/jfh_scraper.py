@@ -761,7 +761,7 @@ soup = get_soup('https://lafh.org/employment-at-lafh/')
 jobs_div = soup.find('div',{'class':'sqs-block-content'})
 job_items = jobs_div.find_all('p')
 
-for job_item in job_items[3:len(job_items)-2]:
+for job_item in job_items[4:len(job_items)-3]:
     job_title = job_item.a.text.strip()
     info_link = 'https://lafh.org' + job_item.a['href']
     update_db(organization)
