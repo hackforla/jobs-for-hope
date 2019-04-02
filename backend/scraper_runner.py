@@ -3,6 +3,7 @@ import traceback
 import scraperloader
 import sqlite3
 import globals
+from os.path import basename
 
 # CONSTANTS
 
@@ -21,7 +22,7 @@ globals.reset_vars()
 
 # set the active scraper if one is passed in
 if len(sys.argv) - 1 == 1:
-    globals.active_scrapers = [sys.argv[1]]
+    globals.active_scrapers = [basename(sys.argv[1])]
 
 # load and run scrapers
 for i in scraperloader.getScrapers():
