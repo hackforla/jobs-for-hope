@@ -958,7 +958,7 @@ reset_vars()
 organization = "People Assisting the Homeless (PATH)"
 soup = get_soup('https://path.catsone.com/careers')
 
-jobs_table = soup.find('div',{'class':'JobGrid-etzr7g-4'})
+jobs_table = soup.select('div[class*="JobGrid-"]')[0]
 
 for job_entry in jobs_table.find_all('a'):
     info_link = 'https://path.catsone.com' + job_entry['href']
