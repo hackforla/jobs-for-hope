@@ -1169,7 +1169,12 @@ for current_opening in current_openings:
     job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
 
     job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
-    job_zip_code = city_to_zip(job_location)
+    location_parts = job_location.split(',')
+    if len(location_parts) > 1 and len(location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
+        # skip job if state is not CA
+        reset_vars()
+        continue
+    job_zip_code = city_to_zip(location_parts[0])
 
     posted_ago = job_summary_parts[-1].get_text().split(' ')
     length = posted_ago[1]
