@@ -80,7 +80,20 @@ def print_vars():
     print "Information: ", info_link
 
 def create_table_jobs():
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_summary VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+    query = '''
+    CREATE TABLE IF NOT EXISTS jobs (
+        date DATE,
+        organization_id INTEGER NOT NULL,
+        job_title VARCHAR,
+        job_summary VARCHAR,
+        job_location VARCHAR,
+        job_zip_code VARCHAR,
+        job_post_date DATE,
+        full_or_part VARCHAR,
+        salary VARCHAR,
+        info_link VARCHAR,
+        FOREIGN KEY (organization_id) REFERENCES organizations (id)
+    ) '''
     try:
         c.execute(query)
         db.commit()
@@ -96,13 +109,14 @@ def drop_table_jobs():
        error_handler('SQL ERROR FOR QUERY: ' + query)
 
 def insert_job(values):
-    query = "INSERT INTO jobs (org, date, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?,?,?)"
+    query = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (?,?,date('now'),?,?,?,?,?,?,?) '''
     try:
         c.execute(query, values)
         db.commit()
     except sqlite3.IntegrityError:
         error_handler('SQL ERROR FOR QUERY: ' + query)
-
 
 def get_soup(url):
     page = requests.get(url)
@@ -152,7 +166,8 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 def update_db(organization_name):
-    insert_job((organization_name, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    organization_id = select_organization_id_by_name(organization_name)
+    insert_job((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -173,3 +188,11 @@ def city_to_zip(location):
 def zip_to_city(cityzip):
     return search().by_zipcode(cityzip).major_city
 
+def select_organization_id_by_name(name):
+    global c
+    c.execute("SELECT id from organizations WHERE name=?", [name])
+
+    rows = c.fetchall()
+    if len(rows) == 0:
+        print('organization doesn\'t exist: %s' % name)
+    return rows[0]
