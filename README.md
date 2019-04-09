@@ -1,18 +1,29 @@
 # Jobs for Hope
 Aggregate job opportunities with homeless service providers so that people can search for a job that fits their skillset.
 
-## Frontend Developer Setup
-1. Fork repo to your github account
-2. Clone the forked repo to your local working directory.
-3. Cd into `frontend` directory
-4. Run `npm install` to install all frontend build tools and production dependencies
-5. Proceed to step 2 in Backend instructions
+## Full-Stack React/Node Application Installation
+1. Clone this repo to your local drive.
+2. Change to the jobs-for-hope directory:
+```
+cd jobs-for-hope
+```
+3. Install the node server npm depedencies:
+```
+npm install
+```
+4. Obtain the ```.env``` file from the slack channel and place it in this directory. It contains private info (i.e., the production database connection string) that we cannot put in this public GitHub repo.
+4. Change to the client directory:
+```
+cd client
+```
+5. Install the client (React) dependencies:
+```
+npm install
+```
+## To Run the React/Node Application
+1. Run ```npm start``` from the jobs-for-hope directory to start the node server.
+2. Run ```npm start``` from the jobs-for-hope/client directory to start the react app and open the browser.
 
-## Backend Developer Setup
-1. Steps 1-2 from Frontend instructions
-2. Cd into `backend` directory
-3. Run `npm install` to install all backend dependencies
-4. Run `npm run dev` to run the backend and the frontend concurrently
 
 ## Backend Python Scraper Setup
 1. Download the required software for the project
@@ -105,11 +116,5 @@ Aggregate job opportunities with homeless service providers so that people can s
 2. seleniumscrapers: development branch for the python scraper
 3. db_backend: development branch which integrates the frontend with the backend api using real data from the sqlite database
 
-## Dependencies
--[React](https://reactjs.org/)
--[SASS](https://sass-lang.com/)
--[Redux](https://redux.js.org/)
--[Redux-thunk](https://github.com/reduxjs/redux-thunk)
--[axios](https://www.npmjs.com/package/axios)
 
 ## Contributing
