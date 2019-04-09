@@ -196,3 +196,15 @@ def select_organization_id_by_name(name):
     if len(rows) == 0:
         print('organization doesn\'t exist: %s' % name)
     return rows[0]
+
+def delete_jobs_by_organization(organization_name):
+    query = '''
+    DELETE FROM jobs
+    WHERE organization_id = (
+        SELECT id FROM organizations WHERE name = ?
+    ) '''
+    try:
+        c.execute(query, [organization_name])
+        db.commit()
+    except sqlite3.IntegrityError:
+        error_handler('SQL ERROR FOR QUERY: ' + query)
