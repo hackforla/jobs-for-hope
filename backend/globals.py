@@ -1,4 +1,5 @@
 import sqlite3
+import psycopg2
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
@@ -11,8 +12,10 @@ from datetime import datetime, timedelta
 
 # GLOBALS
 
-c = ''
 db = ''
+c = ''
+conn = None
+cur = None
 organization_name = ''
 job_title = ''
 job_summary = ''
@@ -99,6 +102,63 @@ def create_table_jobs():
         db.commit()
     except sqlite3.IntegrityError:
        error_handler('SQL ERROR FOR QUERY: ' + query)
+
+def create_tables():
+    global cur
+    global conn
+    commands = ('''
+    CREATE TABLE IF NOT EXISTS test_regions (
+        id INTEGER PRIMARY KEY,
+        name TEXT UNIQUE NOT NULL
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS test_organizations (
+        id INTEGER PRIMARY KEY,
+        name TEXT UNIQUE NOT NULL,
+        url TEXT NOT NULL,
+        logo TEXT,
+        mission TEXT,
+        description TEXT,
+        street TEXT,
+        suite TEXT,
+        city TEXT,
+        state TEXT,
+        zip TEXT,
+        latitude TEXT,
+        longitude TEXT,
+        phone TEXT
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS test_organizations_regions (
+        organization_id INTEGER NOT NULL,
+        region_id INTEGER NOT NULL,
+        FOREIGN KEY (organization_id) REFERENCES organizations (id),
+        FOREIGN KEY (region_id) REFERENCES regions (id)
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS test_jobs (
+        date DATE,
+        organization_id INTEGER NOT NULL,
+        job_title VARCHAR,
+        job_summary VARCHAR,
+        job_location VARCHAR,
+        job_zip_code VARCHAR,
+        job_post_date DATE,
+        full_or_part VARCHAR,
+        salary VARCHAR,
+        info_link VARCHAR,
+        FOREIGN KEY (organization_id) REFERENCES organizations (id)
+    )
+    ''')
+    try:
+        for command in commands:
+            cur.execute(command)
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 def drop_table_jobs():
     query = 'DROP TABLE IF EXISTS jobs '

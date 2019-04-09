@@ -6,6 +6,7 @@ import psycopg2
 import globals
 from os.path import basename
 from config import config
+from globals import conn, cur
 
 # CONSTANTS
 
@@ -45,33 +46,27 @@ def connect_sqlite():
 
 def connect_pg():
     """ Connect to the PostgreSQL database server """
-    conn = None
     try:
         # read connection parameters
         params = config()
 
         # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
-        conn = psycopg2.connect(**params)
+        globals.conn = psycopg2.connect(**params)
 
         # create a cursor
-        globals.cur = conn.cursor()
+        globals.cur = globals.conn.cursor()
 
-        # execute a statement
-        print('PostgreSQL database version:')
-        globals.cur.execute('SELECT version()')
-
-        # display the PostgreSQL database server version
-        db_version = globals.cur.fetchone()
-        print(db_version)
+        # create schema
+        globals.create_tables()
 
         # close the communication with the PostgreSQL
         globals.cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
-        if conn is not None:
-            conn.close()
+        if globals.conn is not None:
+            globals.conn.close()
             print('Database connection closed.')
 
 if __name__ == '__main__':
