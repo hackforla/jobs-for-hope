@@ -9,11 +9,11 @@ url = 'https://path.catsone.com/careers'
 def run(url):
     soup = get_soup(url)
 
-    jobs_list= soup.find('div',{'class':'JobGrid-etzr7g-4'})
+    jobs_list = soup.select('div[class*="JobGrid-"]')[0]
 
     for job_entry in jobs_list.find_all('a'):
         globals.info_link = 'https://path.catsone.com' + job_entry['href']
-        job_row = job_entry.find('div',{'class':'row'})
+        job_row = job_entry.find('div', {'class':'row'})
         job_divs = job_row.find_all('div')
         globals.job_title = job_divs[0].text.strip()
         globals.job_location = clean_location(job_divs[2].text.strip())

@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, update_db
+from globals import get_javascript_soup, update_db
 
 # Los Angeles Centers For Alcohol and Drug Abuse
 

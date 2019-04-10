@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -9,6 +11,13 @@ const orgs = require("./routes/api/organizations");
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(cookieParser())
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static("public"));
 
 // Use Routes
 app.use("/api/jobs", jobs);

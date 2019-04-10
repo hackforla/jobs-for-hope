@@ -284,7 +284,6 @@ for job_listing in job_listings:
 
 reset_vars()
 
-'''
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
@@ -405,6 +404,8 @@ for opening_detail in current_openings:
     posted_ago = opening_detail.find('span',{'class':'current-opening-post-date'}).text.split(' ')
     if (posted_ago[0] == 'a'):
         job_post_date = date_ago(1, posted_ago[1])
+    elif posted_ago[0].lower() == 'yesterday':
+        job_post_date = date_ago(1, 'day')
     elif (posted_ago[0] == '30+'):
         # over 30 days ago
         job_post_date = date_ago(31, posted_ago[1])
@@ -760,7 +761,7 @@ soup = get_soup('https://lafh.org/employment-at-lafh/')
 jobs_div = soup.find('div',{'class':'sqs-block-content'})
 job_items = jobs_div.find_all('p')
 
-for job_item in job_items[3:len(job_items)-2]:
+for job_item in job_items[4:len(job_items)-3]:
     job_title = job_item.a.text.strip()
     info_link = 'https://lafh.org' + job_item.a['href']
     update_db(organization)
@@ -957,7 +958,7 @@ reset_vars()
 organization = "People Assisting the Homeless (PATH)"
 soup = get_soup('https://path.catsone.com/careers')
 
-jobs_table = soup.find('div',{'class':'JobGrid-etzr7g-4'})
+jobs_table = soup.select('div[class*="JobGrid-"]')[0]
 
 for job_entry in jobs_table.find_all('a'):
     info_link = 'https://path.catsone.com' + job_entry['href']
@@ -1105,9 +1106,6 @@ for job_listing in job_listings:
 reset_vars()
 
 
-'''
-# FIXME
-# XXX timeout
 # Special Service for Groups, Inc.
 
 organization = "Special Service for Groups, Inc."
@@ -1131,8 +1129,6 @@ for html_element in article.find_all('p'):
 reset_vars()
 
 
-# FIXME
-# XXX new website coming soon
 # St. Joseph Center
 
 organization = "St. Joseph Center"
@@ -1151,12 +1147,11 @@ for job_entry in jobs_table:
     reset_vars()
 
 reset_vars()
-'''
 
 
 # Step Up on Second Street, Inc.
 
-organization = "Step Up on Second Street"
+organization = "Step Up on Second Street, Inc."
 url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
 soup = get_javascript_soup(url)
 
@@ -1174,7 +1169,12 @@ for current_opening in current_openings:
     job_summary = ' '.join(map(lambda a : a.getText(), job_summary_parts[1:-1])).strip()
 
     job_location = detail_page_desc.find('dt' , string="Location").findNext().get_text()
-    job_zip_code = city_to_zip(job_location)
+    location_parts = job_location.split(',')
+    if len(location_parts) > 1 and len(location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
+        # skip job if state is not CA
+        reset_vars()
+        continue
+    job_zip_code = city_to_zip(location_parts[0])
 
     posted_ago = job_summary_parts[-1].get_text().split(' ')
     length = posted_ago[1]
@@ -1200,7 +1200,6 @@ for current_opening in current_openings:
 reset_vars()
 
 
-'''
 # Tarzana Treatment Centers, Inc.
 
 organization = "Tarzana Treatment Centers"
@@ -1388,7 +1387,6 @@ for job_listing in jobs_container.find_all('a'):
     update_db(organization)
 
 reset_vars()
-'''
 
 
 db.close()
