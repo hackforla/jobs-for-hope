@@ -4,7 +4,7 @@ const pool = new Pool({
   user: 'blynn',
   host: 'localhost',
   password: 'cookies',
-  database: 'passport',
+  database: 'jobs-for-hope',
   port: '5432'
 });
 

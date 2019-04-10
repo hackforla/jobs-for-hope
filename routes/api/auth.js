@@ -2,6 +2,7 @@ const express = require("express");
 const { pool } = require("../../services/postgres-pool");
 const { passport } = require("../../services/passport");
 const bcrypt = require('bcrypt-nodejs');
+const uuid = require('uuid/v4');
 
 const router = express.Router();
 
