@@ -1,0 +1,89 @@
+@import "../_variables.scss";
+
+.organization-content-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 2em;
+}
+
+.organization-form-container {
+  max-width: 90%;
+  flex-grow: 0;
+  flex-basis: 50%;
+  padding: 1em;
+}
+
+.banner {
+    background-position: 15% 35%;
+  }
+  
+  /* Contact form styling */
+
+  .organization-label {
+      margin-top: 1em;
+      margin-bottom: 0;
+  }
+
+  .organization-input {
+    width: 100%;
+    margin-top: 0;
+    padding: 0.5em .5em;
+    border-radius: 0.5em;
+    border: 1px lightgray solid;
+    font-size: 1em;
+  }
+
+  .organization-error {
+      margin-top: 0;
+      color: red;
+      font-size: 0.8em;
+  }
+  
+  #submit-btn {
+    font-family: $main-font;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 1em auto;
+    padding: 0.3em 1em;
+    background: $secondary-color;
+    border-radius: 0.4em;
+    border: 1px $secondary-color solid;
+  }
+  
+
+  
+  @media screen and (max-width: 770px) {
+    .organization-banner {
+      height: 35vh;
+      background-size: 140%;
+      background-position: 35% 30%;
+    }
+  
+    .organization-title {
+      padding-left: 30px;
+      width: 30%;
+      font-size: 3.2em;
+    }
+  }
+  
+  @media screen and (max-width: 450px) {
+    .organization-form-container {
+        flex-grow: 0;
+        flex-basis: 90%;
+        padding: 0.5em;
+      }
+
+    .organization-banner {
+      height: 30vh;
+      background-size: 150%;
+      background-position: 35% 25%;
+    }
+  
+    .organization-title {
+      padding-left: 10px;
+      width: 30%;
+      font-size: 3em;
+    }
+  }
+  

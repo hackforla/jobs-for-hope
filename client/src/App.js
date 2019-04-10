@@ -4,6 +4,8 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
 import Organizations from "./components/Organizations";
+import OrganizationForm from "./components/OrganizationForm"
+import OrganizationView from "./components/OrganizationView"
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -85,6 +87,7 @@ class App extends Component {
             )}
           />
           <Route
+            exact
             path="/organizations"
             render={() => (
               <Organizations
@@ -93,6 +96,14 @@ class App extends Component {
                 key={isPending}
               />
             )}
+          />
+          <Route
+            path="/organizations/:id"
+            component={OrganizationForm }
+          />
+          <Route
+            path="/organizationview/:id"
+            component={OrganizationView }
           />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
