@@ -9,6 +9,7 @@ const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt-nodejs');
 const { pool } = require("./services/postgres-pool");
 const { passport } = require("./services/passport");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -17,6 +18,10 @@ const orgs = require("./routes/api/organizations");
 const auth = require('./routes/api/auth');
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(cookieParser())
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));

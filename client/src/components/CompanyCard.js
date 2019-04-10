@@ -18,10 +18,8 @@ const CompanyCard = ({ org }) => {
         </div>
 
         <a
-          href={org.url}
+          href={`/organizationView/${org.id}`}
           id="org-view-more-link"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           View More
         </a>
