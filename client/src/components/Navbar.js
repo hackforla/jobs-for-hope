@@ -29,6 +29,16 @@ const Navbar = () => (
             Contact
           </NavLink>
         </li>
+        <li>
+          <NavLink className="link post-job-link" to="/register">
+            Post A Job
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className="link log-in-link" to="/login">
+            Log In
+          </NavLink>
+        </li>
       </ul>
     </span>
   </nav>

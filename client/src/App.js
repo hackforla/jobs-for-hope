@@ -6,6 +6,9 @@ import Jobs from "./components/Jobs";
 import Organizations from "./components/Organizations";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Login from "./components/Login";
+import Register from "./components/Register";
+
 import Footer from "./components/Footer";
 
 import * as jobService from "./services/job-service";
@@ -15,6 +18,7 @@ import "./App.scss";
 class App extends Component {
   state = {
     isPending: true,
+    activeUser: null,
     jobs: [],
     organizations: []
   };
@@ -50,14 +54,18 @@ class App extends Component {
       });
   }
 
+  loadUser = (user) => {
+    this.setState({ activeUser: user })
+  }
+
   render() {
-    const { isPending, organizations, jobs } = this.state;
+    const { isPending, activeUser, organizations, jobs } = this.state;
 
     return (
       <Router>
         <div className="App">
           <header className="header">
-            <Navbar />
+            <Navbar activeUser={activeUser} />
           </header>
 
           <Route
@@ -96,7 +104,22 @@ class App extends Component {
           />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
-
+          <Route 
+            path="/login" 
+            render={() => (
+              <Login
+                loadUser={this.loadUser}
+              />
+            )}
+           />
+          <Route 
+            path="/register" 
+            render={() => (
+              <Register
+                loadUser={this.loadUser}
+              />
+            )} 
+           />
           <Footer />
         </div>
       </Router>
