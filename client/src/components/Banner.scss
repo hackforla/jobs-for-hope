@@ -9,20 +9,21 @@ h1 {
   position: relative;
   display: flex;
   align-items: center;
-  height: 40vh;
+  height: 30vh;
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 1;
+  
 }
 
 .banner-title {
   position: absolute;
-  padding-left: 75px;
-  padding-right: 75px;
+
+  padding: 0 10px;
   width: 100%;
   font-weight: bolder;
   color: $bg-color;
-  font-size: 4em;
+  font-size: 2em;
   z-index: 3;
 }
 
@@ -38,7 +39,7 @@ h1 {
   content: "";
 }
 
-@media screen and (max-width: 770px) {
+@media screen and (min-width: 576px) {
   .banner {
     height: 33vh;
   }
@@ -49,13 +50,14 @@ h1 {
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (min-width: 768px) {
   .banner {
-    height: 30vh;
+    height: 40vh;
   }
 
   .banner-title {
-    font-size: 2em;
-    padding: 0 10px;
+    font-size: 4em;
+    padding-left: 75px;
+    padding-right: 75px;
   }
 }
