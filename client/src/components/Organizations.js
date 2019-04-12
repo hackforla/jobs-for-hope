@@ -11,7 +11,7 @@ const override = css`
   border-color: red;
 `;
 
-const Organizations = ({ organizations, isPending }) => (
+const Organizations = ({ organizations, isPending, isAdmin }) => (
   <div>
     <Banner titleUpper="Organizations" titleLower="Involved" imageName="city" />
     <div className="orgs-intro">
@@ -44,10 +44,21 @@ const Organizations = ({ organizations, isPending }) => (
         />
       </div>
     ) : (
-      <div className="organization-cards-container">
-        {organizations.map((org, index) => (
-          <CompanyCard key={index} org={org} />
-        ))}
+      <div style={{margin: "0.5em 2em "}}>
+        {isAdmin ? <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
+          <a
+            href={`/organizations/0`}
+            id="org-view-more-link"
+            style={{width: "auto", margin: "0 1em 1em 0"}}
+          >
+          New Organization
+        </a></div> : null
+    }
+        <div className="organization-cards-container" >
+          {organizations.map((org, index) => (
+            <CompanyCard key={index} org={org} />
+          ))}
+        </div>
       </div>
     )}
   </div>

@@ -6,6 +6,7 @@ import {EditorState} from 'draft-js';
 import {RichEditor} from "./RichEditor"
 import * as organizationService from "../services/organization-service";
 import {convertFromHTML, convertToHTML} from "draft-convert"
+import {Redirect} from "react-router"
 
 const initialValues = {
     id: 0,
@@ -34,7 +35,8 @@ class OrganizationForm extends React.Component{
         this.state = {
             org: initialValues,
             regions: [{id: 1, name: "North"}, {id: 2, name: "East"}, {id: 3, name: "South"}, {id: 4, name: "West"}],
-            }
+            toOrganizations: false
+        }
     }
 
     componentDidMount(){
@@ -56,6 +58,7 @@ class OrganizationForm extends React.Component{
             organizationService.put(req)
             .then(resp => {
                 setSubmitting(false);
+                this.setState({toOrganizations: true})
             })
         }else{
             organizationService.post(req)
@@ -66,10 +69,14 @@ class OrganizationForm extends React.Component{
                 this.setState(prevState => {
                     const newOrg = {...prevState.org};
                     newOrg.id = this.id;
-                    return {org: newOrg};
+                    return {org: newOrg, toOrganizations: true};
                 })
             })
         }
+    }
+
+    handleCancel = () => {
+        this.setState({toOrganizations: true})
     }
 
     handleValidate = values => {
@@ -81,19 +88,22 @@ class OrganizationForm extends React.Component{
         }
         if( !values.url ){
             errors.url = 'Required';
-        } else if (values.url.length > 200){
-            errors.url = "Url must be less than 200 characters";
+        } else if (values.url.length > 2000){
+            errors.url = "Url must be less than 2000 characters";
         }
         return errors;
     }
     
     render(){
+        if(this.state.toOrganizations){
+            return <Redirect to="/organizations" />
+        }
         return (
             <React.Fragment>
-            <Banner titleUpper="Organizations" titleLower="Involved" imageName="city" />
+            <Banner class="organization-banner" titleUpper="Organizations" titleLower="Involved" imageName="city" />
             <div className="organization-content-container">
                 <div className="organization-form-container">
-                    <h2 id="contact-title">Organization</h2>
+                    <h2>Organization</h2>
                     <Formik
                         enableReinitialize={true}
                         initialValues={this.state.org || initialValues}
@@ -154,7 +164,7 @@ class OrganizationForm extends React.Component{
                             <label htmlFor="street" className="organization-label" >Street</label>
                             <input
                                 type="text"
-                                name="description"
+                                name="street"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.street}
@@ -231,12 +241,17 @@ class OrganizationForm extends React.Component{
                                 className="organization-input" 
                             />
                             {errors.email && touched.email ? <div className="organization-error" >{errors.email}</div> : null}
-                            <button id="submit-btn" type="submit" disabled={isSubmitting}>
-                                Submit
+                            <div style={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end"}} >
+                            <button id="cancel-btn" type="button" onClick={this.handleCancel} >
+                                Cancel
                             </button>
-                            <pre>
+                            <button id="submit-btn" type="submit" disabled={isSubmitting}>
+                                Save
+                            </button>
+                            </div>
+                            {/* <pre>
                                 {JSON.stringify(props, null, 2)}
-                            </pre>
+                            </pre> */}
                             </form>
                         )}
                         }

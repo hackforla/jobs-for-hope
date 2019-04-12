@@ -2,9 +2,10 @@ import React from "react";
 import "./OrganizationForm.scss"
 import Banner from "./Banner";
 import * as organizationService from "../services/organization-service";
+import {Redirect} from 'react-router'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhone, faEnvelope, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faPhone, faEnvelope, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 const initialValues = {
@@ -32,6 +33,7 @@ class OrganizationView extends React.Component{
         this.id = props.match.params.id || 0;
         this.state = {
             org: initialValues,
+            toOrganizations: false
         }
     }
 
@@ -45,12 +47,26 @@ class OrganizationView extends React.Component{
         }
     }
 
+    handleDelete = () => {
+        organizationService.del(this.state.org.id)
+        .then(resp => {
+            window.alert("Organization Deleted")
+            this.setState({toOrganizations: true});
+        })
+        .catch(err => {
+            window.alert(err.toString())
+        })
+    }
+
     createDescription = function(description){
         return {__html: description}
     }
     
     render(){
-        const {org} = this.state;
+        const {org, toOrganizations} = this.state;
+        if(toOrganizations){
+            return <Redirect to="/organizations" />
+        }
         const descr = '<div>' + org.description + '</div>';
         return (
             <React.Fragment>
@@ -76,7 +92,11 @@ class OrganizationView extends React.Component{
                     </div>
                     <div style={{margin: "0.5em"}}><FontAwesomeIcon icon={faPhone} style={{marginRight: "0.5em"}}/>{org.phone}</div>
                     <div style={{margin: "0.5em"}}><FontAwesomeIcon icon={faEnvelope}  style={{marginRight: "0.5em"}}/>{org.email}</div>
-                <a href={`/organizations/${org.id}`} style={{color: "green"}}><FontAwesomeIcon icon={faEdit}/></a>
+                    <div style={{width: "100%", fontSize: "1.5em", display: "flex", flexDirection: "row", justifyContent: "space-between"}}> 
+                        <div  onClick={this.handleDelete} style={{color: "red", margin: "0.5em"}}><FontAwesomeIcon icon={faTrash} style={{marginRight: "0.5em"}}/>Delete</div>
+                    <a href={`/organizations/${org.id}`} style={{ color: "green", margin: "0.5em"}}><FontAwesomeIcon icon={faEdit}/></a>
+                    </div>
+                
                 </div>
             </React.Fragment>
         )
