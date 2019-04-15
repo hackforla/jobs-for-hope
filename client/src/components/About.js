@@ -10,7 +10,7 @@ const About = props => {
       <Banner
         titleUpper={"A Paycheck With"}
         titleLower={"A Purpose"}
-        imageName="homeless_sitting"
+        imageName="homeless_sitting_lores"
       />
       <div className="about-page">
         <div className="about-side-nav">
@@ -140,4 +140,4 @@ const About = props => {
   );
 };
 
-export default About
+export default About;
