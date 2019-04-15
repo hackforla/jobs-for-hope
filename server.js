@@ -9,19 +9,18 @@ const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt-nodejs');
 const { pool } = require("./services/postgres-pool");
 const { passport } = require("./services/passport");
-const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
 const jobs = require("./routes/api/jobs");
 const orgs = require("./routes/api/organizations");
 const auth = require('./routes/api/auth');
+const verify = require('./routes/api/verify');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(cookieParser())
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -29,14 +28,16 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use(session({
     store: new pgSession({
       pool : pool,
     }),
-    secret: 'passport-tutorial-secret',
+    secret: 'asdf',
     resave: false,
+    saveUninitialized: false,
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
   }));
 app.use(passport.initialize());
@@ -46,9 +47,13 @@ app.use(passport.session());
 app.use("/api/jobs", jobs);
 app.use("/api/orgs", orgs);
 app.use("/api/auth", auth);
+app.use("/api/verify", verify);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
+
+
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });

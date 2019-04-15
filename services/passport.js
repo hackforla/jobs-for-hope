@@ -12,10 +12,10 @@ passport.use(new LocalStrategy(
     .then(res => {
       const user = res.rows[0];
       if (!user) {
-        return done(null, false, { message: 'Invalid credentials.\n' });
+        return done(null, false, { message: 'Invalid Credentials' });
       }
       if (!bcrypt.compareSync(password, user.hash)) {
-        return done(null, false, { message: 'Invalid credentials.\n' });
+        return done(null, false, { message: 'Invalid Credentials' });
       }
       return done(null, user);
     })
@@ -31,7 +31,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   const sql = `select * from login where id = '${id}'`
   pool.query(sql)
-  .then(res => done(null, res.rows[0]) )
+  .then(res => {
+    return done(null, res.rows[0]) 
+  })
   .catch(error => done(error, false))
 });
 

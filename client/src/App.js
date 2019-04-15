@@ -10,21 +10,26 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Account from "./components/Account";
 
 import Footer from "./components/Footer";
 
 import * as jobService from "./services/job-service";
 import * as organizationService from "./services/organization-service";
+import { authCheck, handleLogOut } from "./services/auth-service";
 import "./App.scss";
 
 class App extends Component {
-  state = {
-    isPending: true,
-    activeUser: null,
-    jobs: [],
-    organizations: []
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPending: true,
+      activeUser: {},
+      jobs: [],
+      organizations: [],
+    };
+    authCheck().then(user => this.setState({ activeUser: user }))
+  }
   componentDidMount() {
     // this.props.onfetchJobs();
     // this.props.onfetchOrgs();
@@ -56,18 +61,25 @@ class App extends Component {
       });
   }
 
-  loadUser = (user) => {
-    this.setState({ activeUser: user })
+  logOut = () => {
+    handleLogOut().then(res => {
+      if (res === "success") {
+        window.location.href='/'
+      }
+    })
   }
 
-  render() {
-    const { isPending, activeUser, organizations, jobs } = this.state;
 
+  render() {
+    const { isPending, activeUser, organizations, jobs, requests } = this.state;
     return (
       <Router>
         <div className="App">
           <header className="header">
-            <Navbar activeUser={activeUser} />
+            <Navbar 
+              activeUser={activeUser}
+              logOut={this.logOut}
+            />
           </header>
 
           <Route
@@ -118,17 +130,21 @@ class App extends Component {
           <Route 
             path="/login" 
             render={() => (
-              <Login
-                loadUser={this.loadUser}
-              />
+              <Login />
             )}
            />
           <Route 
             path="/register" 
             render={() => (
-              <Register
-                loadUser={this.loadUser}
-              />
+              <Register />
+            )} 
+           />
+           <Route 
+            path="/account" 
+            render={() => (
+              <Account
+                activeUser={activeUser}
+                pendingRequests={requests} />
             )} 
            />
           <Footer />

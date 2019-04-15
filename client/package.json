@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-brands-svg-icons": "^5.8.1",
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
@@ -11,7 +12,7 @@
     "axios": "^0.18.0",
     "draft-convert": "^2.1.4",
     "draft-js": "^0.10.5",
-    "formik": "^1.5.1",
+    "formik": "^1.5.2",
     "moment": "^2.24.0",
     "node-sass": "^4.9.4",
     "react": "^16.5.2",

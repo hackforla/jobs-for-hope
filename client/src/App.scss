@@ -14,7 +14,10 @@ a {
   text-decoration: none;
   color: set-text-color($primary-color);
 }
-
+.link {
+  color: set-text-color($primary-color);
+  cursor: pointer;
+}
 p {
   margin: 0;
   padding: 0;
