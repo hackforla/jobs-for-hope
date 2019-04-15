@@ -62,7 +62,7 @@ class Modal extends React.Component {
                 className="modal-button"
                 onClick={() => this.handleHide()}
               >
-                Hide Modal
+                Close
               </button>
             </div>
             <h3 style={{ flex: "0 0 auto" }}>{job.organization_name}</h3>
