@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
+import './Navbar.scss';
 
 const Navbar = () => (
   <nav className="navbar" id="myNavbar">
-    <span>
+    <span className="logo-image">
       <img id="org-image" alt="logo" src={logoImage} />
     </span>
     <span className="nav-links">
