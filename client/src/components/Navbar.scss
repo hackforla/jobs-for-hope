@@ -1,0 +1,21 @@
+@import "../_variables.scss";
+
+.link:hover {
+  color: $secondary-color;
+  transition: color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.link {
+  font-size: 1rem;
+}
+
+.header {
+  padding: 10px;
+}
+
+.nav-links {
+  position: absolute;
+  right: 0;
+  top: 11%;
+}
