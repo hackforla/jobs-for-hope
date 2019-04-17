@@ -30,8 +30,6 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-console.log(pool);
-
 app.use(session({
     store: new pgSession({
       pool : pool,
