@@ -27,7 +27,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": {
+    "/api/": {
+      "target": "http://localhost:5000/api/"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",

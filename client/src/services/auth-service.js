@@ -8,12 +8,12 @@ export const authCheck = () => {
 }
 
 export const handleLogIn = (email, password) => {
-	return axios.post("/auth/login", { email, password })
+	return axios.post("/api/auth/login", { email, password })
 				.then(res => res.data); 
 }
 
 export const handleRegister = (organization, email, password) => {
-	return axios.post("/auth/register", { organization, email, password })
+	return axios.post("/api/auth/register", { organization, email, password })
 				.then(res => res.data);
 }
 
