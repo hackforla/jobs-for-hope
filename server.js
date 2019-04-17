@@ -23,6 +23,9 @@ app.use(express.static("public"));
 app.use("/api/jobs", jobs);
 app.use("/api/orgs", orgs);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static("public"));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {

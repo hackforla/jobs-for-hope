@@ -11,6 +11,7 @@ const getAll = () => {
       group by o.id, o.name, o.url, o.logo, o.mission, o.description,
         o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
         o.phone, o.email
+      order by o.name
     `;
   return pool.query(sql).then(res => {
     const organizations = [];
@@ -118,8 +119,8 @@ const put = org => {
 };
 
 const del = id => {
-  const sql = "DELETE organizations WHERE id = $1";
-  const values = ["${id}"];
+  const sql = "DELETE FROM organizations WHERE id = $1";
+  const values = [id];
 
   return pool.query(sql, values);
 };

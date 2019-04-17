@@ -10,6 +10,10 @@ html {
   color: set-text-color($bg-color);
 }
 
+h2 {
+  color: $primary-color;
+}
+
 a {
   text-decoration: none;
   color: set-text-color($primary-color);
@@ -32,6 +36,7 @@ button:hover {
   background-color: $primary-color;
   display: flex;
   width: 100%;
+  border-bottom: 2px solid #e6b833;
   .navbar {
     font-size: calc(10px + 1.5vmin);
     width: 100%;
@@ -40,8 +45,9 @@ button:hover {
     justify-content: space-between;
     align-items: flex-end;
     #org-image {
-      max-width: 200px;
+      max-width: 240px;
       display: inline;
+      margin: 0.25em 1.5em;
     }
     .nav-links {
       display: flex;
@@ -143,7 +149,7 @@ button:hover {
       align-items: flex-start;
       flex-direction: column;
       #org-image {
-        max-width: 200px;
+        max-width: 240px;
         display: inline;
       }
       .nav-links {
