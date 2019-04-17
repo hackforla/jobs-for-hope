@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { loadRequests, approveRequest } from "../services/verify-service";
-
+import "./Account.scss"
 
 class Account extends Component {
 	constructor(props) {
@@ -26,35 +26,57 @@ class Account extends Component {
 		const { requests } = this.state;
 		return (
 			<div className="account-container">
-			  { role !== 'pending' ?
-				  <h1>{`Viewing account page for ${organization}`}</h1>
+			  { role === 'admin' ?
+			  	<h1>Admin Control Panel</h1>
+			  	:
+			  	(role !== 'pending' ?
+				  <h1>{`Account Dashboard for ${organization}`}</h1>
 				  :
 				  <h1>You are not currently approved to post jobs or edit site information. Please contact the site's admin for approval. 
-				  </h1>
+				  </h1>)
 			  }
 			  { role === 'admin' ? <h2>Pending Requests:</h2> : null }
 			  { role === 'admin' && requests.length > 0 ?
-			  	requests.map((item, i) => {
+			  	<table>
+				  <tr>
+				    <th className="table-header">E-mail</th>
+				    <th className="table-header">Organization</th>
+				    <th className="table-header"></th>
+				  </tr>
+			  	{requests.map((item, i) => {
 				  	return (
-				  		<div className="request-container" key={i}>
-				  			<div className="request-item">
+				  		<tr className="request-container" key={i}>
+				  			<td className="request-item">
 				  				{item.email}
-				  			</div>
-				  			<div className="request-item">
+				  			</td>
+				  			<td className="request-item">
 				  				{item.organization}
-				  			</div>
-				  			<div className="request-item">
-				  				<button
+				  			</td>
+				  			<td className="request-item">
+				  				<button className="approve-btn"
 				  					data-email={item.email} 
 				  					onClick={this.approveReq}>
 				  					Approve
 				  				</button>
-				  			</div>
-				  		</div>
+				  			</td>
+				  		</tr>
 				  		);
-				  })
+				  })}
+			  	 </table>
 				  :
 				  null
+			  }
+			  { role === "employer" ? 
+				<div className="employer-main">
+				  <div className="jobs-container">
+				  <h2>Jobs:</h2>
+				  </div>
+				  <div className="org-info-container">
+				  <h2>Organization Info:</h2>
+				  </div>
+				</div>
+				:
+				null
 			  }
 			</div>
 		)
