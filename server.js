@@ -6,10 +6,12 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session)
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt-nodejs');
+
+dotenv.config();
+
 const { pool } = require("./services/postgres-pool");
 const { passport } = require("./services/passport");
 
-dotenv.config();
 
 const jobs = require("./routes/api/jobs");
 const orgs = require("./routes/api/organizations");
@@ -27,6 +29,8 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+console.log(pool);
 
 app.use(session({
     store: new pgSession({
