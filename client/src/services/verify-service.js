@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const loadRequests = () => {
 	return axios.get("/api/verify/")
-  			  .then(result => result.data);
+  			  .then(result => result.data.rows);
 }
 
 export const approveRequest = (email) => {

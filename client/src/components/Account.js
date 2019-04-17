@@ -38,11 +38,14 @@ class Account extends Component {
 			  { role === 'admin' ? <h2>Pending Requests:</h2> : null }
 			  { role === 'admin' && requests.length > 0 ?
 			  	<table>
+			  	  <thead>
 				  <tr>
 				    <th className="table-header">E-mail</th>
 				    <th className="table-header">Organization</th>
 				    <th className="table-header"></th>
 				  </tr>
+				  </thead>
+			  	  <tbody>
 			  	{requests.map((item, i) => {
 				  	return (
 				  		<tr className="request-container" key={i}>
@@ -62,6 +65,7 @@ class Account extends Component {
 				  		</tr>
 				  		);
 				  })}
+			  		</tbody>
 			  	 </table>
 				  :
 				  null
