@@ -1,20 +1,11 @@
 import axios from "axios";
 
 export const loadRequests = () => {
-	return axios({
-	  method: 'get',
-	  url: '/verify/',
-	  baseURL: 'http://localhost:5000/api/',
-	}).then(res => res.data.rows)
+	return axios.get("/api/verify/")
+  			  .then(result => result.data);
 }
 
 export const approveRequest = (email) => {
-	return axios({
-	  method: 'post',
-	  url: '/verify/approve',
-	  baseURL: 'http://localhost:5000/api/',
-	  data: {
-	    email
-	  }
-	}).then(res => res.data) 
+	return axios.post("/api/verify/approve", { email })
+				.then(res => res.data);
 }
