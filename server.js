@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session)
 const uuid = require('uuid/v4');
@@ -28,8 +27,6 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use(session({
     store: new pgSession({
