@@ -16,7 +16,7 @@ const SideFilter = ({
     <aside className="filter-bar-container">
       <p className="filters-title"> FILTERS</p>
       <div className="distance filter-criteria">
-        <p> Distance</p>
+        <p className="distance"> Distance</p>
         <select
           value={radius}
           onChange={event => {
@@ -29,7 +29,7 @@ const SideFilter = ({
           <option value="25">25 miles</option>
           <option value="50">50 miles</option>
         </select>
-        <p style={{ fontSize: "small" }}>From Zip Code</p>
+        <p className="distance" style={{ fontSize: "small" }}>From Zip Code</p>
         <input
           value={distanceZip}
           onChange={e => {
@@ -39,7 +39,7 @@ const SideFilter = ({
         />
       </div>
       <div className="employment-type filter-criteria">
-        <p>Employment Type</p>
+        <p className="employment-type-title" >Employment Type</p>
         <div className="filter-options">
           <input
             name="full-time"
