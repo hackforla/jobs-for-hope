@@ -53,7 +53,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   svc
-    .post(req.body)
+    .del(req.params.id)
     .then(resp => {
       res.sendStatus("200");
     })

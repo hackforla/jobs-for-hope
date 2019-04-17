@@ -27,11 +27,15 @@ npm install
 
 ## Backend Python Scraper Setup
 1. Download the required software for the project
-
+    
+    a. For OSX
+    
         brew install python@2 git
 
-- Python 2.7 (https://www.python.org/downloads/release/python-2715/)
-- Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/downloads/guis)
+    b. For Windows, install them from the official sites or via chocolatey
+    
+    - Python 2.7 (https://www.python.org/downloads/release/python-2715/)
+    - Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/downloads/guis)
 
 2. Install virtualenv using pip
 
@@ -67,13 +71,31 @@ npm install
 
 9. Work on the scraper and run
 
+    a. for sqlite
+
         python jfh_scraper.py
+        
+    b. for postgres
+
+        python scraper_runner.py
 
 9. Deactivate the virtualenv
 
         deactivate  // switch back to system python
 
 ## Checking the database for scraped data
+
+We're moving towards using postgres and using the instance hosted on aws. The sqlite will go away soon.
+
+### Postgres
+
+1. Install DBeaver for your system.
+
+2. Add a database connection with the .env file credentials from the slack channel.
+
+3. The jobs are in the jobs table.
+
+### Sqlite
 
 1. Install sqlite
 

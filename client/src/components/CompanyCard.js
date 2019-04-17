@@ -17,11 +17,8 @@ const CompanyCard = ({ org }) => {
           </Link>
         </div>
 
-        <a
-          href={`/organizationView/${org.id}`}
-          id="org-view-more-link"
-        >
-          View More
+        <a href={`/organizationView/${org.id}`} id="org-view-more-link">
+          Details
         </a>
       </div>
     </div>

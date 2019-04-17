@@ -8,7 +8,7 @@ const Contact = () => (
     <Banner
       titleUpper="Getting"
       titleLower={"In Touch"}
-      imageName="homeless_poster"
+      imageName="homeless_poster_lores"
     />
 
     <div className="contact-content-container">
@@ -62,8 +62,8 @@ const Contact = () => (
       </div>
     </div>
   </main>
-)
+);
 
-export default Contact
+export default Contact;
 
 // TODO: Put form action later
