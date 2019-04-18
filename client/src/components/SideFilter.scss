@@ -1,71 +1,89 @@
 @import "../_variables.scss";
 
 .filter-bar-container {
-  height: 100vh; /* Full-height: remove this if you want "auto" height */
-  width: 190px; /* Set the width of the sidebar */
-  top: 10em;
-  padding-left: 1em;
-  background-color: $light-color;
+	height: 100vh; /* Full-height: remove this if you want "auto" height */
+	width: 22vw; /* Set the width of the sidebar */
+	top: 10em;
+	padding: 1.5em;
+	background-color: $light-color;
 }
 
 .filter-options {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: .25em;
 }
 
 .filter-criteria {
-  padding: 0.5em;
+	padding: 0.5em;
 }
 
 .filters-title {
-  padding: 0.5em;
-  font-weight: 900;
+	padding: 0.5em;
+	margin-bottom: .5em;
+	font-weight: 900;
+}
+
+.distance {
+	margin-bottom: .5em;
 }
 
 .distance-selector {
-  margin-top: 0.25em;
-  padding: 0.3em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
+	margin-top: 0.25em;
+	margin-bottom: 1em;
+	padding: 0.7em;
+	border-radius: 0.25em;
+	border: 1px gray solid;
+	background-color: white;
+	width: 90%;
+	height: 2.75em;
 }
 
 .distance-zip {
-  margin-top: 0.25em;
-  padding: 0.3em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
-  width: 8em;
+	margin-top: 0.25em;
+	padding: 0.7em;
+	border-radius: 0.25em;
+	border: 1px gray solid;
+	width: 90%;
+	height: 2.75em;
 }
 
+.employment-type-title {
+	margin-top: 1em;
+	margin-bottom: .5em;  
+}
+
+
+
 @media screen and (max-width: 765px) {
-  .filter-bar-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-  }
+	.filter-bar-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: space-around;
+	}
 }
 
 @media screen and (max-width: 450px) {
-  .filter-bar-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr minmax(41px, auto);
-    .filters-title {
-      height: 25px;
-      grid-column: 1;
-    }
-    .distance {
-      grid-column: 1;
-      grid-row: 2;
-    }
-    .employment-type {
-      grid-column: 2;
-      grid-row: 2;
-    }
-    .experience-level {
-      grid-column: 3;
-      grid-row: 2;
-    }
-  }
+	.filter-bar-container {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: 1fr minmax(41px, auto);
+		.filters-title {
+			height: 25px;
+			grid-column: 1;
+		}
+		.distance {
+			grid-column: 1;
+			grid-row: 2;
+		}
+		.employment-type {
+			grid-column: 2;
+			grid-row: 2;
+		}
+		.experience-level {
+			grid-column: 3;
+			grid-row: 2;
+		}
+	}
 }
