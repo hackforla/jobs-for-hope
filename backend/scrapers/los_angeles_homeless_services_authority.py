@@ -6,7 +6,6 @@ url = 'https://www.governmentjobs.com/careers/lahsa'
 
 
 def run(url):
-    globals.job_post_date = ''
     next_page_url = url
     soup = get_javascript_soup_delayed(next_page_url,'job-table-title')
 

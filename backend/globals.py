@@ -21,7 +21,7 @@ job_title = ''
 job_summary = ''
 job_location = ''
 job_zip_code = ''
-job_post_date = ''
+job_post_date = None
 full_or_part = ''
 salary = ''
 info_link = ''
@@ -36,7 +36,19 @@ class Error(Exception):
     pass
 
 class ParseError(Error):
-    '''Exception raised for error in parsing
+    '''Exception raised for error in parsing for jobs
+
+    Attributes:
+        url -- expression where the error occured
+        msg -- explanation of the error
+    '''
+
+    def __init__(self, url, msg):
+        self.url = url
+        self.msp = msg
+
+class LocationError(Error):
+    '''Exception raised for error in job location
 
     Attributes:
         url -- expression where the error occured
@@ -67,7 +79,7 @@ def reset_vars():
     job_summary = ""
     job_location = ""
     job_zip_code = ""
-    job_post_date = ""
+    job_post_date = None
     full_or_part = ""
     salary = ""
     info_link = ""
@@ -108,13 +120,14 @@ def create_tables():
     global conn
     commands = ('''
     CREATE TABLE IF NOT EXISTS test_regions (
-        id INTEGER PRIMARY KEY,
-        name TEXT UNIQUE NOT NULL
+        id SERIAL,
+        name TEXT UNIQUE NOT NULL,
+        PRIMARY KEY (id)
     )
     ''',
     '''
     CREATE TABLE IF NOT EXISTS test_organizations (
-        id INTEGER PRIMARY KEY,
+        id SERIAL,
         name TEXT UNIQUE NOT NULL,
         url TEXT NOT NULL,
         logo TEXT,
@@ -127,21 +140,20 @@ def create_tables():
         zip TEXT,
         latitude TEXT,
         longitude TEXT,
-        phone TEXT
+        phone TEXT,
+        PRIMARY KEY (id)
     )
     ''',
     '''
     CREATE TABLE IF NOT EXISTS test_organizations_regions (
-        organization_id INTEGER NOT NULL,
-        region_id INTEGER NOT NULL,
-        FOREIGN KEY (organization_id) REFERENCES organizations (id),
-        FOREIGN KEY (region_id) REFERENCES regions (id)
+        organization_id INTEGER REFERENCES organizations (id),
+        region_id INTEGER REFERENCES regions (id)
     )
     ''',
     '''
     CREATE TABLE IF NOT EXISTS test_jobs (
+        id SERIAL,
         date DATE,
-        organization_id INTEGER NOT NULL,
         job_title VARCHAR,
         job_summary VARCHAR,
         job_location VARCHAR,
@@ -150,13 +162,13 @@ def create_tables():
         full_or_part VARCHAR,
         salary VARCHAR,
         info_link VARCHAR,
-        FOREIGN KEY (organization_id) REFERENCES organizations (id)
+        organization_id INTEGER REFERENCES organizations (id),
+        PRIMARY KEY (id)
     )
     ''')
     try:
         for command in commands:
             cur.execute(command)
-        conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
@@ -168,7 +180,30 @@ def drop_table_jobs():
     except sqlite3.IntegrityError:
        error_handler('SQL ERROR FOR QUERY: ' + query)
 
-def insert_job(values):
+def drop_tables():
+    global cur
+    global conn
+    commands = (
+    '''
+        DROP TABLE IF EXISTS test_jobs
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_organizations
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_regions
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_organizations_regions
+    '''
+    )
+    try:
+        for command in commands:
+            cur.execute(command)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+def insert_job_sqlite(values):
     query = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (?,?,date('now'),?,?,?,?,?,?,?) '''
@@ -177,6 +212,19 @@ def insert_job(values):
         db.commit()
     except sqlite3.IntegrityError:
         error_handler('SQL ERROR FOR QUERY: ' + query)
+
+def insert_job(values):
+    sql = '''
+    INSERT INTO test_jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id
+    '''
+    try:
+        #print(values)
+        cur.execute(sql, values)
+        #print(cur.fetchone()[0])
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 def get_soup(url):
     page = requests.get(url)
@@ -225,9 +273,16 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
+def update_db_sqlite(organization_name):
+    print(organization_name)
+    organization_id = select_organization_id_by_name_sqlite(organization_name)
+    insert_job_sqlite((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+
 def update_db(organization_name):
+    #print(organization_name)
     organization_id = select_organization_id_by_name(organization_name)
-    insert_job((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    #print (organization_id)
+    insert_job((job_title, organization_id, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -242,13 +297,19 @@ def date_ago(timeLength, timeUnit):
 def clean_location(string):
     return string.split(',')[0].strip()
 
+#def clean_location(string):
+#    if string.split(',')[-1].strip() == 'CA':
+#        return string.split(',')[0].strip()
+#    else:
+#        raise LocationError(string, 'Location not in California')
+
 def city_to_zip(location):
     return int(search().by_city_and_state(location, 'CA')[0].zipcode)
 
 def zip_to_city(cityzip):
     return search().by_zipcode(cityzip).major_city
 
-def select_organization_id_by_name(name):
+def select_organization_id_by_name_sqlite(name):
     global c
     c.execute("SELECT id from organizations WHERE name=?", [name])
 
@@ -257,7 +318,16 @@ def select_organization_id_by_name(name):
         print('organization doesn\'t exist: %s' % name)
     return rows[0]
 
-def delete_jobs_by_organization(organization_name):
+def select_organization_id_by_name(name):
+    global cur
+    cur.execute("SELECT id from organizations WHERE name=%s", [name])
+
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        print('organization doesn\'t exist: %s' % name)
+    return rows[0][0]
+
+def delete_jobs_by_organization_sqlite(organization_name):
     query = '''
     DELETE FROM jobs
     WHERE organization_id = (
@@ -268,3 +338,15 @@ def delete_jobs_by_organization(organization_name):
         db.commit()
     except sqlite3.IntegrityError:
         error_handler('SQL ERROR FOR QUERY: ' + query)
+
+def delete_jobs_by_organization(organization_name):
+    query = '''
+    DELETE FROM jobs
+    WHERE organization_id = (
+        SELECT id FROM organizations WHERE name = %s
+    ) '''
+    try:
+        cur.execute(query, [organization_name])
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
