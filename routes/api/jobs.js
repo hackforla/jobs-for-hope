@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 router.get("/scrape", (req, res) => {
   const { spawn } = require("child_process");
   const pyProg = spawn("python", ["./jfh_scraper.py"]);
-
+  
   pyProg.stdout.on("data", function(data) {
     res.write(data);
     res.end("end");
