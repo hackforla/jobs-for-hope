@@ -129,7 +129,7 @@ def create_tables():
     )
     ''',
     '''
-    CREATE TABLE IF NOT EXISTS test_jobs (
+    CREATE TABLE IF NOT EXISTS jobs (
         id SERIAL,
         date DATE,
         job_title VARCHAR,
@@ -155,7 +155,7 @@ def drop_tables():
     global conn
     commands = (
     '''
-        DROP TABLE IF EXISTS test_jobs
+        DROP TABLE IF EXISTS jobs
     ''',
     '''
         DROP TABLE IF EXISTS test_organizations
@@ -175,7 +175,7 @@ def drop_tables():
 
 def insert_job(values):
     sql = '''
-    INSERT INTO test_jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
     RETURNING id
     '''
@@ -272,7 +272,7 @@ def select_organization_id_by_name(name):
 
 def delete_jobs_by_organization(organization_name):
     query = '''
-    DELETE FROM test_jobs
+    DELETE FROM jobs
     WHERE organization_id = (
         SELECT id FROM organizations WHERE name = %s
     ) '''
