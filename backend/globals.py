@@ -176,7 +176,7 @@ def drop_tables():
 def insert_job(values):
     sql = '''
     INSERT INTO test_jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
-    VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
+    VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
     RETURNING id
     '''
     try:
@@ -234,10 +234,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 def update_db(organization_name):
-    #print(organization_name)
-    organization_id = select_organization_id_by_name(organization_name)
-    #print (organization_id)
-    insert_job((job_title, organization_id, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_job((job_title, organization_name, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
