@@ -275,7 +275,7 @@ def select_organization_id_by_name(name):
 
 def delete_jobs_by_organization(organization_name):
     query = '''
-    DELETE FROM jobs
+    DELETE FROM test_jobs
     WHERE organization_id = (
         SELECT id FROM organizations WHERE name = %s
     ) '''
