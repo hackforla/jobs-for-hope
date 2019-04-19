@@ -1,4 +1,3 @@
-import sqlite3
 import psycopg2
 from bs4 import BeautifulSoup
 import requests
@@ -94,27 +93,6 @@ def print_vars():
     print "Salary: ", salary
     print "Information: ", info_link
 
-def create_table_jobs():
-    query = '''
-    CREATE TABLE IF NOT EXISTS jobs (
-        date DATE,
-        organization_id INTEGER NOT NULL,
-        job_title VARCHAR,
-        job_summary VARCHAR,
-        job_location VARCHAR,
-        job_zip_code VARCHAR,
-        job_post_date DATE,
-        full_or_part VARCHAR,
-        salary VARCHAR,
-        info_link VARCHAR,
-        FOREIGN KEY (organization_id) REFERENCES organizations (id)
-    ) '''
-    try:
-        c.execute(query)
-        db.commit()
-    except sqlite3.IntegrityError:
-       error_handler('SQL ERROR FOR QUERY: ' + query)
-
 def create_tables():
     global cur
     global conn
@@ -172,14 +150,6 @@ def create_tables():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
-def drop_table_jobs():
-    query = 'DROP TABLE IF EXISTS jobs '
-    try:
-        c.execute(query)
-        db.commit()
-    except sqlite3.IntegrityError:
-       error_handler('SQL ERROR FOR QUERY: ' + query)
-
 def drop_tables():
     global cur
     global conn
@@ -202,16 +172,6 @@ def drop_tables():
             cur.execute(command)
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-
-def insert_job_sqlite(values):
-    query = '''
-    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
-    VALUES (?,?,date('now'),?,?,?,?,?,?,?) '''
-    try:
-        c.execute(query, values)
-        db.commit()
-    except sqlite3.IntegrityError:
-        error_handler('SQL ERROR FOR QUERY: ' + query)
 
 def insert_job(values):
     sql = '''
@@ -273,11 +233,6 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
-def update_db_sqlite(organization_name):
-    print(organization_name)
-    organization_id = select_organization_id_by_name_sqlite(organization_name)
-    insert_job_sqlite((job_title, organization_id[0], job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
-
 def update_db(organization_name):
     #print(organization_name)
     organization_id = select_organization_id_by_name(organization_name)
@@ -309,15 +264,6 @@ def city_to_zip(location):
 def zip_to_city(cityzip):
     return search().by_zipcode(cityzip).major_city
 
-def select_organization_id_by_name_sqlite(name):
-    global c
-    c.execute("SELECT id from organizations WHERE name=?", [name])
-
-    rows = c.fetchall()
-    if len(rows) == 0:
-        print('organization doesn\'t exist: %s' % name)
-    return rows[0]
-
 def select_organization_id_by_name(name):
     global cur
     cur.execute("SELECT id from organizations WHERE name=%s", [name])
@@ -326,18 +272,6 @@ def select_organization_id_by_name(name):
     if len(rows) == 0:
         print('organization doesn\'t exist: %s' % name)
     return rows[0][0]
-
-def delete_jobs_by_organization_sqlite(organization_name):
-    query = '''
-    DELETE FROM jobs
-    WHERE organization_id = (
-        SELECT id FROM organizations WHERE name = ?
-    ) '''
-    try:
-        c.execute(query, [organization_name])
-        db.commit()
-    except sqlite3.IntegrityError:
-        error_handler('SQL ERROR FOR QUERY: ' + query)
 
 def delete_jobs_by_organization(organization_name):
     query = '''
