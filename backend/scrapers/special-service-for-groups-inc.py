@@ -17,7 +17,6 @@ def run(url):
             job_element = job_entry.find('a')
             globals.job_title = job_element.text
             globals.info_link = job_element['href']
-            globals.job_summary = globals.info_link
             date = job_entry.text.split('Posted ')[1].split('/')
             month = int(date[0])
             day = int(date[1])

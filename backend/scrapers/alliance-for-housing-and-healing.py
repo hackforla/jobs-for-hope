@@ -15,7 +15,6 @@ def run(url):
     for job_entry in jobs_list:
         globals.job_title = job_entry.a.text
         globals.info_link = job_entry.a['href']
-        globals.job_summary = globals.info_link
         listing_soup = get_soup(globals.info_link)
 
         if listing_soup.body.find_all('p', string="Job Type: Full-time"):

@@ -20,5 +20,4 @@ def run(url):
         else:
             globals.info_link = 'http://www.valleyoasis.org' + temp_link
 
-        globals.job_summary = globals.info_link
         update_db(organization)

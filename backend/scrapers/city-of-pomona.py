@@ -15,7 +15,6 @@ def run(url):
         job_details = job_entry.find_all('td')
         globals.job_title = job_details[0].find('a').text.strip()
         globals.info_link = 'http://agency.governmentjobs.com/pomona/' + job_details[0].find('a')['href']
-        globals.job_summary = globals.info_link
         globals.full_or_part = job_details[1].text.strip()
         globals.salary = job_details[2].text.strip()
         globals.job_location = 'Pomona'

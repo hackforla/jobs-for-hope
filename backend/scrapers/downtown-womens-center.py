@@ -20,7 +20,6 @@ def run(url):
                 globals.full_or_part = 'On-Call'
             globals.job_title = job_entry.a.text
             globals.info_link = job_entry.a['href']
-            globals.job_summary = globals.info_link
             job_soup = get_soup(globals.info_link)
             job_details = job_soup.find('div', {'aria-label':'Job Details'})
             if job_details:

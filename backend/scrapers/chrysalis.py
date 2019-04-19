@@ -14,6 +14,5 @@ def run(url):
         job_details = job_entry.find_all('td')
         globals.job_title = job_details[0].find('a').text
         globals.info_link = job_details[0].find('a')['href']
-        globals.job_summary = globals.info_link
         globals.job_location = job_details[2].text
         update_db(organization)

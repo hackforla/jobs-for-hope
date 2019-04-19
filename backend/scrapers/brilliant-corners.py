@@ -13,7 +13,6 @@ def run(url):
     for job_entry in jobs_list:
         globals.job_title = job_entry.find("span",{"class","js-job-title"}).a.text
         globals.info_link = 'https://careers.jobscore.com' + job_entry.find("span",{"class","js-job-title"}).a['href']
-        globals.job_summary = globals.info_link
         globals.job_location = job_entry.find("span",{"class","js-job-location"}).text.strip()
 
         job_soup = get_soup(globals.info_link)
