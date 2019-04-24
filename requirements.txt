@@ -4,3 +4,4 @@ requests
 datetime
 selenium
 uszipcode
+psycopg2

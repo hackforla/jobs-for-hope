@@ -4,7 +4,7 @@ import re
 
 # JWCH Institute, Inc.
 
-organization = "JWCH Institute"
+organization = "JWCH Institute, Inc."
 url = "http://jwchinstitute.org/about-us/work-at-jwch/"
 
 def run(url):

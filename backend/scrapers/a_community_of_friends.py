@@ -17,7 +17,6 @@ def run(url):
         # Get job title and link
         globals.job_title = job_description[0].a.text
         globals.info_link = 'https://recruiting.paylocity.com' + job_description[0].a['href']
-        globals.job_summary = globals.info_link
         # Get date as string
         date = job_description[1].text
         # Clean up date string by removing trailing -'s, then split and convert to datetime object

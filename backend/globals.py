@@ -1,4 +1,4 @@
-import sqlite3
+import psycopg2
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
@@ -11,14 +11,16 @@ from datetime import datetime, timedelta
 
 # GLOBALS
 
-c = ''
 db = ''
+c = ''
+conn = None
+cur = None
 organization_name = ''
 job_title = ''
 job_summary = ''
 job_location = ''
 job_zip_code = ''
-job_post_date = ''
+job_post_date = None
 full_or_part = ''
 salary = ''
 info_link = ''
@@ -26,14 +28,26 @@ info_link = ''
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = []
 
-# EXCEPITONS
+# EXCEPTIONS
 
 class Error(Exception):
     '''Base class for exceptions in the parser'''
     pass
 
 class ParseError(Error):
-    '''Exception raised for error in parsing
+    '''Exception raised for error in parsing for jobs
+
+    Attributes:
+        url -- expression where the error occured
+        msg -- explanation of the error
+    '''
+
+    def __init__(self, url, msg):
+        self.url = url
+        self.msp = msg
+
+class LocationError(Error):
+    '''Exception raised for error in job location
 
     Attributes:
         url -- expression where the error occured
@@ -64,7 +78,7 @@ def reset_vars():
     job_summary = ""
     job_location = ""
     job_zip_code = ""
-    job_post_date = ""
+    job_post_date = None
     full_or_part = ""
     salary = ""
     info_link = ""
@@ -79,30 +93,98 @@ def print_vars():
     print "Salary: ", salary
     print "Information: ", info_link
 
-def create_table_jobs():
-    query = 'CREATE TABLE IF NOT EXISTS jobs (date DATE, org VARCHAR, job_title VARCHAR, job_summary VARCHAR, job_location VARCHAR, job_zip_code VARCHAR, job_post_date DATE, full_or_part VARCHAR, salary VARCHAR, info_link VARCHAR)'
+def create_tables():
+    global cur
+    global conn
+    commands = ('''
+    CREATE TABLE IF NOT EXISTS test_regions (
+        id SERIAL,
+        name TEXT UNIQUE NOT NULL,
+        PRIMARY KEY (id)
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS test_organizations (
+        id SERIAL,
+        name TEXT UNIQUE NOT NULL,
+        url TEXT NOT NULL,
+        logo TEXT,
+        mission TEXT,
+        description TEXT,
+        street TEXT,
+        suite TEXT,
+        city TEXT,
+        state TEXT,
+        zip TEXT,
+        latitude TEXT,
+        longitude TEXT,
+        phone TEXT,
+        PRIMARY KEY (id)
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS test_organizations_regions (
+        organization_id INTEGER REFERENCES organizations (id),
+        region_id INTEGER REFERENCES regions (id)
+    )
+    ''',
+    '''
+    CREATE TABLE IF NOT EXISTS jobs (
+        id SERIAL,
+        date DATE,
+        job_title VARCHAR,
+        job_summary VARCHAR,
+        job_location VARCHAR,
+        job_zip_code VARCHAR,
+        job_post_date DATE,
+        full_or_part VARCHAR,
+        salary VARCHAR,
+        info_link VARCHAR,
+        organization_id INTEGER REFERENCES organizations (id),
+        PRIMARY KEY (id)
+    )
+    ''')
     try:
-        c.execute(query)
-        db.commit()
-    except sqlite3.IntegrityError:
-       error_handler('SQL ERROR FOR QUERY: ' + query)
+        for command in commands:
+            cur.execute(command)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
-def drop_table_jobs():
-    query = 'DROP TABLE IF EXISTS jobs '
+def drop_tables():
+    global cur
+    global conn
+    commands = (
+    '''
+        DROP TABLE IF EXISTS jobs
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_organizations
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_regions
+    ''',
+    '''
+        DROP TABLE IF EXISTS test_organizations_regions
+    '''
+    )
     try:
-        c.execute(query)
-        db.commit()
-    except sqlite3.IntegrityError:
-       error_handler('SQL ERROR FOR QUERY: ' + query)
+        for command in commands:
+            cur.execute(command)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 def insert_job(values):
-    query = "INSERT INTO jobs (org, date, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link) VALUES (?,date('now'),?,?,?,?,?,?,?,?)"
+    sql = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id
+    '''
     try:
-        c.execute(query, values)
-        db.commit()
-    except sqlite3.IntegrityError:
-        error_handler('SQL ERROR FOR QUERY: ' + query)
-
+        #print(values)
+        cur.execute(sql, values)
+        #print(cur.fetchone()[0])
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 def get_soup(url):
     page = requests.get(url)
@@ -113,7 +195,7 @@ def get_javascript_soup(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.implicitly_wait(10)
     driver.get(url)
     innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -124,7 +206,7 @@ def get_javascript_soup_delayed(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -139,7 +221,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -152,7 +234,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 def update_db(organization_name):
-    insert_job((organization_name, job_title, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_job((job_title, organization_name, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -167,9 +249,35 @@ def date_ago(timeLength, timeUnit):
 def clean_location(string):
     return string.split(',')[0].strip()
 
+#def clean_location(string):
+#    if string.split(',')[-1].strip() == 'CA':
+#        return string.split(',')[0].strip()
+#    else:
+#        raise LocationError(string, 'Location not in California')
+
 def city_to_zip(location):
     return int(search().by_city_and_state(location, 'CA')[0].zipcode)
 
 def zip_to_city(cityzip):
     return search().by_zipcode(cityzip).major_city
+
+def select_organization_id_by_name(name):
+    global cur
+    cur.execute("SELECT id from organizations WHERE name=%s", [name])
+
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        print('organization doesn\'t exist: %s' % name)
+    return rows[0][0]
+
+def delete_jobs_by_organization(organization_name):
+    query = '''
+    DELETE FROM jobs
+    WHERE organization_id = (
+        SELECT id FROM organizations WHERE name = %s
+    ) '''
+    try:
+        cur.execute(query, [organization_name])
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 

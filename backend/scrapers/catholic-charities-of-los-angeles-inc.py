@@ -28,6 +28,5 @@ def run(url):
         if job_entry.find('span', {'class':'current-opening-worker-catergory'}):
             globals.full_or_part = job_entry.find('span', {'class':'current-opening-worker-catergory'}).text.strip()
         globals.info_link = 'https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=b4842dc2-cd32-4f0f-88d3-b259fbc96f09&ccId=19000101_000001&type=MP&lang'
-        globals.job_summary = globals.info_link
         update_db(organization)
         reset_vars()

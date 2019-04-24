@@ -533,10 +533,9 @@ reset_vars()
 organization = "Downtown Women's Center"
 soup = get_soup('https://www.downtownwomenscenter.org/career-opportunities/')
 
-job_lists = soup.find('div',{'class':'post'}).find_all('ul')
+job_lists = soup.find('div',{'class':'post'}).find_all('ul')[:-1]
 
-for i in range(len(job_lists)):
-    job_list = job_lists[i]
+for i, job_list in enumerate(job_lists):
     for job_entry in job_list.find_all('li'):
         if i==0:
             full_or_part = 'Full-Time'
@@ -1141,8 +1140,14 @@ for job_entry in jobs_table:
     onClickLink = job_entry['onclick']
     info_link = onClickLink[13:len(onClickLink)-3]
     full_or_part = job_entry.find('td',{'class':'srJobListTypeOfEmployment'}).text
-    job_location = clean_location(job_entry.find('td',{'class':'srJobListLocation'}).text)
-    job_zip_code = city_to_zip(job_location)
+    job_location = job_entry.find('td',{'class':'srJobListLocation'}).text
+    location_parts = job_location.split(',')
+    if len(location_parts) > 1 and len(location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
+        # skip job if state is not CA
+        print('Skip location: %s' % job_location)
+        reset_vars()
+        continue
+    job_zip_code = city_to_zip(location_parts[0])
     update_db(organization)
     reset_vars()
 
