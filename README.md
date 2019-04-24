@@ -1,6 +1,65 @@
 # Jobs for Hope
 Aggregate job opportunities with homeless service providers so that people can search for a job that fits their skillset.
 
+## Prerequisites
+1. Git for working with Github source code
+2. Node and npm for running the web app
+3. Python 2 and pip for running the web scraper
+
+### Complete beginner instructions
+<details><summary>click here to show</summary><p>
+
+#### Common Tools for all OSes
+<details><summary>show</summary><p>
+    
+1. Install Visual Studios Code (https://code.visualstudio.com/)
+    1. Install Prettier - Code formatter extension
+1. Install DBeaver (https://dbeaver.io/), Community Edition
+</p></details>
+
+#### Windows 10
+<details><summary>show</summary><p>
+
+1. Enable Windows Subsystem for Linux (reference: https://docs.microsoft.com/en-us/windows/wsl/install-win10 https://lifehacker.com/how-to-get-started-with-the-windows-sybsystem-for-linux-1828952698)
+    1. In the search bar, type "turn windows features on or off" and choose the correct item
+    1. Scroll down and check the box for Windows Subsystem for Linux
+    1. Windows will restart to complete the installation
+1. Install Ubuntu Linux
+    1. Open the Microsoft Store and search for "Run Linux on Windows"
+    1. Install and launch Ubuntu
+    1. Set up a new linux user account when running for the first time
+    1. Update and upgrade all packages
+        1. In a terminal, run (you will need to type in your user password when running sudo)
+        ```
+        sudo apt update && sudo apt upgrade
+        ```
+        1. Press enter to upgrade everything
+1. Install other packages (python 2, pip, postgresql)
+```
+sudo apt install python python-pip postgresql
+```
+</p></details>
+
+#### Linux (debian-based)
+<details><summary>show</summary><p>
+
+1. Install packages
+```
+sudo apt install python2.7 python-pip postgresql
+```
+</p></details>
+
+#### OSX
+<details><summary>show</summary><p>
+
+1. Install homebrew (https://brew.sh/)
+1. Install git, python 2, postgresql
+```
+brew install git, python@2, postgresql
+```
+</p></details>
+</p></details>
+
 ## Full-Stack React/Node Application Installation
 1. Clone this repo to your local drive.
 2. Change to the jobs-for-hope directory:
@@ -26,22 +85,11 @@ npm install
 
 
 ## Backend Python Scraper Setup
-1. Download the required software for the project
-    
-    a. For OSX
-    
-        brew install python@2 git
-
-    b. For Windows, install them from the official sites or via chocolatey
-    
-    - Python 2.7 (https://www.python.org/downloads/release/python-2715/)
-    - Git (https://git-scm.com/downloads) GUI Add-Ons(https://git-scm.com/downloads/guis)
-
 2. Install virtualenv using pip
 
         pip install virtualenv virtualenvwrapper
 
-3. Find virtualenvwrapper.sh location
+3. Find virtualenvwrapper.sh location 
 
         which virtualenvwrapper.sh
 
