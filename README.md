@@ -71,18 +71,19 @@ brew install git python@2 postgresql
 
 ## Full-Stack React/Node Application Installation
 1. Clone this repo to your local drive.
-<details><summary>details</summary><p>
+    <details><summary>details</summary><p>
 
-1. Start a terminal app, such as Ubuntu for Windows Subsystem for Linux
-1. Create a src directory in the user's home directory and go in it
-```
-cd && mkdir src && cd src
-```
-1. Clone the repository
-```
-git clone https://github.com/hackforla/jobs-for-hope
-```
-</p></details>
+    1. Start a terminal app, such as Ubuntu for Windows Subsystem for Linux
+    1. Create a src directory in the user's home directory and go in it
+    
+    ```
+    cd && mkdir src && cd src
+    ```
+    3. Clone the repository
+    ```
+    git clone https://github.com/hackforla/jobs-for-hope
+    ```
+    </p></details>
 
 2. Change to the jobs-for-hope directory:
 ```
