@@ -9,14 +9,6 @@ Aggregate job opportunities with homeless service providers so that people can s
 ### Complete beginner instructions
 <details><summary>click here to show</summary><p>
 
-#### Common Tools for all OSes
-<details><summary>show</summary><p>
-    
-1. Install Visual Studios Code (https://code.visualstudio.com/)
-    1. Install Prettier - Code formatter extension
-1. Install DBeaver (https://dbeaver.io/), Community Edition
-</p></details>
-
 #### Windows 10
 <details><summary>show</summary><p>
 
@@ -45,7 +37,7 @@ sudo apt install python python-pip postgresql
 
 1. Install packages
 ```
-sudo apt install python2.7 python-pip postgresql
+sudo apt install git python2.7 python-pip postgresql
 ```
 </p></details>
 
@@ -53,15 +45,45 @@ sudo apt install python2.7 python-pip postgresql
 <details><summary>show</summary><p>
 
 1. Install homebrew (https://brew.sh/)
-1. Install git, python 2, postgresql
+1. Install packages
 ```
-brew install git, python@2, postgresql
+brew install git python@2 postgresql
 ```
+</p></details>
+
+#### Common Tools for all OSes
+<details><summary>show</summary><p>
+    
+1. Install Visual Studios Code (https://code.visualstudio.com/)
+    1. Install Prettier - Code formatter extension
+1. Install DBeaver (https://dbeaver.io/), Community Edition
+1. Install nvm, node, and npm (reference: https://gist.github.com/d2s/372b5943bce17b964a79)
+    1. Install nvm
+    ```
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+    ```
+    1. Install the latest LTS Node.js (https://nodejs.org/en/)
+    ```
+    nvm install v10.15.3
+    ```
 </p></details>
 </p></details>
 
 ## Full-Stack React/Node Application Installation
 1. Clone this repo to your local drive.
+<details><summary>details</summary><p>
+
+1. Start a terminal app, such as Ubuntu for Windows Subsystem for Linux
+1. Create a src directory in the user's home directory and go in it
+```
+cd && mkdir src && cd src
+```
+1. Clone the repository
+```
+git clone https://github.com/hackforla/jobs-for-hope
+```
+</p></details>
+
 2. Change to the jobs-for-hope directory:
 ```
 cd jobs-for-hope
