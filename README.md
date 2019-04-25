@@ -26,18 +26,30 @@ Aggregate job opportunities with homeless service providers so that people can s
         sudo apt update && sudo apt upgrade
         ```
         1. Press enter to upgrade everything
-1. Install other packages (python 2, pip, postgresql)
-```
-sudo apt install python python-pip postgresql
-```
+1. Continue to Linux instructions
 </p></details>
 
-#### Linux (debian-based)
+#### Linux
 <details><summary>show</summary><p>
-
+    
+1. Install Homebrew on Linux (reference: https://docs.brew.sh/Homebrew-on-Linux)
+    1. Open a Linux terminal
+    1. Install dependencies
+        * Debian-based (Ubuntu)
+        ```
+        sudo apt install build-essential curl file git
+        ```
+        * Fedora-based
+        ```
+        sudo yum groupinstall 'Development Tools' && sudo yum install curl file git
+        ```
+    1. Install homebrew
+    ```
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+    ```
 1. Install packages
 ```
-sudo apt install git python2.7 python-pip postgresql
+brew install python@2 postgresql
 ```
 </p></details>
 
