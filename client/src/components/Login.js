@@ -4,21 +4,35 @@ import Banner from "./Banner";
 import { Link } from "react-router-dom";
 import { handleLogIn, authCheck } from "../services/auth-service";
 import { Formik } from "formik";
+import ReCAPTCHA from "react-google-recaptcha";
+
+
+
+const recaptchaRef = React.createRef();
+
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: ""
-    };
+      errorMessage: "",
+      captchaMessage: "",
+      failures: 0
+    };    
   }
 
   checkLogin = () => {
     authCheck().then(res => console.log(res));
   };
 
+  onCaptchaChange = (value) => {
+    if (value) {
+      this.setState({ captchaMessage: "" })
+    }
+  }
+
   render() {
-    const { errorMessage } = this.state;
+    const { errorMessage, captchaMessage, failures } = this.state;
     return (
       <main>
         <Banner
@@ -43,15 +57,25 @@ class Login extends React.Component {
               if (!values.password) {
                 errors.password = "Required";
               }
+              if (failures >= 3) {
+                const recaptchaValue = recaptchaRef.current.getValue();
+                if (!recaptchaValue) {
+                  this.setState({ captchaMessage: "Captcha is required" })
+                }
+              }
               return errors;
             }}
             validateOnChange="false"
             validateOnBlur="false"
             onSubmit={(values, { setSubmitting }) => {
               const { email, password } = values;
+
               handleLogIn(email, password).then(result => {
-                if (result === "Invalid Credentials") {
-                  this.setState({ errorMessage: result });
+                if (result === "Invalid Credentials" || result === "You must confirm your email before logging in") {
+                  this.setState(prevState => ({ 
+                    errorMessage: result,
+                    failures: prevState.failures + 1, 
+                  }));
                   setSubmitting(false);
                 } else {
                   window.location.href = "/";
@@ -122,6 +146,18 @@ class Login extends React.Component {
                   ) : null}
                   <br />
                 </div>
+                { failures >= 3 ?
+                  <div> 
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                      onChange={this.onCaptchaChange}
+                    />
+                    <div className="input-feedback">{captchaMessage}</div>
+                  </div>
+                  :
+                  null
+                }
                 <button id="send-btn" type="submit" disabled={isSubmitting}>
                   Submit
                 </button>
@@ -135,6 +171,7 @@ class Login extends React.Component {
               </form>
             )}
           </Formik>
+          
         </div>
       </main>
     );

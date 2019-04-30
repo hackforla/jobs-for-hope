@@ -4,6 +4,8 @@ const { passport } = require("../../services/passport");
 
 const router = express.Router();
 
+// ADMIN VERIFICATION:
+
 router.get("/", (req, res) => {
 	const sql = `select email, organization from login where role = 'pending'`;
 	pool.query(sql).then(result => res.json(result));

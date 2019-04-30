@@ -11,12 +11,18 @@ passport.use(
       .query(sql)
       .then(res => {
         const user = res.rows[0];
+        console.log(!user.confirmed);
+        if (!user.confirmed) {
+          console.log("hi")
+          return done(null, false, { message: "You must confirm your email before logging in" });
+        }
         if (!user) {
           return done(null, false, { message: "Invalid Credentials" });
         }
         if (!bcrypt.compareSync(password, user.hash)) {
           return done(null, false, { message: "Invalid Credentials" });
         }
+        
         return done(null, user);
       })
       .catch(error => done(error));

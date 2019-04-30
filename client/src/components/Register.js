@@ -1,8 +1,8 @@
 import React from "react";
 import "./Login.scss";
 import Banner from "./Banner";
-import { Link, Redirect } from "react-router-dom";
-import { handleRegister } from "../services/auth-service";
+import { Link } from "react-router-dom";
+import { handleRegister, sendConfirmEmail } from "../services/auth-service";
 import { Formik } from "formik";
 
 class Register extends React.Component {
@@ -64,15 +64,18 @@ class Register extends React.Component {
             validateOnChange="false"
             onSubmit={(values, { setSubmitting }) => {
               const { organization, email, password } = values;
-              handleRegister(organization, email, password).then(result => {
+              sendConfirmEmail(email).then(result => {
+                console.log(result);
                 if (result === "User already exists") {
                   this.setState({ errorMessage: result });
                   setSubmitting(false);
                 } else {
-                  window.location.href = "/";
-                  setSubmitting(false);
+                  handleRegister(organization, email, password).then(result => {
+                    window.location.href = "/";
+                    setSubmitting(false);
+                  });
                 }
-              });
+              })
             }}
           >
             {({
