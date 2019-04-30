@@ -232,7 +232,7 @@ npm install
     deactivate  // switch back to system python
     ```
     </p></details>
-1. Everything below should be run inside the jobs-for-hope virtualenv if it is set up. You will have to make sure the virtualenv is activated before following the steps.
+    1. All python commands should be run inside the jobs-for-hope virtualenv if you choose to set it up. You will have to make sure the virtualenv is activated before following the steps.
 1. Install project dependencies
     1. for sqlite
     ```
