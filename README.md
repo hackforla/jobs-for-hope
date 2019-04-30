@@ -201,16 +201,25 @@ npm install
         ```
         which virtualenvwrapper.sh
         ```
-        1. Add to ```.bash_profile``` for macOS and WSL, ```.bashrc``` for Linux
+        1. Make ```.bash_profile``` call ```.bashrc``` (reference:http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html)
+            1. Add this to ```.bash_profile```
+            ```
+            if [ -f ~/.bashrc ]; then
+              source ~/.bashrc
+            fi
+            ```
+        1. Add to ```.bashrc```
         ```
         export WORKON_HOME=$HOME/.virtualenvs
         export PATH="/path/to/virtualenvwrapper:$PATH"
         source virtualenvwrapper.sh
         ```
+        1. Start a new terminal session or call ```.bashrc```
+        ```
+        source ~/.bashrc        # activate virtualenvwrapper.sh, just for the first time
+        ```
         1. Create the virtualenv
         ```
-        source ~/.bash_profile  # activate virtualenvwrapper.sh, just for the first time
-        source ~/.bashrc        # for linux
         mkvirtualenv jobs-for-hope
         ```
         <details><summary>Alternative for systems where python 2.7 is not the default</summary><p>
