@@ -90,7 +90,7 @@ brew cask install chromedriver
     ```
     nvm install v10.15.3
     ```
-1. Download Chrome (https://www.google.com/chrome/) and Chromedriver (https://sites.google.com/a/chromium.org/chromedriver/downloads)
+1. Download and install Chrome (https://www.google.com/chrome/)
 1. Setup Postgresql (reference: https://github.com/michaeltreat/Windows-Subsystem-For-Linux-Setup-Guide/blob/master/readmes/installs/PostgreSQL.md)
     1. Setup the postgres user
         1. Start a terminal app
