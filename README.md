@@ -23,9 +23,19 @@ Aggregate job opportunities with homeless service providers so that people can s
     1. Update and upgrade all packages
         1. In a terminal, run (you will need to type in your user password when running sudo)
         ```
-        sudo apt update && sudo apt upgrade
+        sudo apt update && sudo apt upgrade -y
         ```
-        1. Press enter to upgrade everything
+1. Install ChomeDriver
+    1. Install chocolatey (https://chocolatey.org/install)
+    1. Install ChomeDriver
+    ```
+    choco install chromedriver -y
+    ```
+    1. Add a file ```chromedriver``` to the project directory with this content
+     ```
+    #!/bin/sh
+    chromedriver.exe "$@"
+    ```
 1. Continue to Linux instructions
 </p></details>
 
@@ -50,16 +60,18 @@ Aggregate job opportunities with homeless service providers so that people can s
 1. Install packages
 ```
 brew install python@2 postgresql
+sudo apt install chromium-chromedriver -y
 ```
 </p></details>
 
-#### OSX
+#### macOS
 <details><summary>show</summary><p>
 
 1. Install homebrew (https://brew.sh/)
 1. Install packages
 ```
 brew install git python@2 postgresql
+brew cask install chromedriver
 ```
 </p></details>
 
@@ -78,6 +90,60 @@ brew install git python@2 postgresql
     ```
     nvm install v10.15.3
     ```
+1. Download Chrome (https://www.google.com/chrome/) and Chromedriver (https://sites.google.com/a/chromium.org/chromedriver/downloads)
+1. Setup Postgresql (reference: https://github.com/michaeltreat/Windows-Subsystem-For-Linux-Setup-Guide/blob/master/readmes/installs/PostgreSQL.md)
+    1. Setup the postgres user
+        1. Start a terminal app
+        1. Set the password
+        ```
+        sudo passwd postgres
+        ```
+        1. Type in the password and confirmation
+        1. Close the terminal
+    1. Start the postgres service
+        1. Start a terminal app
+        1. Start the service
+        ```
+        sudo service postgresql start
+        ```
+    1. Connect to postgres
+        1. Start a terminal app
+        1. Switch to the postgres user and start the psql prompt
+        ```
+        sudo -u postgres psql
+        ```
+        1. If the above doesn't work, do this instead
+        ```
+        su - postgres
+        psql
+        ```
+    1. Troubleshooting postgres on WSL (reference: https://github.com/Microsoft/WSL/issues/3863)
+        1. Append this at the end of ```/etc/postgresql/10/main/postgresql.conf```
+        ```
+        data_sync_retry = true
+        ```
+    1. Create the database (reference: https://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/)
+        1. Start the psql prompt
+        1. Issue the command
+        ```
+        create database jobsforhope;
+        ```
+    1. Create the user
+        1. Start the psql prompt
+        1. Issue the command
+        ```
+        create user jobsforhope;
+        ```
+        1. Check that the user was created
+        ```
+        \du
+        ```
+    1. Grant user privilege
+        1. Start the psql prompt
+        1. Issue the command
+        ```
+        grant all privileges on database jobsforhope to jobsforhope;
+        ```
 </p></details>
 </p></details>
 
@@ -118,108 +184,97 @@ npm install
 1. Run ```npm start``` from the jobs-for-hope directory to start the node server.
 2. Run ```npm start``` from the jobs-for-hope/client directory to start the react app and open the browser.
 
-
 ## Backend Python Scraper Setup
-2. Install virtualenv using pip
+1. Set up virtualenv
 
-        pip install virtualenv virtualenvwrapper
+    1. Install virtualenv using pip
+    ```
+    pip install virtualenv virtualenvwrapper
+    ```
+    1. Create directory to hold virtual environments
+    ```
+    mkdir $HOME/.virtualenvs
+    ```
+    1. Find out where virtualenvwrapper.sh is located for next step
+    ```
+    which virtualenvwrapper.sh
+    ```
+    1. Add to ```.bash_profile``` for macOS and WSL, ```.bashrc``` for Linux
+    ```
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PATH="/path/to/virtualenvwrapper:$PATH"
+    source virtualenvwrapper.sh
+    ```
+    1. Create the virtualenv
+    ```
+    source ~/.bash_profile  # activate virtualenvwrapper.sh, just for the first time
+    source ~/.bashrc        # for linux
+    mkvirtualenv jobs-for-hope
+    ```
+    
+    <details><summary>Alternative for systems where python 2.7 is not the default</summary><p>
 
-3. Find virtualenvwrapper.sh location 
+    1. Specify the python location when creating the virtualenv
+        ```
+        mkvirtualenv -p /usr/local/bin/path/to/python2.7 jobs-for-hope  # use this if the system default is python3
+        ```
+    </p></details>
 
-        which virtualenvwrapper.sh
+1. Activate the virtualenv
+```
+workon  // list the existing virtual environments, blank if none is created
+workon jobs-for-hope  // activate virtual environment, not needed when first creating the virtualenv
+```
+1. Install project dependencies
+    1. for sqlite
+    ```
+    pip install -r ./requirements.txt
+    cd backend
+    pip install -r ./requirements.txt
+    ```
+    1. for postgres
+    ```
+    cd backend
+    pip install -r ./requirements.txt
+    ```
+1. Setup for the scrapers
+    1. for sqlite
+    ```
+    python backend/tools/create_table_organizations.py
+    ```
+    1. for postgres
+    * Download the ```database.ini``` file from the slack channel into the ```backend``` directory
 
-4. Create directory to hold virtual environments
-
-        mkdir $HOME/.virtualenvs
-
-5. Add to .bash_profile
-
-        export WORKON_HOME=$HOME/.virtualenvs
-        source /path/to/virtualenwrapper.sh
-
-6. Create the virtualenv
-
-        source ~/.bash_profile  // activate virtualenvwrapper.sh, just for the first time
-        mkvirtualenv jobs-for-hope
-        mkvirtualenv -p /usr/local/bin/path/to/python2.7 jobs-for-hope  // use this if the system default is python3
-
-7. Activate the virtualenv
-
-        workon  // list the existing virtual environments, blank if none is created
-        workon jobs-for-hope  // activate virtual environment, not needed when first creating the virtualenv
-
-8. Install project dependencies
-
-        pip install -r ./requirements.txt
-
-9. Work on the scraper and run
-
-    a. for sqlite
-
-        python jfh_scraper.py
-        
-    b. for postgres
-
-        python scraper_runner.py
-
-9. Deactivate the virtualenv
-
-        deactivate  // switch back to system python
+1. Deactivate the virtualenv
+```
+deactivate  // switch back to system python
+```
+## To run the scraper
+1. Activate the virtualenv (from setup steps)
+1. Run the scraper
+    1. for sqlite
+    ```
+    python jfh_scraper.py
+    ```
+    1. for postgres
+    ```
+    cd backend
+    python scraper_runner.py
+    ```
+1. Deactivate the virtualenv (from setup steps)
 
 ## Checking the database for scraped data
+
+1. Use DBeaver
 
 We're moving towards using postgres and using the instance hosted on aws. The sqlite will go away soon.
 
 ### Postgres
 
-1. Install DBeaver for your system.
-
-2. Add a database connection with the .env file credentials from the slack channel.
-
-3. The jobs are in the jobs table.
+1. Add a postgres database connection with the .env file credentials from the slack channel.
+1. The jobs are in the jobs table.
 
 ### Sqlite
 
-1. Install sqlite
-
-        brew install sqlite
-
-2. Make sure the db file is there
-
-        ls -l jobs_for_hope.db
-
-3. Open the database environment (Ctrl-D to exit)
-
-        sqlite3 jobs_for_hope.db
-
-4. Print the db schema
-
-        .schema
-
-5. Print the jobs table row count
-
-        select count(*) from jobs;
-
-6. Print all the jobs
-
-        select * from jobs;
-
-7. Exit db. Press Ctrl-D
-
-## Project Structure
-1. app.py: This is the main entrypoint into the application that contains the routes and associated business logic. This file also contains the main instantiation of the app object
-2. api.py: This is the main class for the REST API that allows interaction with the database
-3. backend/requirements.txt: This is the file that contains all of the projects backend dependencies. Pip looks inside here when it installs all dependencies
-3. backend/jfh_scraper.py: This is the scraper which parses websites for jobs data and stores them in an sqlite database
-4. readme.md: This is the file that contains all instructions and descriptions about jobs-for-hope
-5. static folder: This folder contains all of the Javascript and CSS content. Place all JS and CSS into their respective folders.
-6. templates folder: This folder contains all of the html templates that are rendered by the application. All Jinjas2 and HTML templates go here.
-7. utilities folder: This folder contains all of the helper tools used to write and read data to and from the database. It also contains utility scripts used for the application
-
-## Branches
-1. master: main stable branch with frontend and backend getting data from a temporary spreadsheet
-2. seleniumscrapers: development branch for the python scraper
-3. db_backend: development branch which integrates the frontend with the backend api using real data from the sqlite database
-
-
-## Contributing
+1. Add a sqlite database connection to the jobs_for_hope.db file
+1. The jobs are in the jobs table
