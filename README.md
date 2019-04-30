@@ -56,7 +56,7 @@ npm install
 
 6. Create the virtualenv
 
-        source ~/.bashrc  // activate virtualenvwrapper.sh, just for the first time
+        source ~/.bash_profile  // activate virtualenvwrapper.sh, just for the first time
         mkvirtualenv jobs-for-hope
         mkvirtualenv -p /usr/local/bin/path/to/python2.7 jobs-for-hope  // use this if the system default is python3
 

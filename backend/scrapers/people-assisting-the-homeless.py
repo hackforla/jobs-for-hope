@@ -3,7 +3,7 @@ from globals import get_soup, update_db, clean_location, city_to_zip
 
 # People Assisting the Homeless (PATH)
 
-organization = "People Assisting the Homeless"
+organization = "People Assisting the Homeless (PATH)"
 url = 'https://path.catsone.com/careers'
 
 def run(url):

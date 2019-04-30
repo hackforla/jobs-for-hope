@@ -16,7 +16,6 @@ def run(url):
         job_title_cell = job_row.find('td',{'class':'job-result-title-cell'})
         globals.job_title = job_title_cell.a.text.strip()
         globals.info_link = 'https://pennylanecenters.jobs.net' + job_title_cell.a['href']
-        globals.job_summary = globals.info_link
         globals.job_location = clean_location(job_row.find('div',{'class':'job-location-line'}).text)
         globals.job_zip_code = city_to_zip(globals.job_location)
         # Get Job Soup
