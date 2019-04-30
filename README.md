@@ -251,8 +251,15 @@ npm install
     python backend/tools/create_table_organizations.py
     ```
     1. for postgres
-    * Download the ```database.ini``` file from the slack channel into the ```backend``` directory
-
+        1. Download the ```database.ini``` file from the slack channel into the ```backend``` directory
+        1. Dump the aws database to a file (reference ```database.ini``` for values)
+        ```
+        pg_dump -d <database> -h <host> -U <user> -C -f jobsforhope.sql
+        ```
+        1. restore to the local database
+        ```
+        psql -h localhost -U postgres -d jobsforhope -f jobsforhope.sql
+        ```
 ## To run the scraper
 1. Run the scraper
     1. for sqlite
