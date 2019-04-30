@@ -185,46 +185,54 @@ npm install
 2. Run ```npm start``` from the jobs-for-hope/client directory to start the react app and open the browser.
 
 ## Backend Python Scraper Setup
-1. Set up virtualenv
+1. Virtualenv (optional, but will be useful if you eventually want to have multiple python projects)
+    <details><summary>show</summary><p>
 
-    1. Install virtualenv using pip
-    ```
-    pip install virtualenv virtualenvwrapper
-    ```
-    1. Create directory to hold virtual environments
-    ```
-    mkdir $HOME/.virtualenvs
-    ```
-    1. Find out where virtualenvwrapper.sh is located for next step
-    ```
-    which virtualenvwrapper.sh
-    ```
-    1. Add to ```.bash_profile``` for macOS and WSL, ```.bashrc``` for Linux
-    ```
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PATH="/path/to/virtualenvwrapper:$PATH"
-    source virtualenvwrapper.sh
-    ```
-    1. Create the virtualenv
-    ```
-    source ~/.bash_profile  # activate virtualenvwrapper.sh, just for the first time
-    source ~/.bashrc        # for linux
-    mkvirtualenv jobs-for-hope
-    ```
-    
-    <details><summary>Alternative for systems where python 2.7 is not the default</summary><p>
+    1. Set up virtualenv
+        1. Install virtualenv using pip
+        ```
+        pip install virtualenv virtualenvwrapper
+        ```
+        1. Create directory to hold virtual environments
+        ```
+        mkdir $HOME/.virtualenvs
+        ```
+        1. Find out where virtualenvwrapper.sh is located for next step
+        ```
+        which virtualenvwrapper.sh
+        ```
+        1. Add to ```.bash_profile``` for macOS and WSL, ```.bashrc``` for Linux
+        ```
+        export WORKON_HOME=$HOME/.virtualenvs
+        export PATH="/path/to/virtualenvwrapper:$PATH"
+        source virtualenvwrapper.sh
+        ```
+        1. Create the virtualenv
+        ```
+        source ~/.bash_profile  # activate virtualenvwrapper.sh, just for the first time
+        source ~/.bashrc        # for linux
+        mkvirtualenv jobs-for-hope
+        ```
+        <details><summary>Alternative for systems where python 2.7 is not the default</summary><p>
 
-    1. Specify the python location when creating the virtualenv
-        ```
-        mkvirtualenv -p /usr/local/bin/path/to/python2.7 jobs-for-hope  # use this if the system default is python3
-        ```
+        1. Specify the python location when creating the virtualenv
+            ```
+            mkvirtualenv -p /usr/local/bin/path/to/python2.7 jobs-for-hope  # use this if the system default is python3
+            ```
+        </p></details>
+
+    1. Activate the virtualenv
+    ```
+    workon  // list the existing virtual environments, blank if none is created
+    workon jobs-for-hope  // activate virtual environment, not needed when first creating the virtualenv
+    ```
+    1. Do work and run python within the virtualenv
+    1. Deactivate the virtualenv
+    ```
+    deactivate  // switch back to system python
+    ```
     </p></details>
-
-1. Activate the virtualenv
-```
-workon  // list the existing virtual environments, blank if none is created
-workon jobs-for-hope  // activate virtual environment, not needed when first creating the virtualenv
-```
+1. Everything below should be run inside the jobs-for-hope virtualenv if it is set up. You will have to make sure the virtualenv is activated before following the steps.
 1. Install project dependencies
     1. for sqlite
     ```
@@ -245,12 +253,7 @@ workon jobs-for-hope  // activate virtual environment, not needed when first cre
     1. for postgres
     * Download the ```database.ini``` file from the slack channel into the ```backend``` directory
 
-1. Deactivate the virtualenv
-```
-deactivate  // switch back to system python
-```
 ## To run the scraper
-1. Activate the virtualenv (from setup steps)
 1. Run the scraper
     1. for sqlite
     ```
@@ -261,7 +264,6 @@ deactivate  // switch back to system python
     cd backend
     python scraper_runner.py
     ```
-1. Deactivate the virtualenv (from setup steps)
 
 ## Checking the database for scraped data
 
