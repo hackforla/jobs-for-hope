@@ -4,8 +4,8 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
 import Organizations from "./components/Organizations";
-import OrganizationForm from "./components/OrganizationForm"
-import OrganizationView from "./components/OrganizationView"
+import OrganizationForm from "./components/OrganizationForm";
+import OrganizationView from "./components/OrganizationView";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Login from "./components/Login";
@@ -26,9 +26,9 @@ class App extends Component {
       isPending: true,
       activeUser: {},
       jobs: [],
-      organizations: [],
+      organizations: []
     };
-    authCheck().then(user => this.setState({ activeUser: user }))
+    authCheck().then(user => this.setState({ activeUser: user }));
   }
   componentDidMount() {
     // this.props.onfetchJobs();
@@ -64,11 +64,10 @@ class App extends Component {
   logOut = () => {
     handleLogOut().then(res => {
       if (res === "success") {
-        window.location.href='/'
+        window.location.href = "/";
       }
-    })
-  }
-
+    });
+  };
 
   render() {
     const { isPending, activeUser, organizations, jobs, requests } = this.state;
@@ -76,10 +75,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <header className="header">
-            <Navbar 
-              activeUser={activeUser}
-              logOut={this.logOut}
-            />
+            <Navbar activeUser={activeUser} logOut={this.logOut} />
           </header>
 
           <Route
@@ -115,39 +111,22 @@ class App extends Component {
                 isPending={isPending}
                 isAdmin={true}
                 key={isPending}
+                activeUser={activeUser}
               />
             )}
           />
-          <Route
-            path="/organizations/:id"
-            component={OrganizationForm }
-          />
-          <Route
-            path="/organizationview/:id"
-            component={OrganizationView }
-          />
+          <Route path="/organizations/:id" component={OrganizationForm} />
+          <Route path="/organizationview/:id" component={OrganizationView} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
-          <Route 
-            path="/login" 
+          <Route path="/login" render={() => <Login />} />
+          <Route path="/register" render={() => <Register />} />
+          <Route
+            path="/account"
             render={() => (
-              <Login />
+              <Account activeUser={activeUser} pendingRequests={requests} />
             )}
-           />
-          <Route 
-            path="/register" 
-            render={() => (
-              <Register />
-            )} 
-           />
-           <Route 
-            path="/account" 
-            render={() => (
-              <Account
-                activeUser={activeUser}
-                pendingRequests={requests} />
-            )} 
-           />
+          />
           <Footer />
         </div>
       </Router>
