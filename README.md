@@ -92,36 +92,49 @@ brew cask install chromedriver
     ```
 1. Download and install Chrome (https://www.google.com/chrome/)
 1. Setup Postgresql (reference: https://github.com/michaeltreat/Windows-Subsystem-For-Linux-Setup-Guide/blob/master/readmes/installs/PostgreSQL.md)
-    1. Setup the postgres user
-        1. Start a terminal app
-        1. Set the password
-        ```
-        sudo passwd postgres
-        ```
-        1. Type in the password and confirmation
-        1. Close the terminal
     1. Start the postgres service
         1. Start a terminal app
-        1. Start the service
-        ```
-        sudo service postgresql start
-        ```
-    1. Connect to postgres
-        1. Start a terminal app
-        1. Switch to the postgres user and start the psql prompt
-        ```
-        sudo -u postgres psql
-        ```
-        1. If the above doesn't work, do this instead
-        ```
-        su - postgres
-        psql
-        ```
-    1. Troubleshooting postgres on WSL (reference: https://github.com/Microsoft/WSL/issues/3863)
-        1. Append this at the end of ```/etc/postgresql/10/main/postgresql.conf```
-        ```
-        data_sync_retry = true
-        ```
+        * linux (and WSL)
+            1. Start the service
+            ```
+            sudo service postgresql start
+            ```
+            1. Setup the postgres user (linux)
+                1. Start a terminal app
+                1. Set the password
+                ```
+                sudo passwd postgres
+                ```
+                1. Type in the password and confirmation
+                1. Close the terminal
+            1. Connect to postgres
+                1. Start a terminal app
+                1. Switch to the postgres user and start the psql prompt
+                ```
+                sudo -u postgres psql
+                ```
+                1. If the above doesn't work, do this instead
+                ```
+                su - postgres
+                psql
+                ```
+            1. Troubleshooting postgres on WSL (reference: https://github.com/Microsoft/WSL/issues/3863)
+                1. Append this at the end of ```/etc/postgresql/10/main/postgresql.conf```
+                ```
+                data_sync_retry = true
+                ```
+        * macOS
+            1. Start the service
+            ```
+            brew services start postgresql
+            ```
+            1. Connect to postgres
+                1. Start a terminal app
+                * enter the psql prompt
+                ```
+                psql postgres
+                ```
+
     1. Create the database (reference: https://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/)
         1. Start the psql prompt
         1. Issue the command
