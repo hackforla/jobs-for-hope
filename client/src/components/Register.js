@@ -1,5 +1,5 @@
 import React from "react";
-import "./Login.scss";
+import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
 import { handleRegister, sendConfirmEmail } from "../services/auth-service";
@@ -75,7 +75,7 @@ class Register extends React.Component {
                     setSubmitting(false);
                   });
                 }
-              })
+              });
             }}
           >
             {({

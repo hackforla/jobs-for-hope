@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router";
 import { loadRequests, approveRequest } from "../services/verify-service";
 import "./Account.scss";
 
@@ -26,6 +27,7 @@ class Account extends Component {
 	render() {
 		const { role, organization } = this.props.activeUser;
 		const { requests } = this.state;
+		if (!role) return <Redirect to="/" />;
 		return (
 			<div className="account-container">
 				{role === "admin" ? (

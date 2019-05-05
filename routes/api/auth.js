@@ -3,7 +3,11 @@ const { pool } = require("../../services/postgres-pool");
 const { passport } = require("../../services/passport");
 const bcrypt = require("bcrypt-nodejs");
 const uuid = require("uuid/v4");
-const { transporter, mailOptions } = require("../../services/nodemailer");
+const {
+  transporter,
+  confirmOptions,
+  resetOptions
+} = require("../../services/nodemailer");
 
 const router = express.Router();
 
@@ -76,7 +80,7 @@ router.post("/send-confirm", (req, res, next) => {
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
     const confirmId = uuid();
-    const finalOptions = mailOptions(email, confirmId);
+    const finalOptions = confirmOptions(email, confirmId);
     const sql2 = `delete from confirm where email = '${email}'`;
     pool.query(sql2).then(delInfo => {
       const sql3 = `insert into confirm (email, id) 
@@ -110,6 +114,66 @@ router.get("/confirm/:id", (req, res) => {
     } else {
       res.json("Error: no data for user");
     }
+  });
+});
+
+// PASSWORD RESET:
+
+router.post("/send-reset", (req, res, next) => {
+  const { email } = req.body;
+  const sql = `select * from login where email = '${email}'`;
+  pool.query(sql).then(data => {
+    if (!data.rows[0])
+      return res.json(
+        "Could not complete request. Please check the email you have entered and try again."
+      );
+
+    const delSQL = `delete from resets where email = '${email}'`;
+    pool.query(delSQL).then(delInfo => {
+      const resetToken = uuid();
+      const sql2 = `insert into resets (email, reset_token) 
+                      values ('${email}', '${resetToken}')`;
+      pool.query(sql2).then(info => {
+        const finalOptions = resetOptions(email, resetToken);
+        transporter.sendMail(finalOptions, function(err, result) {
+          if (err) {
+            res.json(`There was an error. Please try again.`);
+          } else {
+            res.json(`success`);
+          }
+        });
+      });
+    });
+  });
+});
+
+router.get("/reset/:token", (req, res) => {
+  const { token } = req.params;
+  const delSQL = `DELETE FROM resets WHERE timestamp < now()-'1 hour'::interval`;
+  pool.query(delSQL).then(delInfo => {
+    const sql = `select * from resets where reset_token = '${token}'`;
+    pool.query(sql).then(data => {
+      const user = data.rows[0];
+      if (user) {
+        const sql2 = `select id from login where email = '${user.email}'`;
+        pool.query(sql2).then(data => {
+          const userid = data.rows[0].id;
+          res.redirect(`http://localhost:3000/reset/${userid}`);
+        });
+      } else {
+        res.redirect(`http://localhost:3000/error/404`);
+      }
+    });
+  });
+});
+
+router.post("/submit-reset", (req, res) => {
+  const { userid, password } = req.body;
+  const sql = `update login
+    set hash = '${bcrypt.hashSync(password)}' 
+    where id = '${userid}';`;
+  pool.query(sql).then(data => {
+    res.json("success");
   });
 });
 

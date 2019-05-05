@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const mailOptions = (email, id) => ({
+const confirmOptions = (email, id) => ({
 	to: `${email}`,
 	from: "dnr.jobsforhope@gmail.com",
 	subject: `Verify your account`,
@@ -20,7 +20,21 @@ const mailOptions = (email, id) => ({
 		  <p>Jobs For Hope</p>`
 });
 
+const resetOptions = (email, id) => ({
+	to: `${email}`,
+	from: "dnr.jobsforhope@gmail.com",
+	subject: `Password Reset`,
+	html: `
+		  <p>Please click the following link to reset your password.</p>
+		  <br>
+		  <p><a href='http://localhost:5000/api/auth/reset/${id}'>Reset</a></p>
+		  <br>
+		  <p>Thanks,</p>
+		  <p>Jobs For Hope</p>`
+});
+
 module.exports = {
 	transporter,
-	mailOptions
+	confirmOptions,
+	resetOptions
 };
