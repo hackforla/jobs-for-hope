@@ -18,10 +18,12 @@ a {
   text-decoration: none;
   color: set-text-color($primary-color);
 }
+
 .link {
   color: set-text-color($primary-color);
   cursor: pointer;
 }
+
 p {
   margin: 0;
   padding: 0;
@@ -40,6 +42,7 @@ button:hover {
   display: flex;
   width: 100%;
   border-bottom: 2px solid #e6b833;
+
   .navbar {
     font-size: calc(10px + 1.5vmin);
     width: 100%;
@@ -47,14 +50,17 @@ button:hover {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
+
     #org-image {
       max-width: 240px;
       display: inline;
       margin: 0.25em 1.5em;
     }
+
     .nav-links {
       display: flex;
       flex-direction: row;
+
       ul {
         margin: 0;
         padding: 0;
@@ -62,10 +68,12 @@ button:hover {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+
         li {
           margin: 15px;
           list-style: none;
         }
+
         .link {
           &.active {
             border-bottom: 0.2em $secondary-color solid;
@@ -130,6 +138,7 @@ button:hover {
       ". i i . . s s s s . . ."
       ". l l l . c c c c . . .";
   }
+
   .org-icon {
     display: grid;
     align-items: center;
@@ -146,19 +155,24 @@ button:hover {
   .header {
     display: flex;
     width: 100%;
+
     .navbar {
       font-size: calc(10px + 1.5vmin);
       width: 100%;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       flex-direction: column;
+
+
       #org-image {
         max-width: 240px;
         display: inline;
       }
+
       .nav-links {
         display: flex;
         flex-direction: row;
+
         ul {
           margin: 0;
           padding: 0;
@@ -166,10 +180,12 @@ button:hover {
           display: flex;
           flex-direction: row;
           justify-content: space-around;
+
           li {
             margin: 15px;
             list-style: none;
           }
+
           .link {
             &.active {
               border-bottom: 0.2em $secondary-color solid;
@@ -187,9 +203,11 @@ button:hover {
       ". i i s s s s s l l l l "
       "c c c c c c c c c c c c";
   }
+
   #org-icon {
     width: 100%;
   }
+
   .org-icon {
     justify-items: center;
   }
