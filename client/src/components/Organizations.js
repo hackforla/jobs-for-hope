@@ -11,7 +11,13 @@ const override = css`
   border-color: red;
 `;
 
-const Organizations = ({ organizations, isPending, isAdmin, activeUser }) => (
+const Organizations = ({
+  organizations,
+  isPending,
+  isAdmin,
+  activeUser,
+  toNewOrganization
+}) => (
   <div>
     <Banner
       titleUpper="Organizations"
@@ -59,8 +65,11 @@ const Organizations = ({ organizations, isPending, isAdmin, activeUser }) => (
           >
             <a
               href={`/organizations/0`}
-              id="org-view-more-link"
-              style={{ width: "auto", margin: "0 1em 1em 0" }}
+              class="new-organization-btn"
+              style={{
+                width: "auto",
+                margin: "0 1em 1em 0"
+              }}
             >
               New Organization
             </a>

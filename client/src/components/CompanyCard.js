@@ -12,16 +12,16 @@ const CompanyCard = ({ org, activeUser }) => {
         </div>
         <h3 id="org-title">{org.name}</h3>
         <div style={{ height: "10%" }}>
-          <Link to={"/jobs/" + org.id} id="org-jobs-available">
+          {/* <Link to={"/jobs/" + org.id} id="org-jobs-available">
             {org.job_count} Jobs Available
-          </Link>
+          </Link> */}
         </div>
         {activeUser.role === "employer" &&
-        org.name === activeUser.organization ? (
-          <Link to={`/organizations/${org.id}`} id="org-edit-button">
-            Edit Org
+          org.name === activeUser.organization ? (
+            <Link to={`/organizations/${org.id}`} id="org-edit-button">
+              Edit Org
           </Link>
-        ) : null}
+          ) : null}
 
         <Link to={`/organizationView/${org.id}`} id="org-details-button">
           Details

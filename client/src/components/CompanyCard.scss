@@ -62,7 +62,7 @@
   opacity: 1;
 }
 
-#org-details-button {
+.org-details-button {
   @extend %button-shared;
 
   border: 1px #ffd100 solid;
@@ -76,7 +76,7 @@
   background: #ce1106;
 }
 
-#org-details-button:hover,
+.org-details-button:hover,
 #org-edit-button:hover {
   opacity: 0.75;
 }
