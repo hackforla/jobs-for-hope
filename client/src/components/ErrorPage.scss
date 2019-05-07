@@ -1,0 +1,11 @@
+@import "../_variables.scss";
+
+.error-container {
+	min-height: 70vh;
+	padding-left: 5%;
+	padding-top: 1em;
+}
+
+.error-container h1 {
+	color: $primary-color;
+}
