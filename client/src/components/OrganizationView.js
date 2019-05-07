@@ -66,7 +66,7 @@ class OrganizationView extends React.Component {
     this.setState({ toOrganizations: true });
   };
 
-  createDescription = function (description) {
+  createDescription = function(description) {
     return { __html: description };
   };
 
@@ -79,7 +79,7 @@ class OrganizationView extends React.Component {
     return (
       <React.Fragment>
         <Banner
-          titleUpper="Organizationstestin dsfsg"
+          titleUpper="Organizations"
           titleLower="Involved"
           imageName="city"
         />

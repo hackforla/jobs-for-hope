@@ -3,7 +3,7 @@ import "./CompanyCard.scss";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
-const CompanyCard = ({ org }) => {
+const CompanyCard = ({ org, activeUser }) => {
   return (
     <div className="organization-card">
       <div className="organization-card-content">
@@ -16,10 +16,18 @@ const CompanyCard = ({ org }) => {
             {org.job_count} Jobs Available
           </Link>
         </div>
+        {activeUser &&
+        (activeUser.role === "admin" ||
+          (activeUser.role === "employer" &&
+            org.name === activeUser.organization)) ? (
+          <Link to={`/organizations/${org.id}`} id="org-edit-button">
+            Edit Org
+          </Link>
+        ) : null}
 
-        <a href={`/organizationView/${org.id}`} id="org-view-more-link">
+        <Link to={`/organizationView/${org.id}`} id="org-details-button">
           Details
-        </a>
+        </Link>
       </div>
     </div>
   );

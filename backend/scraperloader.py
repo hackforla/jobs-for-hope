@@ -23,7 +23,7 @@ def getScrapers():
 
 def loadScraper(scraper):
     #print('Loading module %s' % scraper['path'])
-    #print('Loading module %s' % scraper['name'])
+    print('Loading module %s' % scraper['name'])
 
     searchPath, file = os.path.split(scraper['path'])
     moduleName, ext = os.path.splitext(file)

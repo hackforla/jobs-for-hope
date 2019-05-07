@@ -10,6 +10,7 @@ const {
 } = require("../../services/nodemailer");
 
 const router = express.Router();
+const clientUrl = process.env.CLIENT_URL;
 
 // AUTH CHECK:
 
@@ -156,7 +157,7 @@ router.get("/confirm/:id", (req, res) => {
                       set confirmed = 'true' 
                       where email = '${user.email}'`;
       pool.query(sql2).then(stuff => {
-        res.redirect("http://localhost:3000/");
+        res.redirect(clientUrl);
       });
     } else {
       res.json("Error: no data for user");
@@ -205,10 +206,10 @@ router.get("/reset/:token", (req, res) => {
         const sql2 = `select id from login where email = '${user.email}'`;
         pool.query(sql2).then(data => {
           const userid = data.rows[0].id;
-          res.redirect(`http://localhost:3000/reset/${userid}`);
+          res.redirect(`${clientUrl}reset/${userid}`);
         });
       } else {
-        res.redirect(`http://localhost:3000/error/404`);
+        res.redirect(`${clientUrl}error/404`);
       }
     });
   });

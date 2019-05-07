@@ -52,18 +52,31 @@
   color: $primary-color;
 }
 
-#org-view-more-link {
+%button-shared {
   width: 55%;
   height: 25%;
   padding: 0.3em 1.6em;
   border-radius: 0.4em;
-  border: 1px #ffd100 solid;
-  background: #ffd100;
   font-weight: bold;
   color: #404142;
   opacity: 1;
 }
 
-#org-view-more-link:hover {
+#org-details-button {
+  @extend %button-shared;
+
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
+}
+
+#org-edit-button {
+  @extend %button-shared;
+
+  border: 1px #ce1106 solid;
+  background: #ce1106;
+}
+
+#org-details-button:hover,
+#org-edit-button:hover {
   opacity: 0.75;
 }

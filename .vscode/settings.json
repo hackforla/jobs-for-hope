@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "/usr/local/bin/python",
+  "python.pythonPath": "C:\\Python27\\python.exe",
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.formatOnSave": true
