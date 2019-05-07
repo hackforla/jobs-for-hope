@@ -16,8 +16,10 @@ const CompanyCard = ({ org, activeUser }) => {
             {org.job_count} Jobs Available
           </Link>
         </div>
-        {activeUser.role === "employer" &&
-        org.name === activeUser.organization ? (
+        {activeUser &&
+        (activeUser.role === "admin" ||
+          (activeUser.role === "employer" &&
+            org.name === activeUser.organization)) ? (
           <Link to={`/organizations/${org.id}`} id="org-edit-button">
             Edit Org
           </Link>

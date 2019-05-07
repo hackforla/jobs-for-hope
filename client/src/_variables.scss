@@ -6,17 +6,15 @@ $main-font: "Open Sans";
 
 /* $primary-color: #266294; //blue */
 $primary-color: #833f76; // purple
-$secondary-color: #ffd100; //yellow
-$secondary-color: #e6b833;
+/* $secondary-color: #ffd100; //yellow */
+$secondary-color: #e6b833; // orange
 $light-color: #f8f8f8; //light gray
 $accent-color: #f00; //red
 
 @function set-text-color($bg-color) {
   @if (lightness($bg-color) > 50) {
     @return #000;
-  }
-
-  @else {
+  } @else {
     @return #fff;
   }
 }
