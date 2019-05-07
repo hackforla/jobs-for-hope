@@ -8,18 +8,18 @@
 
 .login-input {
   width: 90%;
-  margin-top: .5em;
+  margin-top: 0.5em;
   padding: 0.75em 1.75em;
   border-radius: 0.5em;
   border: 1px lightgray solid;
 }
 
 .password-reg {
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
 }
 
 .helper-text {
-  font-size: .7rem;
+  font-size: 0.7rem;
 }
 
 .intext-link {
@@ -29,7 +29,6 @@
     border-bottom: 0.2em $secondary-color solid;
   }
 }
-
 
 #send-btn {
   font-family: $main-font;
@@ -41,7 +40,6 @@
   border-radius: 0.4em;
   border: 1px $secondary-color solid;
 }
-
 
 @media screen and (max-width: 770px) {
   .contact-banner {
@@ -84,12 +82,12 @@ input.error {
 
 .input-feedback {
   color: red;
-  margin-top: .25rem;
-  font-size: .8em;
+  margin-top: 0.25rem;
+  font-size: 0.8em;
 }
 
 button:disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed !important;
 }
 
