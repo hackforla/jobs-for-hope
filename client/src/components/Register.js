@@ -2,18 +2,35 @@ import React from "react";
 import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
-import { handleRegister, sendConfirmEmail } from "../services/auth-service";
+import {
+  handleRegister,
+  handleNewOrg,
+  sendConfirmEmail
+} from "../services/auth-service";
+import { getAll } from "../services/organization-service";
 import { Formik } from "formik";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: ""
+      errorMessage: "",
+      orgList: [],
+      newOrg: false
     };
   }
+  componentDidMount() {
+    getAll().then(result => {
+      this.setState({ orgList: result.map(org => org.name) });
+    });
+  }
+
+  toggleCheck = () => {
+    this.setState(prevState => ({ newOrg: !prevState.newOrg }));
+  };
 
   render() {
+    const { orgList, newOrg } = this.state;
     return (
       <main>
         <Banner
@@ -26,15 +43,52 @@ class Register extends React.Component {
           <Formik
             initialValues={{
               organization: "",
+              orgName: "",
+              website: "",
+              contactEmail: "",
+              contactPhone: "",
               email: "",
               password: "",
               confirm: ""
             }}
             validate={values => {
-              const { organization, email, password, confirm } = values;
+              const {
+                organization,
+                orgName,
+                website,
+                contactEmail,
+                contactPhone,
+                email,
+                password,
+                confirm
+              } = values;
               let errors = {};
-              if (!organization) {
-                errors.organization = "Required";
+              if (newOrg) {
+                if (!orgName) {
+                  errors.orgName = "Required";
+                }
+                if (!website) {
+                  errors.website = "Required";
+                }
+                if (
+                  contactEmail &&
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(contactEmail)
+                ) {
+                  errors.contactEmail = "Invalid email address";
+                }
+                if (
+                  contactPhone &&
+                  !/^(\([0-9]{3}\)\s*|[0-9]{3}\-?)[0-9]{3}-?[0-9]{4}$/.test(
+                    contactPhone
+                  )
+                ) {
+                  errors.contactPhone =
+                    "Invalid phone number. Please use XXX-XXX-XXXX format";
+                }
+              } else {
+                if (!organization) {
+                  errors.organization = "Required";
+                }
               }
               if (!email) {
                 errors.email = "Required";
@@ -63,17 +117,50 @@ class Register extends React.Component {
             }}
             validateOnChange="false"
             onSubmit={(values, { setSubmitting }) => {
-              const { organization, email, password } = values;
+              const {
+                organization,
+                orgName,
+                website,
+                contactEmail,
+                contactPhone,
+                email,
+                password,
+                confirm
+              } = values;
               sendConfirmEmail(email).then(result => {
-                console.log(result);
                 if (result === "User already exists") {
                   this.setState({ errorMessage: result });
                   setSubmitting(false);
                 } else {
-                  handleRegister(organization, email, password).then(result => {
-                    window.location.href = "/";
-                    setSubmitting(false);
-                  });
+                  if (newOrg) {
+                    handleNewOrg(
+                      orgName,
+                      website,
+                      contactEmail,
+                      contactPhone,
+                      email,
+                      password,
+                      confirm
+                    ).then(result => {
+                      if (result === "success") {
+                        window.location.href = "/";
+                        setSubmitting(false);
+                      } else {
+                        this.setState({ errorMessage: result });
+                      }
+                    });
+                  } else {
+                    handleRegister(organization, email, password).then(
+                      result => {
+                        if (result === "success") {
+                          window.location.href = "/";
+                          setSubmitting(false);
+                        } else {
+                          this.setState({ errorMessage: result });
+                        }
+                      }
+                    );
+                  }
                 }
               });
             }}
@@ -92,26 +179,131 @@ class Register extends React.Component {
                 name="login-form"
                 aria-labelledby="login"
               >
-                <div className="form-component">
+                <div className="organization-container form-component">
                   <label htmlFor="organization">Organization</label>
-                  <br />
-                  <input
-                    id="organization"
+                  <div className="checkbox-container">
+                    <input
+                      id="orgCheckbox"
+                      className="checkbox"
+                      type="checkbox"
+                      name="orgCheckbox"
+                      onChange={this.toggleCheck}
+                    />
+                    <label htmlFor="orgCheckBox">New Organization</label>
+                  </div>
+                </div>
+                {!newOrg ? (
+                  <select
                     name="organization"
+                    className="org-select"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.organization}
-                    className={
-                      errors.organization && touched.organization
-                        ? "error login-input"
-                        : "login-input"
-                    }
-                  />
-                  {errors.organization && touched.organization && (
-                    <div className="input-feedback">{errors.organization}</div>
-                  )}
-                  <br />
-                </div>
+                  >
+                    {orgList.map((org, i) => {
+                      return (
+                        <option key={i} value={org}>
+                          {org}
+                        </option>
+                      );
+                    })}
+                  </select>
+                ) : (
+                  <React.Fragment>
+                    <div className="form-component">
+                      <label className="org-label" htmlFor="orgName">
+                        Name*
+                      </label>
+                      <br />
+                      <input
+                        id="orgName"
+                        name="orgName"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.orgName}
+                        className={
+                          errors.orgName && touched.orgName
+                            ? "error login-input"
+                            : "login-input"
+                        }
+                      />
+                      {errors.orgName && touched.orgName && (
+                        <div className="input-feedback">{errors.orgName}</div>
+                      )}
+                      <br />
+                    </div>
+                    <div className="form-component">
+                      <label className="org-label" htmlFor="website">
+                        Website*
+                      </label>
+                      <br />
+                      <input
+                        id="website"
+                        name="website"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.website}
+                        className={
+                          errors.website && touched.website
+                            ? "error login-input"
+                            : "login-input"
+                        }
+                      />
+                      {errors.website && touched.website && (
+                        <div className="input-feedback">{errors.website}</div>
+                      )}
+                      <br />
+                    </div>
+                    <div className="form-component">
+                      <label className="org-label" htmlFor="contactEmail">
+                        Email
+                      </label>
+                      <br />
+                      <input
+                        id="contactEmail"
+                        name="contactEmail"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.contactEmail}
+                        className={
+                          errors.contactEmail && touched.contactEmail
+                            ? "error login-input"
+                            : "login-input"
+                        }
+                      />
+                      {errors.contactEmail && touched.contactEmail && (
+                        <div className="input-feedback">
+                          {errors.contactEmail}
+                        </div>
+                      )}
+                      <br />
+                    </div>
+                    <div className="form-component">
+                      <label className="org-label" htmlFor="contactPhone">
+                        Phone
+                      </label>
+                      <br />
+                      <input
+                        id="contactPhone"
+                        name="contactPhone"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.contactPhone}
+                        className={
+                          errors.contactPhone && touched.contactPhone
+                            ? "error login-input"
+                            : "login-input"
+                        }
+                      />
+                      {errors.contactPhone && touched.contactPhone && (
+                        <div className="input-feedback">
+                          {errors.contactPhone}
+                        </div>
+                      )}
+                    </div>
+                  </React.Fragment>
+                )}
+                <br />
                 <div className="form-component">
                   <label htmlFor="email">Email</label>
                   <br />

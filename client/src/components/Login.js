@@ -15,10 +15,6 @@ const Login = () => {
   const [captchaMessage, setCaptchaMessage] = useState("");
   const alert = useAlert();
 
-  const checkLogin = () => {
-    authCheck().then(res => console.log(res));
-  };
-
   const onCaptchaChange = value => {
     if (value) {
       setCaptchaMessage("");
