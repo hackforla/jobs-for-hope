@@ -49,6 +49,7 @@ def connect():
                 print 'Scraper failed:', organization
             finally:
                 globals.reset_vars()
+                sys.stdout.flush()
 
         # close the communication with the PostgreSQL
         globals.cur.close()

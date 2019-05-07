@@ -65,8 +65,8 @@
 #org-details-button {
   @extend %button-shared;
 
-  border: 1px #ffd100 solid;
-  background: #ffd100;
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
 }
 
 #org-edit-button {
