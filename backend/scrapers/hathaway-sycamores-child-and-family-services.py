@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import globals
-from globals import get_javascript_soup_delayed_and_click, update_db, city_to_zip
+from globals import get_javascript_soup_delayed_and_click, update_db, city_to_zip, zip_to_city
 
 # Hathaway-Sycamores Child and Family Services
 
