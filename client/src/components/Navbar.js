@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
 
-const Navbar = ({ activeUser, logOut }) => {
+const Navbar = ({ activeUser }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <span>
@@ -30,37 +30,17 @@ const Navbar = ({ activeUser, logOut }) => {
               Contact
             </NavLink>
           </li>
-          { activeUser.id  ?
-            <React.Fragment> 
-             <li>
+          {activeUser.id ? (
+            <li>
               <NavLink className="link" to="/account">
                 Account
               </NavLink>
             </li>
-            <li>
-              <span className="link" onClick={logOut}>
-                Log Out
-              </span>
-            </li>
-            </React.Fragment>
-              :
-            <React.Fragment>   
-            <li>
-              <NavLink className="link" to="/register">
-                Post A Job
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="link" to="/login">
-                Log In
-              </NavLink>
-            </li>
-            </React.Fragment> 
-          }
+          ) : null}
         </ul>
       </span>
     </nav>
   );
-}
+};
 
 export default Navbar;

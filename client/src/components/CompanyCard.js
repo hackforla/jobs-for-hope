@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
 const CompanyCard = ({ org, activeUser }) => {
+  console.log(activeUser)
   return (
     <div className="organization-card">
       <div className="organization-card-content">
@@ -16,17 +17,21 @@ const CompanyCard = ({ org, activeUser }) => {
             {org.job_count} Jobs Available
           </Link>
         </div>
-        <div className="organization-btn-wrapper">
-          {(activeUser.role === "employer" && org.name === activeUser.organization) || activeUser.role === "admin" ? (
+
+        {activeUser &&
+          (activeUser.role === "admin" ||
+            (activeUser.role === "employer" &&
+              org.name === activeUser.organization)) ? (
+            // when we change organizations from string to an array: 
+            // org.name === activeUser.organization.includes(org.name))) ? (
             <Link to={`/organizations/${org.id}`} id="org-edit-button">
               Edit Org
-            </Link>
+          </Link>
           ) : null}
 
-          <Link to={`/organizationView/${org.id}`} id="org-details-button">
-            Details
+        <Link to={`/organizationView/${org.id}`} id="org-details-button">
+          Details
           </Link>
-        </div>
       </div>
     </div>
   );

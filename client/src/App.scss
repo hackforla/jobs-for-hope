@@ -84,14 +84,13 @@ button:hover {
   }
 }
 
-
 .filters-postings-wrapper {
   display: flex;
 }
 
 /*FOOTER*/
 .footer {
-  padding: 0.5em 0;
+  padding: 1.5em 0em;
   background: $primary-color;
   color: set-text-color($primary-color);
   display: grid;
