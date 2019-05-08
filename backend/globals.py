@@ -206,7 +206,7 @@ def get_javascript_soup(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.implicitly_wait(10)
     driver.get(url)
     innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -218,7 +218,7 @@ def get_javascript_soup_delayed(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(

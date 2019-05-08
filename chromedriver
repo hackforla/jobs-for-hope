@@ -1,2 +1,15 @@
 #!/bin/sh
-chromedriver.exe "$@"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # mac
+  ../chromedriver.mac "$@"
+elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+  # linux
+  ../chromedriver.gnu "$@"
+elif [[ "$OSTYPE" == "msys" ]]; then
+  # MinGW
+  chromedriver.exe "$@"
+else
+  # Unknown OS
+  echo "UNKNOWN OS"
+fi
