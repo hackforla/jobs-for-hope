@@ -11,21 +11,22 @@ const CompanyCard = ({ org, activeUser }) => {
           <img id="org-img" alt="company logo" src={`/logos/${org.logo}`} />
         </div>
         <h3 id="org-title">{org.name}</h3>
-        <div style={{ height: "10%" }}>
-          {/* <Link to={"/jobs/" + org.id} id="org-jobs-available">
+        <div style={{ height: "15%" }}>
+          <Link to={"/jobs/" + org.id} id="org-jobs-available">
             {org.job_count} Jobs Available
-          </Link> */}
+          </Link>
         </div>
-        {activeUser.role === "employer" &&
-          org.name === activeUser.organization ? (
+        <div className="organization-btn-wrapper">
+          {(activeUser.role === "employer" && org.name === activeUser.organization) || activeUser.role === "admin" ? (
             <Link to={`/organizations/${org.id}`} id="org-edit-button">
               Edit Org
-          </Link>
+            </Link>
           ) : null}
 
-        <Link to={`/organizationView/${org.id}`} id="org-details-button">
-          Details
-        </Link>
+          <Link to={`/organizationView/${org.id}`} id="org-details-button">
+            Details
+          </Link>
+        </div>
       </div>
     </div>
   );
