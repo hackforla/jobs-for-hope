@@ -9,6 +9,25 @@ Aggregate job opportunities with homeless service providers so that people can s
 ### Complete beginner instructions
 <details><summary>click here to show</summary><p>
 
+#### Windows
+<details><summary>show</summary><p>
+
+1. Install chocolatey (https://chocolatey.org/install)
+    1. Install chocolatey gui (optional)
+    ```
+    choco install chocolateygui -y
+    ```
+1. Install git, chromium, chromedriver, vscode, python2, dbeaver, nodejs
+```
+choco install git chromium chromedriver vscode python2 dbeaver nodejs -y
+```
+2. Install postgresql and set postgres user password
+```
+choco install postgresql --params '/Password:password' --params-global -y
+```
+
+</p></details>
+
 #### Windows 10
 <details><summary>show</summary><p>
 
