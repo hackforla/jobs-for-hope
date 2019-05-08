@@ -18,6 +18,8 @@ def run(url):
         posted_ago = job_entry.find('span', {'class':'current-opening-post-date'}).text.split(' ')
         if posted_ago[0] == 'a':
             globals.job_post_date = date_ago(1, posted_ago[1])
+        elif posted_ago[0].lower() == 'today':
+            globals.job_post_date = date_ago(0, 'day')
         elif posted_ago[0].lower() == 'yesterday':
             globals.job_post_date = date_ago(1, 'day')
         elif posted_ago[0] == '30+':
