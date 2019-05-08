@@ -18,6 +18,28 @@ export const handleRegister = (organization, email, password) => {
     .then(res => res.data);
 };
 
+export const handleNewOrg = (
+	orgName,
+	website,
+	contactEmail,
+	contactPhone,
+	email,
+	password,
+	confirm
+) => {
+	return axios
+		.post("/api/auth/register/new-org", {
+			orgName,
+			website,
+			contactEmail,
+			contactPhone,
+			email,
+			password,
+			confirm
+		})
+		.then(res => res.data);
+};
+
 export const handleLogOut = (email, password) => {
   return axios.get("/api/auth/logout").then(result => result.data);
 };
