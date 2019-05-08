@@ -114,8 +114,8 @@ class App extends Component {
                 <Organizations
                   organizations={organizations}
                   isPending={isPending}
-                  isAdmin={true}
                   key={isPending}
+                  activeUser={activeUser}
                 />
               )}
             />

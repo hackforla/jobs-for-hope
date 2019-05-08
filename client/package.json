@@ -16,7 +16,7 @@
     "moment": "^2.24.0",
     "node-sass": "^4.9.4",
     "react": "^16.5.2",
-    "react-alert": "^5.4.0",
+    "react-alert": "^5.5.0",
     "react-dom": "^16.5.2",
     "react-google-recaptcha": "^1.0.5",
     "react-modal": "^3.8.1",
