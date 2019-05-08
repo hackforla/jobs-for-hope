@@ -274,6 +274,11 @@ def clean_location(string):
 
 
 def city_to_zip(location):
+    # remove ending 'county' in location
+    tokens = location.split()
+    if tokens[-1].lower() == 'county':
+        location = ' '.join(tokens[:-1])
+
     return int(search().by_city_and_state(location, 'CA')[0].zipcode)
 
 
