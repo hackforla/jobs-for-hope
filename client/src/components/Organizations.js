@@ -14,7 +14,6 @@ const override = css`
 const Organizations = ({
   organizations,
   isPending,
-  isAdmin,
   activeUser,
   toNewOrganization
 }) => {
@@ -55,7 +54,7 @@ const Organizations = ({
       </div>
     ) : (
         <div style={{ margin: "0.5em 2em " }}>
-          {isAdmin ? (
+          {activeUser.role === "admin" ? (
             <div
               style={{
                 display: "flex",
