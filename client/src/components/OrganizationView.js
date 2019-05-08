@@ -66,7 +66,7 @@ class OrganizationView extends React.Component {
     this.setState({ toOrganizations: true });
   };
 
-  createDescription = function(description) {
+  createDescription = function (description) {
     return { __html: description };
   };
 
@@ -138,33 +138,6 @@ class OrganizationView extends React.Component {
               style={{ marginRight: "0.5em" }}
             />
             {org.email}
-          </div>
-          <div
-            style={{
-              width: "100%",
-              fontSize: "1.5em",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end"
-            }}
-          >
-            <div
-              onClick={this.handleDelete}
-              style={{ color: "red", margin: "0.5em" }}
-            >
-              <FontAwesomeIcon
-                icon={faTrash}
-                style={{ marginRight: "0.5em" }}
-              />
-              Delete
-            </div>
-            <a
-              href={`/organizations/${org.id}`}
-              style={{ color: "green", margin: "0.5em" }}
-            >
-              <FontAwesomeIcon icon={faEdit} style={{ marginRight: "0.5em" }} />
-              Edit
-            </a>
           </div>
         </div>
       </React.Fragment>
