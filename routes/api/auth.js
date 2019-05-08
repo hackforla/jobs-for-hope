@@ -56,18 +56,65 @@ router.post("/register", (req, res, next) => {
   // make a transaction
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
-    const sql2 = `insert into login (email, organization, hash, id) 
-                values ('${email}', '${organization}', '${bcrypt.hashSync(
-      password
-    )}', '${uuid()}')
+    const sql2 = `select id from organizations where name='${organization}'`;
+    pool.query(sql2).then(data => {
+      const id = data.rows[0].id;
+      const sql3 = `insert into emails_to_orgs (email, organization, organization_id) 
+                values ('${email}', '${organization}', '${id}')`;
+      pool.query(sql3).then(stuff => {
+        const sql4 = `insert into login (email, organization, hash, id) 
+                values ('${email}', '${organization}', 
+                '${bcrypt.hashSync(password)}', '${uuid()}')
                 returning id`;
-    pool.query(sql2).then(user => {
-      const userObj = user.rows[0];
-      req.login(userObj, err => {
-        if (err) {
-          return next(err);
-        }
-        return res.json({ success: true });
+        pool.query(sql4).then(user => {
+          const userObj = user.rows[0];
+          req.login(userObj, err => {
+            if (err) {
+              return next(err);
+            }
+            return res.json("success");
+          });
+        });
+      });
+    });
+  });
+});
+
+router.post("/register/new-org", (req, res, next) => {
+  const {
+    orgName,
+    website,
+    contactEmail,
+    contactPhone,
+    email,
+    password,
+    confirm
+  } = req.body;
+  const sql = `select * from login where email = '${email}'`;
+  // make a transaction
+  pool.query(sql).then(data => {
+    if (data.rows[0]) return res.json("User already exists");
+
+    const sql2 = `insert into organizations (name, url, logo, email, phone, is_user_created) 
+                values ('${orgName}', '${website}', 'codeforamerica.svg', '${contactEmail}', '${contactPhone}', 'true') returning id`;
+    pool.query(sql2).then(data => {
+      const id = data.rows[0].id;
+      const sql3 = `insert into emails_to_orgs (email, organization, organization_id) 
+                values ('${email}', '${orgName}', '${id}')`;
+      pool.query(sql3).then(data => {
+        const sql4 = `insert into login (email, organization, hash, id) 
+                values ('${email}', '${orgName}', 
+                '${bcrypt.hashSync(password)}', '${uuid()}')
+                returning id`;
+        pool.query(sql4).then(user => {
+          const userObj = user.rows[0];
+          req.login(userObj, err => {
+            if (err) {
+              return next(err);
+            }
+            return res.json("success");
+          });
+        });
       });
     });
   });
@@ -75,7 +122,7 @@ router.post("/register", (req, res, next) => {
 
 // EMAIL CONFIRMATION:
 
-router.post("/send-confirm", (req, res, next) => {
+router.post("/send-confirm", (req, res) => {
   const { email } = req.body;
   const sql = `select * from login where email = '${email}'`;
   pool.query(sql).then(data => {
@@ -120,7 +167,7 @@ router.get("/confirm/:id", (req, res) => {
 
 // PASSWORD RESET:
 
-router.post("/send-reset", (req, res, next) => {
+router.post("/send-reset", (req, res) => {
   const { email } = req.body;
   const sql = `select * from login where email = '${email}'`;
   pool.query(sql).then(data => {
