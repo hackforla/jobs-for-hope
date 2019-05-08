@@ -15,7 +15,7 @@ const confirmOptions = (email, id) => ({
   subject: `Verify your account`,
   html: `<p>Hello, please click the following link to verify your account.</p>
 		  <br>
-		  <p><a href="${serverUrl}confirm/${id}">Verify Me</a></p>
+		  <p><a href="${serverUrl}api/auth/confirm/${id}">Verify Me</a></p>
 		  <br>
 		  <p>Thanks,</p>
 		  <p>Jobs For Hope</p>`
