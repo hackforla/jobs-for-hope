@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const serverUrl = process.env.SERVER_URL;
+const clientUrl = process.env.CLIENT_URL;
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -28,7 +29,7 @@ const resetOptions = (email, id) => ({
   html: `
 		  <p>Please click the following link to reset your password.</p>
 		  <br>
-		  <p><a href='${serverUrl}api/auth/reset/${id}'>Reset</a></p>
+		  <p><a href='${clientUrl}reset/${id}'>Reset</a></p>
 		  <br>
 		  <p>Thanks,</p>
 		  <p>Jobs For Hope</p>`

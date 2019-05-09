@@ -195,33 +195,24 @@ router.post("/send-reset", (req, res) => {
   });
 });
 
-router.get("/reset/:token", (req, res) => {
-  const { token } = req.params;
+router.post("/submit-reset", (req, res) => {
+  const { token, password } = req.body;
   const delSQL = `DELETE FROM resets WHERE timestamp < now()-'1 hour'::interval`;
   pool.query(delSQL).then(delInfo => {
     const sql = `select * from resets where reset_token = '${token}'`;
     pool.query(sql).then(data => {
       const user = data.rows[0];
       if (user) {
-        const sql2 = `select id from login where email = '${user.email}'`;
+        const sql2 = `update login
+          set hash = '${bcrypt.hashSync(password)}' 
+          where email = '${user.email}';`;
         pool.query(sql2).then(data => {
-          const userid = data.rows[0].id;
-          res.redirect(`${clientUrl}reset/${userid}`);
+          res.json("success");
         });
       } else {
-        res.redirect(`${clientUrl}error/404`);
+        res.json("Error: no data for user. Your link may have expired.");
       }
     });
-  });
-});
-
-router.post("/submit-reset", (req, res) => {
-  const { userid, password } = req.body;
-  const sql = `update login
-    set hash = '${bcrypt.hashSync(password)}' 
-    where id = '${userid}';`;
-  pool.query(sql).then(data => {
-    res.json("success");
   });
 });
 
