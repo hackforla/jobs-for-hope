@@ -24,6 +24,7 @@ job_post_date = None
 full_or_part = ''
 salary = ''
 info_link = ''
+insert_count = 0
 
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = []
@@ -248,8 +249,11 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
 
 
 def update_db(organization_name):
+    global insert_count
+
     insert_job((job_title, organization_name, job_summary, job_location,
                 job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_count += 1
 
 
 def date_ago(timeLength, timeUnit):
