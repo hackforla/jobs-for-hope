@@ -25,6 +25,7 @@ router.get("/", (req, res) => {
       const formattedData = data.rows.map(row => row.name);
       res.json({
         id: req.user.id,
+        email: req.user.email,
         organization: formattedData,
         role: req.user.role
       });
