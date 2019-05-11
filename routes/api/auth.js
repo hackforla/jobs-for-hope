@@ -16,10 +16,18 @@ const clientUrl = process.env.CLIENT_URL;
 
 router.get("/", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({
-      id: req.user.id,
-      organization: req.user.organization,
-      role: req.user.role
+    const sql = `select name from organizations
+                  where id in(
+                    select organization_id from users_to_orgs 
+                    where user_id = ${req.user.id}
+                  )`;
+    pool.query(sql).then(data => {
+      const formattedData = data.rows.map(row => row.name);
+      res.json({
+        id: req.user.id,
+        organization: formattedData,
+        role: req.user.role
+      });
     });
   } else {
     res.json({});
@@ -58,16 +66,15 @@ router.post("/register", (req, res, next) => {
     if (data.rows[0]) return res.json("User already exists");
     const sql2 = `select id from organizations where name='${organization}'`;
     pool.query(sql2).then(data => {
-      const id = data.rows[0].id;
-      const sql3 = `insert into emails_to_orgs (email, organization, organization_id) 
-                values ('${email}', '${organization}', '${id}')`;
-      pool.query(sql3).then(stuff => {
-        const sql4 = `insert into login (email, organization, hash, id) 
-                values ('${email}', '${organization}', 
-                '${bcrypt.hashSync(password)}', '${uuid()}')
+      const organization_id = data.rows[0].id;
+      const sql3 = `insert into login (email, hash) 
+                values ('${email}', '${bcrypt.hashSync(password)}')
                 returning id`;
-        pool.query(sql4).then(user => {
-          const userObj = user.rows[0];
+      pool.query(sql3).then(user => {
+        const userObj = user.rows[0];
+        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+                values ('${userObj.id}', '${organization_id}')`;
+        pool.query(sql4).then(data => {
           req.login(userObj, err => {
             if (err) {
               return next(err);
@@ -94,20 +101,18 @@ router.post("/register/new-org", (req, res, next) => {
   // make a transaction
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
-
     const sql2 = `insert into organizations (name, url, logo, email, phone, is_user_created) 
                 values ('${orgName}', '${website}', 'codeforamerica.svg', '${contactEmail}', '${contactPhone}', 'true') returning id`;
     pool.query(sql2).then(data => {
-      const id = data.rows[0].id;
-      const sql3 = `insert into emails_to_orgs (email, organization, organization_id) 
-                values ('${email}', '${orgName}', '${id}')`;
-      pool.query(sql3).then(data => {
-        const sql4 = `insert into login (email, organization, hash, id) 
-                values ('${email}', '${orgName}', 
-                '${bcrypt.hashSync(password)}', '${uuid()}')
+      const organization_id = data.rows[0].id;
+      const sql3 = `insert into login (email, hash) 
+                values ('${email}', '${bcrypt.hashSync(password)}')
                 returning id`;
-        pool.query(sql4).then(user => {
-          const userObj = user.rows[0];
+      pool.query(sql3).then(user => {
+        const userObj = user.rows[0];
+        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+                values ('${userObj.id}', '${organization_id}')`;
+        pool.query(sql4).then(data => {
           req.login(userObj, err => {
             if (err) {
               return next(err);

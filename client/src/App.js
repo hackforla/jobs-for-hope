@@ -31,7 +31,10 @@ class App extends Component {
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => this.setState({ activeUser: user }));
+    authCheck().then(user => {
+      console.log(user);
+      this.setState({ activeUser: user });
+    });
   }
 
   componentDidMount() {
