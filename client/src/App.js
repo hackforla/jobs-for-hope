@@ -14,7 +14,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Account from "./components/Account";
 import ResetForm from "./components/ResetForm";
-import ErrorPage from "./components/ErrorPage";
 import Footer from "./components/Footer";
 
 import * as jobService from "./services/job-service";
@@ -32,7 +31,10 @@ class App extends Component {
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => this.setState({ activeUser: user }));
+    authCheck().then(user => {
+      console.log(user);
+      this.setState({ activeUser: user });
+    });
   }
 
   componentDidMount() {
@@ -125,8 +127,10 @@ class App extends Component {
             <Route path="/contact" component={Contact} />
             <Route path="/login" render={() => <Login />} />
             <Route path="/register" render={() => <Register />} />
-            <Route path="/reset/:userid" component={ResetForm} />
-            <Route path="/error/:num" component={ErrorPage} />
+            <Route
+              path="/reset/:token"
+              render={matchProps => <ResetForm {...matchProps} />}
+            />
             <Route
               path="/account"
               render={() => (
