@@ -6,7 +6,6 @@ import { withRouter } from "react-router";
 const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
 
 const CompanyCard = ({ org, activeUser }) => {
-  console.log(activeUser)
   return (
     <div className="organization-card">
       <div className="organization-card-content">
@@ -26,16 +25,15 @@ const CompanyCard = ({ org, activeUser }) => {
           </Link>
 
           {activeUser &&
-            (activeUser.role === "admin" ||
-              (activeUser.role === "employer" &&
-                org.name === activeUser.organization)) ? (
-              // when we change organizations from string to an array: 
-              // activeUser.organization.includes(org.name))) ? (
-              <Link to={`/organizations/${org.id}`} id="org-edit-button">
-                Edit
+          (activeUser.role === "admin" ||
+            (activeUser.role === "employer" &&
+              activeUser.organization.includes(org.name))) ? (
+            // when we change organizations from string to an array:
+            // activeUser.organization.includes(org.name))) ? (
+            <Link to={`/organizations/${org.id}`} id="org-edit-button">
+              Edit
             </Link>
-            ) : null}
-
+          ) : null}
         </div>
       </div>
     </div>

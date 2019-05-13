@@ -1,6 +1,7 @@
 import React from "react";
 import * as s3Service from "../services/s3-service";
 import axios from "axios";
+const uuidv4 = require("uuid/v4");
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -15,19 +16,24 @@ class ImageUpload extends React.Component {
       this.fileInput.current.files.length > 0
     ) {
       const file = this.fileInput.current.files[0];
+      const key = uuidv4() + file.name;
 
       s3Service
-        .generatePresignedUrl(file.name, file.type)
+        .generatePresignedUrl(key, file.type)
         .then(resp => {
           console.log(JSON.stringify(resp, null, 2));
           axios
-            .post(resp.urls[0], file, {
+            .put(resp.urls[0], file, {
               headers: {
                 "Content-Type": file.type,
-                withCredentials: true
+                withCredentials: false
               }
             })
             .then(r => {
+              if (this.props.updateEntity) {
+                // Caller supplies callback fn for updating entity with file key
+                this.props.updateEntity(key);
+              }
               console.log(`File ${file.name} uploaded`);
             });
         })

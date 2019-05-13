@@ -2,7 +2,6 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  //signatureVersion: "v4",
   region: "us-west-2"
 });
 
@@ -13,7 +12,7 @@ const router = express.Router();
 router.post("/generatePresignedUrl", (req, res) => {
   const key = req.body.key;
   const contentType = req.body.contentType || "image/png";
-  const timeout = 60 * 60;
+  const timeout = 60 * 60; // presigned url is valid for 60 minutes
   const fileUrls = [];
 
   const bucket = process.env.AWS_BUCKET;

@@ -8,6 +8,7 @@ import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import ImageUpload from "./ImageUpload";
+import * as config from "../config";
 
 const initialValues = {
   id: 0,
@@ -63,6 +64,14 @@ class OrganizationForm extends React.Component {
       });
     }
   }
+
+  updateEntityFileKey = key => {
+    organizationService.updateFileKey(
+      this.state.org.id,
+      this.state.org.logo,
+      key
+    );
+  };
 
   handleSubmit = (values, { setSubmitting }) => {
     const req = { ...values };
@@ -284,7 +293,7 @@ class OrganizationForm extends React.Component {
                       {errors.zip && touched.zip ? (
                         <div className="organization-error">{errors.zip}</div>
                       ) : null}
-                      <label htmlFor="name" className="organization-label">
+                      {/* <label htmlFor="name" className="organization-label">
                         Logo File Name{" "}
                       </label>
                       <input
@@ -297,7 +306,7 @@ class OrganizationForm extends React.Component {
                       />
                       {errors.logo && touched.logo ? (
                         <div className="organization-error">{errors.logo}</div>
-                      ) : null}
+                      ) : null} */}
                       <label htmlFor="phone" className="organization-label">
                         Phone{" "}
                       </label>
@@ -353,7 +362,16 @@ class OrganizationForm extends React.Component {
                                 {JSON.stringify(props, null, 2)}
                             </pre> */}
                     </form>
-                    <ImageUpload />
+                    <img
+                      width="50%"
+                      src={
+                        this.state.org.logo
+                          ? config.AWS_S3_PREFIX + this.state.org.logo
+                          : ""
+                      }
+                      alt="Company Logo"
+                    />
+                    <ImageUpload updateEntity={this.updateEntityFileKey} />
                   </div>
                 );
               }}

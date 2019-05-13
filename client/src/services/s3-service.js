@@ -12,7 +12,7 @@ export const generatePresignedUrl = (key, contentType) => {
 export const upload = (key, file, contentType) => {
   return generatePresignedUrl(key, contentType)
     .then(resp => {
-      return axios.post(resp.url, file);
+      return axios.put(resp.url, file);
     })
     .then(resp => resp.data);
 };
