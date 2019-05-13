@@ -16,10 +16,19 @@ const clientUrl = process.env.CLIENT_URL;
 
 router.get("/", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({
-      id: req.user.id,
-      organization: req.user.organization,
-      role: req.user.role
+    const sql = `select name from organizations
+                  where id in(
+                    select organization_id from users_to_orgs 
+                    where user_id = ${req.user.id}
+                  )`;
+    pool.query(sql).then(data => {
+      const formattedData = data.rows.map(row => row.name);
+      res.json({
+        id: req.user.id,
+        email: req.user.email,
+        organization: formattedData,
+        role: req.user.role
+      });
     });
   } else {
     res.json({});
@@ -56,18 +65,62 @@ router.post("/register", (req, res, next) => {
   // make a transaction
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
-    const sql2 = `insert into login (email, organization, hash, id) 
-                values ('${email}', '${organization}', '${bcrypt.hashSync(
-      password
-    )}', '${uuid()}')
+    const sql2 = `select id from organizations where name='${organization}'`;
+    pool.query(sql2).then(data => {
+      const organization_id = data.rows[0].id;
+      const sql3 = `insert into login (email, hash) 
+                values ('${email}', '${bcrypt.hashSync(password)}')
                 returning id`;
-    pool.query(sql2).then(user => {
-      const userObj = user.rows[0];
-      req.login(userObj, err => {
-        if (err) {
-          return next(err);
-        }
-        return res.json({ success: true });
+      pool.query(sql3).then(user => {
+        const userObj = user.rows[0];
+        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+                values ('${userObj.id}', '${organization_id}')`;
+        pool.query(sql4).then(data => {
+          req.login(userObj, err => {
+            if (err) {
+              return next(err);
+            }
+            return res.json("success");
+          });
+        });
+      });
+    });
+  });
+});
+
+router.post("/register/new-org", (req, res, next) => {
+  const {
+    orgName,
+    website,
+    contactEmail,
+    contactPhone,
+    email,
+    password,
+    confirm
+  } = req.body;
+  const sql = `select * from login where email = '${email}'`;
+  // make a transaction
+  pool.query(sql).then(data => {
+    if (data.rows[0]) return res.json("User already exists");
+    const sql2 = `insert into organizations (name, url, logo, email, phone, is_user_created) 
+                values ('${orgName}', '${website}', 'codeforamerica.svg', '${contactEmail}', '${contactPhone}', 'true') returning id`;
+    pool.query(sql2).then(data => {
+      const organization_id = data.rows[0].id;
+      const sql3 = `insert into login (email, hash) 
+                values ('${email}', '${bcrypt.hashSync(password)}')
+                returning id`;
+      pool.query(sql3).then(user => {
+        const userObj = user.rows[0];
+        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+                values ('${userObj.id}', '${organization_id}')`;
+        pool.query(sql4).then(data => {
+          req.login(userObj, err => {
+            if (err) {
+              return next(err);
+            }
+            return res.json("success");
+          });
+        });
       });
     });
   });
@@ -75,7 +128,7 @@ router.post("/register", (req, res, next) => {
 
 // EMAIL CONFIRMATION:
 
-router.post("/send-confirm", (req, res, next) => {
+router.post("/send-confirm", (req, res) => {
   const { email } = req.body;
   const sql = `select * from login where email = '${email}'`;
   pool.query(sql).then(data => {
@@ -120,7 +173,7 @@ router.get("/confirm/:id", (req, res) => {
 
 // PASSWORD RESET:
 
-router.post("/send-reset", (req, res, next) => {
+router.post("/send-reset", (req, res) => {
   const { email } = req.body;
   const sql = `select * from login where email = '${email}'`;
   pool.query(sql).then(data => {
@@ -148,33 +201,24 @@ router.post("/send-reset", (req, res, next) => {
   });
 });
 
-router.get("/reset/:token", (req, res) => {
-  const { token } = req.params;
+router.post("/submit-reset", (req, res) => {
+  const { token, password } = req.body;
   const delSQL = `DELETE FROM resets WHERE timestamp < now()-'1 hour'::interval`;
   pool.query(delSQL).then(delInfo => {
     const sql = `select * from resets where reset_token = '${token}'`;
     pool.query(sql).then(data => {
       const user = data.rows[0];
       if (user) {
-        const sql2 = `select id from login where email = '${user.email}'`;
+        const sql2 = `update login
+          set hash = '${bcrypt.hashSync(password)}' 
+          where email = '${user.email}';`;
         pool.query(sql2).then(data => {
-          const userid = data.rows[0].id;
-          res.redirect(`${clientUrl}reset/${userid}`);
+          res.json("success");
         });
       } else {
-        res.redirect(`${clientUrl}error/404`);
+        res.json("Error: no data for user. Your link may have expired.");
       }
     });
-  });
-});
-
-router.post("/submit-reset", (req, res) => {
-  const { userid, password } = req.body;
-  const sql = `update login
-    set hash = '${bcrypt.hashSync(password)}' 
-    where id = '${userid}';`;
-  pool.query(sql).then(data => {
-    res.json("success");
   });
 });
 

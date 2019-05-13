@@ -15,10 +15,6 @@ const Login = () => {
   const [captchaMessage, setCaptchaMessage] = useState("");
   const alert = useAlert();
 
-  const checkLogin = () => {
-    authCheck().then(res => console.log(res));
-  };
-
   const onCaptchaChange = value => {
     if (value) {
       setCaptchaMessage("");
@@ -40,7 +36,7 @@ const Login = () => {
         titleLower={"Job-Seekers"}
         imageName="homeless_poster"
       />
-      <div className="login-form-container">
+      <div className="auth-form-container">
         <h2 id="login-title">Log In</h2>
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -167,11 +163,10 @@ const Login = () => {
           closeModal={closeModal}
         />
         <div className="register-text">
-          {"New to the site? Click "}
+          {"New to the site? "}
           <Link to="/register" className="intext-link">
-            here
+            Click here to register.
           </Link>{" "}
-          to register
         </div>
       </div>
     </main>
