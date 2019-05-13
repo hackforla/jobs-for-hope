@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
-import { handleLogIn, authCheck } from "../services/auth-service";
+import { handleLogIn } from "../services/auth-service";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import ForgotPasswordModal from "./ForgotPasswordModal.js";

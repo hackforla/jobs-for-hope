@@ -2,6 +2,8 @@ import React from "react";
 import "./JobPostings.scss";
 import moment from "moment";
 
+const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
+
 class JobPostings extends React.Component {
   handleShow(job) {
     return this.props.onShowModal(job);
@@ -26,7 +28,7 @@ class JobPostings extends React.Component {
                 height="100%"
                 src={
                   job.organization_logo
-                    ? `/logos/${job.organization_logo}`
+                    ? `${s3Url}/${job.organization_logo}`
                     : `/logos/jobsforhope.png`
                 }
               />

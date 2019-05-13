@@ -3,12 +3,14 @@ import "./CompanyCard.scss";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
+const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
+
 const CompanyCard = ({ org, activeUser }) => {
   return (
     <div className="organization-card">
       <div className="organization-card-content">
         <div className="organization-img-wrapper">
-          <img id="org-img" alt="company logo" src={`/logos/${org.logo}`} />
+          <img id="org-img" alt="company logo" src={`${s3Url}/${org.logo}`} />
         </div>
         <h3 id="org-title">{org.name}</h3>
         <div style={{ height: "10%" }}>
