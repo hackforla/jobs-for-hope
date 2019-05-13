@@ -1,6 +1,6 @@
 from datetime import datetime
 import globals
-from globals import get_soup, update_db, reset_vars
+from globals import get_soup, update_db
 
 # Special Service for Groups, Inc.
 
@@ -23,4 +23,3 @@ def run(url):
             year = int(date[2])
             globals.job_post_date = datetime(year, month, day)
             update_db(organization)
-            reset_vars()

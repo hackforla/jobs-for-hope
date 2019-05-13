@@ -14,6 +14,5 @@ def run(url):
     for job_listing in jobs_container.find_all('a'):
         globals.job_title = job_listing.text
         globals.info_link = job_listing['href']
-        globals.job_summary = globals.info_link
         update_db(organization)
 

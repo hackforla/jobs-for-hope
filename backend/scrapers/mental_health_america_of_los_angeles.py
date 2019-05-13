@@ -23,6 +23,5 @@ def run(url):
             summary_parent.clear()
             globals.job_summary = summary_parent.find_parent("p").text.strip()
         else:
-            globals.job_summary = globals.info_link
+            globals.job_summary = ''
         update_db(organization)
-      

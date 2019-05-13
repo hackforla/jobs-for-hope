@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, update_db, reset_vars
+from globals import get_soup, update_db
 
 # Prototypes, A Program of Healthright 360
 

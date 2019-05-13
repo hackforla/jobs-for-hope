@@ -1,5 +1,5 @@
 import globals
-from globals import get_soup, get_javascript_soup, update_db, reset_vars, clean_location, city_to_zip, date_ago
+from globals import get_soup, get_javascript_soup, update_db, clean_location, city_to_zip, date_ago
 
 # St. Joseph Center
 
@@ -20,7 +20,6 @@ def run(url):
         if len(location_parts) > 1 and len(location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
             # skip job if state is not CA
             print('Skip location: %s' % globals.job_location)
-            reset_vars()
             continue
         globals.job_zip_code = city_to_zip(location_parts[0])
         update_db(organization)

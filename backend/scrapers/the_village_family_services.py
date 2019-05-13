@@ -17,7 +17,6 @@ def run(url):
         major_line = job_div.find('div',{'class':'wpjb-line-major'})
         globals.job_title = major_line.a.text
         globals.info_link = major_line.a['href']
-        globals.job_summary = globals.info_link
         globals.full_or_part = major_line.find('span',{'class':'wpjb-sub-title'}).text.strip()
         minor_line = job_div.find('div',{'class':'wpjb-line-minor'})
         globals.job_location = minor_line.find('span',{'class':'wpjb-job_location'}).text.strip()

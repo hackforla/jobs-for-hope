@@ -1,5 +1,5 @@
 import globals
-from globals import clean_location, city_to_zip, get_soup, update_db, reset_vars
+from globals import clean_location, city_to_zip, get_soup, update_db
 from datecleaner import string_to_date
 
 # Penny Lane Centers
@@ -23,4 +23,3 @@ def run(url):
         globals.full_or_part = job_soup.find('li',{'class':'job-employee-type'}).find('div',{'class':'secondary-text-color'}).text
         globals.job_post_date = string_to_date(job_soup.find('li',{'class':'job-date-posted'}).find('div',{'class':'secondary-text-color'}).text)
         update_db(organization)
-        reset_vars()

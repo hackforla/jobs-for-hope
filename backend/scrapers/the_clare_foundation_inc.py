@@ -13,7 +13,6 @@ def run(url):
     for listing in listings_container.find_all('li'):
         globals.job_title = listing.text
         globals.info_link = listing.a['href']
-        globals.job_summary = globals.info_link
         update_db(organization)
 
 
