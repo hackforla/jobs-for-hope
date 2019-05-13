@@ -12,7 +12,7 @@ def run(url):
     job_listings = soup.find('article').find_all('a')
 
     for job_item in job_listings:
-        globals.job_title = job_item.text.strip()
-        globals.info_link = url + job_item['href']
-        update_db(organization)
-     
+        if len(job_item.text.strip()):
+            globals.job_title = job_item.text.strip()
+            globals.info_link = url + job_item['href']
+            update_db(organization)

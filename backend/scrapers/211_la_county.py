@@ -6,6 +6,7 @@ from globals import get_soup, update_db
 organization = "211 LA County"
 url = 'https://www.211la.org/careers'
 
+
 def run(url):
     soup = get_soup("https://www.211la.org/careers")
     jobs_list = soup.find_all("div", {"class": "jobBtn"})

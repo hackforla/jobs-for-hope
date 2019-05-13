@@ -6,6 +6,7 @@ from globals import get_javascript_soup, update_db
 organization = "Los Angeles Centers For Alcohol and Drug Abuse"
 url = 'http://www.lacada.com/2018/career-opportunities/'
 
+
 def run(url):
     soup = get_javascript_soup(url)
     jobs_list = soup.select('div.wpb_wrapper > p > a')
