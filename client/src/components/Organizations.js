@@ -14,11 +14,10 @@ const override = css`
 const Organizations = ({
   organizations,
   isPending,
-  isAdmin,
   activeUser,
   toNewOrganization
-}) => (
-  <div>
+}) => {
+  return <div>
     <Banner
       titleUpper="Organizations"
       titleLower="Involved"
@@ -54,35 +53,35 @@ const Organizations = ({
         />
       </div>
     ) : (
-      <div style={{ margin: "0.5em 2em " }}>
-        {isAdmin ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end"
-            }}
-          >
-            <a
-              href={`/organizations/0`}
-              class="new-organization-btn"
+        <div style={{ margin: "0.5em 2em " }}>
+          {activeUser.role === "admin" ? (
+            <div
               style={{
-                width: "auto",
-                margin: "0 1em 1em 0"
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end"
               }}
             >
-              New Organization
+              <a
+                href={`/organizations/0`}
+                className="new-organization-btn"
+                style={{
+                  width: "auto",
+                  margin: "0 1em 1em 0"
+                }}
+              >
+                New Organization
             </a>
+            </div>
+          ) : null}
+          <div className="organization-cards-container">
+            {organizations.map((org, index) => (
+              <CompanyCard key={index} org={org} activeUser={activeUser} />
+            ))}
           </div>
-        ) : null}
-        <div className="organization-cards-container">
-          {organizations.map((org, index) => (
-            <CompanyCard key={index} org={org} activeUser={activeUser} />
-          ))}
         </div>
-      </div>
-    )}
+      )}
   </div>
-);
+};
 
 export default Organizations;

@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
 
 const CompanyCard = ({ org, activeUser }) => {
+  console.log(activeUser)
   return (
     <div className="organization-card">
       <div className="organization-card-content">
@@ -13,23 +14,29 @@ const CompanyCard = ({ org, activeUser }) => {
           <img id="org-img" alt="company logo" src={`${s3Url}/${org.logo}`} />
         </div>
         <h3 id="org-title">{org.name}</h3>
-        <div style={{ height: "10%" }}>
+        <div style={{ height: "15%" }}>
           <Link to={"/jobs/" + org.id} id="org-jobs-available">
             {org.job_count} Jobs Available
           </Link>
         </div>
-        {activeUser &&
-        (activeUser.role === "admin" ||
-          (activeUser.role === "employer" &&
-            org.name === activeUser.organization)) ? (
-          <Link to={`/organizations/${org.id}`} id="org-edit-button">
-            Edit Org
-          </Link>
-        ) : null}
 
-        <Link to={`/organizationView/${org.id}`} id="org-details-button">
-          Details
-        </Link>
+        <div id="org-buttons-wrapper">
+          <Link to={`/organizationView/${org.id}`} id="org-details-button">
+            Details
+          </Link>
+
+          {activeUser &&
+            (activeUser.role === "admin" ||
+              (activeUser.role === "employer" &&
+                org.name === activeUser.organization)) ? (
+              // when we change organizations from string to an array: 
+              // activeUser.organization.includes(org.name))) ? (
+              <Link to={`/organizations/${org.id}`} id="org-edit-button">
+                Edit
+            </Link>
+            ) : null}
+
+        </div>
       </div>
     </div>
   );
