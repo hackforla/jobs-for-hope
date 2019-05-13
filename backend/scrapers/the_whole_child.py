@@ -7,6 +7,7 @@ from globals import get_javascript_soup, update_db
 organization = "The Whole Child"
 url = 'https://www.thewholechild.org/about/careers-internships/'
 
+
 def run(url):
     soup = get_javascript_soup(url)
 

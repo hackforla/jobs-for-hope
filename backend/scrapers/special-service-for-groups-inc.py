@@ -7,6 +7,7 @@ from globals import get_soup, update_db
 organization = "Special Service for Groups, Inc."
 url = 'http://www.ssg.org/about-us/careers/'
 
+
 def run(url):
     soup = get_soup(url)
     article = soup.find('article')

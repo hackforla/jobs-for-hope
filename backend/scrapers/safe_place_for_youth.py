@@ -4,10 +4,12 @@ from globals import get_soup, update_db
 # Safe Place for Youth
 
 organization = "Safe Place for Youth"
-url= "http://www.safeplaceforyouth.org/employment_opportunities"
+url = "http://www.safeplaceforyouth.org/employment_opportunities"
+
+
 def run(url):
     soup = get_soup(url)
-    jobs_div = soup.find('div', {'id':'yui_3_16_0_ym19_1_1492463820306_5454'})
+    jobs_div = soup.find('div', {'id': 'yui_3_16_0_ym19_1_1492463820306_5454'})
 
     for job_listing in jobs_div.find_all('p'):
         listing_element = job_listing.find_all('a')

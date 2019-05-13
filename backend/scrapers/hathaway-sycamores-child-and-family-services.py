@@ -8,8 +8,9 @@ from globals import get_javascript_soup_delayed_and_click, update_db, city_to_zi
 organization = "Hathaway-Sycamores Child and Family Services"
 url = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/controller.cfm'
 
+
 def run(url):
-    ## Use Selenium browser to click on all positions button and get soup
+    # Use Selenium browser to click on all positions button and get soup
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
@@ -26,7 +27,8 @@ def run(url):
     for job_entry in jobs_list:
         job_details = job_entry.find_all('td')
         globals.job_title = job_details[0].text.strip()
-        globals.info_link = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/' + job_details[0].a['href']
+        globals.info_link = 'https://www5.recruitingcenter.net/Clients/HathawaySycamores/PublicJobs/' + \
+            job_details[0].a['href']
         globals.full_or_part = job_details[4].text.strip()
         location_details = job_details[2].text.strip()
         if len(location_details) > 0:
