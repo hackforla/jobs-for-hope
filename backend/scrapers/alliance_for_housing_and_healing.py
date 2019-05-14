@@ -8,6 +8,7 @@ from datecleaner import month_to_num
 organization = "Alliance for Housing and Healing"
 url = 'https://alliancehh.org/about/jobs/'
 
+
 def run(url):
     soup = get_soup(url)
     jobs_list = soup.find_all('h4')
@@ -22,10 +23,11 @@ def run(url):
         elif listing_soup.body.find_all('p', string="Job Type: Part-time"):
             globals.full_or_part = 'Part-time'
 
-        date_text = listing_soup.body.find_all('span', {'class': 'subtitle'})[0].text.split()
+        date_text = listing_soup.body.find_all(
+            'span', {'class': 'subtitle'})[0].text.split()
 
         month_string = date_text[2]
-        day = int(date_text[3][0:len(date_text[3])-1])
+        day = int(date_text[3][0:len(date_text[3]) - 1])
         year = int(date_text[4])
         month = month_to_num(month_string)
 

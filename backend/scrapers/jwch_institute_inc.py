@@ -7,9 +7,10 @@ import re
 organization = "JWCH Institute, Inc."
 url = "http://jwchinstitute.org/about-us/work-at-jwch/"
 
+
 def run(url):
     soup = get_soup(url)
-    jobs_list = soup.find('ul',{'class':'lcp_catlist'})
+    jobs_list = soup.find('ul', {'class': 'lcp_catlist'})
 
     for job_entry in jobs_list.find_all('li'):
         globals.job_title = job_entry.a.text.strip()
@@ -19,5 +20,6 @@ def run(url):
         if summary_match is not None:
             globals.job_summary = summary_match.parent.parent.text
         else:
-            raise globals.ParseError(globals.info_link, 'Cannot find job summary')
+            raise globals.ParseError(
+                globals.info_link, 'Cannot find job summary')
         update_db(organization)

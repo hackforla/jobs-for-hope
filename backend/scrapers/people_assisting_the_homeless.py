@@ -6,6 +6,7 @@ from globals import get_soup, update_db, clean_location, city_to_zip
 organization = "People Assisting the Homeless (PATH)"
 url = 'https://path.catsone.com/careers'
 
+
 def run(url):
     soup = get_soup(url)
 
@@ -13,7 +14,7 @@ def run(url):
 
     for job_entry in jobs_list.find_all('a'):
         globals.info_link = 'https://path.catsone.com' + job_entry['href']
-        job_row = job_entry.find('div', {'class':'row'})
+        job_row = job_entry.find('div', {'class': 'row'})
         job_divs = job_row.find_all('div')
         globals.job_title = job_divs[0].text.strip()
         globals.job_location = clean_location(job_divs[2].text.strip())

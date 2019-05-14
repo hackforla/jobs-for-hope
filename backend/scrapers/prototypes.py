@@ -14,7 +14,6 @@ def run(url):
     page = 1
 
     while soup:
-        print '    Scraping page ', page
         for html_element in soup.find_all('div', {'class': 'views-row'}):
             title = html_element.find('span', {
                 'class': 'field-content'
@@ -54,7 +53,6 @@ def run(url):
             job_insert(job)
             print(job)
 
-        print '    Scraped page ', page
         # If there are more pages, update soup to next page and scrape
         if soup.find('a', {'title': 'Go to next page'}):
             next_page_button = soup.find('a', {'title': 'Go to next page'})

@@ -6,10 +6,11 @@ from globals import get_soup, update_db
 organization = "Antelope Valley Domestic Violence Council (Valley Oasis)"
 url = 'http://www.valleyoasis.org/job-opportunities.html'
 
+
 def run(url):
     soup = get_soup(url)
-    jobs_list = soup.find("div",{"itemtype": "http://schema.org/WebPage"}).find_all('a')
-
+    jobs_list = soup.find(
+        "div", {"itemtype": "http://schema.org/WebPage"}).find_all('a')
 
     for job_entry in jobs_list:
         temp_link = job_entry['href']
