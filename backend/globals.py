@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from uszipcode import SearchEngine as search
 from datetime import datetime, timedelta
+from job import Job
 
 # GLOBALS
 
@@ -62,6 +63,7 @@ class LocationError(Error):
         self.url = url
         self.msp = msg
 
+
 # FUNCTIONS
 
 
@@ -110,8 +112,7 @@ def create_tables():
         name TEXT UNIQUE NOT NULL,
         PRIMARY KEY (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations (
         id SERIAL,
         name TEXT UNIQUE NOT NULL,
@@ -129,14 +130,12 @@ def create_tables():
         phone TEXT,
         PRIMARY KEY (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations_regions (
         organization_id INTEGER REFERENCES organizations (id),
         region_id INTEGER REFERENCES regions (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS jobs (
         id SERIAL,
         date DATE,
@@ -162,20 +161,15 @@ def create_tables():
 def drop_tables():
     global cur
     global conn
-    commands = (
-        '''
+    commands = ('''
         DROP TABLE IF EXISTS jobs
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_regions
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations_regions
-    '''
-    )
+    ''')
     try:
         for command in commands:
             cur.execute(command)
@@ -193,6 +187,24 @@ def insert_job(values):
         # print(values)
         cur.execute(sql, values)
         # print(cur.fetchone()[0])
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+
+def job_insert(job):
+    """
+        Insert an instance of the Job class in the Jobs table.
+    """
+
+    sql = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id
+    '''
+    try:
+        cur.execute(sql, (job.title, job.organization_id, job.summary,
+                          job.location, job.zip_code, job.post_date,
+                          job.full_or_part, job.salary, job.info_link))
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
@@ -223,8 +235,7 @@ def get_javascript_soup_delayed(url, dynamicElement):
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         innerHTML = driver.execute_script("return document.body.innerHTML")
         driver.quit()
@@ -239,8 +250,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         element.click()
         innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -262,13 +272,14 @@ def date_ago(timeLength, timeUnit):
     if timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
-        return today - timedelta(days=30*timeLength)
+        return today - timedelta(days=30 * timeLength)
     elif timeUnit[:4] == 'year':
-        return today - timedelta(days=365*timeLength)
+        return today - timedelta(days=365 * timeLength)
 
 
 def clean_location(string):
     return string.split(',')[0].strip()
+
 
 # def clean_location(string):
 #    if string.split(',')[-1].strip() == 'CA':

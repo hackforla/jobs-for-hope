@@ -125,10 +125,22 @@ const del = id => {
   return pool.query(sql, values);
 };
 
+const updateFileKey = (id, fileKey) => {
+  const sql = `
+    UPDATE organizations SET 
+      logo = $1
+    WHERE id = $2
+    `;
+  const values = [fileKey, id];
+
+  return pool.query(sql, values);
+};
+
 module.exports = {
   getAll,
   get,
   post,
   put,
-  del
+  del,
+  updateFileKey
 };
