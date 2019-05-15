@@ -53,12 +53,14 @@ router.post("/login", (req, res, next) => {
 router.post("/register", (req, res, next) => {
   const { email, password, organization } = req.body;
   const sql = `select * from login where email = '${email}'`;
+  const salt = bcrypt.genSaltSync(12);
   // make a transaction
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
     const sql2 = `insert into login (email, organization, hash, id) 
                 values ('${email}', '${organization}', '${bcrypt.hashSync(
-      password
+      password,
+      salt
     )}', '${uuid()}')
                 returning id`;
     pool.query(sql2).then(user => {

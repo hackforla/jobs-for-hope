@@ -4,6 +4,7 @@ import Banner from "./Banner";
 import { Link } from "react-router-dom";
 import { handleRegister, sendConfirmEmail } from "../services/auth-service";
 import { Formik } from "formik";
+import { withRouter } from "react-router-dom";
 
 class Register extends React.Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class Register extends React.Component {
   }
 
   render() {
+    console.log("register", this.props);
+
+    const organizationSelect = this.props.organizations.map(val => {
+      return <option value={val.id} label={val.name} />;
+    });
     return (
       <main>
         <Banner
@@ -95,7 +101,7 @@ class Register extends React.Component {
                 <div className="form-component">
                   <label htmlFor="organization">Organization</label>
                   <br />
-                  <input
+                  {/* <input
                     id="organization"
                     name="organization"
                     onChange={handleChange}
@@ -106,7 +112,21 @@ class Register extends React.Component {
                         ? "error login-input"
                         : "login-input"
                     }
-                  />
+                  /> */}
+                  <select
+                    name="organization"
+                    value={values.organization}
+                    className="login-input"
+                    onChange={handleChange}
+                  >
+                    <option
+                      value=""
+                      label="Please Select an Organization"
+                      disabled
+                      selected
+                    />
+                    {organizationSelect}
+                  </select>
                   {errors.organization && touched.organization && (
                     <div className="input-feedback">{errors.organization}</div>
                   )}
@@ -197,4 +217,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);
