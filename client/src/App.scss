@@ -112,46 +112,12 @@ button:hover {
 
 @media screen and (max-width: 770px) {
   .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     display: flex;
     width: 100%;
-
-    .navbar {
-      font-size: calc(10px + 1.5vmin);
-      width: 100%;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-
-      #org-image {
-        max-width: 240px;
-        display: inline;
-      }
-
-      .nav-links {
-        display: flex;
-        flex-direction: row;
-
-        ul {
-          margin: 0;
-          padding: 0;
-          max-width: 550px;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-
-          li {
-            margin: 15px;
-            list-style: none;
-          }
-
-          .link {
-            &.active {
-              border-bottom: 0.2em $secondary-color solid;
-            }
-          }
-        }
-      }
-    }
+    height: 90px;
   }
 
   .footer {

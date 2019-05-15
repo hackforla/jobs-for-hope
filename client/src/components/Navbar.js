@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import "./Navbar.scss";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
-import "./Navbar.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ activeUser }) => {
+  const [toggle, setToggle] = useState(false);
+
+  let toggler = () => {
+    setToggle(!toggle);
+  };
   return (
     <nav className="navbar" id="myNavbar">
-      <span>
+      <div className="image-span">
         <img id="org-image" alt="logo" src={logoImage} />
-      </span>
-      <span className="nav-links">
-        <ul>
+        <div className="burger-container">
+          <FontAwesomeIcon icon={toggle ? faTimes : faBars} onClick={toggler} />
+        </div>
+      </div>
+
+      <span className={`nav-links ${toggle ? "show" : "hide"}`}>
+        <ul onClick={toggler}>
           <li>
             <NavLink className="link" to="/" exact>
               Jobs
