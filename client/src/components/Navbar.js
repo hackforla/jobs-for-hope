@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
+import "./Navbar.scss";
 
 const Navbar = ({ activeUser }) => {
   return (

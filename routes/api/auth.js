@@ -16,13 +16,11 @@ const clientUrl = process.env.CLIENT_URL;
 
 router.get("/", (req, res) => {
   if (req.isAuthenticated()) {
-    const sql = `select name from organizations
-                  where id in(
-                    select organization_id from users_to_orgs 
-                    where user_id = ${req.user.id}
-                  )`;
+    const sql = `select organization_id from users_to_orgs where user_id = ${
+      req.user.id
+    }`;
     pool.query(sql).then(data => {
-      const formattedData = data.rows.map(row => row.name);
+      const formattedData = data.rows.map(row => row.organization_id);
       res.json({
         id: req.user.id,
         email: req.user.email,

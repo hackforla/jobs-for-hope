@@ -42,46 +42,6 @@ button:hover {
   display: flex;
   width: 100%;
   border-bottom: 2px solid #e6b833;
-
-  .navbar {
-    font-size: calc(10px + 1.5vmin);
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    #org-image {
-      max-width: 240px;
-      display: inline;
-      margin: 0.25em 1.5em;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-direction: row;
-
-      ul {
-        margin: 0;
-        padding: 0;
-        max-width: 750px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-
-        li {
-          margin: 15px;
-          list-style: none;
-        }
-
-        .link {
-          &.active {
-            border-bottom: 0.2em $secondary-color solid;
-          }
-        }
-      }
-    }
-  }
 }
 
 .filters-postings-wrapper {
@@ -161,7 +121,6 @@ button:hover {
       display: flex;
       align-items: center;
       flex-direction: column;
-
 
       #org-image {
         max-width: 240px;
