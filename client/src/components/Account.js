@@ -25,7 +25,7 @@ class Account extends Component {
 	};
 
 	render() {
-		const { role, organization } = this.props.activeUser;
+		const { role, email } = this.props.activeUser;
 		const { requests } = this.state;
 		if (!role) return <Redirect to="/" />;
 		return (
@@ -33,7 +33,7 @@ class Account extends Component {
 				{role === "admin" ? (
 					<h1>Admin Control Panel</h1>
 				) : role !== "pending" ? (
-					<h1>{`Account Dashboard for ${organization}`}</h1>
+					<h1>{`Account Dashboard for ${email}`}</h1>
 				) : (
 					<h1>
 						You are not currently approved to post jobs or edit site

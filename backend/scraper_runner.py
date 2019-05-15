@@ -43,7 +43,9 @@ def connect():
                 organization = scraper.organization
                 print organization
                 globals.delete_jobs_by_organization(organization)
+                globals.insert_count = 0
                 scraper.run(scraper.url)
+                print('Inserted ' + str(globals.insert_count) + ' job(s).')
             except Exception:
                 traceback.print_exc()
                 print 'Scraper failed:', organization

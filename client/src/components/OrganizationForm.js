@@ -8,6 +8,8 @@ import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import { withRouter } from "react-router-dom";
+import ImageUpload from "./ImageUpload";
+import * as config from "../config";
 
 const initialValues = {
   id: 0,
@@ -40,7 +42,8 @@ class OrganizationForm extends React.Component {
         { id: 3, name: "South" },
         { id: 4, name: "West" }
       ],
-      toOrganizations: false
+      toOrganizations: false,
+      logoFile: null
     };
   }
 
@@ -61,6 +64,14 @@ class OrganizationForm extends React.Component {
       });
     }
   }
+
+  updateEntityFileKey = key => {
+    organizationService.updateFileKey(
+      this.state.org.id,
+      this.state.org.logo,
+      key
+    );
+  };
 
   handleSubmit = (values, { setSubmitting }) => {
     const req = { ...values };

@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from uszipcode import SearchEngine as search
 from datetime import datetime, timedelta
+from job import Job
 
 # GLOBALS
 
@@ -24,6 +25,7 @@ job_post_date = None
 full_or_part = ''
 salary = ''
 info_link = ''
+insert_count = 0
 
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = []
@@ -60,6 +62,7 @@ class LocationError(Error):
     def __init__(self, url, msg):
         self.url = url
         self.msp = msg
+
 
 # FUNCTIONS
 
@@ -109,8 +112,7 @@ def create_tables():
         name TEXT UNIQUE NOT NULL,
         PRIMARY KEY (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations (
         id SERIAL,
         name TEXT UNIQUE NOT NULL,
@@ -128,14 +130,12 @@ def create_tables():
         phone TEXT,
         PRIMARY KEY (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations_regions (
         organization_id INTEGER REFERENCES organizations (id),
         region_id INTEGER REFERENCES regions (id)
     )
-    ''',
-                '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS jobs (
         id SERIAL,
         date DATE,
@@ -161,20 +161,15 @@ def create_tables():
 def drop_tables():
     global cur
     global conn
-    commands = (
-        '''
+    commands = ('''
         DROP TABLE IF EXISTS jobs
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_regions
-    ''',
-        '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations_regions
-    '''
-    )
+    ''')
     try:
         for command in commands:
             cur.execute(command)
@@ -196,6 +191,24 @@ def insert_job(values):
         print(error)
 
 
+def job_insert(job):
+    """
+        Insert an instance of the Job class in the Jobs table.
+    """
+
+    sql = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id
+    '''
+    try:
+        cur.execute(sql, (job.title, job.organization_id, job.summary,
+                          job.location, job.zip_code, job.post_date,
+                          job.full_or_part, job.salary, job.info_link))
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+
 def get_soup(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "lxml")
@@ -206,7 +219,7 @@ def get_javascript_soup(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.implicitly_wait(10)
     driver.get(url)
     innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -218,12 +231,11 @@ def get_javascript_soup_delayed(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         innerHTML = driver.execute_script("return document.body.innerHTML")
         driver.quit()
@@ -238,8 +250,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         element.click()
         innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -248,8 +259,11 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
 
 
 def update_db(organization_name):
+    global insert_count
+
     insert_job((job_title, organization_name, job_summary, job_location,
                 job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_count += 1
 
 
 def date_ago(timeLength, timeUnit):
@@ -258,13 +272,14 @@ def date_ago(timeLength, timeUnit):
     if timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
-        return today - timedelta(days=30*timeLength)
+        return today - timedelta(days=30 * timeLength)
     elif timeUnit[:4] == 'year':
-        return today - timedelta(days=365*timeLength)
+        return today - timedelta(days=365 * timeLength)
 
 
 def clean_location(string):
     return string.split(',')[0].strip()
+
 
 # def clean_location(string):
 #    if string.split(',')[-1].strip() == 'CA':
@@ -274,6 +289,11 @@ def clean_location(string):
 
 
 def city_to_zip(location):
+    # remove ending 'county' in location
+    tokens = location.split()
+    if tokens[-1].lower() == 'county':
+        location = ' '.join(tokens[:-1])
+
     return int(search().by_city_and_state(location, 'CA')[0].zipcode)
 
 

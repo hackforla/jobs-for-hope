@@ -16,14 +16,15 @@
     "moment": "^2.24.0",
     "node-sass": "^4.9.4",
     "react": "^16.5.2",
-    "react-alert": "^5.4.0",
+    "react-alert": "^5.5.0",
     "react-dom": "^16.5.2",
     "react-google-recaptcha": "^1.0.5",
     "react-modal": "^3.8.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
     "react-spinners": "^0.5.3",
-    "react-transition-group": "^4.0.0"
+    "react-transition-group": "^4.0.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

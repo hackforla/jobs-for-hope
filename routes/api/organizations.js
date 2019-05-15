@@ -62,6 +62,12 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.put("/:id/updateFileKey", (req, res) => {
+  const id = req.params.id;
+  const newFileKey = req.body.newFileKey;
+  svc.updateFileKey(id, newFileKey).then(resp => res.sendStatus("200"));
+});
+
 // Used to keep org data in a google sheet
 // router.get('/', (req, res) => {
 //   const url = 'https://spreadsheets.google.com/feeds/list/16npDyyzNjgZ2h5uZmRNs2T2RRUCJtHB_1eHpmxUr1SI/3/public/values?alt=json'
