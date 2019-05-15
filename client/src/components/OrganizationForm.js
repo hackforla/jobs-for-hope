@@ -8,7 +8,6 @@ import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import ImageUpload from "./ImageUpload";
-import * as config from "../config";
 
 const initialValues = {
   id: 0,
@@ -55,13 +54,15 @@ class OrganizationForm extends React.Component {
           resp.descriptionEditorState = EditorState.createWithContent(
             convertFromHTML(resp.description)
           );
-          this.setState({ org: resp });
         } else {
-          let newOrg = { ...initialValues };
-          newOrg.descriptionEditorState = EditorState.createEmpty();
-          this.setState({ org: newOrg });
+          resp.descriptionEditorState = EditorState.createEmpty();
         }
+        this.setState({ org: resp });
       });
+    } else {
+      let newOrg = { ...initialValues };
+      newOrg.descriptionEditorState = EditorState.createEmpty();
+      this.setState({ org: newOrg });
     }
   }
 
@@ -362,16 +363,13 @@ class OrganizationForm extends React.Component {
                                 {JSON.stringify(props, null, 2)}
                             </pre> */}
                     </form>
-                    <img
-                      width="50%"
-                      src={
-                        this.state.org.logo
-                          ? config.AWS_S3_PREFIX + this.state.org.logo
-                          : ""
-                      }
-                      alt="Company Logo"
-                    />
-                    <ImageUpload updateEntity={this.updateEntityFileKey} />
+                    {this.state.org.id ? (
+                      <ImageUpload
+                        style={{ width: "200px" }}
+                        fileKey={this.state.org.logo}
+                        updateEntity={this.updateEntityFileKey}
+                      />
+                    ) : null}
                   </div>
                 );
               }}
