@@ -41,6 +41,9 @@ const About = props => {
               residents who call Los Angeles County home. With more than 35
               departments and 200 commissions the county operates one of the
               largest local government organizations in the world.{" "}
+              {/* <div className="about-logo">
+                <img alt="LA County Seal" src={countyLogo} width="100%" />
+              </div> */}
             </p>
             <a href="http://www.lacounty.gov">http://www.lacounty.gov</a>
           </div>

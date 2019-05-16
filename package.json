@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.453.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
@@ -23,6 +24,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "node-fetch": "^2.3.0",
+    "nodemailer": "^6.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.9.0",

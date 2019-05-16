@@ -1,6 +1,7 @@
 import React from "react";
+import "./Footer.scss";
 
-const Footer = () => (
+const Footer = ({ activeUser, logOut }) => (
   <footer className="footer">
     <div className="org-icon footer-content">
       <img
@@ -21,6 +22,20 @@ const Footer = () => (
         <p className="link">
           <a href="/organizations">Organizations</a>
         </p>
+        {activeUser.id ? (
+          <p className="link" onClick={logOut}>
+            Log Out
+          </p>
+        ) : (
+          <React.Fragment>
+            <p className="link">
+              <a href="/register">Employer Sign Up</a>
+            </p>
+            <p className="link">
+              <a href="/login">Employer Log In</a>
+            </p>
+          </React.Fragment>
+        )}
       </div>
     </div>
     <div className="social-media-footer footer-content">
@@ -51,4 +66,4 @@ const Footer = () => (
   </footer>
 );
 
-export default Footer
+export default Footer;

@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import "./Navbar.scss";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ activeUser, logOut }) => {
+  const [toggle, setToggle] = useState(false);
+
+  let toggler = () => {
+    setToggle(!toggle);
+  };
   return (
     <nav className="navbar" id="myNavbar">
-      <span>
+      <div className="image-span">
         <img id="org-image" alt="logo" src={logoImage} />
-      </span>
-      <span className="nav-links">
-        <ul>
+        <div className="burger-container">
+          <FontAwesomeIcon icon={toggle ? faTimes : faBars} onClick={toggler} />
+        </div>
+      </div>
+
+      <span className={`nav-links ${toggle ? "show" : "hide"}`}>
+        <ul onClick={toggler}>
           <li>
             <NavLink className="link" to="/" exact>
               Jobs
@@ -30,37 +42,35 @@ const Navbar = ({ activeUser, logOut }) => {
               Contact
             </NavLink>
           </li>
-          { activeUser.id  ?
-            <React.Fragment> 
-             <li>
-              <NavLink className="link" to="/account">
-                Account
-              </NavLink>
-            </li>
-            <li>
-              <span className="link" onClick={logOut}>
-                Log Out
-              </span>
-            </li>
+          {activeUser.id ? (
+            <React.Fragment>
+              <li>
+                <NavLink className="link" to="/account">
+                  Account
+                </NavLink>
+              </li>
+              <li className="mobile-li link" onClick={logOut}>
+                <p className="link">Log Out</p>
+              </li>
             </React.Fragment>
-              :
-            <React.Fragment>   
-            <li>
-              <NavLink className="link" to="/register">
-                Post A Job
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="link" to="/login">
-                Log In
-              </NavLink>
-            </li>
-            </React.Fragment> 
-          }
+          ) : (
+            <React.Fragment>
+              <li>
+                <NavLink className="mobile-li link" to="/register">
+                  Employer Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="mobile-li link" to="/login">
+                  Employer Log In
+                </NavLink>
+              </li>
+            </React.Fragment>
+          )}
         </ul>
       </span>
     </nav>
   );
-}
+};
 
 export default Navbar;

@@ -6,13 +6,13 @@
   justify-content: space-around;
   margin-top: 3.5em;
   padding-bottom: 2em;
-  padding-left: 1em;
+  padding-left: 5em;
 }
 
 /* Department information styling */
 .department-information-container,
 .contact-form-container {
-  flex-grow: 1;
+  flex: 1;
 }
 
 .banner {
@@ -21,9 +21,9 @@
 
 /* Contact form styling */
 .contact-input {
-  width: 90%;
+  width: 100%;
   margin-bottom: 2em;
-  padding: 0.5em .5em;
+  padding: 0.5em 0.5em;
   border-radius: 0.5em;
   border: 1px lightgray solid;
   font-size: 1em;

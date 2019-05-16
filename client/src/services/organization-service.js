@@ -6,23 +6,33 @@ export const getAll = () => {
 };
 
 export const get = id => {
-  return axios.get("/api/orgs/" +  id.toString())
-  .then(response => response.data);
-}
+  return axios
+    .get("/api/orgs/" + id.toString())
+    .then(response => response.data);
+};
 
 export const post = req => {
-  return axios.post("/api/orgs", req)
-  .then(response => response.data);
-}
+  return axios.post("/api/orgs", req).then(response => response.data);
+};
 
 export const put = req => {
-  return axios.put("/api/orgs/" + req.id.toString(), req)
-  .then(response => response.data);
-}
+  return axios
+    .put("/api/orgs/" + req.id.toString(), req)
+    .then(response => response.data);
+};
 
 export const del = id => {
-  return axios.delete("/api/orgs/" + id.toString())
-  .then(response => response.data);
-}
+  return axios
+    .delete("/api/orgs/" + id.toString())
+    .then(response => response.data);
+};
 
-
+export const updateFileKey = (id, oldFileKey, newFileKey) => {
+  return axios
+    .put("/api/orgs/" + id.toString() + "/updateFileKey", {
+      id,
+      oldFileKey,
+      newFileKey
+    })
+    .then(resp => resp.data);
+};

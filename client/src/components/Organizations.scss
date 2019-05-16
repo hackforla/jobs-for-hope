@@ -45,6 +45,19 @@
   border: 1px $light-color solid;
 }
 
+.new-organization-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.3em 1em;
+  color: black;
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
+  border-radius: 0.3em;
+  border: 1px $secondary-color solid;
+}
+
 @media screen and (max-width: 976px) {
   .organization-cards-container {
     grid-template-columns: auto auto auto;

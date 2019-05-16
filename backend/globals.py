@@ -1,3 +1,4 @@
+import sys
 import psycopg2
 from bs4 import BeautifulSoup
 import requests
@@ -8,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from uszipcode import SearchEngine as search
 from datetime import datetime, timedelta
+from job import Job
 
 # GLOBALS
 
@@ -24,15 +26,18 @@ job_post_date = None
 full_or_part = ''
 salary = ''
 info_link = ''
+insert_count = 0
 
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = []
 
 # EXCEPTIONS
 
+
 class Error(Exception):
     '''Base class for exceptions in the parser'''
     pass
+
 
 class ParseError(Error):
     '''Exception raised for error in parsing for jobs
@@ -46,6 +51,7 @@ class ParseError(Error):
         self.url = url
         self.msp = msg
 
+
 class LocationError(Error):
     '''Exception raised for error in job location
 
@@ -58,11 +64,14 @@ class LocationError(Error):
         self.url = url
         self.msp = msg
 
+
 # FUNCTIONS
+
 
 def error_handler(error_msg):
     print error_msg
     exit()
+
 
 def reset_vars():
     global job_title
@@ -83,6 +92,7 @@ def reset_vars():
     salary = ""
     info_link = ""
 
+
 def print_vars():
     print "Title: ", job_title
     print "Summary: ", job_summary
@@ -93,6 +103,7 @@ def print_vars():
     print "Salary: ", salary
     print "Information: ", info_link
 
+
 def create_tables():
     global cur
     global conn
@@ -102,8 +113,7 @@ def create_tables():
         name TEXT UNIQUE NOT NULL,
         PRIMARY KEY (id)
     )
-    ''',
-    '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations (
         id SERIAL,
         name TEXT UNIQUE NOT NULL,
@@ -121,14 +131,12 @@ def create_tables():
         phone TEXT,
         PRIMARY KEY (id)
     )
-    ''',
-    '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS test_organizations_regions (
         organization_id INTEGER REFERENCES organizations (id),
         region_id INTEGER REFERENCES regions (id)
     )
-    ''',
-    '''
+    ''', '''
     CREATE TABLE IF NOT EXISTS jobs (
         id SERIAL,
         date DATE,
@@ -150,91 +158,136 @@ def create_tables():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
+
 def drop_tables():
     global cur
     global conn
-    commands = (
-    '''
+    commands = ('''
         DROP TABLE IF EXISTS jobs
-    ''',
-    '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations
-    ''',
-    '''
+    ''', '''
         DROP TABLE IF EXISTS test_regions
-    ''',
-    '''
+    ''', '''
         DROP TABLE IF EXISTS test_organizations_regions
-    '''
-    )
+    ''')
     try:
         for command in commands:
             cur.execute(command)
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
+
+def print_organization(curr, total):
+    global organization_name
+    sys.stdout.write(str(curr)+ '/' + str(total) + ': ')
+    sys.stdout.write(organization_name)
+    sys.stdout.flush()
+
+
+def print_insert_progress():
+    sys.stdout.write('.')
+    sys.stdout.flush()
+
+def print_organization_end():
+    global insert_count
+    sys.stdout.write('(' + str(insert_count) + ')')
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+    # print('Inserted ' + str(globals.insert_count) + ' job(s).')
+
+
 def insert_job(values):
+    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
     RETURNING id
     '''
     try:
-        #print(values)
+        # print(values)
         cur.execute(sql, values)
-        #print(cur.fetchone()[0])
+        # print(cur.fetchone()[0])
+        insert_count += 1
+        print_insert_progress()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+
+
+def job_insert(job):
+    """
+        Insert an instance of the Job class in the Jobs table.
+    """
+
+    global insert_count
+    sql = '''
+    INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
+    VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id
+    '''
+    try:
+        cur.execute(sql, (job.title, job.organization_id, job.summary,
+                          job.location, job.zip_code, job.post_date,
+                          job.full_or_part, job.salary, job.info_link))
+        insert_count += 1
+        print_insert_progress()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
 
 def get_soup(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "lxml")
     return soup
 
+
 def get_javascript_soup(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.implicitly_wait(10)
     driver.get(url)
     innerHTML = driver.execute_script("return document.body.innerHTML")
     driver.quit()
     return BeautifulSoup(innerHTML, "lxml")
 
+
 def get_javascript_soup_delayed(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         innerHTML = driver.execute_script("return document.body.innerHTML")
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
+
 def get_javascript_soup_delayed_and_click(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement))
-        )
+            EC.presence_of_element_located((By.CLASS_NAME, dynamicElement)))
     finally:
         element.click()
         innerHTML = driver.execute_script("return document.body.innerHTML")
         driver.quit()
         return BeautifulSoup(innerHTML, "lxml")
 
+
 def update_db(organization_name):
-    insert_job((job_title, organization_name, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link))
+    insert_job((job_title, organization_name, job_summary, job_location,
+                job_zip_code, job_post_date, full_or_part, salary, info_link))
+
 
 def date_ago(timeLength, timeUnit):
     timeUnit = timeUnit.strip().lower()
@@ -242,24 +295,34 @@ def date_ago(timeLength, timeUnit):
     if timeUnit[:3] == 'day':
         return today - timedelta(days=timeLength)
     elif timeUnit[:5] == 'month':
-        return today - timedelta(days=30*timeLength)
+        return today - timedelta(days=30 * timeLength)
     elif timeUnit[:4] == 'year':
-        return today - timedelta(days=365*timeLength)
+        return today - timedelta(days=365 * timeLength)
+
 
 def clean_location(string):
     return string.split(',')[0].strip()
 
-#def clean_location(string):
+
+# def clean_location(string):
 #    if string.split(',')[-1].strip() == 'CA':
 #        return string.split(',')[0].strip()
 #    else:
 #        raise LocationError(string, 'Location not in California')
 
+
 def city_to_zip(location):
+    # remove ending 'county' in location
+    tokens = location.split()
+    if tokens[-1].lower() == 'county':
+        location = ' '.join(tokens[:-1])
+
     return int(search().by_city_and_state(location, 'CA')[0].zipcode)
+
 
 def zip_to_city(cityzip):
     return search().by_zipcode(cityzip).major_city
+
 
 def select_organization_id_by_name(name):
     global cur
@@ -269,6 +332,7 @@ def select_organization_id_by_name(name):
     if len(rows) == 0:
         print('organization doesn\'t exist: %s' % name)
     return rows[0][0]
+
 
 def delete_jobs_by_organization(organization_name):
     query = '''
@@ -280,4 +344,3 @@ def delete_jobs_by_organization(organization_name):
         cur.execute(query, [organization_name])
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-

@@ -6,6 +6,7 @@ from globals import get_soup, update_db
 organization = "Chrysalis"
 url = 'http://changelives.applicantstack.com/x/openings'
 
+
 def run(url):
     soup = get_soup(url)
     jobs_list = soup.find('tbody')

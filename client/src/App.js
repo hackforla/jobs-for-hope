@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Provider as AlertProvider } from "react-alert";
+import { AlertTemplate, alertOptions } from "./components/Alert";
 
 import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
 import Organizations from "./components/Organizations";
-import OrganizationForm from "./components/OrganizationForm"
-import OrganizationView from "./components/OrganizationView"
+import OrganizationForm from "./components/OrganizationForm";
+import OrganizationView from "./components/OrganizationView";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Account from "./components/Account";
-
+import ResetForm from "./components/ResetForm";
 import Footer from "./components/Footer";
 
 import * as jobService from "./services/job-service";
 import * as organizationService from "./services/organization-service";
 import { authCheck, handleLogOut } from "./services/auth-service";
+
 import "./App.scss";
 
 class App extends Component {
@@ -24,12 +27,16 @@ class App extends Component {
     super(props);
     this.state = {
       isPending: true,
-      activeUser: {},
+      activeUser: { id: null },
       jobs: [],
-      organizations: [],
+      organizations: []
     };
-    authCheck().then(user => this.setState({ activeUser: user }))
+    authCheck().then(user => {
+      console.log(user);
+      this.setState({ activeUser: user });
+    });
   }
+
   componentDidMount() {
     // this.props.onfetchJobs();
     // this.props.onfetchOrgs();
@@ -64,92 +71,80 @@ class App extends Component {
   logOut = () => {
     handleLogOut().then(res => {
       if (res === "success") {
-        window.location.href='/'
+        window.location.href = "/";
       }
-    })
-  }
-
+    });
+  };
 
   render() {
     const { isPending, activeUser, organizations, jobs, requests } = this.state;
     return (
       <Router>
-        <div className="App">
-          <header className="header">
-            <Navbar 
-              activeUser={activeUser}
-              logOut={this.logOut}
+        <AlertProvider template={AlertTemplate} {...alertOptions}>
+          <div className="App">
+            <header className="header">
+              <Navbar activeUser={activeUser} logOut={this.logOut} />
+            </header>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Jobs
+                  jobs={jobs}
+                  organizations={organizations}
+                  key={isPending}
+                  isPending={isPending}
+                />
+              )}
             />
-          </header>
-
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Jobs
-                jobs={jobs}
-                organizations={organizations}
-                key={isPending}
-                isPending={isPending}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/jobs/:organization_id"
-            render={() => (
-              <Jobs
-                jobs={jobs}
-                organizations={organizations}
-                key={isPending}
-                isPending={isPending}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/organizations"
-            render={() => (
-              <Organizations
-                organizations={organizations}
-                isPending={isPending}
-                isAdmin={true}
-                key={isPending}
-              />
-            )}
-          />
-          <Route
-            path="/organizations/:id"
-            component={OrganizationForm }
-          />
-          <Route
-            path="/organizationview/:id"
-            component={OrganizationView }
-          />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
-          <Route 
-            path="/login" 
-            render={() => (
-              <Login />
-            )}
-           />
-          <Route 
-            path="/register" 
-            render={() => (
-              <Register />
-            )} 
-           />
-           <Route 
-            path="/account" 
-            render={() => (
-              <Account
-                activeUser={activeUser}
-                pendingRequests={requests} />
-            )} 
-           />
-          <Footer />
-        </div>
+            <Route
+              exact
+              path="/jobs/:organization_id"
+              render={() => (
+                <Jobs
+                  jobs={jobs}
+                  organizations={organizations}
+                  key={isPending}
+                  isPending={isPending}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/organizations"
+              render={() => (
+                <Organizations
+                  organizations={organizations}
+                  isPending={isPending}
+                  key={isPending}
+                  activeUser={activeUser}
+                />
+              )}
+            />
+            <Route
+              path="/organizations/:id"
+              render={() => {
+                return <OrganizationForm activeUser={activeUser} />;
+              }}
+            />
+            <Route path="/organizationview/:id" component={OrganizationView} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/login" render={() => <Login />} />
+            <Route path="/register" render={() => <Register />} />
+            <Route
+              path="/reset/:token"
+              render={matchProps => <ResetForm {...matchProps} />}
+            />
+            <Route
+              path="/account"
+              render={() => (
+                <Account activeUser={activeUser} pendingRequests={requests} />
+              )}
+            />
+            <Footer activeUser={activeUser} logOut={this.logOut} />
+          </div>
+        </AlertProvider>
       </Router>
     );
   }
