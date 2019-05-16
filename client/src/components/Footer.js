@@ -1,4 +1,5 @@
 import React from "react";
+import "./Footer.scss";
 
 const Footer = ({ activeUser, logOut }) => (
   <footer className="footer">
