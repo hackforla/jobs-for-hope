@@ -290,10 +290,17 @@ pip install -r ./requirements.txt
     psql -h localhost -U postgres -d jobsforhope -f jobsforhope.sql
     ```
 ## To run the scraper
-1. Run the scraper
+1. Switch to the backend directory
 ```
 cd backend
+```
+1. To run all the scrapers
+```
 python scraper_runner.py
+```
+1. To run a single scraper
+```
+python scraper_runner.py scrapers/prototypes.py
 ```
 
 ## Checking the database for scraped data
