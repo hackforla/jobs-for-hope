@@ -5,7 +5,7 @@ import logoImage from "../images/homelessinitiative.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = ({ activeUser }) => {
+const Navbar = ({ activeUser, logOut }) => {
   const [toggle, setToggle] = useState(false);
 
   let toggler = () => {
@@ -43,12 +43,30 @@ const Navbar = ({ activeUser }) => {
             </NavLink>
           </li>
           {activeUser.id ? (
-            <li>
-              <NavLink className="link" to="/account">
-                Account
-              </NavLink>
-            </li>
-          ) : null}
+            <React.Fragment>
+              <li>
+                <NavLink className="link" to="/account">
+                  Account
+                </NavLink>
+              </li>
+              <li className="mobile-li link" onClick={logOut}>
+                <p className="link">Log Out</p>
+              </li>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <li>
+                <NavLink className="mobile-li link" to="/register">
+                  Employer Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="mobile-li link" to="/login">
+                  Employer Log In
+                </NavLink>
+              </li>
+            </React.Fragment>
+          )}
         </ul>
       </span>
     </nav>

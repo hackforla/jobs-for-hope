@@ -83,7 +83,7 @@ class App extends Component {
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <div className="App">
             <header className="header">
-              <Navbar activeUser={activeUser} />
+              <Navbar activeUser={activeUser} logOut={this.logOut} />
             </header>
             <Route
               exact

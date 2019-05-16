@@ -36,6 +36,10 @@
         list-style: none;
       }
 
+      .mobile-li {
+        display: none;
+      }
+
       .link {
         &.active {
           border-bottom: 0.2em $secondary-color solid;
@@ -45,7 +49,7 @@
   }
 }
 
-@media screen and (max-width: 770px) {
+@media screen and (max-width: $phone-media-max) {
   .navbar {
     font-size: calc(10px + 1.5vmin);
     width: 100%;
@@ -102,6 +106,10 @@
         li {
           margin: 15px;
           list-style: none;
+        }
+
+        .mobile-li {
+          display: flex;
         }
 
         .link {
