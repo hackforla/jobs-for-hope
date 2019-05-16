@@ -178,8 +178,9 @@ def drop_tables():
         print(error)
 
 
-def print_organization():
+def print_organization(curr, total):
     global organization_name
+    sys.stdout.write(str(curr)+ '/' + str(total) + ': ')
     sys.stdout.write(organization_name)
     sys.stdout.flush()
 
@@ -189,7 +190,8 @@ def print_insert_progress():
     sys.stdout.flush()
 
 def print_organization_end():
-    # global insert_count
+    global insert_count
+    sys.stdout.write('(' + str(insert_count) + ')')
     sys.stdout.write('\n')
     sys.stdout.flush()
     # print('Inserted ' + str(globals.insert_count) + ' job(s).')

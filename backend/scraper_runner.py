@@ -34,14 +34,15 @@ def connect():
             globals.active_scrapers = [basename(sys.argv[1])]
 
         # load and run scrapers
-        for i in scraperloader.getScrapers():
+        scrapers = scraperloader.getScrapers()
+        for idx, i in enumerate(scrapers):
             try:
                 # filter to run only active scrapers
                 if len(globals.active_scrapers) > 0 and not i['name'] in globals.active_scrapers:
                     continue
                 scraper = scraperloader.loadScraper(i)
                 globals.organization_name = scraper.organization
-                globals.print_organization()
+                globals.print_organization(idx + 1, len(scrapers))
                 globals.delete_jobs_by_organization(scraper.organization)
                 globals.insert_count = 0
                 scraper.run(scraper.url)
