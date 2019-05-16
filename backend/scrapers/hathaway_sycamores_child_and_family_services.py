@@ -14,7 +14,7 @@ def run(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    browser = webdriver.Chrome('../chromedriver', chrome_options=options)
+    browser = webdriver.Chrome('./chromedriver', chrome_options=options)
     browser.get(url)
     python_button = browser.find_element_by_id('AllJobs')
     python_button.click()
