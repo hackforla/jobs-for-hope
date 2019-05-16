@@ -196,6 +196,7 @@ def job_insert(job):
         Insert an instance of the Job class in the Jobs table.
     """
 
+    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
@@ -205,6 +206,7 @@ def job_insert(job):
         cur.execute(sql, (job.title, job.organization_id, job.summary,
                           job.location, job.zip_code, job.post_date,
                           job.full_or_part, job.salary, job.info_link))
+        insert_count += 1
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 

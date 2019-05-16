@@ -51,13 +51,13 @@ def run(url):
                 hours = hours_div.find('span', {'class': 'field-content'}).text
                 job.full_or_part = hours + ' hours/week'
             job_insert(job)
-            print(job)
+            # print(job)
 
         # If there are more pages, update soup to next page and scrape
         if soup.find('a', {'title': 'Go to next page'}):
             next_page_button = soup.find('a', {'title': 'Go to next page'})
             next_page_url = url + next_page_button['href']
-            print(next_page_url)
+            # print(next_page_url)
             soup = get_soup(next_page_url)
             page = page + 1
         else:
