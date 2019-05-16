@@ -2,6 +2,8 @@
 
 /* Search section styling */
 .search-container {
+  position: sticky;
+  top: -90px;
   width: 100%;
   align-items: center;
   padding-top: 3.5em;
@@ -12,21 +14,34 @@
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
+
   h1 {
     margin: 0 auto;
   }
-}
 
-.search {
-  display: flex;
-  justify-content: space-around;
-  flex-flow: wrap;
-  flex-direction: row;
-  text-align: left;
-  h3 {
-    font-size: 0.9em;
+  .search {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: wrap;
+    flex-direction: row;
+    text-align: left;
+
+    h3 {
+      font-size: 0.9em;
+    }
   }
 }
+
+// .search {
+//   display: flex;
+//   justify-content: space-around;
+//   flex-flow: wrap;
+//   flex-direction: row;
+//   text-align: left;
+//   h3 {
+//     font-size: 0.9em;
+//   }
+// }
 
 .keyword-search,
 .location-search,
@@ -84,9 +99,19 @@
   }
 }
 
-@media screen and (min-width: 700px) {
-  .search {
-    margin: auto;
-    width: 730px;
+@media screen and (max-width: $phone-media-max) {
+  .search-container {
+    position: relative;
+    top: 0;
+    .search {
+      margin: auto;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      > div {
+        width: 80%;
+      }
+    }
   }
 }

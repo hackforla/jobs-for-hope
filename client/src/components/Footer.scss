@@ -66,7 +66,7 @@
   }
 }
 
-@media screen and (max-width: 770px) {
+@media screen and (max-width: $phone-media-max) {
   .header {
     position: sticky;
     top: 0;
