@@ -275,56 +275,30 @@ npm install
     </p></details>
     1. All python commands should be run inside the jobs-for-hope virtualenv if you choose to set it up. You will have to make sure the virtualenv is activated before following the steps.
 1. Install project dependencies
-    1. for sqlite
-    ```
-    pip install -r ./requirements.txt
-    cd backend
-    pip install -r ./requirements.txt
-    ```
-    1. for postgres
-    ```
-    cd backend
-    pip install -r ./requirements.txt
-    ```
+```
+cd backend
+pip install -r ./requirements.txt
+```
 1. Setup for the scrapers
-    1. for sqlite
+    1. Download the ```database.ini``` file from the slack channel into the ```backend``` directory
+    1. Dump the aws database to a file (reference ```database.ini``` for values)
     ```
-    python backend/tools/create_table_organizations.py
+    pg_dump -d <database> -h <host> -U <user> -C -f jobsforhope.sql
     ```
-    1. for postgres
-        1. Download the ```database.ini``` file from the slack channel into the ```backend``` directory
-        1. Dump the aws database to a file (reference ```database.ini``` for values)
-        ```
-        pg_dump -d <database> -h <host> -U <user> -C -f jobsforhope.sql
-        ```
-        1. restore to the local database
-        ```
-        psql -h localhost -U postgres -d jobsforhope -f jobsforhope.sql
-        ```
+    1. restore to the local database
+    ```
+    psql -h localhost -U postgres -d jobsforhope -f jobsforhope.sql
+    ```
 ## To run the scraper
 1. Run the scraper
-    1. for sqlite
-    ```
-    python jfh_scraper.py
-    ```
-    1. for postgres
-    ```
-    cd backend
-    python scraper_runner.py
-    ```
+```
+cd backend
+python scraper_runner.py
+```
 
 ## Checking the database for scraped data
 
 1. Use DBeaver
 
-We're moving towards using postgres and using the instance hosted on aws. The sqlite will go away soon.
-
-### Postgres
-
-1. Add a postgres database connection with the .env file credentials from the slack channel.
-1. The jobs are in the jobs table.
-
-### Sqlite
-
-1. Add a sqlite database connection to the jobs_for_hope.db file
-1. The jobs are in the jobs table
+    1. Add a postgres database connection with the .env file credentials from the slack channel.
+    1. The jobs are in the jobs table.
