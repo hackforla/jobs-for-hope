@@ -31,6 +31,47 @@ const getAll = () => {
   });
 };
 
+const postJob = req => {
+  console.log("BEFORE SQL QUERY", req);
+  const {
+    organization,
+    title,
+    description,
+    location,
+    postDate,
+    hours,
+    salaryLow,
+    salaryHigh,
+    url,
+    zip
+  } = req;
+  const sql = `insert into jobs (organization_id, 
+                                 job_title, 
+                                 job_summary,
+                                 job_location,
+                                 job_post_date,
+                                 full_or_part,
+                                 salary,
+                                 info_link,
+                                 job_zip_code,
+                                 is_user_created
+                                 ) values ('${+organization}',
+                                           '${title}',
+                                           '${description}',
+                                           '${location}',
+                                           '${postDate}',
+                                           '${hours}',
+                                           '${salaryLow + " - " + salaryHigh}',
+                                           '${url}',
+                                           '${zip}',
+                                           'true')`;
+  return pool.query(sql).then(res => {
+    console.log("AFTER SQL QUERY", res);
+    return res;
+  });
+};
+
 module.exports = {
-  getAll
+  getAll,
+  postJob
 };

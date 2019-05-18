@@ -27,9 +27,7 @@ const CompanyCard = ({ org, activeUser }) => {
           {activeUser &&
           (activeUser.role === "admin" ||
             (activeUser.role === "employer" &&
-              activeUser.organization.includes(org.name))) ? (
-            // when we change organizations from string to an array:
-            // activeUser.organization.includes(org.name))) ? (
+              activeUser.organization.includes(org.id))) ? (
             <Link to={`/organizations/${org.id}`} id="org-edit-button">
               Edit
             </Link>

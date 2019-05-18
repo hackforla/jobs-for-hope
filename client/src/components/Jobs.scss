@@ -10,6 +10,33 @@ html {
   box-sizing: inherit;
 }
 
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#new-job-btn {
+  max-width: 120px;
+  height: 25%;
+  margin: 0 2em;
+  padding: 0.3em 1.3em;
+  border-radius: 0.4em;
+  font-weight: bold;
+  color: #404142;
+  opacity: 1;
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#new-job-btn:hover {
+  opacity: 0.75;
+}
+
 .modal-container {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;

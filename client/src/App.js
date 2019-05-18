@@ -5,6 +5,7 @@ import { AlertTemplate, alertOptions } from "./components/Alert";
 
 import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
+import JobForm from "./components/JobForm";
 import Organizations from "./components/Organizations";
 import OrganizationForm from "./components/OrganizationForm";
 import OrganizationView from "./components/OrganizationView";
@@ -31,10 +32,7 @@ class App extends Component {
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => {
-      console.log(user);
-      this.setState({ activeUser: user });
-    });
+    authCheck().then(user => this.setState({ activeUser: user }));
   }
 
   componentDidMount() {
@@ -90,6 +88,30 @@ class App extends Component {
               path="/"
               render={() => (
                 <Jobs
+                  activeUser={activeUser}
+                  jobs={jobs}
+                  organizations={organizations}
+                  key={isPending}
+                  isPending={isPending}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/jobs/new/create"
+              render={() => (
+                <JobForm
+                  activeUser={activeUser}
+                  organizations={organizations}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/jobs/:organization_id"
+              render={() => (
+                <Jobs
+                  activeUser={activeUser}
                   jobs={jobs}
                   organizations={organizations}
                   key={isPending}
@@ -102,6 +124,7 @@ class App extends Component {
               path="/jobs/:organization_id"
               render={() => (
                 <Jobs
+                  activeUser={activeUser}
                   jobs={jobs}
                   organizations={organizations}
                   key={isPending}
