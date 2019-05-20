@@ -50,17 +50,6 @@ class OrganizationView extends React.Component {
     }
   }
 
-  handleDelete = () => {
-    organizationService
-      .del(this.state.org.id)
-      .then(resp => {
-        window.alert("Organization Deleted");
-        this.setState({ toOrganizations: true });
-      })
-      .catch(err => {
-        window.alert(err.toString());
-      });
-  };
 
   handleClose = () => {
     this.setState({ toOrganizations: true });

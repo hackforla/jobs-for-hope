@@ -9,6 +9,8 @@ import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import ImageUpload from "./ImageUpload";
 import * as config from "../config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const initialValues = {
   id: 0,
@@ -28,6 +30,8 @@ const initialValues = {
   email: "",
   descriptionEditorState: new EditorState.createEmpty()
 };
+
+
 
 class OrganizationForm extends React.Component {
   constructor(props) {
@@ -87,8 +91,8 @@ class OrganizationForm extends React.Component {
     } else {
       organizationService.post(req).then(resp => {
         this.id = resp.id;
-
         setSubmitting(false);
+        this.props.fetchOrganizations();
         this.setState(prevState => {
           const newOrg = { ...prevState.org };
           newOrg.id = this.id;
@@ -100,6 +104,20 @@ class OrganizationForm extends React.Component {
 
   handleCancel = () => {
     this.setState({ toOrganizations: true });
+  };
+
+
+  handleDelete = () => {
+    organizationService
+      .del(this.state.org.id)
+      .then(resp => {
+        window.alert("Organization Deleted");
+        this.props.fetchOrganizations();
+        this.setState({ toOrganizations: true });
+      })
+      .catch(err => {
+        window.alert(err.toString());
+      });
   };
 
   handleValidate = values => {
@@ -340,23 +358,29 @@ class OrganizationForm extends React.Component {
                           width: "100%",
                           display: "flex",
                           flexDirection: "row",
-                          justifyContent: "flex-end"
+                          justifyContent: "space-between"
                         }}
                       >
-                        <button
-                          id="cancel-btn"
-                          type="button"
-                          onClick={this.handleCancel}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          id="submit-btn"
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          Save
-                        </button>
+                        <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </abbr>
+                        <div>
+                          <button
+                            id="cancel-btn"
+                            type="button"
+                            onClick={this.handleCancel}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            id="submit-btn"
+                            type="submit"
+                            disabled={isSubmitting}
+                          >
+                            Save
+                          </button>
+                        </div>
+
                       </div>
                       {/* <pre>
                                 {JSON.stringify(props, null, 2)}

@@ -37,9 +37,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    // this.props.onfetchJobs();
-    // this.props.onfetchOrgs();
+  fetchOrganizations = () => {
     organizationService
       .getAll()
       .then(organizations => {
@@ -66,6 +64,12 @@ class App extends Component {
           return { jobs: cleanedJobs, isPending: false };
         });
       });
+  }
+
+  componentDidMount() {
+    // this.props.onfetchJobs();
+    // this.props.onfetchOrgs();
+    this.fetchOrganizations()
   }
 
   logOut = () => {
@@ -121,7 +125,10 @@ class App extends Component {
                 />
               )}
             />
-            <Route path="/organizations/:id" component={OrganizationForm} />
+
+            <Route
+              path="/organizations/:id"
+              render={(matchProps) => <OrganizationForm {...matchProps} fetchOrganizations={this.fetchOrganizations} />} />
             <Route path="/organizationview/:id" component={OrganizationView} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
