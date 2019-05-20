@@ -24,7 +24,6 @@ const Register = () => {
   }, []);
 
   const toggleCheck = () => {
-    document.getElementById("orgCheckbox").checked = !newOrg
     setNewOrg(!newOrg);
   };
 
@@ -180,7 +179,7 @@ const Register = () => {
                       id="orgCheckbox"
                       className="checkbox"
                       type="checkbox"
-                      name="orgCheckbox"
+                      name="orgCheckBox"
                       onChange={toggleCheck}
                     />
                     <label htmlFor="orgCheckBox"
