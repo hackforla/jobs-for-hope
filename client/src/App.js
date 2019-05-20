@@ -32,7 +32,6 @@ class App extends Component {
       organizations: []
     };
     authCheck().then(user => {
-      console.log(user);
       this.setState({ activeUser: user });
     });
   }
@@ -125,11 +124,16 @@ class App extends Component {
                 />
               )}
             />
-
             <Route
-              path="/organizations/:id"
-              render={(matchProps) => <OrganizationForm {...matchProps} fetchOrganizations={this.fetchOrganizations} />} />
-            <Route path="/organizationview/:id" component={OrganizationView} />
+              path="/organizations/:id/edit"
+              render={(matchProps) => (
+                <OrganizationForm
+                  {...matchProps}
+                  fetchOrganizations={this.fetchOrganizations}
+                  activeUser={activeUser}
+                />
+              )} />
+            <Route exact path="/organizations/:id" component={OrganizationView} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/login" render={() => <Login />} />

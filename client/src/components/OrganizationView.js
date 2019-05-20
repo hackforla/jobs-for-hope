@@ -7,9 +7,7 @@ import { Redirect } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
-  faEnvelope,
-  faEdit,
-  faTrash
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 const initialValues = {

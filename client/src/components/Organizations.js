@@ -63,7 +63,7 @@ const Organizations = ({
               }}
             >
               <a
-                href={`/organizations/0`}
+                href={`/organizations/0/edit`}
                 className="new-organization-btn"
                 style={{
                   width: "auto",

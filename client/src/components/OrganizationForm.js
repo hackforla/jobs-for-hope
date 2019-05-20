@@ -36,7 +36,6 @@ const initialValues = {
 class OrganizationForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
@@ -86,9 +85,11 @@ class OrganizationForm extends React.Component {
     if (this.id) {
       organizationService.put(req).then(resp => {
         setSubmitting(false);
+        this.props.fetchOrganizations();
         this.setState({ toOrganizations: true });
       });
-    } else {
+    }
+    else {
       organizationService.post(req).then(resp => {
         this.id = resp.id;
         setSubmitting(false);
@@ -361,7 +362,7 @@ class OrganizationForm extends React.Component {
                           justifyContent: "space-between"
                         }}
                       >
-                        <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} >
+                        <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} style={{ visibility: this.id ? "visible" : "hidden" }}>
                           <FontAwesomeIcon icon={faTrash} />
                         </abbr>
                         <div>
