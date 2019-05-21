@@ -144,7 +144,10 @@ class Jobs extends React.Component {
   };
 
   onShowModal = job => {
-    this.setState({ modalVisible: true, modalJob: job });
+    this.setState({
+      modalVisible: true,
+      modalJob: job
+    });
   };
 
   onHideModal = () => {
@@ -228,6 +231,7 @@ class Jobs extends React.Component {
             modalVisible={this.state.modalVisible}
             modalJob={this.state.modalJob}
             onHideModal={this.onHideModal}
+            isUserCreated={this.state.isUserCreated}
           />
         </div>
         }

@@ -62,6 +62,7 @@ class JobForm extends React.Component {
     console.log(req);
     postJob(req).then(res => {
       console.log(res);
+      // window.location.href = "/"
       setSubmitting(false);
     });
     setSubmitting(false);
