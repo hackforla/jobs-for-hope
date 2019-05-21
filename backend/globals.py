@@ -1,3 +1,4 @@
+import sys
 import psycopg2
 from bs4 import BeautifulSoup
 import requests
@@ -177,7 +178,27 @@ def drop_tables():
         print(error)
 
 
+def print_organization(curr, total):
+    global organization_name
+    sys.stdout.write(str(curr)+ '/' + str(total) + ': ')
+    sys.stdout.write(organization_name)
+    sys.stdout.flush()
+
+
+def print_insert_progress():
+    sys.stdout.write('.')
+    sys.stdout.flush()
+
+def print_organization_end():
+    global insert_count
+    sys.stdout.write('(' + str(insert_count) + ')')
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+    # print('Inserted ' + str(globals.insert_count) + ' job(s).')
+
+
 def insert_job(values):
+    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
@@ -187,6 +208,8 @@ def insert_job(values):
         # print(values)
         cur.execute(sql, values)
         # print(cur.fetchone()[0])
+        insert_count += 1
+        print_insert_progress()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
@@ -196,6 +219,7 @@ def job_insert(job):
         Insert an instance of the Job class in the Jobs table.
     """
 
+    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
@@ -205,6 +229,8 @@ def job_insert(job):
         cur.execute(sql, (job.title, job.organization_id, job.summary,
                           job.location, job.zip_code, job.post_date,
                           job.full_or_part, job.salary, job.info_link))
+        insert_count += 1
+        print_insert_progress()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
@@ -219,7 +245,7 @@ def get_javascript_soup(url):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.implicitly_wait(10)
     driver.get(url)
     innerHTML = driver.execute_script("return document.body.innerHTML")
@@ -231,7 +257,7 @@ def get_javascript_soup_delayed(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -246,7 +272,7 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=800x841')
     options.add_argument('headless')
-    driver = webdriver.Chrome('../chromedriver', chrome_options=options)
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     driver.get(url)
     try:
         element = WebDriverWait(driver, 10).until(
@@ -259,11 +285,8 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
 
 
 def update_db(organization_name):
-    global insert_count
-
     insert_job((job_title, organization_name, job_summary, job_location,
                 job_zip_code, job_post_date, full_or_part, salary, info_link))
-    insert_count += 1
 
 
 def date_ago(timeLength, timeUnit):
