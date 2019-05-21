@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
-import {
-  handleRegister,
-  handleNewOrg,
-  sendConfirmEmail
-} from "../services/auth-service";
+import { handleRegister, handleNewOrg } from "../services/auth-service";
+import { sendConfirmEmail } from "../services/verify-service";
 import { getAll } from "../services/organization-service";
 import { Formik } from "formik";
 import { withRouter } from "react-router-dom";

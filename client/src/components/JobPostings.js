@@ -47,11 +47,11 @@ class JobPostings extends React.Component {
                 <a href={job.summary} target="_blank" rel="noopener noreferrer">
                   Details
                 </a>
-              ) : job.summary.length > 150 ? (
+              ) : !job.is_user_created && job.summary.length > 150 ? (
                 job.summary.substring(0, 150) + "..."
-              ) : (
+              ) : !job.is_user_created ? (
                 job.summary
-              )}
+              ) : null}
             </p>
           </div>
           <div className="right-posting">

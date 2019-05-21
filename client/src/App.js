@@ -5,6 +5,7 @@ import { AlertTemplate, alertOptions } from "./components/Alert";
 
 import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
+import JobForm from "./components/JobForm";
 import Organizations from "./components/Organizations";
 import OrganizationForm from "./components/OrganizationForm";
 import OrganizationView from "./components/OrganizationView";
@@ -63,12 +64,12 @@ class App extends Component {
           return { jobs: cleanedJobs, isPending: false };
         });
       });
-  }
+  };
 
   componentDidMount() {
     // this.props.onfetchJobs();
     // this.props.onfetchOrgs();
-    this.fetchOrganizations()
+    this.fetchOrganizations();
   }
 
   logOut = () => {
@@ -93,6 +94,30 @@ class App extends Component {
               path="/"
               render={() => (
                 <Jobs
+                  activeUser={activeUser}
+                  jobs={jobs}
+                  organizations={organizations}
+                  key={isPending}
+                  isPending={isPending}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/jobs/new/create"
+              render={() => (
+                <JobForm
+                  activeUser={activeUser}
+                  organizations={organizations}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/jobs/:organization_id"
+              render={() => (
+                <Jobs
+                  activeUser={activeUser}
                   jobs={jobs}
                   organizations={organizations}
                   key={isPending}
@@ -105,6 +130,7 @@ class App extends Component {
               path="/jobs/:organization_id"
               render={() => (
                 <Jobs
+                  activeUser={activeUser}
                   jobs={jobs}
                   organizations={organizations}
                   key={isPending}
@@ -125,16 +151,20 @@ class App extends Component {
               )}
             />
             <Route
-
               path="/organizations/:id/edit"
-              render={(matchProps) => (
+              render={matchProps => (
                 <OrganizationForm
                   {...matchProps}
                   fetchOrganizations={this.fetchOrganizations}
                   activeUser={activeUser}
                 />
-              )} />
-            <Route exact path="/organizations/:id" component={OrganizationView} />
+              )}
+            />
+            <Route
+              exact
+              path="/organizations/:id"
+              component={OrganizationView}
+            />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/login" render={() => <Login />} />

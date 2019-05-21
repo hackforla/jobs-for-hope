@@ -44,12 +44,6 @@ export const handleLogOut = (email, password) => {
 	return axios.get("/api/auth/logout").then(result => result.data);
 };
 
-export const sendConfirmEmail = email => {
-	return axios
-		.post("/api/auth/send-confirm", { email })
-		.then(res => res.data);
-};
-
 export const sendResetEmail = email => {
 	return axios.post("/api/auth/send-reset", { email }).then(res => res.data);
 };

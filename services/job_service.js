@@ -3,7 +3,7 @@ const { pool } = require("./postgres-pool");
 const getAll = () => {
   const sql = `
     select date as scrape_date, j.job_title, j.job_summary, j.job_location, j.job_zip_code, 
-    j.job_post_date, j.full_or_part, j.salary, j.info_link,  j.organization_id, 
+    j.job_post_date, j.full_or_part, j.salary, j.info_link,  j.organization_id, j.is_user_created, 
     o.name as organization_name, o.logo as organization_logo 
     from jobs j
     left join organizations o on j.organization_id = o.id
@@ -24,13 +24,53 @@ const getAll = () => {
         post_date: row.job_post_date,
         hours: row.full_or_part,
         salary: row.salary,
-        info_link: row.info_link
+        info_link: row.info_link,
+        is_user_created: row.is_user_created
       });
     });
     return jobs;
   });
 };
 
+const postJob = req => {
+  const {
+    organization,
+    title,
+    description,
+    location,
+    postDate,
+    hours,
+    salaryLow,
+    salaryHigh,
+    url,
+    zip
+  } = req;
+  const sql = `insert into jobs (organization_id, 
+                                 job_title, 
+                                 job_summary,
+                                 job_location,
+                                 job_post_date,
+                                 full_or_part,
+                                 salary,
+                                 info_link,
+                                 job_zip_code,
+                                 is_user_created
+                                 ) values ('${+organization}',
+                                           '${title}',
+                                           '${description}',
+                                           '${location}',
+                                           '${postDate}',
+                                           '${hours}',
+                                           '${salaryLow + " - " + salaryHigh}',
+                                           '${url}',
+                                           '${zip}',
+                                           'true')`;
+  return pool.query(sql).then(res => {
+    return res;
+  });
+};
+
 module.exports = {
-  getAll
+  getAll,
+  postJob
 };
