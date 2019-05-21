@@ -137,182 +137,190 @@ class OrganizationForm extends React.Component {
   };
 
   render() {
+    const { organization, role } = this.props.activeUser;
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
-    return (
-      <React.Fragment>
-        <Banner
-          class="organization-banner"
-          titleUpper="Organizations"
-          titleLower="Involved"
-          imageName="city"
-        />
-        <div className="organization-content-container">
-          <div className="organization-form-container">
-            <h2>Organization</h2>
-            <Formik
-              enableReinitialize={true}
-              initialValues={this.state.org || initialValues}
-              validate={this.handleValidate}
-              onSubmit={this.handleSubmit}
-            >
-              {props => {
-                const {
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                  setFieldValue
-                  /* and other goodies */
-                } = props;
-                return (
-                  <div>
-                    <form
-                      onSubmit={handleSubmit}
-                      style={{ display: "flex", flexDirection: "column" }}
-                    >
-                      <label htmlFor="name" className="organization-label">
-                        Name
+    if (!organization) {
+      return null;
+    } else {
+      if (
+        (organization.includes(parseInt(this.id)) && role === "employer") ||
+        role === "admin"
+      ) {
+        return (
+          <React.Fragment>
+            <Banner
+              class="organization-banner"
+              titleUpper="Organizations"
+              titleLower="Involved"
+              imageName="city"
+            />
+            <div className="organization-content-container">
+              <div className="organization-form-container">
+                <h2>Organization</h2>
+                <Formik
+                  enableReinitialize={true}
+                  initialValues={this.state.org || initialValues}
+                  validate={this.handleValidate}
+                  onSubmit={this.handleSubmit}
+                >
+                  {props => {
+                    const {
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting,
+                      setFieldValue
+                      /* and other goodies */
+                    } = props;
+                    return (
+                      <div>
+                        <form
+                          onSubmit={handleSubmit}
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <label htmlFor="name" className="organization-label">
+                            Name
                       </label>
-                      <input
-                        type="text"
-                        name="name"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                        className="organization-input"
-                      />
-                      {errors.name && touched.name ? (
-                        <div className="organization-error">{errors.name}</div>
-                      ) : null}
-                      <label htmlFor="name" className="organization-label">
-                        URL{" "}
+                          <input
+                            type="text"
+                            name="name"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                            className="organization-input"
+                          />
+                          {errors.name && touched.name ? (
+                            <div className="organization-error">{errors.name}</div>
+                          ) : null}
+                          <label htmlFor="name" className="organization-label">
+                            URL{" "}
+                          </label>
+                          <input
+                            type="text"
+                            name="url"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.url}
+                            className="organization-input"
+                          />
+                          {errors.url && touched.url ? (
+                            <div className="organization-error">{errors.url}</div>
+                          ) : null}
+                          <label htmlFor="mission" className="organization-label">
+                            Mission
                       </label>
-                      <input
-                        type="text"
-                        name="url"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.url}
-                        className="organization-input"
-                      />
-                      {errors.url && touched.url ? (
-                        <div className="organization-error">{errors.url}</div>
-                      ) : null}
-                      <label htmlFor="mission" className="organization-label">
-                        Mission
+                          <textarea
+                            type="text"
+                            name="mission"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.mission}
+                            className="organization-input"
+                          />
+                          {errors.mission && touched.mission ? (
+                            <div className="organization-error">
+                              {errors.mission}
+                            </div>
+                          ) : null}
+                          <label
+                            htmlFor="description"
+                            className="organization-label"
+                          >
+                            Description
                       </label>
-                      <textarea
-                        type="text"
-                        name="mission"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.mission}
-                        className="organization-input"
-                      />
-                      {errors.mission && touched.mission ? (
-                        <div className="organization-error">
-                          {errors.mission}
-                        </div>
-                      ) : null}
-                      <label
-                        htmlFor="description"
-                        className="organization-label"
-                      >
-                        Description
+                          <RichEditor
+                            editorState={values.descriptionEditorState}
+                            onChange={newEditorState =>
+                              setFieldValue(
+                                "descriptionEditorState",
+                                newEditorState
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                          {errors.description && touched.description ? (
+                            <div className="organization-error">
+                              {errors.description}
+                            </div>
+                          ) : null}
+                          <label htmlFor="street" className="organization-label">
+                            Street
                       </label>
-                      <RichEditor
-                        editorState={values.descriptionEditorState}
-                        onChange={newEditorState =>
-                          setFieldValue(
-                            "descriptionEditorState",
-                            newEditorState
-                          )
-                        }
-                        onBlur={handleBlur}
-                      />
-                      {errors.description && touched.description ? (
-                        <div className="organization-error">
-                          {errors.description}
-                        </div>
-                      ) : null}
-                      <label htmlFor="street" className="organization-label">
-                        Street
+                          <input
+                            type="text"
+                            name="street"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.street}
+                            className="organization-input"
+                          />
+                          {errors.street && touched.street ? (
+                            <div className="organization-error">
+                              {errors.street}
+                            </div>
+                          ) : null}
+                          <label htmlFor="suite" className="organization-label">
+                            Suite
                       </label>
-                      <input
-                        type="text"
-                        name="street"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.street}
-                        className="organization-input"
-                      />
-                      {errors.street && touched.street ? (
-                        <div className="organization-error">
-                          {errors.street}
-                        </div>
-                      ) : null}
-                      <label htmlFor="suite" className="organization-label">
-                        Suite
+                          <input
+                            type="text"
+                            name="suite"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.suite}
+                            className="organization-input"
+                          />
+                          {errors.suite && touched.suite ? (
+                            <div className="organization-error">{errors.suite}</div>
+                          ) : null}
+                          <label htmlFor="city" className="organization-label">
+                            City
                       </label>
-                      <input
-                        type="text"
-                        name="suite"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.suite}
-                        className="organization-input"
-                      />
-                      {errors.suite && touched.suite ? (
-                        <div className="organization-error">{errors.suite}</div>
-                      ) : null}
-                      <label htmlFor="city" className="organization-label">
-                        City
+                          <input
+                            type="text"
+                            name="city"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.city}
+                            className="organization-input"
+                          />
+                          {errors.city && touched.city ? (
+                            <div className="organization-error">{errors.city}</div>
+                          ) : null}
+                          <label htmlFor="state" className="organization-label">
+                            State
                       </label>
-                      <input
-                        type="text"
-                        name="city"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.city}
-                        className="organization-input"
-                      />
-                      {errors.city && touched.city ? (
-                        <div className="organization-error">{errors.city}</div>
-                      ) : null}
-                      <label htmlFor="state" className="organization-label">
-                        State
+                          <input
+                            type="text"
+                            name="state"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.state}
+                            className="organization-input"
+                          />
+                          {errors.state && touched.state ? (
+                            <div className="organization-error">{errors.state}</div>
+                          ) : null}
+                          <label htmlFor="zip" className="organization-label">
+                            Zip Code
                       </label>
-                      <input
-                        type="text"
-                        name="state"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.state}
-                        className="organization-input"
-                      />
-                      {errors.state && touched.state ? (
-                        <div className="organization-error">{errors.state}</div>
-                      ) : null}
-                      <label htmlFor="zip" className="organization-label">
-                        Zip Code
-                      </label>
-                      <input
-                        type="text"
-                        name="zip"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.zip}
-                        className="organization-input"
-                      />
-                      {errors.zip && touched.zip ? (
-                        <div className="organization-error">{errors.zip}</div>
-                      ) : null}
-                      {/* <label htmlFor="name" className="organization-label">
+                          <input
+                            type="text"
+                            name="zip"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.zip}
+                            className="organization-input"
+                          />
+                          {errors.zip && touched.zip ? (
+                            <div className="organization-error">{errors.zip}</div>
+                          ) : null}
+                          {/* <label htmlFor="name" className="organization-label">
                         Logo File Name{" "}
                       </label>
                       <input
@@ -326,86 +334,92 @@ class OrganizationForm extends React.Component {
                       {errors.logo && touched.logo ? (
                         <div className="organization-error">{errors.logo}</div>
                       ) : null} */}
-                      <label htmlFor="phone" className="organization-label">
-                        Phone{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="phone"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.phone}
-                        className="organization-input"
-                      />
-                      {errors.phone && touched.phone ? (
-                        <div className="organization-error">{errors.phone}</div>
-                      ) : null}
-                      <label htmlFor="email" className="organization-label">
-                        Email{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.email}
-                        className="organization-input"
-                      />
-                      {errors.email && touched.email ? (
-                        <div className="organization-error">{errors.email}</div>
-                      ) : null}
-                      <div
-                        style={{
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between"
-                        }}
-                      >
-                        <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} style={{ visibility: this.id ? "visible" : "hidden" }}>
-                          <FontAwesomeIcon icon={faTrash} />
-                        </abbr>
-                        <div>
-                          <button
-                            id="cancel-btn"
-                            type="button"
-                            onClick={this.handleCancel}
+                          <label htmlFor="phone" className="organization-label">
+                            Phone{" "}
+                          </label>
+                          <input
+                            type="text"
+                            name="phone"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.phone}
+                            className="organization-input"
+                          />
+                          {errors.phone && touched.phone ? (
+                            <div className="organization-error">{errors.phone}</div>
+                          ) : null}
+                          <label htmlFor="email" className="organization-label">
+                            Email{" "}
+                          </label>
+                          <input
+                            type="text"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                            className="organization-input"
+                          />
+                          {errors.email && touched.email ? (
+                            <div className="organization-error">{errors.email}</div>
+                          ) : null}
+                          <div
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between"
+                            }}
                           >
-                            Cancel
+                            <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} style={{ visibility: this.id ? "visible" : "hidden" }}>
+                              <FontAwesomeIcon icon={faTrash} />
+                            </abbr>
+                            <div>
+                              <button
+                                id="cancel-btn"
+                                type="button"
+                                onClick={this.handleCancel}
+                              >
+                                Cancel
                           </button>
-                          <button
-                            id="submit-btn"
-                            type="submit"
-                            disabled={isSubmitting}
-                          >
-                            Save
+                              <button
+                                id="submit-btn"
+                                type="submit"
+                                disabled={isSubmitting}
+                              >
+                                Save
                           </button>
-                        </div>
+                            </div>
 
-                      </div>
-                      {/* <pre>
+                          </div>
+                          {/* <pre>
                                 {JSON.stringify(props, null, 2)}
                             </pre> */}
-                    </form>
-                    <img
-                      width="50%"
-                      src={
-                        this.state.org.logo
-                          ? config.AWS_S3_PREFIX + this.state.org.logo
-                          : ""
-                      }
-                      alt="Company Logo"
-                    />
-                    <ImageUpload updateEntity={this.updateEntityFileKey} />
-                  </div>
-                );
-              }}
-            </Formik>
-          </div>
-        </div>
-      </React.Fragment>
-    );
+                        </form>
+                        <img
+                          width="50%"
+                          src={
+                            this.state.org.logo
+                              ? config.AWS_S3_PREFIX + this.state.org.logo
+                              : ""
+                          }
+                          alt="Company Logo"
+                        />
+                        <ImageUpload updateEntity={this.updateEntityFileKey} />
+                      </div>
+                    );
+                  }}
+                </Formik>
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      } else {
+        console.log("redir", organization, this.id);
+        return <Redirect to="/organizations" />;
+      }
+    }
   }
 }
+
 
 export default OrganizationForm;

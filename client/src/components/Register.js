@@ -9,6 +9,7 @@ import {
 } from "../services/auth-service";
 import { getAll } from "../services/organization-service";
 import { Formik } from "formik";
+import { withRouter } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 const Register = () => {
@@ -382,4 +383,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withRouter(Register);

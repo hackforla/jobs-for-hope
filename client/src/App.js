@@ -27,7 +27,7 @@ class App extends Component {
     super(props);
     this.state = {
       isPending: true,
-      activeUser: {},
+      activeUser: { id: null },
       jobs: [],
       organizations: []
     };
@@ -86,7 +86,7 @@ class App extends Component {
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <div className="App">
             <header className="header">
-              <Navbar activeUser={activeUser} />
+              <Navbar activeUser={activeUser} logOut={this.logOut} />
             </header>
             <Route
               exact
@@ -125,6 +125,7 @@ class App extends Component {
               )}
             />
             <Route
+
               path="/organizations/:id/edit"
               render={(matchProps) => (
                 <OrganizationForm

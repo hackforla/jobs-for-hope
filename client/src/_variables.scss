@@ -13,6 +13,8 @@ $light-color: #dadada; //lighter grey - for secondary buttons
 $accent-color: #d11a2a; //red -- delete button
 $tertiary-color: #f4b4a4;
 
+$phone-media-max: "770px";
+
 @function set-text-color($bg-color) {
   @if (lightness($bg-color) > 50) {
     @return #000;

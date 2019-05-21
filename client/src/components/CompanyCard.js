@@ -32,6 +32,7 @@ const CompanyCard = ({ org, activeUser }) => {
               // activeUser.organization.includes(org.name))) ? (
               <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
                 Edit
+
             </Link>
             ) : null}
         </div>
