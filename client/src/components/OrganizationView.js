@@ -7,9 +7,7 @@ import { Redirect } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
-  faEnvelope,
-  faEdit,
-  faTrash
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 const initialValues = {
@@ -50,17 +48,6 @@ class OrganizationView extends React.Component {
     }
   }
 
-  handleDelete = () => {
-    organizationService
-      .del(this.state.org.id)
-      .then(resp => {
-        window.alert("Organization Deleted");
-        this.setState({ toOrganizations: true });
-      })
-      .catch(err => {
-        window.alert(err.toString());
-      });
-  };
 
   handleClose = () => {
     this.setState({ toOrganizations: true });
