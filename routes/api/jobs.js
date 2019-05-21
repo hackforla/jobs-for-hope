@@ -30,11 +30,9 @@ router.get("/scrape", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-  console.log(req.body.jobInfo);
   svc
     .postJob(req.body.jobInfo)
     .then(resp => {
-      console.log("BACK IN MAIN ROUTE", resp);
       res.json(resp);
     })
     .catch(err => {

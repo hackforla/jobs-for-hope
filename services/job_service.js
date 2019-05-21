@@ -33,7 +33,6 @@ const getAll = () => {
 };
 
 const postJob = req => {
-  console.log("BEFORE SQL QUERY", req);
   const {
     organization,
     title,
@@ -67,7 +66,6 @@ const postJob = req => {
                                            '${zip}',
                                            'true')`;
   return pool.query(sql).then(res => {
-    console.log("AFTER SQL QUERY", res);
     return res;
   });
 };
