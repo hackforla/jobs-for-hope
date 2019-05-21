@@ -32,12 +32,12 @@ class App extends Component {
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => this.setState({ activeUser: user }));
+    authCheck().then(user => {
+      this.setState({ activeUser: user });
+    });
   }
 
-  componentDidMount() {
-    // this.props.onfetchJobs();
-    // this.props.onfetchOrgs();
+  fetchOrganizations = () => {
     organizationService
       .getAll()
       .then(organizations => {
@@ -64,6 +64,12 @@ class App extends Component {
           return { jobs: cleanedJobs, isPending: false };
         });
       });
+  };
+
+  componentDidMount() {
+    // this.props.onfetchJobs();
+    // this.props.onfetchOrgs();
+    this.fetchOrganizations();
   }
 
   logOut = () => {
@@ -145,12 +151,20 @@ class App extends Component {
               )}
             />
             <Route
-              path="/organizations/:id"
-              render={() => {
-                return <OrganizationForm activeUser={activeUser} />;
-              }}
+              path="/organizations/:id/edit"
+              render={matchProps => (
+                <OrganizationForm
+                  {...matchProps}
+                  fetchOrganizations={this.fetchOrganizations}
+                  activeUser={activeUser}
+                />
+              )}
             />
-            <Route path="/organizationview/:id" component={OrganizationView} />
+            <Route
+              exact
+              path="/organizations/:id"
+              component={OrganizationView}
+            />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/login" render={() => <Login />} />
