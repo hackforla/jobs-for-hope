@@ -116,7 +116,7 @@ class Modal extends React.Component {
                   </a>
                 ) : null}
                 <Link
-                  to={`/organizationView/${job.organization_id}`}
+                  to={`/organizations/${job.organization_id}`}
                   className="modal-button"
                   target="_blank"
                 >
