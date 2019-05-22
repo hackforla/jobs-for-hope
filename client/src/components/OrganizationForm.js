@@ -7,10 +7,8 @@ import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
-import ImageUpload from "./ImageUpload";
-import * as config from "../config";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { withRouter } from "react-router-dom";
+import ImageResizeUpload from "./ImageResizeUpload";
 
 const initialValues = {
   id: 0,
@@ -30,8 +28,6 @@ const initialValues = {
   email: "",
   descriptionEditorState: new EditorState.createEmpty()
 };
-
-
 
 class OrganizationForm extends React.Component {
   constructor(props) {
@@ -58,13 +54,15 @@ class OrganizationForm extends React.Component {
           resp.descriptionEditorState = EditorState.createWithContent(
             convertFromHTML(resp.description)
           );
-          this.setState({ org: resp });
         } else {
-          let newOrg = { ...initialValues };
-          newOrg.descriptionEditorState = EditorState.createEmpty();
-          this.setState({ org: newOrg });
+          resp.descriptionEditorState = EditorState.createEmpty();
         }
+        this.setState({ org: resp });
       });
+    } else {
+      let newOrg = { ...initialValues };
+      newOrg.descriptionEditorState = EditorState.createEmpty();
+      this.setState({ org: newOrg });
     }
   }
 
@@ -88,8 +86,7 @@ class OrganizationForm extends React.Component {
         this.props.fetchOrganizations();
         this.setState({ toOrganizations: true });
       });
-    }
-    else {
+    } else {
       organizationService.post(req).then(resp => {
         this.id = resp.id;
         setSubmitting(false);
@@ -106,7 +103,6 @@ class OrganizationForm extends React.Component {
   handleCancel = () => {
     this.setState({ toOrganizations: true });
   };
-
 
   handleDelete = () => {
     organizationService
@@ -185,7 +181,7 @@ class OrganizationForm extends React.Component {
                         >
                           <label htmlFor="name" className="organization-label">
                             Name
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="name"
@@ -195,7 +191,9 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.name && touched.name ? (
-                            <div className="organization-error">{errors.name}</div>
+                            <div className="organization-error">
+                              {errors.name}
+                            </div>
                           ) : null}
                           <label htmlFor="name" className="organization-label">
                             URL{" "}
@@ -209,11 +207,16 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.url && touched.url ? (
-                            <div className="organization-error">{errors.url}</div>
+                            <div className="organization-error">
+                              {errors.url}
+                            </div>
                           ) : null}
-                          <label htmlFor="mission" className="organization-label">
+                          <label
+                            htmlFor="mission"
+                            className="organization-label"
+                          >
                             Mission
-                      </label>
+                          </label>
                           <textarea
                             type="text"
                             name="mission"
@@ -232,7 +235,7 @@ class OrganizationForm extends React.Component {
                             className="organization-label"
                           >
                             Description
-                      </label>
+                          </label>
                           <RichEditor
                             editorState={values.descriptionEditorState}
                             onChange={newEditorState =>
@@ -248,9 +251,12 @@ class OrganizationForm extends React.Component {
                               {errors.description}
                             </div>
                           ) : null}
-                          <label htmlFor="street" className="organization-label">
+                          <label
+                            htmlFor="street"
+                            className="organization-label"
+                          >
                             Street
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="street"
@@ -266,7 +272,7 @@ class OrganizationForm extends React.Component {
                           ) : null}
                           <label htmlFor="suite" className="organization-label">
                             Suite
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="suite"
@@ -276,11 +282,13 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.suite && touched.suite ? (
-                            <div className="organization-error">{errors.suite}</div>
+                            <div className="organization-error">
+                              {errors.suite}
+                            </div>
                           ) : null}
                           <label htmlFor="city" className="organization-label">
                             City
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="city"
@@ -290,11 +298,13 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.city && touched.city ? (
-                            <div className="organization-error">{errors.city}</div>
+                            <div className="organization-error">
+                              {errors.city}
+                            </div>
                           ) : null}
                           <label htmlFor="state" className="organization-label">
                             State
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="state"
@@ -304,11 +314,13 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.state && touched.state ? (
-                            <div className="organization-error">{errors.state}</div>
+                            <div className="organization-error">
+                              {errors.state}
+                            </div>
                           ) : null}
                           <label htmlFor="zip" className="organization-label">
                             Zip Code
-                      </label>
+                          </label>
                           <input
                             type="text"
                             name="zip"
@@ -318,22 +330,26 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.zip && touched.zip ? (
-                            <div className="organization-error">{errors.zip}</div>
+                            <div className="organization-error">
+                              {errors.zip}
+                            </div>
                           ) : null}
-                          {/* <label htmlFor="name" className="organization-label">
-                        Logo File Name{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="logo"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.logo}
-                        className="organization-input"
-                      />
-                      {errors.logo && touched.logo ? (
-                        <div className="organization-error">{errors.logo}</div>
-                      ) : null} */}
+                          <label htmlFor="name" className="organization-label">
+                            Logo File Name{" "}
+                          </label>
+                          <input
+                            type="text"
+                            name="logo"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.logo}
+                            className="organization-input"
+                          />
+                          {errors.logo && touched.logo ? (
+                            <div className="organization-error">
+                              {errors.logo}
+                            </div>
+                          ) : null}
                           <label htmlFor="phone" className="organization-label">
                             Phone{" "}
                           </label>
@@ -346,7 +362,9 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.phone && touched.phone ? (
-                            <div className="organization-error">{errors.phone}</div>
+                            <div className="organization-error">
+                              {errors.phone}
+                            </div>
                           ) : null}
                           <label htmlFor="email" className="organization-label">
                             Email{" "}
@@ -360,51 +378,44 @@ class OrganizationForm extends React.Component {
                             className="organization-input"
                           />
                           {errors.email && touched.email ? (
-                            <div className="organization-error">{errors.email}</div>
+                            <div className="organization-error">
+                              {errors.email}
+                            </div>
                           ) : null}
                           <div
                             style={{
                               width: "100%",
                               display: "flex",
                               flexDirection: "row",
-                              justifyContent: "space-between"
+                              justifyContent: "flex-end"
                             }}
                           >
-                            <abbr title="Delete" id="delete-btn" onClick={this.handleDelete} style={{ visibility: this.id ? "visible" : "hidden" }}>
-                              <FontAwesomeIcon icon={faTrash} />
-                            </abbr>
-                            <div>
-                              <button
-                                id="cancel-btn"
-                                type="button"
-                                onClick={this.handleCancel}
-                              >
-                                Cancel
-                          </button>
-                              <button
-                                id="submit-btn"
-                                type="submit"
-                                disabled={isSubmitting}
-                              >
-                                Save
-                          </button>
-                            </div>
-
+                            <button
+                              class="cancel-btn"
+                              type="button"
+                              onClick={this.handleCancel}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              class="submit-btn"
+                              type="submit"
+                              disabled={isSubmitting}
+                            >
+                              Save
+                            </button>
                           </div>
-                          {/* <pre>
-                                {JSON.stringify(props, null, 2)}
-                            </pre> */}
                         </form>
-                        <img
-                          width="50%"
-                          src={
-                            this.state.org.logo
-                              ? config.AWS_S3_PREFIX + this.state.org.logo
-                              : ""
-                          }
-                          alt="Company Logo"
-                        />
-                        <ImageUpload updateEntity={this.updateEntityFileKey} />
+                        {this.state.org.id ? (
+                          <ImageResizeUpload
+                            style={{ width: "200px" }}
+                            fileKey={this.state.org.logo}
+                            updateEntity={this.updateEntityFileKey}
+                            maxHeight="180"
+                            maxWidth="320"
+                            maxBytes={1000000}
+                          />
+                        ) : null}
                       </div>
                     );
                   }}
@@ -413,13 +424,9 @@ class OrganizationForm extends React.Component {
             </div>
           </React.Fragment>
         );
-      } else {
-        console.log("redir", organization, this.id);
-        return <Redirect to="/organizations" />;
       }
     }
   }
 }
-
 
 export default OrganizationForm;
