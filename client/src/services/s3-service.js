@@ -1,6 +1,33 @@
 import axios from "axios";
 import uuidv4 from "uuid/v4";
 
+export const uploadBlob = async blob => {
+  const key = uuidv4() + ".png";
+  //const file = new File([blob], key);
+  const contentType = blob.type || "image/png";
+
+  // Get pre-signed url from our server
+  let presignResponse = await axios.post("/api/s3/generatepresignedurl", {
+    key,
+    contentType
+  });
+
+  if (presignResponse.data.success) {
+    let url = presignResponse.data.urls[0];
+
+    // use pre-signed url to upload file to S3
+    let uploadResponse = await axios.put(url, blob, {
+      headers: {
+        "Content-Type": contentType,
+        withCredentials: false
+      }
+    });
+    console.log(JSON.stringify(uploadResponse, null, 2));
+    return key;
+  }
+  return null;
+};
+
 export const uploadFile = async file => {
   const key = uuidv4() + file.name;
   const contentType = file.type;
@@ -17,10 +44,11 @@ export const uploadFile = async file => {
     // use pre-signed url to upload file to S3
     let uploadResponse = await axios.put(url, file, {
       headers: {
-        "Content-Type": file.type,
+        "Content-Type": contentType,
         withCredentials: false
       }
     });
+    console.log(JSON.stringify(uploadResponse, null, 2));
     return key;
   }
   return null;

@@ -2,10 +2,10 @@
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # mac
-  ../chromedriver.mac "$@"
+  ./chromedriver.mac "$@"
 elif [[ "$OSTYPE" == "linux-gnu" ]]; then
   # linux
-  ../chromedriver.gnu "$@"
+  ./chromedriver.gnu "$@"
 elif [[ "$OSTYPE" == "msys" ]]; then
   # MinGW
   chromedriver.exe "$@"
