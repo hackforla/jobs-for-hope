@@ -14,11 +14,12 @@
 }
 
 .about-side-nav {
-  background-color: $light-color;
+  background-color: $lightest-color;
   display: flex;
   flex-direction: column;
-  flex: 0 0 15%;
-  padding: 1em;
+  flex: 0 0 18%;
+  padding: 1.5em;
+
   ul {
     margin: 0;
     padding: 0;

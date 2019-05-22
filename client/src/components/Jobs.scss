@@ -10,6 +10,29 @@ html {
   box-sizing: inherit;
 }
 
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#new-job-btn {
+  max-width: 120px;
+  height: 25%;
+  margin: 0 2em;
+  padding: 0.3em 1.3em;
+  border-radius: 0.4em;
+  font-weight: bold;
+  color: #404142;
+  opacity: 1;
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .modal-container {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
@@ -46,6 +69,13 @@ html {
   color: #111;
   font-family: $main-font;
   font-weight: bold;
+  margin: 0.5em 0.5em;
+  padding: 0.5em 1.5em;
+}
+
+.modal-button-close {
+  color: $primary-color;
+  font-size: 1.2em;
 }
 
 .iframe-container {

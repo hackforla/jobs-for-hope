@@ -32,7 +32,7 @@ const initialValues = {
 class OrganizationForm extends React.Component {
   constructor(props) {
     super(props);
-    this.id = this.props.match.params.id || 0;
+    this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
       regions: [
@@ -47,9 +47,9 @@ class OrganizationForm extends React.Component {
   }
 
   componentDidMount() {
-    console.log("mount", this.props.activeUser);
     if (this.id) {
       organizationService.get(this.id).then(resp => {
+        this.id = resp.id;
         if (resp && resp.description) {
           resp.descriptionEditorState = EditorState.createWithContent(
             convertFromHTML(resp.description)
@@ -83,13 +83,14 @@ class OrganizationForm extends React.Component {
     if (this.id) {
       organizationService.put(req).then(resp => {
         setSubmitting(false);
+        this.props.fetchOrganizations();
         this.setState({ toOrganizations: true });
       });
     } else {
       organizationService.post(req).then(resp => {
         this.id = resp.id;
-
         setSubmitting(false);
+        this.props.fetchOrganizations();
         this.setState(prevState => {
           const newOrg = { ...prevState.org };
           newOrg.id = this.id;
@@ -101,6 +102,19 @@ class OrganizationForm extends React.Component {
 
   handleCancel = () => {
     this.setState({ toOrganizations: true });
+  };
+
+  handleDelete = () => {
+    organizationService
+      .del(this.state.org.id)
+      .then(resp => {
+        window.alert("Organization Deleted");
+        this.props.fetchOrganizations();
+        this.setState({ toOrganizations: true });
+      })
+      .catch(err => {
+        window.alert(err.toString());
+      });
   };
 
   handleValidate = values => {
@@ -120,17 +134,6 @@ class OrganizationForm extends React.Component {
 
   render() {
     const { organization, role } = this.props.activeUser;
-
-    // if (organization) {
-    //   console.log(
-    //     "hit org if",
-    //     organization.includes(parseInt(this.id)),
-    //     this.id,
-    //     organization,
-    //     this.props.activeUser
-    //   );
-    // }
-
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -426,4 +429,4 @@ class OrganizationForm extends React.Component {
   }
 }
 
-export default withRouter(OrganizationForm);
+export default OrganizationForm;

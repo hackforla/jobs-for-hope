@@ -59,14 +59,11 @@ class ImageResizeUpload extends React.Component {
         const canvas = canvasRef.current;
         const heightScale = maxHeight / image.height;
         const widthScale = maxWidth / image.width;
-        const scale = Math.max(Math.min(heightScale, widthScale), 1.0);
+        // Only scale if image is too large - don't try to
+        // make small images larger, as the result is not good.
+        const scale = Math.min(Math.min(heightScale, widthScale), 1.0);
         image.width *= scale;
         image.height *= scale;
-
-        // if (image.height > MAX_HEIGHT) {
-        //   image.width *= MAX_HEIGHT / image.height;
-        //   image.height = MAX_HEIGHT;
-        // }
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.width = image.width;
@@ -156,8 +153,6 @@ class ImageResizeUpload extends React.Component {
         {this.state.fileKey ? (
           <div>
             <img
-              height={this.props.maxHeight}
-              width={this.props.maxwidth}
               style={{
                 maxHeight: this.props.maxHeight,
                 maxWidth: this.props.maxWidth
