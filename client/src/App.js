@@ -27,14 +27,16 @@ class App extends Component {
     super(props);
     this.state = {
       isPending: true,
-      activeUser: { id: null },
+      activeUser: authCheck().then(user => {
+        this.setState({ activeUser: user });
+      }),
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => {
-      console.log(user);
-      this.setState({ activeUser: user });
-    });
+    // authCheck().then(user => {
+    //   console.log(user);
+    //   this.setState({ activeUser: user });
+    // });
   }
 
   componentDidMount() {

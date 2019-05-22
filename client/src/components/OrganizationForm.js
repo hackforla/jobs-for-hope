@@ -119,17 +119,6 @@ class OrganizationForm extends React.Component {
 
   render() {
     const { organization, role } = this.props.activeUser;
-
-    // if (organization) {
-    //   console.log(
-    //     "hit org if",
-    //     organization.includes(parseInt(this.id)),
-    //     this.id,
-    //     organization,
-    //     this.props.activeUser
-    //   );
-    // }
-
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -402,7 +391,6 @@ class OrganizationForm extends React.Component {
           </React.Fragment>
         );
       } else {
-        console.log("redir", organization, this.id);
         return <Redirect to="/organizations" />;
       }
     }

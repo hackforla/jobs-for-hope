@@ -29,7 +29,7 @@ router.get("/", (req, res) => {
       });
     });
   } else {
-    res.json({});
+    res.json({ organization: [0] });
   }
 });
 

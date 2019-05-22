@@ -177,7 +177,7 @@ const Register = () => {
                 <label htmlFor="organization">Organization</label>
                 <div className="checkbox-container">
                   <input
-                    id="orgCheckbox"
+                    id="orgCheckBox"
                     className="checkbox"
                     type="checkbox"
                     name="orgCheckbox"
