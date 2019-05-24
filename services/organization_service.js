@@ -18,7 +18,37 @@ const getAll = () => {
     res.rows.forEach(row => {
       organizations.push(row);
     });
-    return organizations;
+    // unfortunately, pg doesn't support multiple result sets, so
+    // we have to hit the server a second  time to get region organizations.
+    return getAllOrganizationRegions(orgRegionResult => {
+      orgRegionResult.rows.forEach(orgRegion => {
+        const parentOrg = organizations.find(
+          org => org.id == orgRegion.organization_id
+        );
+        if (parentOrg.regions) {
+          parentOrg.regions.push(orgRegion);
+        } else {
+          parentOrg.regions = [orgRegion];
+        }
+        return organizations;
+      });
+    });
+  });
+};
+
+const getAllOrganizationRegions = () => {
+  const sql = `
+      select o.id, r.id, r.name,
+      from organizations o 
+        join organization_regions ors on o.id = ors.organization_id
+        join regions r on ors.region_id = r.id
+    `;
+  return pool.query(sql).then(res => {
+    const organizationRegions = [];
+    res.rows.forEach(row => {
+      organizationRegions.push(row);
+    });
+    return organizationRegions;
   });
 };
 
