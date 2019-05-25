@@ -6,11 +6,12 @@ import { EditorState } from "draft-js";
 import { RichEditor } from "./RichEditor";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
-import { postJob } from "../services/job-service";
+import { postJob, editJob, getJob } from "../services/job-service";
+import DeleteJobModal from "./DeleteJobModal.js";
 
-const formatDate = () => {
-  var d = new Date(),
-    month = "" + (d.getMonth() + 1),
+const formatDate = date => {
+  let d = date ? new Date(date) : new Date();
+  let month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
     year = d.getFullYear();
 
@@ -39,8 +40,41 @@ class JobForm extends React.Component {
     super(props);
     this.state = {
       job: initialValues,
-      isHourly: false
+      isHourly: false,
+      modalIsOpen: false
     };
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    const jobId = this.props.match.params.id;
+    if (jobId !== "new") {
+      getJob(jobId).then(res => {
+        const salaryArr = res.salary.split(" - ");
+        if (salaryArr[0].includes("/hr")) {
+          this.setState({ isHourly: true });
+        }
+        const filteredArr = salaryArr.map(sal => {
+          return sal.replace("$", "").replace("/hr", "");
+        });
+        const editValues = {
+          organization: res.organization_id,
+          title: res.job_title,
+          url: res.info_link,
+          description: res.job_summary ? res.job_summary : "",
+          location: res.job_location ? res.job_location : "",
+          postDate: formatDate(res.job_post_date),
+          salaryLow: res.salary ? filteredArr[0] : "",
+          salaryHigh: res.salary ? filteredArr[1] : "",
+          hours: res.full_or_part ? res.full_or_part : "",
+          zip: res.job_zip_code ? res.job_zip_code : "",
+          descriptionEditorState: res.job_summary
+            ? EditorState.createWithContent(convertFromHTML(res.job_summary))
+            : new EditorState.createEmpty()
+        };
+        this.setState({ job: editValues });
+      });
+    }
   }
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -59,12 +93,17 @@ class JobForm extends React.Component {
       req.salaryLow = `$${req.salaryLow}`;
       req.salaryHigh = `$${req.salaryHigh}`;
     }
-    console.log(req);
-    postJob(req).then(res => {
-      console.log(res);
-      // window.location.href = "/"
-      setSubmitting(false);
-    });
+    if (this.props.match.params.id === "new") {
+      postJob(req).then(res => {
+        window.location.href = "/";
+        setSubmitting(false);
+      });
+    } else {
+      editJob(req, this.props.match.params.id).then(res => {
+        window.location.href = "/";
+        setSubmitting(false);
+      });
+    }
     setSubmitting(false);
   };
 
@@ -110,26 +149,42 @@ class JobForm extends React.Component {
     this.setState(prevState => ({ isHourly: !prevState.isHourly }));
   };
 
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
   render() {
     const { activeUser, organizations } = this.props;
-    const { isHourly } = this.state;
-    if (!activeUser) {
+    const { isHourly, modalIsOpen } = this.state;
+    const { id } = this.props.match.params;
+    if (!activeUser || this.state.toJobs) {
       return <Redirect to="/" />;
     }
     return (
       <React.Fragment>
         <Banner
           class="job-banner"
-          titleUpper="Post A Job"
+          titleUpper={id === "new" ? "Post A Job" : "Edit Job"}
           titleLower=""
           imageName="city"
         />
         <div className="job-content-container">
           <div className="job-form-container">
-            <h2>New Job</h2>
+            <div className="form-header-container">
+              <h2>Job Information</h2>
+              {id === "new" ? null : (
+                <button type="button" id="delete-btn" onClick={this.openModal}>
+                  Delete Job
+                </button>
+              )}
+            </div>
             <Formik
               enableReinitialize={true}
-              initialValues={this.state.jobs || initialValues}
+              initialValues={this.state.job || initialValues}
               validate={this.handleValidate}
               onSubmit={this.handleSubmit}
             >
@@ -186,7 +241,7 @@ class JobForm extends React.Component {
                         name="title"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.name}
+                        value={values.title}
                         className={
                           errors.title && touched.title
                             ? "error job-input"
@@ -258,6 +313,7 @@ class JobForm extends React.Component {
                             className="checkbox"
                             type="checkbox"
                             name="orgCheckbox"
+                            checked={this.state.isHourly}
                             onChange={this.toggleCheck}
                           />
                           <label htmlFor="orgCheckBox">Hourly</label>
@@ -380,18 +436,18 @@ class JobForm extends React.Component {
                         }}
                       >
                         <button
-                          id="cancel-btn"
+                          className="cancel-btn"
                           type="button"
                           onClick={this.handleCancel}
                         >
                           Cancel
                         </button>
                         <button
-                          id="submit-btn"
+                          className="submit-btn"
                           type="submit"
                           disabled={isSubmitting}
                         >
-                          Post
+                          {id === "new" ? "Post" : "Save"}
                         </button>
                       </div>
                     </form>
@@ -400,6 +456,11 @@ class JobForm extends React.Component {
               }}
             </Formik>
           </div>
+          <DeleteJobModal
+            modalIsOpen={modalIsOpen}
+            closeModal={this.closeModal}
+            jobId={id}
+          />
         </div>
       </React.Fragment>
     );

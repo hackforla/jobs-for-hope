@@ -29,9 +29,44 @@ router.get("/scrape", (req, res) => {
   });
 });
 
+router.get("/job/:id", (req, res) => {
+  const { id } = req.params;
+  svc
+    .getJob(id)
+    .then(resp => {
+      res.json(resp);
+    })
+    .catch(err => {
+      res.status("404").json({ error: err.toString() });
+    });
+});
+
 router.post("/add", (req, res) => {
   svc
     .postJob(req.body.jobInfo)
+    .then(resp => {
+      res.json(resp);
+    })
+    .catch(err => {
+      res.status("404").json({ error: err.toString() });
+    });
+});
+
+router.post("/edit", (req, res) => {
+  svc
+    .editJob(req.body.jobInfo, req.body.id)
+    .then(resp => {
+      res.json(resp);
+    })
+    .catch(err => {
+      res.status("404").json({ error: err.toString() });
+    });
+});
+
+router.post("/delete", (req, res) => {
+  const { id } = req.body;
+  svc
+    .deleteJob(id)
     .then(resp => {
       res.json(resp);
     })

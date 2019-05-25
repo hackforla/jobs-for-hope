@@ -104,11 +104,13 @@ class App extends Component {
             />
             <Route
               exact
-              path="/jobs/new/create"
-              render={() => (
+              path="/jobs/form/:id"
+              render={matchProps => (
                 <JobForm
                   activeUser={activeUser}
+                  jobs={jobs}
                   organizations={organizations}
+                  {...matchProps}
                 />
               )}
             />
