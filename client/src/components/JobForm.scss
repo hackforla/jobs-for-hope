@@ -1,0 +1,208 @@
+@import "../_variables.scss";
+
+.job-content-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.job-form-container {
+  margin: 4em auto 6.5em;
+  width: 80%;
+  max-width: 700px;
+}
+
+@media screen and (min-width: 576px) {
+  .job-form-container {
+    flex-basis: 80%;
+    padding: 0.75em;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .job-form-container {
+    flex-basis: 60%;
+    padding: 1em;
+  }
+}
+
+/* Contact form styling */
+
+.form-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.job-label {
+  margin-top: 1em;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+#org-select-jobform {
+  margin-top: 0.5em;
+  width: 100%;
+}
+
+.job-input {
+  width: 100%;
+  margin-top: 0.5em;
+  padding: 0.5em 0.5em;
+  border-radius: 0.5em;
+  border: 1px lightgray solid;
+  font-size: 1em;
+}
+
+.job-input-salary {
+  width: 40%;
+  max-width: 8em;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding: 0.5em 0.5em;
+  border-radius: 0.5em;
+  border: 1px lightgray solid;
+  font-size: 1em;
+}
+
+.error {
+  border-color: red;
+}
+
+.salary-input-container {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.salary-text {
+  font-size: 1.75rem;
+}
+
+#hours-grp {
+  display: flex;
+  margin: 0.5em 0 1em 0;
+}
+
+.hours-radio {
+  padding: 0.5em;
+}
+
+[type="date"] {
+  background: #fff
+    url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+    97% 50% no-repeat;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  padding-left: 0.75em;
+}
+
+::-webkit-datetime-edit {
+  padding: 0.5em;
+}
+::-webkit-datetime-edit-text {
+  padding: 0 0.3em;
+}
+
+.job-input-date {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-top: 0.5em;
+  padding: 3px 5px;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+  width: 190px;
+  font-family: $main-font;
+}
+
+.salary-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.salary-container label {
+  margin-right: 3em;
+}
+
+.location-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.neighborhood {
+  width: 50%;
+  margin-right: 20%;
+}
+
+.zip {
+  width: 30%;
+  min-width: 6em;
+}
+
+.job-error {
+  margin-top: 0;
+  color: red;
+  font-size: 0.8em;
+}
+
+.cancel-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.3em 1em;
+  background: $light-color;
+  border-radius: 0.3em;
+  border: 1px $light-color solid;
+}
+
+.cancel-btn:hover {
+  opacity: 0.75;
+}
+
+.submit-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em 0 1em 0;
+  padding: 0.3em 1em;
+  background: $secondary-color;
+  border-radius: 0.3em;
+  border: 1px $secondary-color solid;
+}
+
+.submit-btn:hover {
+  opacity: 0.75;
+}
+
+#delete-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em 0 1em 0;
+  padding: 0.3em 1em;
+  background: $accent-color;
+  border-radius: 0.3em;
+  border: 1px $accent-color solid;
+}
+
+#delete-btn:hover {
+  opacity: 0.75;
+}
+
+.delete-modal-header {
+  text-align: center;
+}
+
+.yes-no-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-left: -1em;
+}

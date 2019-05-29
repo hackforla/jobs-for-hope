@@ -27,54 +27,81 @@
   }
 }
 
-  /* Contact form styling */
+/* Contact form styling */
 
-  .organization-label {
-      margin-top: 1em;
-      margin-bottom: 0;
+.organization-label {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+.organization-input {
+  width: 100%;
+  margin-top: 0;
+  padding: 0.5em 0.5em;
+  border-radius: 0.5em;
+  border: 1px lightgray solid;
+  font-size: 1em;
+}
+
+.organization-error {
+  margin-top: 0;
+  color: red;
+  font-size: 0.8em;
+}
+
+.cancel-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.3em 1em;
+  background: $light-color;
+  border-radius: 0.3em;
+  border: 1px $light-color solid;
+}
+
+.submit-btn {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em 0 1em 0;
+  padding: 0.3em 1em;
+  background: $secondary-color;
+  border-radius: 0.3em;
+  border: 1px $secondary-color solid;
+}
+
+.organization-input {
+  width: 100%;
+  margin-top: 0;
+  padding: 0.5em 0.5em;
+  border-radius: 0.5em;
+  border: 1px lightgray solid;
+  font-size: 1em;
+}
+
+.organization-error {
+  margin-top: 0;
+  color: red;
+  font-size: 0.8em;
+}
+
+%button {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.3em 1em;
+  border-radius: 0.3em;
+}
+
+.svg-inline--fa {
+  height: 100%;
+  & > path {
+    color: $accent-color;
+    background-color: blue;
   }
-
-  .organization-input {
-    width: 100%;
-    margin-top: 0;
-    padding: 0.5em .5em;
-    border-radius: 0.5em;
-    border: 1px lightgray solid;
-    font-size: 1em;
+  &.fa-w-14 {
+    width: 1.2em;
   }
-
-  .organization-error {
-      margin-top: 0;
-      color: red;
-      font-size: 0.8em;
-  }
-
-  #cancel-btn {
-    font-family: $main-font;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin: 1em;
-    padding: 0.3em 1em;
-    background: $light-color;
-    border-radius: 0.3em;
-    border: 1px $light-color solid;
-  }
-  
-  #submit-btn {
-    font-family: $main-font;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin: 1em 0 1em 0;
-    padding: 0.3em 1em;
-    background: $secondary-color;
-    border-radius: 0.3em;
-    border: 1px $secondary-color solid;
-  }
-  
-
-  
-
-
-
-
-  
+}

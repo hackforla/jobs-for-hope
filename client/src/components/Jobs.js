@@ -7,7 +7,7 @@ import Modal from "./Modal";
 import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 const override = css`
   display: block;
@@ -34,6 +34,7 @@ class Jobs extends React.Component {
   };
 
   componentDidMount() {
+    window.scroll(0, 0);
     const organizationId = this.props.match.params.organization_id;
     if (organizationId) {
       this.setState({ organizationId }, this.filterJobs);
@@ -144,7 +145,10 @@ class Jobs extends React.Component {
   };
 
   onShowModal = job => {
-    this.setState({ modalVisible: true, modalJob: job });
+    this.setState({
+      modalVisible: true,
+      modalJob: job
+    });
   };
 
   onHideModal = () => {
@@ -159,6 +163,7 @@ class Jobs extends React.Component {
       organizationId,
       isBusy
     } = this.state;
+    const { activeUser } = this.props;
     return (
       <div>
         <div>
@@ -182,9 +187,17 @@ class Jobs extends React.Component {
               distanceZip={this.state.distanceZip}
             />
             <section role="tablist" className="recent-postings-container">
-              <h2 className="recent-postings-title">
-                Recent Job Postings {`(${itemCount})`}
-              </h2>
+              <div className="header-container">
+                <h2 className="recent-postings-title">
+                  Recent Job Postings {`(${itemCount})`}
+                </h2>
+                {activeUser.role === "admin" ||
+                activeUser.role === "employer" ? (
+                  <Link to={`/jobs/form/new`} id="new-job-btn">
+                    Post a Job
+                  </Link>
+                ) : null}
+              </div>
               {this.props.isPending || isBusy ? (
                 <div
                   style={{
@@ -207,7 +220,11 @@ class Jobs extends React.Component {
                 <ul>
                   {filteredJobs.map((job, index) => (
                     <li key={index}>
-                      <JobPostings job={job} onShowModal={this.onShowModal} />
+                      <JobPostings
+                        job={job}
+                        activeUser={this.props.activeUser}
+                        onShowModal={this.onShowModal}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -219,6 +236,7 @@ class Jobs extends React.Component {
             modalVisible={this.state.modalVisible}
             modalJob={this.state.modalJob}
             onHideModal={this.onHideModal}
+            isUserCreated={this.state.isUserCreated}
           />
         </div>
         }

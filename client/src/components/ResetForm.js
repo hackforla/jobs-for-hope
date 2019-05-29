@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Formik } from "formik";
 import "./Auth.scss";
 import { submitReset } from "../services/auth-service";

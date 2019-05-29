@@ -59,7 +59,7 @@ class Account extends Component {
 											{item.email}
 										</td>
 										<td className="request-item">
-											{item.organization}
+											{item.first_org}
 										</td>
 										<td className="request-item">
 											<button

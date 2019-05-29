@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./JobPostings.scss";
 import moment from "moment";
 
@@ -10,7 +11,7 @@ class JobPostings extends React.Component {
   }
 
   render() {
-    const { job } = this.props;
+    const { job, activeUser } = this.props;
     let formattedPostingDate = "";
     if (job.post_date) {
       formattedPostingDate = "Posted: ";
@@ -47,22 +48,32 @@ class JobPostings extends React.Component {
                 <a href={job.summary} target="_blank" rel="noopener noreferrer">
                   Details
                 </a>
-              ) : job.summary.length > 150 ? (
+              ) : !job.is_user_created && job.summary.length > 150 ? (
                 job.summary.substring(0, 150) + "..."
-              ) : (
+              ) : !job.is_user_created ? (
                 job.summary
-              )}
+              ) : null}
             </p>
           </div>
           <div className="right-posting">
             <div className="posting-date">{formattedPostingDate}</div>
-            <button
-              id="view-more-btn"
-              type="button"
-              onClick={() => this.handleShow(job)}
-            >
-              View More
-            </button>
+            <div className="posting-btn-container">
+              {job.is_user_created &&
+              (activeUser.role === "admin" ||
+                (activeUser.role === "employer" &&
+                  activeUser.organization.includes(job.organization_id))) ? (
+                <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
+                  Edit Job
+                </Link>
+              ) : null}
+              <button
+                id="view-more-btn"
+                type="button"
+                onClick={() => this.handleShow(job)}
+              >
+                View More
+              </button>
+            </div>
           </div>
         </div>
       </div>
