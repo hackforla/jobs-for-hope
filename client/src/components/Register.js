@@ -176,15 +176,13 @@ const Register = () => {
                 </label>
                 <div className="checkbox-container">
                   <input
-                    id="orgCheckbox"
+                    id="orgCheckBox"
                     className="checkbox"
                     type="checkbox"
                     name="orgCheckBox"
                     onChange={toggleCheck}
                   />
-                  <label htmlFor="orgCheckBox" onClick={() => toggleCheck()}>
-                    New Organization
-                  </label>
+                  <label htmlFor="orgCheckBox">New Organization</label>
                 </div>
               </div>
               {!newOrg ? (
