@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
-import {
-  handleRegister,
-  handleNewOrg,
-  sendConfirmEmail
-} from "../services/auth-service";
+import { handleRegister, handleNewOrg } from "../services/auth-service";
+import { sendConfirmEmail } from "../services/verify-service";
 import { getAll } from "../services/organization-service";
 import { Formik } from "formik";
 import { withRouter } from "react-router-dom";
@@ -174,16 +171,20 @@ const Register = () => {
               aria-labelledby="login"
             >
               <div className="organization-container form-component">
-                <label htmlFor="organization">Organization</label>
+                <label htmlFor="organization" className="title-label">
+                  Organization Information
+                </label>
                 <div className="checkbox-container">
                   <input
-                    id="orgCheckBox"
+                    id="orgCheckbox"
                     className="checkbox"
                     type="checkbox"
-                    name="orgCheckbox"
+                    name="orgCheckBox"
                     onChange={toggleCheck}
                   />
-                  <label htmlFor="orgCheckBox">New Organization</label>
+                  <label htmlFor="orgCheckBox" onClick={() => toggleCheck()}>
+                    New Organization
+                  </label>
                 </div>
               </div>
               {!newOrg ? (
@@ -298,6 +299,11 @@ const Register = () => {
                 </React.Fragment>
               )}
               <br />
+              <br />
+
+              <label htmlFor="employer" className="title-label">
+                Employer Information
+              </label>
               <div className="form-component">
                 <label htmlFor="email">Email</label>
                 <br />

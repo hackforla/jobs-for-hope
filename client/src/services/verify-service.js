@@ -7,3 +7,9 @@ export const loadRequests = () => {
 export const approveRequest = email => {
 	return axios.post("/api/verify/approve", { email }).then(res => res.data);
 };
+
+export const sendConfirmEmail = email => {
+	return axios
+		.post("/api/verify/send-confirm", { email })
+		.then(res => res.data);
+};
