@@ -174,15 +174,15 @@ const Register = () => {
                   <label htmlFor="organization" className="title-label">Organization Information</label>
                   <div className="checkbox-container">
                     <input
-                      id="orgCheckbox"
+                      id="orgCheckBox"
                       className="checkbox"
                       type="checkbox"
                       name="orgCheckBox"
                       onChange={toggleCheck}
                     />
                     <label htmlFor="orgCheckBox"
-                      onClick={() => toggleCheck()
-                      }>
+
+                    >
                       New Organization</label>
                   </div>
                 </div>
