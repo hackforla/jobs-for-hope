@@ -3,7 +3,7 @@ const { pool } = require("./postgres-pool");
 const getAll = () => {
   const sql = `
     select date as scrape_date, j.job_title, j.job_summary, j.job_location, j.job_zip_code, 
-    j.job_post_date, j.full_or_part, j.salary, j.info_link,  j.organization_id, j.is_user_created, 
+    j.job_post_date, j.full_or_part, j.salary, j.info_link,  j.organization_id, j.is_user_created, j.id,
     o.name as organization_name, o.logo as organization_logo 
     from jobs j
     left join organizations o on j.organization_id = o.id
@@ -14,6 +14,7 @@ const getAll = () => {
     res.rows.forEach(row => {
       jobs.push({
         scrape_date: row.scrape_date,
+        id: row.id,
         organization_id: row.organization_id,
         organization_name: row.organization_name,
         organization_logo: row.organization_logo,
@@ -29,6 +30,13 @@ const getAll = () => {
       });
     });
     return jobs;
+  });
+};
+
+const getJob = id => {
+  const sql = `select * from jobs where id = ${id}`;
+  return pool.query(sql).then(res => {
+    return res.rows[0];
   });
 };
 
@@ -70,7 +78,47 @@ const postJob = req => {
   });
 };
 
+const editJob = (req, id) => {
+  const {
+    organization,
+    title,
+    description,
+    location,
+    postDate,
+    hours,
+    salaryLow,
+    salaryHigh,
+    url,
+    zip
+  } = req;
+  const sql = `update jobs
+               set organization_id = '${+organization}', 
+                   job_title = '${title}', 
+                   job_summary = '${description}',
+                   job_location = '${location}',
+                   job_post_date = '${postDate}',
+                   full_or_part = '${hours}',
+                   salary = '${salaryLow + " - " + salaryHigh}',
+                   info_link = '${url}',
+                   job_zip_code = '${zip}',
+                   is_user_created = 'true'
+                where id = ${id}`;
+  return pool.query(sql).then(res => {
+    return res;
+  });
+};
+
+const deleteJob = id => {
+  const sql = `delete from jobs where id = ${id}`;
+  return pool.query(sql).then(res => {
+    return res;
+  });
+};
+
 module.exports = {
   getAll,
-  postJob
+  getJob,
+  postJob,
+  editJob,
+  deleteJob
 };

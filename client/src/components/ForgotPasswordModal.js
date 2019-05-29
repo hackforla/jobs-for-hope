@@ -17,13 +17,7 @@ const customStyles = {
     maxWidth: "500px"
   }
 };
-/* ok steps email goes through
-check if it exists in the database, if not throw e
-send email with password reset link (have table with emails + hashed resets)
-on clicking the link, send user to page with new pw --> confirm new pw form.
-on submission of this form go into the database and change the password in login table
 
-*/
 Modal.setAppElement("#root");
 
 const ForgotPasswordModal = ({
