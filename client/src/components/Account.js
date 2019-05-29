@@ -11,7 +11,10 @@ class Account extends Component {
 		};
 	}
 	componentDidMount() {
-		loadRequests().then(result => this.setState({ requests: result }));
+		loadRequests().then(result => {
+			console.log(result);
+			this.setState({ requests: result });
+		});
 	}
 
 	approveReq = e => {
@@ -59,7 +62,7 @@ class Account extends Component {
 											{item.email}
 										</td>
 										<td className="request-item">
-											{item.organization}
+											{item.first_org}
 										</td>
 										<td className="request-item">
 											<button
