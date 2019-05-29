@@ -129,19 +129,6 @@ class App extends Component {
             />
             <Route
               exact
-              path="/jobs/:organization_id"
-              render={() => (
-                <Jobs
-                  activeUser={activeUser}
-                  jobs={jobs}
-                  organizations={organizations}
-                  key={isPending}
-                  isPending={isPending}
-                />
-              )}
-            />
-            <Route
-              exact
               path="/organizations"
               render={() => (
                 <Organizations
