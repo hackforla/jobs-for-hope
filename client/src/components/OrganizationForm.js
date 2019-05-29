@@ -50,9 +50,6 @@ class OrganizationForm extends React.Component {
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
-        console.log('resp', resp)
-
-        this.setState({ org: resp }, console.log(this.state));
         if (resp && resp.description) {
           resp.descriptionEditorState = EditorState.createWithContent(
             convertFromHTML(resp.description)
@@ -136,10 +133,7 @@ class OrganizationForm extends React.Component {
   };
 
   render() {
-
     const { organization, role } = this.props.activeUser;
-    // console.log(organization, this.state.org, 'parsed', parseInt(this.id))
-
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -147,9 +141,7 @@ class OrganizationForm extends React.Component {
       return null;
     } else {
       if (
-        // use code below when we switch employer's orgs from string to ids
         (organization.includes(parseInt(this.id)) && role === "employer") ||
-        // (organization.includes(this.state.org) && role === "employer") ||
         role === "admin"
       ) {
         return (
