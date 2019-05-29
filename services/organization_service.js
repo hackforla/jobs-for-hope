@@ -19,9 +19,9 @@ const getAll = () => {
       organizations.push(row);
     });
     // unfortunately, pg doesn't support multiple result sets, so
-    // we have to hit the server a second  time to get region organizations.
-    return getAllOrganizationRegions(orgRegionResult => {
-      orgRegionResult.rows.forEach(orgRegion => {
+    // we have to hit the server a second time to get organizations' regions.
+    return getAllOrganizationRegions().then(orgRegions => {
+      orgRegions.forEach(orgRegion => {
         const parentOrg = organizations.find(
           org => org.id == orgRegion.organization_id
         );
@@ -30,15 +30,15 @@ const getAll = () => {
         } else {
           parentOrg.regions = [orgRegion];
         }
-        return organizations;
       });
+      return organizations;
     });
   });
 };
 
 const getAllOrganizationRegions = () => {
   const sql = `
-      select o.id, r.id, r.name,
+      select ors.organization_id, r.id, r.name
       from organizations o 
         join organization_regions ors on o.id = ors.organization_id
         join regions r on ors.region_id = r.id
@@ -72,9 +72,36 @@ const get = id => {
       organizations.push(row);
     });
     if (organizations.length > 0) {
-      return organizations[0];
+      return getOrganizationRegions(organizations[0].id).then(orgRegions => {
+        orgRegions.forEach(orgRegion => {
+          if (organizations[0].regions) {
+            organizations[0].regions.push(orgRegion);
+          } else {
+            organizations[0].regions = [orgRegion];
+          }
+        });
+        return organizations[0];
+      });
     }
     return null;
+  });
+};
+
+const getOrganizationRegions = organization_id => {
+  const sql = `
+      select ors.organization_id, r.id, r.name
+      from organizations o 
+        join organization_regions ors on o.id = ors.organization_id
+        join regions r on ors.region_id = r.id
+      where o.id = $1
+    `;
+  const values = [organization_id];
+  return pool.query(sql, values).then(res => {
+    const organizationRegions = [];
+    res.rows.forEach(row => {
+      organizationRegions.push(row);
+    });
+    return organizationRegions;
   });
 };
 

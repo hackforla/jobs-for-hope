@@ -5,10 +5,12 @@ import Banner from "./Banner";
 import { EditorState } from "draft-js";
 import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
+import * as regionService from "../services/region-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
-import { withRouter } from "react-router-dom";
 import ImageResizeUpload from "./ImageResizeUpload";
+import Select from "react-select";
+import SelectRegion from "./SelectRegion";
 
 const initialValues = {
   id: 0,
@@ -26,6 +28,7 @@ const initialValues = {
   longitude: 0.0,
   phone: "",
   email: "",
+  regions: [],
   descriptionEditorState: new EditorState.createEmpty()
 };
 
@@ -35,18 +38,21 @@ class OrganizationForm extends React.Component {
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
-      regions: [
-        { id: 1, name: "North" },
-        { id: 2, name: "East" },
-        { id: 3, name: "South" },
-        { id: 4, name: "West" }
-      ],
+      regions: [],
       toOrganizations: false,
       logoFile: null
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const regions = await regionService.getAll();
+    // Have to map region.id to strings, so select control will
+    // work with values that are strings
+    this.setState({
+      regions: regions.map(region => {
+        return { value: region.id.toString(), label: region.name };
+      })
+    });
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -57,6 +63,9 @@ class OrganizationForm extends React.Component {
         } else {
           resp.descriptionEditorState = EditorState.createEmpty();
         }
+        // Map regions to an array of objects compatible with react-select
+        resp.regions =
+          resp.regions && resp.regions.map(region => region.id.toString());
         this.setState({ org: resp });
       });
     } else {
@@ -133,7 +142,7 @@ class OrganizationForm extends React.Component {
   };
 
   render() {
-    const { organization, role } = this.props.activeUser;
+    const { organization, role, regions } = this.props.activeUser;
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -160,6 +169,7 @@ class OrganizationForm extends React.Component {
                   initialValues={this.state.org || initialValues}
                   validate={this.handleValidate}
                   onSubmit={this.handleSubmit}
+                  options={this.state.regions || []}
                 >
                   {props => {
                     const {
@@ -170,7 +180,8 @@ class OrganizationForm extends React.Component {
                       handleBlur,
                       handleSubmit,
                       isSubmitting,
-                      setFieldValue
+                      setFieldValue,
+                      setFieldTouched
                       /* and other goodies */
                     } = props;
                     return (
@@ -382,6 +393,72 @@ class OrganizationForm extends React.Component {
                               {errors.email}
                             </div>
                           ) : null}
+
+                          <label
+                            htmlFor="regions"
+                            className="organization-label"
+                          >
+                            Regions{" "}
+                          </label>
+                          <SelectRegion
+                            value={values.regions}
+                            onChange={setFieldValue}
+                            onBlur={setFieldTouched}
+                            error={errors.regions}
+                            touched={touched.regions}
+                          />
+                          {/* <select
+                            name="regions"
+                            multiple={true}
+                            onChange={evt =>
+                              setFieldValue(
+                                "regions",
+                                [].slice
+                                  .call(evt.target.selectedOptions)
+                                  .map(option => option.value)
+                              )
+                            }
+                            onBlur={handleBlur}
+                            value={values.regions}
+                            className="organization-input"
+                          >
+                            {this.state.regions.map(region => (
+                              <option
+                                key={region.value}
+                                value={region.value.toString()}
+                              >
+                                {region.label}
+                              </option>
+                            ))}
+                          </select> */}
+                          {/* <Select
+                            name="regions"
+                            isMulti={true}
+                            options={this.state.regions}
+                            onChange={option => {
+                              console.log(option);
+                              form.setFieldValue(
+                                "regions",
+                                option.map(item => item.value)
+                              );
+                            }}
+                            onBlur={handleBlur}
+                            value={(() => {
+                              if (this.state.regions && this.values) {
+                                return this.state.regions.filter(
+                                  option =>
+                                    values.regions.indexOf(option.value) >= 0
+                                );
+                              }
+                            })()}
+                            className="organization-input"
+                          /> */}
+                          {/* {errors.email && touched.email ? (
+                            <div className="organization-error">
+                              {errors.regions}
+                            </div>
+                          ) : null} */}
+
                           <div
                             style={{
                               width: "100%",
@@ -391,14 +468,14 @@ class OrganizationForm extends React.Component {
                             }}
                           >
                             <button
-                              class="cancel-btn"
+                              className="cancel-btn"
                               type="button"
                               onClick={this.handleCancel}
                             >
                               Cancel
                             </button>
                             <button
-                              class="submit-btn"
+                              className="submit-btn"
                               type="submit"
                               disabled={isSubmitting}
                             >
