@@ -27,9 +27,9 @@ const CompanyCard = ({ org, activeUser }) => {
           {activeUser &&
             (activeUser.role === "admin" ||
               (activeUser.role === "employer" &&
-                activeUser.organization.includes(org.id)))
-            ? (<Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
-              Edit
+                activeUser.organization.includes(org.id))) ? (
+              <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
+                Edit
               </Link>)
             : null}
         </div>
