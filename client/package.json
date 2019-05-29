@@ -19,7 +19,7 @@
     "react-alert": "^5.5.0",
     "react-dom": "^16.5.2",
     "react-google-recaptcha": "^1.0.5",
-    "react-image-crop": "^7.0.2",
+    "react-image-crop": "^7.0.3",
     "react-modal": "^3.8.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",

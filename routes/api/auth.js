@@ -134,7 +134,6 @@ router.post("/send-reset", (req, res) => {
       return res.json(
         "Could not complete request. Please check the email you have entered and try again."
       );
-
     const delSQL = `delete from resets where email = '${email}'`;
     pool.query(delSQL).then(delInfo => {
       const resetToken = uuid();

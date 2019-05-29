@@ -34,6 +34,7 @@ class Jobs extends React.Component {
   };
 
   componentDidMount() {
+    window.scroll(0, 0);
     const organizationId = this.props.match.params.organization_id;
     if (organizationId) {
       this.setState({ organizationId }, this.filterJobs);
@@ -192,7 +193,7 @@ class Jobs extends React.Component {
                 </h2>
                 {activeUser.role === "admin" ||
                 activeUser.role === "employer" ? (
-                  <Link to={`/jobs/new/create`} id="new-job-btn">
+                  <Link to={`/jobs/form/new`} id="new-job-btn">
                     Post a Job
                   </Link>
                 ) : null}
@@ -219,7 +220,11 @@ class Jobs extends React.Component {
                 <ul>
                   {filteredJobs.map((job, index) => (
                     <li key={index}>
-                      <JobPostings job={job} onShowModal={this.onShowModal} />
+                      <JobPostings
+                        job={job}
+                        activeUser={this.props.activeUser}
+                        onShowModal={this.onShowModal}
+                      />
                     </li>
                   ))}
                 </ul>
