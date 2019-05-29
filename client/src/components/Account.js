@@ -11,7 +11,7 @@ class Account extends Component {
 		};
 	}
 	componentDidMount() {
-		loadRequests().then(result => this.setState({ requests: result });
+		loadRequests().then(result => this.setState({ requests: result }));
 	}
 
 	approveReq = e => {
