@@ -431,4 +431,4 @@ class OrganizationForm extends React.Component {
   }
 }
 
-export default OrganizationForm;
+export default withRouter(OrganizationForm);

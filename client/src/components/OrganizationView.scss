@@ -1,0 +1,76 @@
+@import "../_variables.scss";
+
+.organization-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+
+  .organization-content {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    width: 100%;
+
+    .organization-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+
+      .back-button-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
+      .org-link {
+        a {
+          color: blue;
+          text-decoration: underline;
+        }
+      }
+
+      blockquote {
+        width: 80%;
+        font-size: 1.2em;
+      }
+
+      .organization-description {
+        width: 95%;
+      }
+    }
+
+    .organization-contact {
+      background-color: $light-color;
+      width: 20%;
+      min-width: 200px;
+      max-width: 225px;
+      padding: 10px;
+
+      p {
+        font-weight: bold;
+      }
+    }
+  }
+
+  @media (max-width: $phone-media-max) {
+    font-size: 1em;
+    .organization-content {
+      flex-direction: column;
+      .organization-info {
+        blockquote {
+          font-size: 1em;
+        }
+      }
+
+      .organization-contact {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        background-color: white;
+      }
+    }
+  }
+}

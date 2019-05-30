@@ -1,21 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Navbar.scss";
 import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = ({ activeUser, logOut }) => {
-  const [toggle, setToggle] = useState(false);
-
-  let toggler = () => {
-    setToggle(!toggle);
-  };
-
+const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
             <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
@@ -25,6 +16,7 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
+        <img id="org-image" alt="logo" src={logoImage} />
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>

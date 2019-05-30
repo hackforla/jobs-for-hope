@@ -110,6 +110,7 @@ class Modal extends React.Component {
                   <a
                     href={job.info_link}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="modal-button"
                   >
                     Apply
