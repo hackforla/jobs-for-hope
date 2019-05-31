@@ -174,6 +174,15 @@ class Jobs extends React.Component {
             organizations={this.props.organizations}
             organizationId={organizationId}
             onSetOrganization={this.onSetOrganization}
+            //from SideFilter
+            onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+            onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+            onSetDistance={this.onSetDistance}
+            onSetDistanceZip={this.onSetDistanceZip}
+            employmentTypeFT={this.state.employmentTypeFT}
+            employmentTypePT={this.state.employmentTypePT}
+            radius={this.state.radius}
+            distanceZip={this.state.distanceZip}
           />
           <div className="filters-postings-wrapper">
             <SideFilter
@@ -192,11 +201,11 @@ class Jobs extends React.Component {
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
                 {activeUser.role === "admin" ||
-                activeUser.role === "employer" ? (
-                  <Link to={`/jobs/form/new`} id="new-job-btn">
-                    Post a Job
+                  activeUser.role === "employer" ? (
+                    <Link to={`/jobs/form/new`} id="new-job-btn">
+                      Post a Job
                   </Link>
-                ) : null}
+                  ) : null}
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -217,18 +226,18 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                <ul>
-                  {filteredJobs.map((job, index) => (
-                    <li key={index}>
-                      <JobPostings
-                        job={job}
-                        activeUser={this.props.activeUser}
-                        onShowModal={this.onShowModal}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+                  <ul>
+                    {filteredJobs.map((job, index) => (
+                      <li key={index}>
+                        <JobPostings
+                          job={job}
+                          activeUser={this.props.activeUser}
+                          onShowModal={this.onShowModal}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
             </section>
           </div>
           }
