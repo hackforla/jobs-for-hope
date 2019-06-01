@@ -105,7 +105,7 @@ const getOrganizationRegions = organization_id => {
   });
 };
 
-const post = org => {
+const post = async org => {
   const client = await pool.connect();
   try {
     client.query("BEGIN TRANSACTION");
@@ -132,7 +132,7 @@ const post = org => {
       org.email
     ];
 
-    const insertResponse = await pool.query(sql, values)
+    const insertResponse = await pool.query(sql, values);
     const id = insertResponse.rows[0];
 
     if (org.regionids) {
@@ -144,10 +144,11 @@ const post = org => {
     }
     await client.query("COMMIT");
     return id;
-  }catch(err){
+  } catch (err) {
     console.log(err);
     await client.query("ROLLBACK");
     throw err;
+  }
 };
 
 const put = async org => {
