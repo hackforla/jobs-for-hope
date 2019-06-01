@@ -16,6 +16,8 @@ export const post = req => {
 };
 
 export const put = req => {
+  req.regionids =
+    req.regions && req.regions.map(region => parseInt(region.value));
   return axios
     .put("/api/orgs/" + req.id.toString(), req)
     .then(response => response.data);

@@ -7,8 +7,9 @@ import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
-import { withRouter } from "react-router-dom";
 import ImageResizeUpload from "./ImageResizeUpload";
+import SelectRegion from "./SelectRegion";
+const regions = require("./regions.json");
 
 const initialValues = {
   id: 0,
@@ -26,6 +27,7 @@ const initialValues = {
   longitude: 0.0,
   phone: "",
   email: "",
+  regions: [],
   descriptionEditorState: new EditorState.createEmpty()
 };
 
@@ -35,18 +37,13 @@ class OrganizationForm extends React.Component {
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
-      regions: [
-        { id: 1, name: "North" },
-        { id: 2, name: "East" },
-        { id: 3, name: "South" },
-        { id: 4, name: "West" }
-      ],
+      regions: regions,
       toOrganizations: false,
       logoFile: null
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -57,6 +54,14 @@ class OrganizationForm extends React.Component {
         } else {
           resp.descriptionEditorState = EditorState.createEmpty();
         }
+        // Map regions to an array of objects compatible with react-select
+        console.log(regions);
+        console.log(resp.regions);
+        resp.regions =
+          resp.regions &&
+          regions.filter(region =>
+            resp.regions.map(reg => reg.id.toString()).includes(region.value)
+          );
         this.setState({ org: resp });
       });
     } else {
@@ -72,6 +77,7 @@ class OrganizationForm extends React.Component {
       this.state.org.logo,
       key
     );
+    this.props.fetchOrganizations();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -160,6 +166,7 @@ class OrganizationForm extends React.Component {
                   initialValues={this.state.org || initialValues}
                   validate={this.handleValidate}
                   onSubmit={this.handleSubmit}
+                  options={this.state.regions || []}
                 >
                   {props => {
                     const {
@@ -170,7 +177,8 @@ class OrganizationForm extends React.Component {
                       handleBlur,
                       handleSubmit,
                       isSubmitting,
-                      setFieldValue
+                      setFieldValue,
+                      setFieldTouched
                       /* and other goodies */
                     } = props;
                     return (
@@ -334,22 +342,6 @@ class OrganizationForm extends React.Component {
                               {errors.zip}
                             </div>
                           ) : null}
-                          <label htmlFor="name" className="organization-label">
-                            Logo File Name{" "}
-                          </label>
-                          <input
-                            type="text"
-                            name="logo"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.logo}
-                            className="organization-input"
-                          />
-                          {errors.logo && touched.logo ? (
-                            <div className="organization-error">
-                              {errors.logo}
-                            </div>
-                          ) : null}
                           <label htmlFor="phone" className="organization-label">
                             Phone{" "}
                           </label>
@@ -382,6 +374,20 @@ class OrganizationForm extends React.Component {
                               {errors.email}
                             </div>
                           ) : null}
+
+                          <label
+                            htmlFor="regions"
+                            className="organization-label"
+                          >
+                            Regions{" "}
+                          </label>
+                          <SelectRegion
+                            value={values.regions}
+                            onChange={setFieldValue}
+                            onBlur={setFieldTouched}
+                            error={errors.regions}
+                            touched={touched.regions}
+                          />
                           <div
                             style={{
                               width: "100%",
@@ -391,14 +397,14 @@ class OrganizationForm extends React.Component {
                             }}
                           >
                             <button
-                              class="cancel-btn"
+                              className="cancel-btn"
                               type="button"
                               onClick={this.handleCancel}
                             >
                               Cancel
                             </button>
                             <button
-                              class="submit-btn"
+                              className="submit-btn"
                               type="submit"
                               disabled={isSubmitting}
                             >
