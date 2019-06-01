@@ -430,6 +430,8 @@ class OrganizationForm extends React.Component {
             </div>
           </React.Fragment>
         );
+      } else {
+        return <Redirect to="/organizations" />;
       }
     }
   }

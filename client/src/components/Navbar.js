@@ -11,12 +11,19 @@ const Navbar = ({ activeUser, logOut }) => {
   let toggler = () => {
     setToggle(!toggle);
   };
+
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
         <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
-          <FontAwesomeIcon icon={toggle ? faTimes : faBars} onClick={toggler} />
+          <div className="burger" onClick={toggler}>
+            <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
+            <div className={`burger-layer ${toggle ? "burger-mid" : null}`} />
+            <div
+              className={`burger-layer ${toggle ? "burger-bottom" : null}`}
+            />
+          </div>
         </div>
       </div>
 

@@ -28,13 +28,12 @@ class App extends Component {
     super(props);
     this.state = {
       isPending: true,
-      activeUser: { id: null },
+      activeUser: authCheck().then(user => {
+        this.setState({ activeUser: user });
+      }),
       jobs: [],
       organizations: []
     };
-    authCheck().then(user => {
-      this.setState({ activeUser: user });
-    });
   }
 
   fetchOrganizations = () => {
@@ -109,19 +108,6 @@ class App extends Component {
                   jobs={jobs}
                   organizations={organizations}
                   {...matchProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/jobs/:organization_id"
-              render={() => (
-                <Jobs
-                  activeUser={activeUser}
-                  jobs={jobs}
-                  organizations={organizations}
-                  key={isPending}
-                  isPending={isPending}
                 />
               )}
             />
