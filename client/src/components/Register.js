@@ -19,6 +19,7 @@ const Register = () => {
     getAll().then(result => {
       setOrgList(result.map(org => org.name));
     });
+    console.log("orgs", orgList);
   }, []);
 
   const toggleCheck = () => {
@@ -36,7 +37,7 @@ const Register = () => {
         <h2 id="login-title">Register to Post a Job</h2>
         <Formik
           initialValues={{
-            organization: "211 LA County",
+            organization: "",
             orgName: "",
             website: "",
             contactEmail: "",
@@ -80,7 +81,11 @@ const Register = () => {
                   "Invalid phone number. Please use XXX-XXX-XXXX format";
               }
             }
-
+            if (!newOrg) {
+              if (!organization) {
+                errors.organization = "Required";
+              }
+            }
             if (!email) {
               errors.email = "Required";
             } else if (
@@ -186,21 +191,29 @@ const Register = () => {
                 </div>
               </div>
               {!newOrg ? (
-                <select
-                  name="organization"
-                  className="org-select"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.organization}
-                >
-                  {orgList.map((org, i) => {
-                    return (
-                      <option key={i} value={org}>
-                        {org}
-                      </option>
-                    );
-                  })}
-                </select>
+                <React.Fragment>
+                  <select
+                    name="organization"
+                    className="org-select"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.organization}
+                  >
+                    <option value="" disabled>
+                      Select an Organization
+                    </option>
+                    {orgList.map((org, i) => {
+                      return (
+                        <option key={i} value={org}>
+                          {org}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {errors.organization && touched.organization && (
+                    <div className="input-feedback">{errors.organization}</div>
+                  )}
+                </React.Fragment>
               ) : (
                 <React.Fragment>
                   <div className="form-component">

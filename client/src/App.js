@@ -67,8 +67,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // this.props.onfetchJobs();
-    // this.props.onfetchOrgs();
     this.fetchOrganizations();
   }
 
@@ -184,9 +182,8 @@ class App extends Component {
                 )}
               />
 
-              {/* <Footer activeUser={activeUser} logOut={this.logOut} /> */}
+              <Footer activeUser={activeUser} logOut={this.logOut} />
             </div>
-            <Footer activeUser={activeUser} logOut={this.logOut} />
           </div>
         </AlertProvider>
       </Router>
