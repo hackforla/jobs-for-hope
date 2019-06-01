@@ -186,14 +186,14 @@ class ImageResizeUpload extends React.Component {
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <button
                     type="button"
-                    class="cancel-btn"
+                    className="cancel-btn"
                     onClick={this.handleCancel}
                   >
                     Cancel Logo Change
                   </button>
                   <button
                     type="button"
-                    class="submit-btn"
+                    className="submit-btn"
                     onClick={this.handleUpload}
                   >
                     Save Logo Change

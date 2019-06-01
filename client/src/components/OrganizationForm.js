@@ -5,12 +5,11 @@ import Banner from "./Banner";
 import { EditorState } from "draft-js";
 import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
-import * as regionService from "../services/region-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import ImageResizeUpload from "./ImageResizeUpload";
-import Select from "react-select";
 import SelectRegion from "./SelectRegion";
+const regions = require("./regions.json");
 
 const initialValues = {
   id: 0,
@@ -38,21 +37,13 @@ class OrganizationForm extends React.Component {
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
-      regions: [],
+      regions: regions,
       toOrganizations: false,
       logoFile: null
     };
   }
 
   async componentDidMount() {
-    const regions = await regionService.getAll();
-    // Have to map region.id to strings, so select control will
-    // work with values that are strings
-    this.setState({
-      regions: regions.map(region => {
-        return { value: region.id.toString(), label: region.name };
-      })
-    });
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -64,8 +55,13 @@ class OrganizationForm extends React.Component {
           resp.descriptionEditorState = EditorState.createEmpty();
         }
         // Map regions to an array of objects compatible with react-select
+        console.log(regions);
+        console.log(resp.regions);
         resp.regions =
-          resp.regions && resp.regions.map(region => region.id.toString());
+          resp.regions &&
+          regions.filter(region =>
+            resp.regions.map(reg => reg.id.toString()).includes(region.value)
+          );
         this.setState({ org: resp });
       });
     } else {
@@ -81,6 +77,7 @@ class OrganizationForm extends React.Component {
       this.state.org.logo,
       key
     );
+    this.props.fetchOrganizations();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -142,7 +139,7 @@ class OrganizationForm extends React.Component {
   };
 
   render() {
-    const { organization, role, regions } = this.props.activeUser;
+    const { organization, role } = this.props.activeUser;
     if (this.state.toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -345,22 +342,6 @@ class OrganizationForm extends React.Component {
                               {errors.zip}
                             </div>
                           ) : null}
-                          <label htmlFor="name" className="organization-label">
-                            Logo File Name{" "}
-                          </label>
-                          <input
-                            type="text"
-                            name="logo"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.logo}
-                            className="organization-input"
-                          />
-                          {errors.logo && touched.logo ? (
-                            <div className="organization-error">
-                              {errors.logo}
-                            </div>
-                          ) : null}
                           <label htmlFor="phone" className="organization-label">
                             Phone{" "}
                           </label>
@@ -407,58 +388,6 @@ class OrganizationForm extends React.Component {
                             error={errors.regions}
                             touched={touched.regions}
                           />
-                          {/* <select
-                            name="regions"
-                            multiple={true}
-                            onChange={evt =>
-                              setFieldValue(
-                                "regions",
-                                [].slice
-                                  .call(evt.target.selectedOptions)
-                                  .map(option => option.value)
-                              )
-                            }
-                            onBlur={handleBlur}
-                            value={values.regions}
-                            className="organization-input"
-                          >
-                            {this.state.regions.map(region => (
-                              <option
-                                key={region.value}
-                                value={region.value.toString()}
-                              >
-                                {region.label}
-                              </option>
-                            ))}
-                          </select> */}
-                          {/* <Select
-                            name="regions"
-                            isMulti={true}
-                            options={this.state.regions}
-                            onChange={option => {
-                              console.log(option);
-                              form.setFieldValue(
-                                "regions",
-                                option.map(item => item.value)
-                              );
-                            }}
-                            onBlur={handleBlur}
-                            value={(() => {
-                              if (this.state.regions && this.values) {
-                                return this.state.regions.filter(
-                                  option =>
-                                    values.regions.indexOf(option.value) >= 0
-                                );
-                              }
-                            })()}
-                            className="organization-input"
-                          /> */}
-                          {/* {errors.email && touched.email ? (
-                            <div className="organization-error">
-                              {errors.regions}
-                            </div>
-                          ) : null} */}
-
                           <div
                             style={{
                               width: "100%",

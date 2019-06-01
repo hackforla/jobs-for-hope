@@ -5,7 +5,13 @@ import "./Paginator.scss";
 class Paginator extends React.Component {
   render() {
     // console.log("PROPS FROM PAGINATOR", this.props);
-    const { totalPages, currentPage, buttonCount } = this.props;
+    const {
+      totalPages,
+      currentPage,
+      buttonCount,
+      showFirstLast,
+      showPrevNext
+    } = this.props;
 
     let minPage = 0;
     const temp = currentPage - Math.floor(buttonCount / 2);
@@ -46,23 +52,55 @@ class Paginator extends React.Component {
               aria-label="Page navigation example"
               style={{ padding: "0", margin: "0" }}
             >
-              <span>
-                <button
-                  className="pageButton"
-                  onClick={() => this.props.goTo(0)}
-                >
-                  {"|<"}
-                </button>
-              </span>
+              {showFirstLast && (
+                <span>
+                  <button
+                    className="pageButton"
+                    onClick={() => this.props.goTo(0)}
+                    disabled={this.props.currentPage === 0}
+                  >
+                    {"|<"}
+                  </button>
+                </span>
+              )}
+              {showPrevNext && (
+                <span>
+                  <button
+                    className="pageButton"
+                    onClick={() => this.props.goTo(this.props.currentPage - 1)}
+                    disabled={this.props.currentPage === 0}
+                  >
+                    {"<"}
+                  </button>
+                </span>
+              )}
               {paginationItems}
-              <span>
-                <button
-                  className="pageButton"
-                  onClick={() => this.props.goTo(this.props.totalPages - 1)}
-                >
-                  {">|"}
-                </button>
-              </span>
+              {showPrevNext && (
+                <span>
+                  <button
+                    className="pageButton"
+                    onClick={() => this.props.goTo(this.props.currentPage + 1)}
+                    disabled={
+                      this.props.currentPage === this.props.totalPages - 1
+                    }
+                  >
+                    {">"}
+                  </button>
+                </span>
+              )}
+              {showFirstLast && (
+                <span>
+                  <button
+                    className="pageButton"
+                    onClick={() => this.props.goTo(this.props.totalPages - 1)}
+                    disabled={
+                      this.props.currentPage === this.props.totalPages - 1
+                    }
+                  >
+                    {">|"}
+                  </button>
+                </span>
+              )}
             </div>
           </div>
         ) : null}
@@ -75,13 +113,17 @@ Paginator.propTypes = {
   totalPages: PropTypes.number,
   currentPage: PropTypes.number,
   goTo: PropTypes.func,
-  buttonCount: PropTypes.number
+  buttonCount: PropTypes.number,
+  showFirstLast: PropTypes.bool,
+  showPrevNext: PropTypes.bool
 };
 
 Paginator.defaultProps = {
   totalPages: 0,
   currentPage: 0,
-  buttonCount: 9
+  buttonCount: 7,
+  showFirstLast: true,
+  showPrevNext: true
 };
 
 export default Paginator;

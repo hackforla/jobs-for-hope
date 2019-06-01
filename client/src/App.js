@@ -67,8 +67,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // this.props.onfetchJobs();
-    // this.props.onfetchOrgs();
     this.fetchOrganizations();
   }
 

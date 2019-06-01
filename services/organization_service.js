@@ -106,73 +106,107 @@ const getOrganizationRegions = organization_id => {
 };
 
 const post = org => {
-  const sql = `
-    INSERT INTO organizations(name, url, logo, mission, description, 
-      street, suite, city, state, zip, latitude, longitude,
-      phone, email) 
-    VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
-    RETURNING id
-    `;
-  const values = [
-    org.name,
-    org.url,
-    org.logo,
-    org.mission,
-    org.description,
-    org.street,
-    org.suite,
-    org.city,
-    org.state,
-    org.zip,
-    org.latitude,
-    org.longitude,
-    org.phone,
-    org.email
-  ];
+  const client = await pool.connect();
+  try {
+    client.query("BEGIN TRANSACTION");
+    const sql = `
+      INSERT INTO organizations(name, url, mission, description, 
+        street, suite, city, state, zip, latitude, longitude,
+        phone, email) 
+      VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+      RETURNING id
+      `;
+    const values = [
+      org.name,
+      org.url,
+      org.mission,
+      org.description,
+      org.street,
+      org.suite,
+      org.city,
+      org.state,
+      org.zip,
+      org.latitude,
+      org.longitude,
+      org.phone,
+      org.email
+    ];
 
-  return pool.query(sql, values).then(response => {
-    return response.rows[0];
-  });
+    const insertResponse = await pool.query(sql, values)
+    const id = insertResponse.rows[0];
+
+    if (org.regionids) {
+      const insertRegionSql =
+        "INSERT INTO organization_regions (organization_id, region_id) VALUES ($1, $2)";
+      for (let i = 0; i < org.regionids.length; i++) {
+        await client.query(insertRegionSql, [org.id, org.regionids[i]]);
+      }
+    }
+    await client.query("COMMIT");
+    return id;
+  }catch(err){
+    console.log(err);
+    await client.query("ROLLBACK");
+    throw err;
 };
 
-const put = org => {
-  const sql = `
+const put = async org => {
+  const client = await pool.connect();
+  try {
+    client.query("BEGIN TRANSACTION");
+    const sql = `
     UPDATE organizations SET 
       name = $1, 
       url = $2, 
-      logo = $3,
-      mission = $4,
-      description = $5,
-      street = $6,
-      suite = $7,
-      city = $8,
-      state = $9,
-      zip = $10,
-      latitude = $11,
-      longitude = $12,
-      phone = $13,
-      email = $14
-    WHERE id = $15
+      mission = $3,
+      description = $4,
+      street = $5,
+      suite = $6,
+      city = $7,
+      state = $8,
+      zip = $9,
+      latitude = $10,
+      longitude = $11,
+      phone = $12,
+      email = $13
+    WHERE id = $14
     `;
-  const values = [
-    org.name,
-    org.url,
-    org.logo,
-    org.mission,
-    org.description,
-    org.street,
-    org.suite,
-    org.city,
-    org.state,
-    org.zip,
-    org.latitude,
-    org.longitude,
-    org.phone,
-    org.email,
-    org.id
-  ];
+    const values = [
+      org.name,
+      org.url,
+      org.mission,
+      org.description,
+      org.street,
+      org.suite,
+      org.city,
+      org.state,
+      org.zip,
+      org.latitude,
+      org.longitude,
+      org.phone,
+      org.email,
+      org.id
+    ];
 
-  return pool.query(sql, values);
+    await client.query(sql, values);
+
+    const deleteSql =
+      "DELETE FROM organization_regions WHERE organization_id = $1";
+    await client.query(deleteSql, [org.id]);
+
+    if (org.regionids) {
+      const insertRegionSql =
+        "INSERT INTO organization_regions (organization_id, region_id) VALUES ($1, $2)";
+      for (let i = 0; i < org.regionids.length; i++) {
+        await client.query(insertRegionSql, [org.id, org.regionids[i]]);
+      }
+    }
+    return client.query("COMMIT");
+  } catch (err) {
+    console.log(err);
+    await client.query("ROLLBACK");
+    throw err;
+  }
 };
 
 const del = id => {
