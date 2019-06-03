@@ -21,6 +21,7 @@
     "react-google-recaptcha": "^1.0.5",
     "react-image-crop": "^7.0.3",
     "react-modal": "^3.8.1",
+    "react-notifications": "^1.4.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.0.1",
     "react-select": "^2.4.3",

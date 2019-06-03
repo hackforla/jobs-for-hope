@@ -2,6 +2,7 @@ import React from "react";
 import * as s3Service from "../services/s3-service";
 import * as config from "../config";
 import "react-image-crop/dist/ReactCrop.css";
+import { withAlert } from "react-alert";
 
 class ImageResizeUpload extends React.Component {
   constructor(props) {
@@ -104,6 +105,7 @@ class ImageResizeUpload extends React.Component {
             // Caller supplies callback fn for updating entity with file key
             this.props.updateEntity(key);
             this.setState({ fileType: "", srcFile: null });
+            this.props.alert.success("File Uploaded");
           }
         });
       } catch (err) {
@@ -123,6 +125,7 @@ class ImageResizeUpload extends React.Component {
                 // Caller supplies callback fn for updating entity with file key
                 this.props.updateEntity(key);
                 this.setState({ fileType: "", srcFile: null });
+                this.props.alert.success("File Uploaded");
               }
             });
           } catch (err) {
@@ -165,6 +168,7 @@ class ImageResizeUpload extends React.Component {
             style={{ display: "none" }}
             ref={this.fileInput}
             onChange={this.onSelectFile}
+            accept="image/*"
           />
           <button
             type="button"
@@ -208,4 +212,4 @@ class ImageResizeUpload extends React.Component {
   }
 }
 
-export default ImageResizeUpload;
+export default withAlert()(ImageResizeUpload);
