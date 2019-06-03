@@ -9,6 +9,7 @@ import { convertFromHTML, convertToHTML } from "draft-convert";
 import { Redirect } from "react-router";
 import ImageResizeUpload from "./ImageResizeUpload";
 import SelectRegion from "./SelectRegion";
+import { withAlert } from "react-alert";
 const regions = require("./regions.json");
 
 const initialValues = {
@@ -88,12 +89,14 @@ class OrganizationForm extends React.Component {
     delete req.descriptionEditorState;
     if (this.id) {
       organizationService.put(req).then(resp => {
+        this.props.alert.success("Changes saved");
         setSubmitting(false);
         this.props.fetchOrganizations();
         this.setState({ toOrganizations: true });
       });
     } else {
       organizationService.post(req).then(resp => {
+        this.props.alert.success("New organization saved");
         this.id = resp.id;
         setSubmitting(false);
         this.props.fetchOrganizations();
@@ -437,4 +440,4 @@ class OrganizationForm extends React.Component {
   }
 }
 
-export default OrganizationForm;
+export default withAlert()(OrganizationForm);

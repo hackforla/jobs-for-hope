@@ -6,6 +6,5 @@
   { "value": "5", "label": "Metro Los Angeles" },
   { "value": "6", "label": "West Los Angeles" },
   { "value": "7", "label": "San Gabriel Valley" },
-  { "value": "8", "label": "San Fernando Valley" },
-  { "value": "99", "label": "Timbuktu" }
+  { "value": "8", "label": "San Fernando Valley" }
 ]
