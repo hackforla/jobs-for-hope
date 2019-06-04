@@ -25,3 +25,41 @@ table {
   border-radius: 0.4em;
   border: 1px $secondary-color solid;
 }
+
+#org-buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+%button-shared {
+  width: 45%;
+  max-width: 120px;
+  height: 25%;
+  margin: 0 0.4em;
+  padding: 0.3em 1.3em;
+  border-radius: 0.4em;
+  font-weight: bold;
+  color: #404142;
+  opacity: 1;
+}
+
+#org-edit-button {
+  @extend %button-shared;
+
+  border: 1px $light-color solid;
+  background: $light-color;
+}
+
+#org-details-button {
+  @extend %button-shared;
+
+  border: 1px $secondary-color solid;
+  background: $secondary-color;
+}
+
+#org-details-button:hover,
+#org-edit-button:hover {
+  opacity: 0.75;
+}

@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { loadRequests, approveRequest } from "../../services/verify-service";
+import { getAll } from "../../services/organization-service";
 import "./AdminControls.scss";
 
 const AdminControls = props => {
   const [requests, setRequests] = useState([]);
-  const { role, email } = props.activeUser;
+  const [orgList, setOrgList] = useState([]);
+  const [org, setOrg] = useState({});
+  const { role, organization } = props.activeUser;
   if (!role) return <Redirect to="/" />;
 
   useEffect(() => {
     loadRequests().then(result => setRequests(result));
+  }, []);
+
+  useEffect(() => {
+    getAll().then(result => {
+      setOrgList(
+        result.map(org => ({
+          name: org.name,
+          id: org.id
+        }))
+      );
+    });
   }, []);
 
   const approveReq = e => {
@@ -18,6 +33,10 @@ const AdminControls = props => {
         setRequests(requests.filter(item => item.email !== result));
       }
     );
+  };
+
+  const changeOrg = e => {
+    setOrg({ id: e.target.value });
   };
 
   return (
@@ -55,6 +74,30 @@ const AdminControls = props => {
           </tbody>
         </table>
       ) : null}
+      <h2>Organization Actions:</h2>
+      <select name="organization" className="org-select" onChange={changeOrg}>
+        {orgList.map((org, i) => {
+          return (
+            <option key={org.id} value={org.id}>
+              {org.name}
+            </option>
+          );
+        })}
+      </select>
+      <div id="org-buttons-wrapper">
+        <Link to={`/organizations/${org.id}`} id="org-details-button">
+          Details
+        </Link>
+
+        {role === "admin" ||
+        (role === "employer" && organization.includes(org.name)) ? (
+          // when we change organizations from string to an array:
+          // activeUser.organization.includes(org.name))) ? (
+          <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
+            Edit
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 };
