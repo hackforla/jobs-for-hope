@@ -8,6 +8,7 @@ import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
+import Banner from "./Banner"
 
 const override = css`
   display: block;
@@ -167,6 +168,11 @@ class Jobs extends React.Component {
     return (
       <div>
         <div>
+          <Banner
+            titleUpper="Join the Fight Against"
+            titleLower="Homelessness"
+            imageName="helping-hands2"
+          />
           <SearchBox
             onSearchChange={this.onSearchChange}
             onZipSearchChange={this.onZipSearchChange}
