@@ -18,10 +18,7 @@ class Account extends Component {
             pendingRequests={this.props.pendingRequests}
           />
         ) : role === "employer" ? (
-          <EmployerControls
-            activeUser={this.props.activeUser}
-            pendingRequests={this.props.pendingRequests}
-          />
+          <EmployerControls activeUser={this.props.activeUser} />
         ) : role !== "pending" ? (
           <h1>{`Account Dashboard for ${email}`}</h1>
         ) : (
