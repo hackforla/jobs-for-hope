@@ -15,7 +15,7 @@ class Account extends Component {
 	}
 
 	approveReq = e => {
-		approveRequest(e.target.dataset.email).then(result => {
+		approveRequest(e.target.dataset.email, e.target.dataset.org).then(result => {
 			this.setState(prevState => ({
 				requests: prevState.requests.filter(
 					item => item.email !== result
@@ -65,6 +65,7 @@ class Account extends Component {
 											<button
 												className="approve-btn"
 												data-email={item.email}
+												data-org={item.first_org}
 												onClick={this.approveReq}
 											>
 												Approve

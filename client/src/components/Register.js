@@ -10,7 +10,6 @@ import { withRouter } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState("");
   const [orgList, setOrgList] = useState([]);
   const [newOrg, setNewOrg] = useState(false);
   const alert = useAlert();
@@ -47,7 +46,6 @@ const Register = () => {
           }}
           validate={values => {
             const {
-              organization,
               orgName,
               website,
               contactEmail,
@@ -297,53 +295,7 @@ const Register = () => {
                     </React.Fragment>
                   )}
                 <br />
-                <br />
 
-                <label htmlFor="employer" className="title-label">
-                  Employer Information
-              </label>
-                <div className="form-component">
-                  <label htmlFor="email">Email</label>
-                  <br />
-                  <input
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                    className={
-                      errors.email && touched.email
-                        ? "error login-input"
-                        : "login-input"
-                    }
-                  />
-                  {errors.email && touched.email && (
-                    <div className="input-feedback">{errors.email}</div>
-                  )}
-                  <br />
-                </div>
-                <div className="form-component">
-                  <label htmlFor="password">Password</label>
-                  <br />
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                    className={
-                      errors.password && touched.password
-                        ? "error login-input"
-                        : "login-input"
-                    }
-                  />
-                  {errors.password && touched.password && (
-                    <div className="input-feedback">{errors.password}</div>
-                  )}
-                  <br />
-                  <br />
-                </div>
                 <div className="form-component">
                   <label htmlFor="confirm">Confirm Password</label>
                   <input
@@ -362,17 +314,82 @@ const Register = () => {
                   {errors.confirm && touched.confirm && (
                     <div className="input-feedback">{errors.confirm}</div>
                   )}
-                  {errorMessage ? (
-                    <div className="input-feedback">{errorMessage}</div>
-                  ) : null}
                   <br />
-                </div>
-                <button id="send-btn" type="submit" disabled={isSubmitting}>
-                  Register
+                  <label htmlFor="employer" className="title-label">
+                    Employer Information
+                  </label>
+                  <div className="form-component">
+                    <label htmlFor="email">Email</label>
+                    <br />
+                    <input
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      className={
+                        errors.email && touched.email
+                          ? "error login-input"
+                          : "login-input"
+                      }
+                    />
+                    {errors.email && touched.email && (
+                      <div className="input-feedback">{errors.email}</div>
+                    )}
+                    <br />
+                  </div>
+                  <div className="form-component">
+                    <label htmlFor="password">Password</label>
+                    <br />
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      className={
+                        errors.password && touched.password
+                          ? "error login-input"
+                          : "login-input"
+                      }
+                    />
+                    {errors.password && touched.password && (
+                      <div className="input-feedback">{errors.password}</div>
+                    )}
+                    <br />
+                    <br />
+                  </div>
+                  <div className="form-component">
+                    <label htmlFor="confirm">Confirm Password</label>
+                    <input
+                      type="password"
+                      id="confirm"
+                      name="confirm"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirm}
+                      className={
+                        errors.confirm && touched.confirm
+                          ? "error login-input"
+                          : "login-input"
+                      }
+                    />
+                    {errors.confirm && touched.confirm && (
+                      <div className="input-feedback">{errors.confirm}</div>
+                    )}
+                    {errorMessage ? (
+                      <div className="input-feedback">{errorMessage}</div>
+                    ) : null}
+                    <br />
+                  </div>
+                  <button id="send-btn" type="submit" disabled={isSubmitting}>
+                    Register
               </button>
-                <Link to="/login" className="intext-link">
-                  Log In
+                  <Link to="/login" className="intext-link">
+                    Log In
               </Link>
+                </div>
               </form>
             )}
         </Formik>

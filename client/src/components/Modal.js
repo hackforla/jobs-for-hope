@@ -48,6 +48,7 @@ class Modal extends React.Component {
 
   render() {
     const job = this.props.modalJob;
+    console.log(job);
     const modal = this.props.modalVisible ? (
       <Portal>
         <div
@@ -99,6 +100,13 @@ class Modal extends React.Component {
                   {job.hours} {job.hours && job.location ? " | " : null}{" "}
                   {job.location}
                 </p>
+                { job.salary ?
+                    <p style={{ flex: "0 0 auto", paddingLeft: "1em", marginBottom: "1em" }}>
+                      {job.salary}
+                    </p>
+                    :
+                    null
+                }
                 {job.post_date ? (
                   <p style={{ flex: "0 0 auto", paddingLeft: "1em" }}>
                     Job Posted: {moment(job.post_date).format("MM/DD/YYYY")}
@@ -110,6 +118,7 @@ class Modal extends React.Component {
                   <a
                     href={job.info_link}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="modal-button"
                   >
                     Apply

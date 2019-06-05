@@ -1,7 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
 import "./JobForm.scss";
-import { sendResetEmail } from "../services/auth-service";
 import { deleteJob } from "../services/job-service";
 
 const customStyles = {

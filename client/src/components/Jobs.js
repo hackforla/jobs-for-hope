@@ -291,7 +291,8 @@ class Jobs extends React.Component {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around"
+                  justifyContent: "space-around",
+                  marginBottom: "2em"
                 }}
               >
                 <Paginator
@@ -313,7 +314,6 @@ class Jobs extends React.Component {
               </div>
             </section>
           </div>
-          }
           <Modal
             modalVisible={this.state.modalVisible}
             modalJob={this.state.modalJob}
@@ -321,7 +321,6 @@ class Jobs extends React.Component {
             isUserCreated={this.state.isUserCreated}
           />
         </div>
-        }
       </div>
     );
   }

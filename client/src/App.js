@@ -40,7 +40,7 @@ class App extends Component {
     organizationService
       .getAll()
       .then(organizations => {
-        this.setState({ organizations });
+        this.setState({ organizations: organizations.filter(org => org.is_approved) });
         return jobService.getAll();
       })
       .then(jobs => {
