@@ -10,7 +10,6 @@ import { withRouter } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState("");
   const [orgList, setOrgList] = useState([]);
   const [newOrg, setNewOrg] = useState(false);
   const alert = useAlert();
@@ -48,7 +47,6 @@ const Register = () => {
           }}
           validate={values => {
             const {
-              organization,
               orgName,
               website,
               contactEmail,
@@ -360,9 +358,6 @@ const Register = () => {
                 {errors.confirm && touched.confirm && (
                   <div className="input-feedback">{errors.confirm}</div>
                 )}
-                {errorMessage ? (
-                  <div className="input-feedback">{errorMessage}</div>
-                ) : null}
                 <br />
               </div>
               <button id="send-btn" type="submit" disabled={isSubmitting}>

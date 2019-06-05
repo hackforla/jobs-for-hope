@@ -1,22 +1,24 @@
 import React from "react";
 import "./Navbar.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
 
 const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <div className="burger-container">
-          <div className="burger" onClick={toggler}>
-            <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
-            <div className={`burger-layer ${toggle ? "burger-mid" : null}`} />
-            <div
-              className={`burger-layer ${toggle ? "burger-bottom" : null}`}
-            />
+        <Link to="/">
+          <img id="org-image" alt="logo" src={logoImage} />
+          <div className="burger-container">
+            <div className="burger" onClick={toggler}>
+              <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
+              <div className={`burger-layer ${toggle ? "burger-mid" : null}`} />
+              <div
+                className={`burger-layer ${toggle ? "burger-bottom" : null}`}
+              />
+            </div>
           </div>
-        </div>
-        <img id="org-image" alt="logo" src={logoImage} />
+        </Link>
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>

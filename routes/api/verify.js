@@ -17,9 +17,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/approve", (req, res) => {
-	const { email } = req.body;
+	const { email, org } = req.body;
 	const sql = `update login set role = 'employer' where email = '${email}'`;
-	pool.query(sql).then(result => res.json(email));
+	pool.query(sql).then(result => {
+		const sql2 = `update organizations set is_approved = 'true' where name = ${org}`
+		pool.query(sql2).then(result => {
+			res.json(email);
+		})
+	});
 });
 
 router.post("/reject", (req, res) => {});
@@ -28,15 +33,16 @@ router.post("/reject", (req, res) => {});
 
 router.post("/send-confirm", (req, res) => {
 	const { email } = req.body;
-	const sql = `select * from login where email = '${email}'`;
+	const lowerEmail = email.toLowerCase();
+	const sql = `select * from login where email = '${lowerEmail}'`;
 	pool.query(sql).then(data => {
 		if (data.rows[0]) return res.json("User already exists");
 		const confirmId = uuid();
 		const finalOptions = confirmOptions(email, confirmId);
-		const sql2 = `delete from confirm where email = '${email}'`;
+		const sql2 = `delete from confirm where email = '${lowerEmail}'`;
 		pool.query(sql2).then(delInfo => {
-			const sql3 = `insert into confirm (email, id) 
-                      values ('${email}', '${confirmId}') 
+			const sql3 = `insert into confirm (email, id)
+                      values ('${lowerEmail}', '${confirmId}')
                       returning email`;
 			pool.query(sql3).then(user => {
 				transporter.sendMail(finalOptions, function(err, result) {
@@ -58,8 +64,8 @@ router.get("/confirm/:id", (req, res) => {
 		const user = data.rows[0];
 		if (user) {
 			const sql2 = `update login
-                      set confirmed = 'true' 
-                      where email = '${user.email}'`;
+                      set confirmed = 'true'
+                      where email = '${user.email.toLowerCase()}'`;
 			pool.query(sql2).then(stuff => {
 				res.redirect(clientUrl);
 			});

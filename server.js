@@ -14,6 +14,7 @@ const { passport } = require("./services/passport");
 
 const jobs = require("./routes/api/jobs");
 const orgs = require("./routes/api/organizations");
+const regions = require("./routes/api/regions");
 const auth = require("./routes/api/auth");
 const verify = require("./routes/api/verify");
 const s3 = require("./routes/api/s3");
@@ -47,6 +48,7 @@ app.use(passport.session());
 // Use Routes
 app.use("/api/jobs", jobs);
 app.use("/api/orgs", orgs);
+app.use("/api/regions", regions);
 app.use("/api/s3", s3);
 app.use("/api/auth", auth);
 app.use("/api/verify", verify);

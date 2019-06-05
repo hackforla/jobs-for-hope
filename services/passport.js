@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt-nodejs");
 // configure passport.js to use the local strategy
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    const sql = `select * from login where email = '${email}'`;
+    const sql = `select * from login where email = '${email.toLowerCase()}'`;
     pool
       .query(sql)
       .then(res => {
