@@ -15,6 +15,7 @@ const Navbar = ({ activeUser, logOut }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
+        <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
             <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
@@ -24,8 +25,6 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
-        <img id="org-image" alt="logo" src={logoImage} />
-
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>

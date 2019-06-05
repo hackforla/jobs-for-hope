@@ -169,7 +169,7 @@ class Jobs extends React.Component {
       <div>
         <div>
           <Banner
-            titleUpper="Join the Fight Against"
+            titleUpper="Work to Fight"
             titleLower="Homelessness"
             imageName="helping-hands2"
           />
