@@ -15,6 +15,7 @@ html {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: .5em
 }
 
 #new-job-btn {
@@ -31,6 +32,16 @@ html {
   text-decoration: none;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.page-select {
+  padding: 0em 0.7em;
+  border-radius: 0.25em;
+  border: 1px gray solid;
+  background-color: white;
+  width: 90%;
+  height: 2.75em;
+  max-width: 4.5em;
 }
 
 .modal-container {
@@ -99,5 +110,11 @@ html {
 @media screen and (max-width: 500px) {
   .iframe-container {
     padding-top: 120%;
+  }
+  #new-job-btn {
+    margin: 0 auto .5em auto;
+  }
+  .recent-postings-title {
+    margin: .5em auto;
   }
 }

@@ -1,22 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Navbar.scss";
 import { NavLink, Link } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = ({ activeUser, logOut }) => {
-  const [toggle, setToggle] = useState(false);
-
-  let toggler = () => {
-    setToggle(!toggle);
-  };
-
+const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
         <a href="http://homeless.lacounty.gov/" target="_blank">
         <img id="org-image" alt="logo" src={logoImage} />
+        </a>
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
             <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
@@ -26,7 +19,6 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
-        </a>
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>
@@ -63,19 +55,19 @@ const Navbar = ({ activeUser, logOut }) => {
               </li>
             </React.Fragment>
           ) : (
-            <React.Fragment>
-              <li>
-                <NavLink className="mobile-li link" to="/register">
-                  Employer Register
+              <React.Fragment>
+                <li>
+                  <NavLink className="mobile-li link" to="/register">
+                    Employer Register
                 </NavLink>
-              </li>
-              <li>
-                <NavLink className="mobile-li link" to="/login">
-                  Employer Log In
+                </li>
+                <li>
+                  <NavLink className="mobile-li link" to="/login">
+                    Employer Log In
                 </NavLink>
-              </li>
-            </React.Fragment>
-          )}
+                </li>
+              </React.Fragment>
+            )}
         </ul>
       </span>
     </nav>

@@ -8,6 +8,7 @@ import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
+import Banner from "./Banner"
 import Paginator from "./Paginator";
 
 const override = css`
@@ -33,7 +34,7 @@ class Jobs extends React.Component {
     organizations: [],
     modalVisible: false,
     modalJob: null,
-    itemsPerPage: 6,
+    itemsPerPage: 10,
     totalPages: 0,
     currentPage: 0
   };
@@ -202,6 +203,11 @@ class Jobs extends React.Component {
     return (
       <div>
         <div>
+          {/* <Banner
+            titleUpper="Work to Fight"
+            titleLower="Homelessness"
+            imageName="helping-hands2"
+          /> */}
           <SearchBox
             onSearchChange={this.onSearchChange}
             onZipSearchChange={this.onZipSearchChange}
@@ -227,19 +233,41 @@ class Jobs extends React.Component {
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
                 {activeUser.role === "admin" ||
-                activeUser.role === "employer" ? (
-                  <Link to={`/jobs/form/new`} id="new-job-btn">
-                    Post a Job
+                  activeUser.role === "employer" ? (
+                    <Link to={`/jobs/form/new`} id="new-job-btn">
+                      Post a Job
                   </Link>
-                ) : null}
+                  ) : null}
               </div>
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginBottom: "2em",
+                  alignItems: "center"
+                  }}
+              >
                 <Paginator
                   totalPages={totalPages}
                   currentPage={currentPage}
                   goTo={this.goToPage}
-                  buttonCount={5}
+                  buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
+                {itemCount > 0 ? <select
+                                    style={{ marginLeft: ".5em" }}
+                                    className="page-select"
+                                    value={this.itemsPerPage}
+                                    onChange={this.handleChangeItemsPerPage}
+                                  >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                  </select>
+                                  :
+                                  null
+                }
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -260,42 +288,47 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                <ul>
-                  {paginatedJobs.map((job, index) => (
-                    <li key={index}>
-                      <JobPostings
-                        job={job}
-                        activeUser={this.props.activeUser}
-                        onShowModal={this.onShowModal}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+                  <ul>
+                    {paginatedJobs.map((job, index) => (
+                      <li key={index}>
+                        <JobPostings
+                          job={job}
+                          activeUser={this.props.activeUser}
+                          onShowModal={this.onShowModal}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginBottom: "2em"
+                  justifyContent: "center",
+                  marginBottom: "2em",
+                  alignItems: "center"
                 }}
               >
                 <Paginator
                   totalPages={totalPages}
                   currentPage={currentPage}
                   goTo={this.goToPage}
-                  buttonCount={5}
+                  buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
-                <select
-                  value={this.itemsPerPage}
-                  onChange={this.handleChangeItemsPerPage}
-                >
-                  <option value="6">6</option>
-                  <option value="12">12</option>
-                  <option value="18">18</option>
-                  <option value="24">24</option>
-                  <option value="1024">1024</option>
-                </select>
+                {itemCount > 0 ? <select
+                                    style={{ marginLeft: ".5em" }}
+                                    className="page-select"
+                                    value={this.itemsPerPage}
+                                    onChange={this.handleChangeItemsPerPage}
+                                  >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                  </select>
+                                  :
+                                  null
+                }
               </div>
             </section>
           </div>

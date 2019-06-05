@@ -115,7 +115,11 @@ class Modal extends React.Component {
               <div style={{ display: "flex" }}>
                 {job.info_link ? (
                   <a
-                    href={job.info_link}
+                    href={job.info_link.toLowerCase().startsWith("http") ?
+                            job.info_link
+                            :
+                            "http://" + job.info_link
+                          }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="modal-button"

@@ -6,10 +6,13 @@ import { EditorState } from "draft-js";
 import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
-import { Redirect } from "react-router";
+import { Redirect, withRouter } from "react-router";
 import ImageResizeUpload from "./ImageResizeUpload";
 import SelectRegion from "./SelectRegion";
 import { withAlert } from "react-alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const regions = require("./regions.json");
 
 const initialValues = {
@@ -45,6 +48,7 @@ class OrganizationForm extends React.Component {
   }
 
   async componentDidMount() {
+    window.scroll(0, 0);
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -396,23 +400,28 @@ class OrganizationForm extends React.Component {
                               width: "100%",
                               display: "flex",
                               flexDirection: "row",
-                              justifyContent: "flex-end"
+                              justifyContent: "space-between"
                             }}
                           >
-                            <button
-                              className="cancel-btn"
-                              type="button"
-                              onClick={this.handleCancel}
-                            >
-                              Cancel
+                            <div title="Delete" id="delete-btn" onClick={this.handleDelete}>
+                              <FontAwesomeIcon icon={faTrash} />
+                            </div>
+                            <div>
+                              <button
+                                className="cancel-btn"
+                                type="button"
+                                onClick={this.handleCancel}
+                              >
+                                Cancel
                             </button>
-                            <button
-                              className="submit-btn"
-                              type="submit"
-                              disabled={isSubmitting}
-                            >
-                              Save
+                              <button
+                                className="submit-btn"
+                                type="submit"
+                                disabled={isSubmitting}
+                              >
+                                Save
                             </button>
+                            </div>
                           </div>
                         </form>
                         {this.state.org.id ? (
@@ -440,4 +449,4 @@ class OrganizationForm extends React.Component {
   }
 }
 
-export default withAlert()(OrganizationForm);
+export default withRouter(withAlert()(OrganizationForm));

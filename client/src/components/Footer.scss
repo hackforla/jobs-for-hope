@@ -1,22 +1,25 @@
 @import "../_variables.scss";
 
+.filters-postings-wrapper {
+  display: flex;
+}
+
 .footer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.8em 0em;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.3em 0em;
   background: $primary-color;
   color: set-text-color($primary-color);
-  height: 175px;
+  height: 200px;
 }
 
 .org-icon {
-  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 75%;
+  margin: 0 1em 0 0;
 }
 
 #org-icon {
@@ -24,26 +27,11 @@
 }
 
 .quick-links-footer {
-  display: flex;
-  align-items: flex-start;
-  height: 90%;
-  flex: 6;
-}
-
-.social-media-btn-container {
-  display: flex;
-}
-
-#social-media-btn {
-  height: 3em;
-  margin: 0.2em;
-  border-radius: 50%;
-  border: 1px white solid;
+  margin: 0 6em 0 1em;
 }
 
 .contact-footer {
   height: 90%;
-  flex: 4;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

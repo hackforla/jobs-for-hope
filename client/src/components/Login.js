@@ -34,7 +34,7 @@ const Login = () => {
       <Banner
         titleUpper="Connect With"
         titleLower={"Job-Seekers"}
-        imageName="homeless_poster"
+        imageName="la-night"
       />
       <div className="auth-form-container">
         <h2 id="login-title">Log In</h2>

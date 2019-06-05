@@ -1,14 +1,19 @@
 import React from "react";
 import "./OrganizationForm.scss";
 import Banner from "./Banner";
+import "./OrganizationView.scss";
 import * as organizationService from "../services/organization-service";
 import { Redirect } from "react-router";
-
+import { css } from "@emotion/core";
+import { RotateLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPhone,
-  faEnvelope
-} from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+
+const override = css`
+  display: block;
+  margin: auto auto;
+  border-color: red;
+`;
 
 const initialValues = {
   id: 0,
@@ -31,11 +36,11 @@ const initialValues = {
 class OrganizationView extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
-      toOrganizations: false
+      toOrganizations: false,
+      loading: true
     };
   }
 
@@ -43,22 +48,23 @@ class OrganizationView extends React.Component {
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
-        this.setState({ org: resp });
+        this.setState({ org: resp, loading: false });
       });
     }
   }
-
 
   handleClose = () => {
     this.setState({ toOrganizations: true });
   };
 
-  createDescription = function (description) {
+  createDescription = function(description) {
     return { __html: description };
   };
 
   render() {
     const { org, toOrganizations } = this.state;
+    const contactIsNotNull =
+      org.street || org.phone || org.email ? true : false;
     if (toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -70,63 +76,85 @@ class OrganizationView extends React.Component {
           titleLower="Involved"
           imageName="city"
         />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            margin: "1em"
-          }}
-        >
+        {this.state.loading ? (
           <div
             style={{
+              height: "200",
               width: "100%",
+              margin: "100px auto",
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end"
+              justifyContent: "space-around"
             }}
           >
-            <button id="close-btn" onClick={this.handleClose}>
-              Back to Organizations
-            </button>
-          </div>
-          <h1>{org.name}</h1>
-          <div>
-            <a
-              href={org.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "blue", textDecoration: "underline" }}
-            >
-              {org.url}
-            </a>
-          </div>
-
-          <blockquote style={{ width: "80%", fontSize: "1.2em" }}>
-            <em>{org.mission}</em>
-          </blockquote>
-          <div
-            style={{ width: "90%" }}
-            dangerouslySetInnerHTML={this.createDescription(descr)}
-          />
-          <div style={{ margin: "1em 0 0 0" }}>
-            {`${org.street} ${org.suite}`}
-          </div>
-          <div style={{ margin: "0 0 0.5em 0" }}>
-            {`${org.city}, ${org.state}  ${org.zip}`}
-          </div>
-          <div style={{ margin: "0.5em" }}>
-            <FontAwesomeIcon icon={faPhone} style={{ marginRight: "0.5em" }} />
-            {org.phone}
-          </div>
-          <div style={{ margin: "0.5em" }}>
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              style={{ marginRight: "0.5em" }}
+            <RotateLoader
+              css={override}
+              sizeUnit={"px"}
+              size={15}
+              color={"#266294"}
+              loading={true}
             />
-            {org.email}
           </div>
-        </div>
+        ) : (
+          <div className="organization-view-container">
+            <div className="organization-content">
+              <div className="organization-info">
+                <div className="back-button-container">
+                  <div className="org-link">
+                    <a className="new-organization-btn website-btn" href={org.url.toLowerCase().startsWith("http") ?
+                                org.url
+                                :
+                                "http://" + org.url} target="_blank" rel="noopener noreferrer">
+                      Website
+                    </a>
+                  </div>
+                  <button id="close-btn" onClick={this.handleClose}>
+                    Back to Organizations
+                  </button>
+                </div>
+                <h1>{org.name}</h1>
+                <blockquote className="organization-mission">
+                  <em>{`"${org.mission}"`}</em>
+                </blockquote>
+                <div
+                  className="organization-description"
+                  dangerouslySetInnerHTML={this.createDescription(descr)}
+                />
+              </div>
+              <div
+                className="organization-contact"
+                style={contactIsNotNull ? null : { display: "none" }}
+              >
+                {contactIsNotNull ? <p>Contact {org.name}</p> : null}
+                <div style={{ margin: "1em 0 0 0" }}>
+                  {`${org.street} ${org.suite}`}
+                </div>
+                {org && org.city ? (
+                  <div style={{ margin: "0 0 0.5em 0" }}>
+                    {`${org.city}, ${org.state}  ${org.zip}`}
+                  </div>
+                ) : null}
+                {org && org.phone ? (
+                  <div style={{ margin: "0.5em" }}>
+                    <FontAwesomeIcon
+                      icon={faPhone}
+                      style={{ marginRight: "0.5em" }}
+                    />
+                    {org.phone}
+                  </div>
+                ) : null}
+                {org && org.email ? (
+                  <div style={{ margin: "0.5em" }}>
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      style={{ marginRight: "0.5em" }}
+                    />
+                    {org.email}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        )}
       </React.Fragment>
     );
   }
