@@ -313,7 +313,7 @@ class JobForm extends React.Component {
                             className="checkbox"
                             type="checkbox"
                             name="orgCheckbox"
-                            checked={this.state.isHourly}
+                            checked={isHourly}
                             onChange={this.toggleCheck}
                           />
                           <label htmlFor="orgCheckBox">Hourly</label>

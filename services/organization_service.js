@@ -3,14 +3,14 @@ const { pool } = require("./postgres-pool");
 const getAll = () => {
   const sql = `
       select o.id, o.name, o.url, o.logo, o.mission, o.description,
-        o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude, 
-        o.phone, o.email,
+        o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
+        o.phone, o.email, o.is_approved,
         count(j.organization_id) as job_count
       from organizations o
       left join jobs j on o.id = j.organization_id
       group by o.id, o.name, o.url, o.logo, o.mission, o.description,
         o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
-        o.phone, o.email
+        o.phone, o.email, o.is_approved
       order by o.name
     `;
   return pool.query(sql).then(res => {
@@ -39,7 +39,7 @@ const getAll = () => {
 const getAllOrganizationRegions = () => {
   const sql = `
       select ors.organization_id, r.id, r.name
-      from organizations o 
+      from organizations o
         join organization_regions ors on o.id = ors.organization_id
         join regions r on ors.region_id = r.id
     `;
@@ -55,7 +55,7 @@ const getAllOrganizationRegions = () => {
 const get = id => {
   const sql = `
       select o.id, o.name, o.url, o.logo, o.mission, o.description,
-        o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude, 
+        o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
         o.phone, o.email,
         count(j.organization_id) as job_count
       from organizations o
@@ -90,7 +90,7 @@ const get = id => {
 const getOrganizationRegions = organization_id => {
   const sql = `
       select ors.organization_id, r.id, r.name
-      from organizations o 
+      from organizations o
         join organization_regions ors on o.id = ors.organization_id
         join regions r on ors.region_id = r.id
       where o.id = $1
@@ -110,10 +110,10 @@ const post = async org => {
   try {
     client.query("BEGIN TRANSACTION");
     const sql = `
-      INSERT INTO organizations(name, url, mission, description, 
+      INSERT INTO organizations(name, url, mission, description,
         street, suite, city, state, zip, latitude, longitude,
-        phone, email) 
-      VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+        phone, email)
+      VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       RETURNING id
       `;
     const values = [
@@ -156,9 +156,9 @@ const put = async org => {
   try {
     client.query("BEGIN TRANSACTION");
     const sql = `
-    UPDATE organizations SET 
-      name = $1, 
-      url = $2, 
+    UPDATE organizations SET
+      name = $1,
+      url = $2,
       mission = $3,
       description = $4,
       street = $5,
@@ -219,7 +219,7 @@ const del = id => {
 
 const updateFileKey = (id, fileKey) => {
   const sql = `
-    UPDATE organizations SET 
+    UPDATE organizations SET
       logo = $1
     WHERE id = $2
     `;
