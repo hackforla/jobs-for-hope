@@ -54,7 +54,8 @@ router.post("/login", (req, res, next) => {
 
 router.post("/register", (req, res, next) => {
   const { email, password, organization } = req.body;
-  const sql = `select * from login where email = '${email}'`;
+  const lowerEmail = email.toLowerCase();
+  const sql = `select * from login where email = '${lowerEmail}'`;
   const salt = bcrypt.genSaltSync(12);
   // make a transaction
   pool.query(sql).then(data => {
@@ -62,14 +63,14 @@ router.post("/register", (req, res, next) => {
     const sql2 = `select id from organizations where name='${organization}'`;
     pool.query(sql2).then(data => {
       const organization_id = data.rows[0].id;
-      const sql3 = `insert into login (email, hash, first_org) 
-                values ('${email}', '${bcrypt.hashSync(
+      const sql3 = `insert into login (email, hash, first_org)
+                values ('${lowerEmail}', '${bcrypt.hashSync(
         password
       )}', '${organization}')
                 returning id`;
       pool.query(sql3).then(user => {
         const userObj = user.rows[0];
-        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+        const sql4 = `insert into users_to_orgs (user_id, organization_id)
                 values ('${userObj.id}', '${organization_id}')`;
         pool.query(sql4).then(data => {
           req.login(userObj, err => {
@@ -94,22 +95,23 @@ router.post("/register/new-org", (req, res, next) => {
     password,
     confirm
   } = req.body;
-  const sql = `select * from login where email = '${email}'`;
+  const lowerEmail = email.toLowerCase()
+  const sql = `select * from login where email = '${lowerEmail}'`;
   // make a transaction
   pool.query(sql).then(data => {
     if (data.rows[0]) return res.json("User already exists");
-    const sql2 = `insert into organizations (name, url, logo, email, phone, is_user_created) 
+    const sql2 = `insert into organizations (name, url, logo, email, phone, is_user_created)
                 values ('${orgName}', '${website}', 'codeforamerica.svg', '${contactEmail}', '${contactPhone}', 'true') returning id`;
     pool.query(sql2).then(data => {
       const organization_id = data.rows[0].id;
-      const sql3 = `insert into login (email, hash, first_org) 
-                values ('${email}', '${bcrypt.hashSync(
+      const sql3 = `insert into login (email, hash, first_org)
+                values ('${lowerEmail}', '${bcrypt.hashSync(
         password
       )}', '${orgName}')
                 returning id`;
       pool.query(sql3).then(user => {
         const userObj = user.rows[0];
-        const sql4 = `insert into users_to_orgs (user_id, organization_id) 
+        const sql4 = `insert into users_to_orgs (user_id, organization_id)
                 values ('${userObj.id}', '${organization_id}')`;
         pool.query(sql4).then(data => {
           req.login(userObj, err => {
@@ -128,17 +130,18 @@ router.post("/register/new-org", (req, res, next) => {
 
 router.post("/send-reset", (req, res) => {
   const { email } = req.body;
-  const sql = `select * from login where email = '${email}'`;
+  const lowerEmail = email.toLowerCase()
+  const sql = `select * from login where email = '${lowerEmail}'`;
   pool.query(sql).then(data => {
     if (!data.rows[0])
       return res.json(
         "Could not complete request. Please check the email you have entered and try again."
       );
-    const delSQL = `delete from resets where email = '${email}'`;
+    const delSQL = `delete from resets where email = '${lowerEmail}'`;
     pool.query(delSQL).then(delInfo => {
       const resetToken = uuid();
-      const sql2 = `insert into resets (email, reset_token) 
-                      values ('${email}', '${resetToken}')`;
+      const sql2 = `insert into resets (email, reset_token)
+                      values ('${lowerEmail}', '${resetToken}')`;
       pool.query(sql2).then(info => {
         const finalOptions = resetOptions(email, resetToken);
         transporter.sendMail(finalOptions, function(err, result) {
@@ -162,8 +165,8 @@ router.post("/submit-reset", (req, res) => {
       const user = data.rows[0];
       if (user) {
         const sql2 = `update login
-          set hash = '${bcrypt.hashSync(password)}' 
-          where email = '${user.email}';`;
+          set hash = '${bcrypt.hashSync(password)}'
+          where email = '${user.email.toLowerCase()}';`;
         pool.query(sql2).then(data => {
           res.json("success");
         });

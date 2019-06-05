@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,7 @@ const Navbar = ({ activeUser, logOut }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
+        <Link to="/">
         <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
@@ -25,6 +26,7 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
+        </Link>
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>
