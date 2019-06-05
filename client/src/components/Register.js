@@ -18,6 +18,7 @@ const Register = () => {
     getAll().then(result => {
       setOrgList(result.map(org => org.name));
     });
+    console.log("orgs", orgList);
   }, []);
 
   const toggleCheck = () => {
@@ -35,7 +36,7 @@ const Register = () => {
         <h2 id="login-title">Register to Post a Job</h2>
         <Formik
           initialValues={{
-            organization: "211 LA County",
+            organization: "",
             orgName: "",
             website: "",
             contactEmail: "",
@@ -46,6 +47,7 @@ const Register = () => {
           }}
           validate={values => {
             const {
+              organization,
               orgName,
               website,
               contactEmail,
@@ -78,7 +80,11 @@ const Register = () => {
                   "Invalid phone number. Please use XXX-XXX-XXXX format";
               }
             }
-
+            if (!newOrg) {
+              if (!organization) {
+                errors.organization = "Required";
+              }
+            }
             if (!email) {
               errors.email = "Required";
             } else if (
@@ -121,16 +127,11 @@ const Register = () => {
                 alert.error(result);
                 setSubmitting(false);
               } else {
-                if (newOrg) {
-                  handleNewOrg(
-                    orgName,
-                    website,
-                    contactEmail,
-                    contactPhone,
-                    email,
-                    password,
-                    confirm
-                  ).then(result => {
+                let organizationSend = newOrg
+                  ? { orgName, website, contactEmail, contactPhone }
+                  : organization;
+                handleRegister(organizationSend, email, password).then(
+                  result => {
                     if (result === "success") {
                       window.location.href = "/";
                       setSubmitting(false);
@@ -138,18 +139,8 @@ const Register = () => {
                       alert.error(result);
                       setSubmitting(false);
                     }
-                  });
-                } else {
-                  handleRegister(organization, email, password).then(result => {
-                    if (result === "success") {
-                      window.location.href = "/";
-                      setSubmitting(false);
-                    } else {
-                      alert.error(result);
-                      setSubmitting(false);
-                    }
-                  });
-                }
+                  }
+                );
               }
             });
           }}
@@ -184,21 +175,29 @@ const Register = () => {
                   </div>
                 </div>
                 {!newOrg ? (
-                  <select
-                    name="organization"
-                    className="org-select"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.organization}
-                  >
-                    {orgList.map((org, i) => {
-                      return (
-                        <option key={i} value={org}>
-                          {org}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  <React.Fragment>
+                    <select
+                      name="organization"
+                      className="org-select"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.organization}
+                    >
+                      <option value="" disabled>
+                        Select an Organization
+                    </option>
+                      {orgList.map((org, i) => {
+                        return (
+                          <option key={i} value={org}>
+                            {org}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {errors.organization && touched.organization && (
+                      <div className="input-feedback">{errors.organization}</div>
+                    )}
+                  </React.Fragment>
                 ) : (
                     <React.Fragment>
                       <div className="form-component">
@@ -295,7 +294,53 @@ const Register = () => {
                     </React.Fragment>
                   )}
                 <br />
+                <br />
 
+                <label htmlFor="employer" className="title-label">
+                  Employer Information
+              </label>
+                <div className="form-component">
+                  <label htmlFor="email">Email</label>
+                  <br />
+                  <input
+                    id="email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    className={
+                      errors.email && touched.email
+                        ? "error login-input"
+                        : "login-input"
+                    }
+                  />
+                  {errors.email && touched.email && (
+                    <div className="input-feedback">{errors.email}</div>
+                  )}
+                  <br />
+                </div>
+                <div className="form-component">
+                  <label htmlFor="password">Password</label>
+                  <br />
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    className={
+                      errors.password && touched.password
+                        ? "error login-input"
+                        : "login-input"
+                    }
+                  />
+                  {errors.password && touched.password && (
+                    <div className="input-feedback">{errors.password}</div>
+                  )}
+                  <br />
+                  <br />
+                </div>
                 <div className="form-component">
                   <label htmlFor="confirm">Confirm Password</label>
                   <input
@@ -315,81 +360,13 @@ const Register = () => {
                     <div className="input-feedback">{errors.confirm}</div>
                   )}
                   <br />
-                  <label htmlFor="employer" className="title-label">
-                    Employer Information
-                  </label>
-                  <div className="form-component">
-                    <label htmlFor="email">Email</label>
-                    <br />
-                    <input
-                      id="email"
-                      name="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                      className={
-                        errors.email && touched.email
-                          ? "error login-input"
-                          : "login-input"
-                      }
-                    />
-                    {errors.email && touched.email && (
-                      <div className="input-feedback">{errors.email}</div>
-                    )}
-                    <br />
-                  </div>
-                  <div className="form-component">
-                    <label htmlFor="password">Password</label>
-                    <br />
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                      className={
-                        errors.password && touched.password
-                          ? "error login-input"
-                          : "login-input"
-                      }
-                    />
-                    {errors.password && touched.password && (
-                      <div className="input-feedback">{errors.password}</div>
-                    )}
-                    <br />
-                    <br />
-                  </div>
-                  <div className="form-component">
-                    <label htmlFor="confirm">Confirm Password</label>
-                    <input
-                      type="password"
-                      id="confirm"
-                      name="confirm"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.confirm}
-                      className={
-                        errors.confirm && touched.confirm
-                          ? "error login-input"
-                          : "login-input"
-                      }
-                    />
-                    {errors.confirm && touched.confirm && (
-                      <div className="input-feedback">{errors.confirm}</div>
-                    )}
-                    {errorMessage ? (
-                      <div className="input-feedback">{errorMessage}</div>
-                    ) : null}
-                    <br />
-                  </div>
-                  <button id="send-btn" type="submit" disabled={isSubmitting}>
-                    Register
-              </button>
-                  <Link to="/login" className="intext-link">
-                    Log In
-              </Link>
                 </div>
+                <button id="send-btn" type="submit" disabled={isSubmitting}>
+                  Register
+              </button>
+                <Link to="/login" className="intext-link">
+                  Log In
+              </Link>
               </form>
             )}
         </Formik>

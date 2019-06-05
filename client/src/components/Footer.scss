@@ -1,5 +1,9 @@
 @import "../_variables.scss";
 
+.filters-postings-wrapper {
+  display: flex;
+}
+
 .footer {
   display: flex;
   flex-direction: row;
