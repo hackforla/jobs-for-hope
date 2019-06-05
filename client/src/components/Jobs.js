@@ -203,11 +203,11 @@ class Jobs extends React.Component {
     return (
       <div>
         <div>
-          <Banner
+          {/* <Banner
             titleUpper="Work to Fight"
             titleLower="Homelessness"
             imageName="helping-hands2"
-          />
+          /> */}
           <SearchBox
             onSearchChange={this.onSearchChange}
             onZipSearchChange={this.onZipSearchChange}
@@ -215,15 +215,6 @@ class Jobs extends React.Component {
             organizations={this.props.organizations}
             organizationId={organizationId}
             onSetOrganization={this.onSetOrganization}
-            //from SideFilter
-            onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
-            onSetEmploymentTypePT={this.onSetEmploymentTypePT}
-            onSetDistance={this.onSetDistance}
-            onSetDistanceZip={this.onSetDistanceZip}
-            employmentTypeFT={this.state.employmentTypeFT}
-            employmentTypePT={this.state.employmentTypePT}
-            radius={this.state.radius}
-            distanceZip={this.state.distanceZip}
           />
           <div className="filters-postings-wrapper">
             <SideFilter
