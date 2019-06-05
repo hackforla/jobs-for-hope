@@ -6,7 +6,7 @@ import { EditorState } from "draft-js";
 import { RichEditor } from "./RichEditor";
 import * as organizationService from "../services/organization-service";
 import { convertFromHTML, convertToHTML } from "draft-convert";
-import { Redirect } from "react-router";
+import { Redirect, withRouter } from "react-router";
 import ImageResizeUpload from "./ImageResizeUpload";
 import SelectRegion from "./SelectRegion";
 import { withAlert } from "react-alert";
@@ -440,4 +440,4 @@ class OrganizationForm extends React.Component {
   }
 }
 
-export default withAlert()(OrganizationForm);
+export default withRouter(withAlert()(OrganizationForm));

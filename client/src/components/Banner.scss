@@ -38,18 +38,22 @@ h1 {
 
 @media screen and (min-width: 576px) {
   .banner {
-    height: 33vh;
+    // height: 33vh;
+    background-size: cover;
+    background-position-y: 100%;
   }
 
   .banner-title {
-    font-size: 4em;
+    // font-size: 3em;
     padding: 0 30px;
   }
 }
 
 @media screen and (min-width: 768px) {
   .banner {
-    height: 40vh;
+    height: 33vh;
+    background-size: cover;
+    background-position-y: 100%;
   }
 
   .banner-title {

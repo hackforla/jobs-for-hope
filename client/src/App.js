@@ -32,7 +32,8 @@ class App extends Component {
         this.setState({ activeUser: user });
       }),
       jobs: [],
-      organizations: []
+      organizations: [],
+      navToggle: false
     };
   }
 
@@ -77,6 +78,12 @@ class App extends Component {
     });
   };
 
+  navToggler = () => {
+    this.setState({
+      navToggle: !this.state.navToggle
+    });
+  };
+
   render() {
     const { isPending, activeUser, organizations, jobs, requests } = this.state;
     return (
@@ -84,88 +91,99 @@ class App extends Component {
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <div className="App">
             <header className="header">
-              <Navbar activeUser={activeUser} logOut={this.logOut} />
+              <Navbar
+                toggle={this.state.navToggle}
+                toggler={this.navToggler}
+                activeUser={activeUser}
+                logOut={this.logOut}
+              />
             </header>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Jobs
-                  activeUser={activeUser}
-                  jobs={jobs}
-                  organizations={organizations}
-                  key={isPending}
-                  isPending={isPending}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/jobs/form/:id"
-              render={matchProps => (
-                <JobForm
-                  activeUser={activeUser}
-                  jobs={jobs}
-                  organizations={organizations}
-                  {...matchProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/jobs/:organization_id"
-              render={() => (
-                <Jobs
-                  activeUser={activeUser}
-                  jobs={jobs}
-                  organizations={organizations}
-                  key={isPending}
-                  isPending={isPending}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/organizations"
-              render={() => (
-                <Organizations
-                  organizations={organizations}
-                  isPending={isPending}
-                  key={isPending}
-                  activeUser={activeUser}
-                />
-              )}
-            />
-            <Route
-              path="/organizations/:id/edit"
-              render={matchProps => (
-                <OrganizationForm
-                  {...matchProps}
-                  fetchOrganizations={this.fetchOrganizations}
-                  activeUser={activeUser}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/organizations/:id"
-              component={OrganizationView}
-            />
-            <Route path="/about" component={About} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/login" render={() => <Login />} />
-            <Route path="/register" render={() => <Register />} />
-            <Route
-              path="/reset/:token"
-              render={matchProps => <ResetForm {...matchProps} />}
-            />
-            <Route
-              path="/account"
-              render={() => (
-                <Account activeUser={activeUser} pendingRequests={requests} />
-              )}
-            />
-            <Footer activeUser={activeUser} logOut={this.logOut} />
+            <div
+              className="route-container"
+              onClick={() => this.setState({ navToggle: false })}
+            >
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Jobs
+                    activeUser={activeUser}
+                    jobs={jobs}
+                    organizations={organizations}
+                    key={isPending}
+                    isPending={isPending}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/jobs/form/:id"
+                render={matchProps => (
+                  <JobForm
+                    activeUser={activeUser}
+                    jobs={jobs}
+                    organizations={organizations}
+                    {...matchProps}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/jobs/:organization_id"
+                render={() => (
+                  <Jobs
+                    activeUser={activeUser}
+                    jobs={jobs}
+                    organizations={organizations}
+                    key={isPending}
+                    isPending={isPending}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/organizations"
+                render={() => (
+                  <Organizations
+                    organizations={organizations}
+                    isPending={isPending}
+                    key={isPending}
+                    activeUser={activeUser}
+                  />
+                )}
+              />
+              <Route
+                path="/organizations/:id/edit"
+                render={matchProps => (
+                  <OrganizationForm
+                    {...matchProps}
+                    fetchOrganizations={this.fetchOrganizations}
+                    activeUser={activeUser}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/organizations/:id"
+                component={OrganizationView}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/login" render={() => <Login />} />
+              <Route path="/register" render={() => <Register />} />
+              <Route
+                path="/reset/:token"
+                render={matchProps => <ResetForm {...matchProps} />}
+              />
+              <Route
+                path="/account"
+                render={() => (
+                  <Account activeUser={activeUser} pendingRequests={requests} />
+                )}
+              />
+
+              <Footer activeUser={activeUser} logOut={this.logOut} />
+            </div>
           </div>
         </AlertProvider>
       </Router>
