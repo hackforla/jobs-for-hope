@@ -45,6 +45,7 @@ class OrganizationView extends React.Component {
   }
 
   componentDidMount() {
+    window.scroll(0, 0);
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -112,9 +113,13 @@ class OrganizationView extends React.Component {
                   </button>
                 </div>
                 <h1>{org.name}</h1>
-                <blockquote className="organization-mission">
-                  <em>{`"${org.mission}"`}</em>
-                </blockquote>
+                { org.mission ?
+                  <blockquote className="organization-mission">
+                    <em>{`"${org.mission}"`}</em>
+                  </blockquote>
+                  :
+                  null
+                }
                 <div
                   className="organization-description"
                   dangerouslySetInnerHTML={this.createDescription(descr)}
