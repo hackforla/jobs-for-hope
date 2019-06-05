@@ -15,7 +15,6 @@ const Navbar = ({ activeUser, logOut }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
             <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
@@ -25,6 +24,8 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
+        <img id="org-image" alt="logo" src={logoImage} />
+
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>
@@ -61,19 +62,19 @@ const Navbar = ({ activeUser, logOut }) => {
               </li>
             </React.Fragment>
           ) : (
-            <React.Fragment>
-              <li>
-                <NavLink className="mobile-li link" to="/register">
-                  Employer Register
+              <React.Fragment>
+                <li>
+                  <NavLink className="mobile-li link" to="/register">
+                    Employer Register
                 </NavLink>
-              </li>
-              <li>
-                <NavLink className="mobile-li link" to="/login">
-                  Employer Log In
+                </li>
+                <li>
+                  <NavLink className="mobile-li link" to="/login">
+                    Employer Log In
                 </NavLink>
-              </li>
-            </React.Fragment>
-          )}
+                </li>
+              </React.Fragment>
+            )}
         </ul>
       </span>
     </nav>
