@@ -15,7 +15,7 @@ const Navbar = ({ activeUser, logOut }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <Link to="/">
+        <a href="http://homeless.lacounty.gov/" target="_blank">
         <img id="org-image" alt="logo" src={logoImage} />
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
@@ -26,7 +26,7 @@ const Navbar = ({ activeUser, logOut }) => {
             />
           </div>
         </div>
-        </Link>
+        </a>
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>

@@ -48,7 +48,6 @@ class Modal extends React.Component {
 
   render() {
     const job = this.props.modalJob;
-    console.log(job);
     const modal = this.props.modalVisible ? (
       <Portal>
         <div
