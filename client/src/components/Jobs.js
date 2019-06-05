@@ -8,6 +8,7 @@ import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
+import Banner from "./Banner"
 import Paginator from "./Paginator";
 
 const override = css`
@@ -202,6 +203,11 @@ class Jobs extends React.Component {
     return (
       <div>
         <div>
+          {/* <Banner
+            titleUpper="Work to Fight"
+            titleLower="Homelessness"
+            imageName="helping-hands2"
+          /> */}
           <SearchBox
             onSearchChange={this.onSearchChange}
             onZipSearchChange={this.onZipSearchChange}
@@ -227,11 +233,11 @@ class Jobs extends React.Component {
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
                 {activeUser.role === "admin" ||
-                activeUser.role === "employer" ? (
-                  <Link to={`/jobs/form/new`} id="new-job-btn">
-                    Post a Job
+                  activeUser.role === "employer" ? (
+                    <Link to={`/jobs/form/new`} id="new-job-btn">
+                      Post a Job
                   </Link>
-                ) : null}
+                  ) : null}
               </div>
               <div>
                 <Paginator
@@ -260,18 +266,18 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                <ul>
-                  {paginatedJobs.map((job, index) => (
-                    <li key={index}>
-                      <JobPostings
-                        job={job}
-                        activeUser={this.props.activeUser}
-                        onShowModal={this.onShowModal}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+                  <ul>
+                    {paginatedJobs.map((job, index) => (
+                      <li key={index}>
+                        <JobPostings
+                          job={job}
+                          activeUser={this.props.activeUser}
+                          onShowModal={this.onShowModal}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               <div
                 style={{
                   display: "flex",

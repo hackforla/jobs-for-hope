@@ -55,19 +55,19 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
               </li>
             </React.Fragment>
           ) : (
-            <React.Fragment>
-              <li>
-                <NavLink className="mobile-li link" to="/register">
-                  Employer Register
+              <React.Fragment>
+                <li>
+                  <NavLink className="mobile-li link" to="/register">
+                    Employer Register
                 </NavLink>
-              </li>
-              <li>
-                <NavLink className="mobile-li link" to="/login">
-                  Employer Log In
+                </li>
+                <li>
+                  <NavLink className="mobile-li link" to="/login">
+                    Employer Log In
                 </NavLink>
-              </li>
-            </React.Fragment>
-          )}
+                </li>
+              </React.Fragment>
+            )}
         </ul>
       </span>
     </nav>
