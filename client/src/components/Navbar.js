@@ -7,18 +7,18 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <Link to="/">
-          <img id="org-image" alt="logo" src={logoImage} />
-          <div className="burger-container">
-            <div className="burger" onClick={toggler}>
-              <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
-              <div className={`burger-layer ${toggle ? "burger-mid" : null}`} />
-              <div
-                className={`burger-layer ${toggle ? "burger-bottom" : null}`}
-              />
-            </div>
+        <a href="http://homeless.lacounty.gov/" target="_blank">
+        <img id="org-image" alt="logo" src={logoImage} />
+        </a>
+        <div className="burger-container">
+          <div className="burger" onClick={toggler}>
+            <div className={`burger-layer ${toggle ? "burger-top" : null}`} />
+            <div className={`burger-layer ${toggle ? "burger-mid" : null}`} />
+            <div
+              className={`burger-layer ${toggle ? "burger-bottom" : null}`}
+            />
           </div>
-        </Link>
+        </div>
       </div>
 
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>

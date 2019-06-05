@@ -34,7 +34,7 @@ class Jobs extends React.Component {
     organizations: [],
     modalVisible: false,
     modalJob: null,
-    itemsPerPage: 6,
+    itemsPerPage: 10,
     totalPages: 0,
     currentPage: 0
   };
@@ -239,13 +239,35 @@ class Jobs extends React.Component {
                   </Link>
                   ) : null}
               </div>
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginBottom: "2em",
+                  alignItems: "center"
+                  }}
+              >
                 <Paginator
                   totalPages={totalPages}
                   currentPage={currentPage}
                   goTo={this.goToPage}
-                  buttonCount={5}
+                  buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
+                {itemCount > 0 ? <select
+                                    style={{ marginLeft: ".5em" }}
+                                    className="page-select"
+                                    value={this.itemsPerPage}
+                                    onChange={this.handleChangeItemsPerPage}
+                                  >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                  </select>
+                                  :
+                                  null
+                }
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -282,26 +304,31 @@ class Jobs extends React.Component {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginBottom: "2em"
+                  justifyContent: "center",
+                  marginBottom: "2em",
+                  alignItems: "center"
                 }}
               >
                 <Paginator
                   totalPages={totalPages}
                   currentPage={currentPage}
                   goTo={this.goToPage}
-                  buttonCount={5}
+                  buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
-                <select
-                  value={this.itemsPerPage}
-                  onChange={this.handleChangeItemsPerPage}
-                >
-                  <option value="6">6</option>
-                  <option value="12">12</option>
-                  <option value="18">18</option>
-                  <option value="24">24</option>
-                  <option value="1024">1024</option>
-                </select>
+                {itemCount > 0 ? <select
+                                    style={{ marginLeft: ".5em" }}
+                                    className="page-select"
+                                    value={this.itemsPerPage}
+                                    onChange={this.handleChangeItemsPerPage}
+                                  >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                  </select>
+                                  :
+                                  null
+                }
               </div>
             </section>
           </div>

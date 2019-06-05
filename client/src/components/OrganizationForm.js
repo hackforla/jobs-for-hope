@@ -48,6 +48,7 @@ class OrganizationForm extends React.Component {
   }
 
   async componentDidMount() {
+    window.scroll(0, 0);
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
