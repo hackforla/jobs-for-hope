@@ -1,10 +1,8 @@
 import React from "react";
 import * as s3Service from "../services/s3-service";
 import * as config from "../config";
-import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-
-const MAX_HEIGHT = 240;
+import { withAlert } from "react-alert";
 
 class ImageResizeUpload extends React.Component {
   constructor(props) {
@@ -106,7 +104,8 @@ class ImageResizeUpload extends React.Component {
           if (this.props.updateEntity) {
             // Caller supplies callback fn for updating entity with file key
             this.props.updateEntity(key);
-            this.setState({ fileType: "", fileType: "", srcFile: null });
+            this.setState({ fileType: "", srcFile: null });
+            this.props.alert.success("File Uploaded");
           }
         });
       } catch (err) {
@@ -125,7 +124,8 @@ class ImageResizeUpload extends React.Component {
               if (this.props.updateEntity) {
                 // Caller supplies callback fn for updating entity with file key
                 this.props.updateEntity(key);
-                this.setState({ fileType: "", fileType: "", srcFile: null });
+                this.setState({ fileType: "", srcFile: null });
+                this.props.alert.success("File Uploaded");
               }
             });
           } catch (err) {
@@ -139,7 +139,7 @@ class ImageResizeUpload extends React.Component {
   };
 
   render() {
-    const { src, crop, croppedImageUrl } = this.state;
+    const { fileKey, showPreview } = this.state;
     return (
       <div
         style={{
@@ -157,11 +157,7 @@ class ImageResizeUpload extends React.Component {
                 maxHeight: this.props.maxHeight,
                 maxWidth: this.props.maxWidth
               }}
-              src={
-                this.state.fileKey
-                  ? config.AWS_S3_PREFIX + this.state.fileKey
-                  : ""
-              }
+              src={fileKey ? config.AWS_S3_PREFIX + fileKey : ""}
               alt="Current Logo"
             />
           </div>
@@ -172,17 +168,16 @@ class ImageResizeUpload extends React.Component {
             style={{ display: "none" }}
             ref={this.fileInput}
             onChange={this.onSelectFile}
+            accept="image/*"
           />
           <button
             type="button"
-            class="submit-btn"
+            className="submit-btn"
             onClick={this.handleChangeLogo}
           >
             Change Logo...
           </button>
-          <div
-            style={{ display: this.state.showPreview ? "display" : "hidden" }}
-          >
+          <div style={{ display: showPreview ? "display" : "hidden" }}>
             {this.state.srcFile ? (
               <React.Fragment>
                 <div>Replace With:</div>
@@ -195,14 +190,14 @@ class ImageResizeUpload extends React.Component {
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <button
                     type="button"
-                    class="cancel-btn"
+                    className="cancel-btn"
                     onClick={this.handleCancel}
                   >
                     Cancel Logo Change
                   </button>
                   <button
                     type="button"
-                    class="submit-btn"
+                    className="submit-btn"
                     onClick={this.handleUpload}
                   >
                     Save Logo Change
@@ -217,4 +212,4 @@ class ImageResizeUpload extends React.Component {
   }
 }
 
-export default ImageResizeUpload;
+export default withAlert()(ImageResizeUpload);

@@ -9,6 +9,7 @@ import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
 import Banner from "./Banner"
+import Paginator from "./Paginator";
 
 const override = css`
   display: block;
@@ -27,11 +28,15 @@ class Jobs extends React.Component {
     radius: "",
     distanceZip: "",
     filteredJobs: [],
+    paginatedJobs: [],
     itemCount: 0,
     organizationId: "", // Needs to be tracked as a string, e.g. "3", for compatibility with select option values
     organizations: [],
     modalVisible: false,
-    modalJob: null
+    modalJob: null,
+    itemsPerPage: 6,
+    totalPages: 0,
+    currentPage: 0
   };
 
   componentDidMount() {
@@ -43,6 +48,34 @@ class Jobs extends React.Component {
       this.filterJobs();
     }
   }
+
+  handleChangeItemsPerPage = e => {
+    this.setState(
+      { itemsPerPage: parseInt(e.target.value), currentPage: 0 },
+      this.paginateJobs
+    );
+  };
+
+  paginateJobs = () => {
+    this.setState(prevState => {
+      const paginatedJobs =
+        prevState.filteredJobs &&
+        prevState.filteredJobs.filter((value, index) => {
+          const first = prevState.currentPage * prevState.itemsPerPage;
+          return index >= first && index < first + prevState.itemsPerPage;
+        });
+      return {
+        paginatedJobs,
+        totalPages: Math.ceil(
+          prevState.filteredJobs.length / prevState.itemsPerPage
+        )
+      };
+    });
+  };
+
+  goToPage = pageNumber => {
+    this.setState({ currentPage: pageNumber }, this.paginateJobs);
+  };
 
   filterJobs = () => {
     const {
@@ -83,7 +116,7 @@ class Jobs extends React.Component {
         itemCount: filteredJobs.length,
         isBusy: false
       };
-    });
+    }, this.paginateJobs);
   };
 
   getEmploymentTypeFilter = (employmentTypeFT, employmentTypePT) => {
@@ -158,11 +191,13 @@ class Jobs extends React.Component {
 
   render() {
     const {
-      filteredJobs,
+      paginatedJobs,
       userJobTitle,
       itemCount,
       organizationId,
-      isBusy
+      isBusy,
+      totalPages,
+      currentPage
     } = this.state;
     const { activeUser } = this.props;
     return (
@@ -213,6 +248,14 @@ class Jobs extends React.Component {
                   </Link>
                   ) : null}
               </div>
+              <div>
+                <Paginator
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  goTo={this.goToPage}
+                  buttonCount={5}
+                />
+              </div>
               {this.props.isPending || isBusy ? (
                 <div
                   style={{
@@ -233,7 +276,7 @@ class Jobs extends React.Component {
                 </div>
               ) : (
                   <ul>
-                    {filteredJobs.map((job, index) => (
+                    {paginatedJobs.map((job, index) => (
                       <li key={index}>
                         <JobPostings
                           job={job}
@@ -244,6 +287,30 @@ class Jobs extends React.Component {
                     ))}
                   </ul>
                 )}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around"
+                }}
+              >
+                <Paginator
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  goTo={this.goToPage}
+                  buttonCount={5}
+                />
+                <select
+                  value={this.itemsPerPage}
+                  onChange={this.handleChangeItemsPerPage}
+                >
+                  <option value="6">6</option>
+                  <option value="12">12</option>
+                  <option value="18">18</option>
+                  <option value="24">24</option>
+                  <option value="1024">1024</option>
+                </select>
+              </div>
             </section>
           </div>
           }

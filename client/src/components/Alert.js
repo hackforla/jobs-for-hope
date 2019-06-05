@@ -45,7 +45,7 @@ export const AlertTemplate = ({ message, options, style, close }) => {
 export const alertOptions = {
   // you can also just use 'bottom center'
   position: positions.BOTTOM_CENTER,
-  timeout: 10000,
+  timeout: 3000,
   offset: "50px",
   // you can also just use 'scale'
   transition: transitions.SCALE
