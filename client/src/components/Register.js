@@ -47,6 +47,7 @@ const Register = () => {
           }}
           validate={values => {
             const {
+              organization,
               orgName,
               website,
               contactEmail,
