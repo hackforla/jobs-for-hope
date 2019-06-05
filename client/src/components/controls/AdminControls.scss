@@ -1,4 +1,4 @@
-@import "../../_variables.scss";
+@import "../../variables";
 
 table {
   border-collapse: collapse;
@@ -26,11 +26,20 @@ table {
   border: 1px $secondary-color solid;
 }
 
+.org-control {
+  width: 620px;
+}
+
+.org-select {
+  margin-bottom: 2em;
+}
+
 #org-buttons-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-bottom: 2em;
 }
 
 %button-shared {

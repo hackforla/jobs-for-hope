@@ -75,28 +75,30 @@ const AdminControls = props => {
         </table>
       ) : null}
       <h2>Organization Actions:</h2>
-      <select name="organization" className="org-select" onChange={changeOrg}>
-        {orgList.map((org, i) => {
-          return (
-            <option key={org.id} value={org.id}>
-              {org.name}
-            </option>
-          );
-        })}
-      </select>
-      <div id="org-buttons-wrapper">
-        <Link to={`/organizations/${org.id}`} id="org-details-button">
-          Details
-        </Link>
-
-        {role === "admin" ||
-        (role === "employer" && organization.includes(org.name)) ? (
-          // when we change organizations from string to an array:
-          // activeUser.organization.includes(org.name))) ? (
-          <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
-            Edit
+      <div className="org-control">
+        <select name="organization" className="org-select" onChange={changeOrg}>
+          {orgList.map((org, i) => {
+            return (
+              <option key={org.id} value={org.id}>
+                {org.name}
+              </option>
+            );
+          })}
+        </select>
+        <div id="org-buttons-wrapper">
+          <Link to={`/organizations/${org.id}`} id="org-details-button">
+            Details
           </Link>
-        ) : null}
+
+          {role === "admin" ||
+          (role === "employer" && organization.includes(org.name)) ? (
+            // when we change organizations from string to an array:
+            // activeUser.organization.includes(org.name))) ? (
+            <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
+              Edit
+            </Link>
+          ) : null}
+        </div>
       </div>
     </div>
   );
