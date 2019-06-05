@@ -3,13 +3,15 @@ import "./Banner.scss";
 
 const Banner = props => {
   const imageUrl = require(`../images/${props.imageName}.jpg`);
+  const customStyles = props.customStyles
 
   return (
     <div
       className="banner"
       role="banner"
       style={{
-        backgroundImage: `url(${imageUrl})`
+        backgroundImage: `url(${imageUrl})`,
+        customStyles
       }}
     >
       <h1 className="banner-title">
