@@ -64,6 +64,8 @@ class OrganizationView extends React.Component {
 
   render() {
     const { org, toOrganizations } = this.state;
+    const contactIsNotNull =
+      org.street || org.phone || org.email ? true : false;
     if (toOrganizations) {
       return <Redirect to="/organizations" />;
     }
@@ -117,10 +119,11 @@ class OrganizationView extends React.Component {
                   dangerouslySetInnerHTML={this.createDescription(descr)}
                 />
               </div>
-              <div className="organization-contact">
-                {org.street || org.phone || org.email ? (
-                  <p>Contact {org.name}</p>
-                ) : null}
+              <div
+                className="organization-contact"
+                style={contactIsNotNull ? null : { display: "none" }}
+              >
+                {contactIsNotNull ? <p>Contact {org.name}</p> : null}
                 <div style={{ margin: "1em 0 0 0" }}>
                   {`${org.street} ${org.suite}`}
                 </div>

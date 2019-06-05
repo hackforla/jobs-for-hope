@@ -128,16 +128,11 @@ const Register = () => {
                 alert.error(result);
                 setSubmitting(false);
               } else {
-                if (newOrg) {
-                  handleNewOrg(
-                    orgName,
-                    website,
-                    contactEmail,
-                    contactPhone,
-                    email,
-                    password,
-                    confirm
-                  ).then(result => {
+                let organizationSend = newOrg
+                  ? { orgName, website, contactEmail, contactPhone }
+                  : organization;
+                handleRegister(organizationSend, email, password).then(
+                  result => {
                     if (result === "success") {
                       window.location.href = "/";
                       setSubmitting(false);
@@ -145,18 +140,8 @@ const Register = () => {
                       alert.error(result);
                       setSubmitting(false);
                     }
-                  });
-                } else {
-                  handleRegister(organization, email, password).then(result => {
-                    if (result === "success") {
-                      window.location.href = "/";
-                      setSubmitting(false);
-                    } else {
-                      alert.error(result);
-                      setSubmitting(false);
-                    }
-                  });
-                }
+                  }
+                );
               }
             });
           }}
