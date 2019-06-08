@@ -194,7 +194,8 @@ class OrganizationForm extends React.Component {
                       handleSubmit,
                       isSubmitting,
                       setFieldValue,
-                      setFieldTouched
+                      setFieldTouched,
+                      options
                       /* and other goodies */
                     } = props;
                     return (
@@ -403,6 +404,7 @@ class OrganizationForm extends React.Component {
                             onBlur={setFieldTouched}
                             error={errors.regions}
                             touched={touched.regions}
+                            regionList={this.state.regions || []}
                           />
                           <div
                             style={{
