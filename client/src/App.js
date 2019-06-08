@@ -19,6 +19,7 @@ import Footer from "./components/Footer";
 
 import * as jobService from "./services/job-service";
 import * as organizationService from "./services/organization-service";
+import * as regionService from "./services/region-service";
 import { authCheck, handleLogOut } from "./services/auth-service";
 
 import "./App.scss";
@@ -33,15 +34,20 @@ class App extends Component {
       }),
       jobs: [],
       organizations: [],
+      regions: [],
       navToggle: false
     };
   }
 
-  fetchOrganizations = () => {
+  fetchOrganizations = async () => {
+    const regionServiceResult = await regionService.getAll();
+    this.setState({ regions: regionServiceResult });
     organizationService
       .getAll()
       .then(organizations => {
-        this.setState({ organizations: organizations.filter(org => org.is_approved) });
+        this.setState({
+          organizations: organizations.filter(org => org.is_approved)
+        });
         return jobService.getAll();
       })
       .then(jobs => {
@@ -85,7 +91,14 @@ class App extends Component {
   };
 
   render() {
-    const { isPending, activeUser, organizations, jobs, requests } = this.state;
+    const {
+      isPending,
+      activeUser,
+      organizations,
+      jobs,
+      requests,
+      regions
+    } = this.state;
     return (
       <Router>
         <AlertProvider template={AlertTemplate} {...alertOptions}>
@@ -110,6 +123,7 @@ class App extends Component {
                     activeUser={activeUser}
                     jobs={jobs}
                     organizations={organizations}
+                    regions={regions}
                     key={isPending}
                     isPending={isPending}
                   />

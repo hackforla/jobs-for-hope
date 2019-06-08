@@ -38,7 +38,7 @@ const getAll = () => {
 
 const getAllOrganizationRegions = () => {
   const sql = `
-      select ors.organization_id, r.id, r.name
+      select ors.organization_id, r.id, r.name, r.code, r.display_order, r.spa
       from organizations o
         join organization_regions ors on o.id = ors.organization_id
         join regions r on ors.region_id = r.id
@@ -89,7 +89,7 @@ const get = id => {
 
 const getOrganizationRegions = organization_id => {
   const sql = `
-      select ors.organization_id, r.id, r.name
+      select ors.organization_id, r.id, r.name, r.code, r.display_order, r.spa
       from organizations o
         join organization_regions ors on o.id = ors.organization_id
         join regions r on ors.region_id = r.id
