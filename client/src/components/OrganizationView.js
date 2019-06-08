@@ -101,10 +101,16 @@ class OrganizationView extends React.Component {
               <div className="organization-info">
                 <div className="back-button-container">
                   <div className="org-link">
-                    <a className="new-organization-btn website-btn" href={org.url.toLowerCase().startsWith("http") ?
-                                org.url
-                                :
-                                "http://" + org.url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      className="new-organization-btn website-btn"
+                      href={
+                        org.url.toLowerCase().startsWith("http")
+                          ? org.url
+                          : "http://" + org.url
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Website
                     </a>
                   </div>
@@ -113,13 +119,11 @@ class OrganizationView extends React.Component {
                   </button>
                 </div>
                 <h1>{org.name}</h1>
-                { org.mission ?
+                {org.mission ? (
                   <blockquote className="organization-mission">
                     <em>{`"${org.mission}"`}</em>
                   </blockquote>
-                  :
-                  null
-                }
+                ) : null}
                 <div
                   className="organization-description"
                   dangerouslySetInnerHTML={this.createDescription(descr)}
@@ -156,6 +160,14 @@ class OrganizationView extends React.Component {
                     {org.email}
                   </div>
                 ) : null}
+                <div style={{ marginTop: "1em" }}>SPA:</div>
+                <ul style={{ margin: "0" }}>
+                  {org.regions.map(region => (
+                    <li style={{ marginLeft: "-1em" }} key={region.id}>
+                      {region.name}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

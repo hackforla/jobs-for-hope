@@ -155,7 +155,8 @@ class ImageResizeUpload extends React.Component {
             <img
               style={{
                 maxHeight: this.props.maxHeight,
-                maxWidth: this.props.maxWidth
+                width: this.props.maxWidth,
+                maxWidth: "80%"
               }}
               src={fileKey ? config.AWS_S3_PREFIX + fileKey : ""}
               alt="Current Logo"

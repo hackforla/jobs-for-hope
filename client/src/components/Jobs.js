@@ -8,7 +8,6 @@ import { dist } from "../utils/utils";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
-import Banner from "./Banner"
 import Paginator from "./Paginator";
 
 const override = css`
@@ -27,6 +26,7 @@ class Jobs extends React.Component {
     employmentTypePT: false,
     radius: "",
     distanceZip: "",
+    regionId: "",
     filteredJobs: [],
     paginatedJobs: [],
     itemCount: 0,
@@ -85,7 +85,8 @@ class Jobs extends React.Component {
       employmentTypePT,
       radius,
       distanceZip,
-      organizationId
+      organizationId,
+      regionId
     } = this.state;
     const filteredJobs = this.props.jobs
       .filter(job => {
@@ -97,6 +98,7 @@ class Jobs extends React.Component {
       .filter(job => job.title.toLowerCase().includes(search.toLowerCase()))
       .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
       .filter(this.getDistanceFilter(radius, distanceZip))
+      .filter(this.getRegionFilter(regionId))
       // Sort by organization, position title
       .sort((a, b) => {
         if (a.organization_name < b.organization_name) {
@@ -114,7 +116,8 @@ class Jobs extends React.Component {
       return {
         filteredJobs,
         itemCount: filteredJobs.length,
-        isBusy: false
+        isBusy: false,
+        currentPage: 0
       };
     }, this.paginateJobs);
   };
@@ -139,6 +142,21 @@ class Jobs extends React.Component {
       };
     }
     return job => true;
+  };
+
+  getRegionFilter = regionId => {
+    if (!regionId) {
+      return job => true;
+    } else {
+      const orgIds = this.props.organizations
+        .filter(org => {
+          return org.regions
+            .map(region => region.id)
+            .includes(Number(regionId));
+        })
+        .map(o => o.id);
+      return job => orgIds.includes(job.organization_id);
+    }
   };
 
   onSearchChange = e => {
@@ -178,6 +196,13 @@ class Jobs extends React.Component {
     );
   };
 
+  onSetRegionId = regionId => {
+    this.setState(
+      { regionId: regionId ? Number(regionId) : "", isBusy: true },
+      this.filterJobs
+    );
+  };
+
   onShowModal = job => {
     this.setState({
       modalVisible: true,
@@ -199,7 +224,15 @@ class Jobs extends React.Component {
       totalPages,
       currentPage
     } = this.state;
-    const { activeUser } = this.props;
+    const {
+      activeUser,
+      employmentTypeFT,
+      employmentTypePT,
+      radius,
+      distanceZip,
+      regionId,
+      regions
+    } = this.props;
     return (
       <div>
         <div>
@@ -222,10 +255,13 @@ class Jobs extends React.Component {
               onSetEmploymentTypePT={this.onSetEmploymentTypePT}
               onSetDistance={this.onSetDistance}
               onSetDistanceZip={this.onSetDistanceZip}
-              employmentTypeFT={this.state.employmentTypeFT}
-              employmentTypePT={this.state.employmentTypePT}
-              radius={this.state.radius}
-              distanceZip={this.state.distanceZip}
+              employmentTypeFT={employmentTypeFT}
+              employmentTypePT={employmentTypePT}
+              radius={radius}
+              distanceZip={distanceZip}
+              regionId={regionId}
+              regions={regions}
+              onSetRegionId={this.onSetRegionId}
             />
             <section role="tablist" className="recent-postings-container">
               <div className="header-container">
@@ -233,11 +269,11 @@ class Jobs extends React.Component {
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
                 {activeUser.role === "admin" ||
-                  activeUser.role === "employer" ? (
-                    <Link to={`/jobs/form/new`} id="new-job-btn">
-                      Post a Job
+                activeUser.role === "employer" ? (
+                  <Link to={`/jobs/form/new`} id="new-job-btn">
+                    Post a Job
                   </Link>
-                  ) : null}
+                ) : null}
               </div>
               <div
                 style={{
@@ -246,7 +282,7 @@ class Jobs extends React.Component {
                   justifyContent: "center",
                   marginBottom: "2em",
                   alignItems: "center"
-                  }}
+                }}
               >
                 <Paginator
                   totalPages={totalPages}
@@ -254,20 +290,19 @@ class Jobs extends React.Component {
                   goTo={this.goToPage}
                   buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
-                {itemCount > 0 ? <select
-                                    style={{ marginLeft: ".5em" }}
-                                    className="page-select"
-                                    value={this.itemsPerPage}
-                                    onChange={this.handleChangeItemsPerPage}
-                                  >
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  :
-                                  null
-                }
+                {itemCount > 0 ? (
+                  <select
+                    style={{ marginLeft: ".5em" }}
+                    className="page-select"
+                    value={this.itemsPerPage}
+                    onChange={this.handleChangeItemsPerPage}
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                ) : null}
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -288,18 +323,18 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                  <ul>
-                    {paginatedJobs.map((job, index) => (
-                      <li key={index}>
-                        <JobPostings
-                          job={job}
-                          activeUser={this.props.activeUser}
-                          onShowModal={this.onShowModal}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul>
+                  {paginatedJobs.map((job, index) => (
+                    <li key={index}>
+                      <JobPostings
+                        job={job}
+                        activeUser={this.props.activeUser}
+                        onShowModal={this.onShowModal}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
               <div
                 style={{
                   display: "flex",
@@ -315,20 +350,19 @@ class Jobs extends React.Component {
                   goTo={this.goToPage}
                   buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
-                {itemCount > 0 ? <select
-                                    style={{ marginLeft: ".5em" }}
-                                    className="page-select"
-                                    value={this.itemsPerPage}
-                                    onChange={this.handleChangeItemsPerPage}
-                                  >
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  :
-                                  null
-                }
+                {itemCount > 0 ? (
+                  <select
+                    style={{ marginLeft: ".5em" }}
+                    className="page-select"
+                    value={this.itemsPerPage}
+                    onChange={this.handleChangeItemsPerPage}
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                ) : null}
               </div>
             </section>
           </div>

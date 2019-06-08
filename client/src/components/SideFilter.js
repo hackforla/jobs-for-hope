@@ -10,7 +10,10 @@ const SideFilter = ({
   employmentTypeFT,
   employmentTypePT,
   radius,
-  distanceZip
+  distanceZip,
+  regions,
+  regionId,
+  onSetRegionId
 }) => {
   return (
     <aside className="filter-bar-container">
@@ -29,7 +32,9 @@ const SideFilter = ({
           <option value="25">25 miles</option>
           <option value="50">50 miles</option>
         </select>
-        <p className="distance" style={{ fontSize: "small" }}>From Zip Code</p>
+        <p className="distance" style={{ fontSize: "small" }}>
+          From Zip Code
+        </p>
         <input
           value={distanceZip}
           onChange={e => {
@@ -39,7 +44,7 @@ const SideFilter = ({
         />
       </div>
       <div className="employment-type filter-criteria">
-        <p className="employment-type-title" >Employment Type</p>
+        <p className="employment-type-title">Employment Type</p>
         <div className="filter-options">
           <input
             name="full-time"
@@ -61,6 +66,25 @@ const SideFilter = ({
             }}
           />
           <p>Part Time</p> <br />
+        </div>
+        <div style={{ marginTop: "1em" }}>
+          <p title="Service Planning Area">{"SPA "}</p>
+          <select
+            className="region-select"
+            value={regionId}
+            onChange={e => onSetRegionId(e.target.value)}
+          >
+            <option key="0" value="">
+              (Any SPA)
+            </option>
+            {regions
+              ? regions.map(region => (
+                  <option key={region.id} value={region.id}>
+                    {region.name}
+                  </option>
+                ))
+              : null}
+          </select>
         </div>
       </div>
     </aside>
