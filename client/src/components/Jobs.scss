@@ -10,12 +10,16 @@ html {
   box-sizing: inherit;
 }
 
+// .filters-postings-wrapper {
+//   display: flex;
+// }
+
 .header-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: .5em
+  margin-bottom: 0.5em;
 }
 
 #new-job-btn {
@@ -107,14 +111,20 @@ html {
   width: 100%;
 }
 
+@media screen and (max-width: 765px) {
+  .filters-postings-wrapper {
+    flex-wrap: wrap;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .iframe-container {
     padding-top: 120%;
   }
   #new-job-btn {
-    margin: 0 auto .5em auto;
+    margin: 0 auto 0.5em auto;
   }
   .recent-postings-title {
-    margin: .5em auto;
+    margin: 0.5em auto;
   }
 }

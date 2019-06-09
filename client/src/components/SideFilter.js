@@ -17,9 +17,9 @@ const SideFilter = ({
 }) => {
   return (
     <aside className="filter-bar-container">
-      <p className="filters-title"> FILTERS</p>
-      <div className="distance filter-criteria">
-        <p className="distance"> Distance</p>
+      <p className="filters-title">FILTERS</p>
+      <div className="filter-column">
+        <p className="filter-criteria-title"> Distance</p>
         <select
           value={radius}
           onChange={event => {
@@ -32,19 +32,20 @@ const SideFilter = ({
           <option value="25">25 miles</option>
           <option value="50">50 miles</option>
         </select>
-        <p className="distance" style={{ fontSize: "small" }}>
-          From Zip Code
+        <p className="filter-criteria-title">
+          Location
         </p>
         <input
           value={distanceZip}
+          placeholder="Zip Code"
           onChange={e => {
             onSetDistanceZip(e);
           }}
           className="distance-zip"
         />
       </div>
-      <div className="employment-type filter-criteria">
-        <p className="employment-type-title">Employment Type</p>
+      <div className="filter-column">
+        <p className="filter-criteria-title">Employment Type</p>
         <div className="filter-options">
           <input
             name="full-time"
@@ -65,10 +66,10 @@ const SideFilter = ({
               onSetEmploymentTypePT(event.target.checked);
             }}
           />
-          <p>Part Time</p> <br />
+          <p>Part Time</p>
         </div>
-        <div style={{ marginTop: "1em" }}>
-          <p title="Service Planning Area">{"SPA "}</p>
+        <div>
+          <p title="Service Planning Area" className="filter-criteria-title">{"SPA "}</p>
           <select
             className="region-select"
             value={regionId}
@@ -79,10 +80,10 @@ const SideFilter = ({
             </option>
             {regions
               ? regions.map(region => (
-                  <option key={region.id} value={region.id}>
-                    {region.name}
-                  </option>
-                ))
+                <option key={region.id} value={region.id}>
+                  {region.name}
+                </option>
+              ))
               : null}
           </select>
         </div>

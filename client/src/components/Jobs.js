@@ -249,31 +249,33 @@ class Jobs extends React.Component {
             organizationId={organizationId}
             onSetOrganization={this.onSetOrganization}
           />
-          <div className="filters-postings-wrapper">
-            <SideFilter
-              onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
-              onSetEmploymentTypePT={this.onSetEmploymentTypePT}
-              onSetDistance={this.onSetDistance}
-              onSetDistanceZip={this.onSetDistanceZip}
-              employmentTypeFT={employmentTypeFT}
-              employmentTypePT={employmentTypePT}
-              radius={radius}
-              distanceZip={distanceZip}
-              regionId={regionId}
-              regions={regions}
-              onSetRegionId={this.onSetRegionId}
-            />
+
+          <SideFilter
+            onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+            onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+            onSetDistance={this.onSetDistance}
+            onSetDistanceZip={this.onSetDistanceZip}
+            employmentTypeFT={employmentTypeFT}
+            employmentTypePT={employmentTypePT}
+            radius={radius}
+            distanceZip={distanceZip}
+            regionId={regionId}
+            regions={regions}
+            onSetRegionId={this.onSetRegionId}
+          />
+
+          <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}
             <section role="tablist" className="recent-postings-container">
               <div className="header-container">
                 <h2 className="recent-postings-title">
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
                 {activeUser.role === "admin" ||
-                activeUser.role === "employer" ? (
-                  <Link to={`/jobs/form/new`} id="new-job-btn">
-                    Post a Job
+                  activeUser.role === "employer" ? (
+                    <Link to={`/jobs/form/new`} id="new-job-btn">
+                      Post a Job
                   </Link>
-                ) : null}
+                  ) : null}
               </div>
               <div
                 style={{
@@ -323,18 +325,18 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                <ul>
-                  {paginatedJobs.map((job, index) => (
-                    <li key={index}>
-                      <JobPostings
-                        job={job}
-                        activeUser={this.props.activeUser}
-                        onShowModal={this.onShowModal}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+                  <ul>
+                    {paginatedJobs.map((job, index) => (
+                      <li key={index}>
+                        <JobPostings
+                          job={job}
+                          activeUser={this.props.activeUser}
+                          onShowModal={this.onShowModal}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               <div
                 style={{
                   display: "flex",

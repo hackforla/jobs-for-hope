@@ -1,9 +1,5 @@
 @import "../_variables.scss";
 
-.filters-postings-wrapper {
-  display: flex;
-}
-
 .footer {
   display: flex;
   justify-content: center;
@@ -45,12 +41,6 @@
 
   .org-icon {
     align-items: center;
-  }
-}
-
-@media screen and (max-width: 765px) {
-  .filters-postings-wrapper {
-    flex-wrap: wrap;
   }
 }
 

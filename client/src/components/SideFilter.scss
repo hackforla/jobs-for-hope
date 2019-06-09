@@ -1,21 +1,32 @@
 @import "../_variables.scss";
 
+// side bar
+// .filter-bar-container {
+//   height: 100vh; /* Full-height: remove this if you want "auto" height */
+//   width: 22vw; /* Set the width of the sidebar */
+//   top: 10em;
+//   padding: 1.5em;
+//   background-color: $lightest-color;
+// }
+
 .filter-bar-container {
-  height: 100vh; /* Full-height: remove this if you want "auto" height */
-  width: 22vw; /* Set the width of the sidebar */
-  top: 10em;
-  padding: 1.5em;
+  position: sticky;
+  position: -webkit-sticky;
+  height: 25%; /* Full-height: remove this if you want "auto" height */
+  width: 100%; /* Set the width of the sidebar */
+  top: 0px;
+  padding: 1em;
   background-color: $lightest-color;
+  display: flex;
 }
 
 .filter-options {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 0.25em;
 }
 
-.filter-criteria {
+.filter-column {
   padding: 0.5em;
+  // background-color: blue;
 }
 
 .filters-title {
@@ -24,13 +35,8 @@
   font-weight: 900;
 }
 
-.distance {
-  margin-bottom: 0.5em;
-}
-
 .distance-selector {
-  margin-top: 0.25em;
-  margin-bottom: 1em;
+  margin: 0.25em 0;
   padding: 0.7em;
   border-radius: 0.25em;
   border: 1px gray solid;
@@ -40,7 +46,7 @@
 }
 
 .distance-zip {
-  margin-top: 0.25em;
+  margin: 0.25em 0;
   padding: 0.7em;
   border-radius: 0.25em;
   border: 1px gray solid;
@@ -48,9 +54,9 @@
   height: 2.75em;
 }
 
-.employment-type-title {
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+.filter-criteria-title {
+  margin: 0.4em 0;
+  // background-color: red;
 }
 
 @media screen and (max-width: 765px) {
