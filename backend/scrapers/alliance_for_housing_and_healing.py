@@ -1,27 +1,29 @@
 from datetime import datetime
 import globals
-from globals import get_soup, update_db
+from globals import get_soup, job_insert
 from datecleaner import month_to_num
-
+from job import Job
 # Alliance for Housing and Healing (Formerly the Serra Project & Aid For Aids)
 
 organization = "Alliance for Housing and Healing"
 url = 'https://alliancehh.org/about/jobs/'
-
+organization_id= 3
 
 def run(url):
     soup = get_soup(url)
     jobs_list = soup.find_all('h4')
-
+    job_class= Job(organization, "")
+    job_class.organization_id= organization_id
+    insert_count= 0
     for job_entry in jobs_list:
-        globals.job_title = job_entry.a.text
-        globals.info_link = job_entry.a['href']
-        listing_soup = get_soup(globals.info_link)
+        job_class.title = job_entry.a.text
+        job_class.info_link = job_entry.a['href']
+        listing_soup = get_soup(job_class.info_link)
 
         if listing_soup.body.find_all('p', string="Job Type: Full-time"):
-            globals.full_or_part = 'Full-time'
+            job_class.full_or_part = 'Full-time'
         elif listing_soup.body.find_all('p', string="Job Type: Part-time"):
-            globals.full_or_part = 'Part-time'
+            job_class.full_or_part = 'Part-time'
 
         date_text = listing_soup.body.find_all(
             'span', {'class': 'subtitle'})[0].text.split()
@@ -31,6 +33,7 @@ def run(url):
         year = int(date_text[4])
         month = month_to_num(month_string)
 
-        globals.job_post_date = datetime(year, month, day)
+        job_class.post_date = datetime(year, month, day)
 
-        update_db(organization)
+        insert_count+=job_insert(job_class)
+    return insert_count
