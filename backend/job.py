@@ -1,10 +1,10 @@
 class Job:
     """ A job posting """
 
-    def __init__(self, organization_id, title):
-
-        self.organization_id = organization_id
-        self.title = title
+    def __init__(self, organization_name, job_title):
+        self.organization_name = organization_name
+        self.title = job_title
+        self.organization_id=''
         self.summary = ''
         self.location = ''
         self.zip_code = ''
