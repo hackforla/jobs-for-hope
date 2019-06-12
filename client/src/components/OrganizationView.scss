@@ -24,6 +24,13 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+        align-items: center;
+
+        .website-btn {
+          color: black;
+          text-decoration: none;
+          margin-right: 0.5em;
+        }
       }
 
       .org-link {
@@ -33,13 +40,18 @@
         }
       }
 
+      h1 {
+        color: $primary-color;
+      }
+
       blockquote {
-        width: 80%;
+        width: 70%;
         font-size: 1.2em;
       }
 
       .organization-description {
-        width: 95%;
+        width: 80%;
+        margin-bottom: 3em;
       }
     }
 
@@ -75,4 +87,46 @@
       }
     }
   }
+}
+
+// *, *:before, *:after{
+//     margin: 0;
+//     padding: 0;
+//     direction: ltr;
+//     box-sizing: border-box;
+// }
+
+blockquote {
+  font-size: 1.4em;
+  width: 60%;
+  margin: 50px auto;
+  font-style: italic;
+  color: #555555;
+  padding: 1.2em 30px 1.2em 75px;
+  border-left: 8px solid $secondary-color;
+  line-height: 1.6;
+  position: relative;
+  background: #ededed;
+}
+
+blockquote::before {
+  font-family: Arial;
+  content: "\201C";
+  color: $secondary-color;
+  font-size: 4em;
+  position: absolute;
+  left: 10px;
+  top: -10px;
+}
+
+blockquote::after {
+  content: "";
+}
+
+blockquote span {
+  display: block;
+  color: #333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top: 1em;
 }

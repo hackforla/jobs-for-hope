@@ -30,7 +30,7 @@ const Register = () => {
       <Banner
         titleUpper="Connect With"
         titleLower={"Job-Seekers"}
-        imageName="homeless_poster"
+        imageName="santa-monica-state-beach"
       />
       <div className="auth-form-container">
         <div className="role-selector-container">

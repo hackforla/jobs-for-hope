@@ -52,6 +52,10 @@
   color: $primary-color;
 }
 
+#org-jobs-available:hover {
+  opacity: .75;
+}
+
 #org-buttons-wrapper {
   display: flex;
   justify-content: center;

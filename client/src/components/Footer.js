@@ -10,52 +10,31 @@ const Footer = ({ activeUser, logOut }) => (
         src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png"
       />
     </div>
-    <div className="quick-links-footer footer-content">
-      <div className="quick-links-content">
-        <h3>Quick Links</h3>
-        <p className="link">
-          <a href="/about">About Us</a>
+    <div className="quick-links-footer quick-links-content footer-content">
+      <h3>Quick Links</h3>
+      <p className="link">
+        <a href="/about">About Us</a>
+      </p>
+      <p className="link">
+        <a href="/contact">Contact Us</a>
+      </p>
+      <p className="link">
+        <a href="/organizations">Organizations</a>
+      </p>
+      {activeUser.id ? (
+        <p className="link" onClick={logOut}>
+          Log Out
         </p>
-        <p className="link">
-          <a href="/contact">Contact Us</a>
-        </p>
-        <p className="link">
-          <a href="/organizations">Organizations</a>
-        </p>
-        {activeUser.id ? (
-          <p className="link" onClick={logOut}>
-            Log Out
+      ) : (
+        <React.Fragment>
+          <p className="link">
+            <a href="/register">Employer Sign Up</a>
           </p>
-        ) : (
-          <React.Fragment>
-            <p className="link">
-              <a href="/register">Employer Sign Up</a>
-            </p>
-            <p className="link">
-              <a href="/login">Employer Log In</a>
-            </p>
-          </React.Fragment>
-        )}
-      </div>
-    </div>
-    <div className="social-media-footer footer-content">
-      <h3>Follow Us</h3>
-      <div className="social-media-btn-container">
-        <div className="social-media-btn">
-          <img
-            id="social-media-btn"
-            alt="twitter logo"
-            src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png"
-          />
-        </div>
-        <div className="social-media-btn">
-          <img
-            id="social-media-btn"
-            alt="instagram logo"
-            src="http://www.transparentpng.com/download/logo-instagram/Sj4fEy-instagram-png-logo-high-quality.png"
-          />
-        </div>
-      </div>
+          <p className="link">
+            <a href="/login">Employer Log In</a>
+          </p>
+        </React.Fragment>
+      )}
     </div>
     <div className="contact-footer footer-content">
       <h3>Contact Us</h3>

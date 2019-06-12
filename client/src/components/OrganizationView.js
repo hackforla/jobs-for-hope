@@ -36,7 +36,6 @@ const initialValues = {
 class OrganizationView extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
@@ -46,6 +45,7 @@ class OrganizationView extends React.Component {
   }
 
   componentDidMount() {
+    window.scroll(0, 0);
     if (this.id) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
@@ -100,20 +100,30 @@ class OrganizationView extends React.Component {
             <div className="organization-content">
               <div className="organization-info">
                 <div className="back-button-container">
+                  <div className="org-link">
+                    <a
+                      className="new-organization-btn website-btn"
+                      href={
+                        org.url.toLowerCase().startsWith("http")
+                          ? org.url
+                          : "http://" + org.url
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Website
+                    </a>
+                  </div>
                   <button id="close-btn" onClick={this.handleClose}>
                     Back to Organizations
                   </button>
                 </div>
                 <h1>{org.name}</h1>
-                <div className="org-link">
-                  <a href={org.url} target="_blank" rel="noopener noreferrer">
-                    {org.url}
-                  </a>
-                </div>
-
-                <blockquote className="organization-mission">
-                  <em>{org.mission}</em>
-                </blockquote>
+                {org.mission ? (
+                  <blockquote className="organization-mission">
+                    <em>{`"${org.mission}"`}</em>
+                  </blockquote>
+                ) : null}
                 <div
                   className="organization-description"
                   dangerouslySetInnerHTML={this.createDescription(descr)}
@@ -150,6 +160,14 @@ class OrganizationView extends React.Component {
                     {org.email}
                   </div>
                 ) : null}
+                <div style={{ marginTop: "1em" }}>SPA:</div>
+                <ul style={{ margin: "0" }}>
+                  {org.regions.map(region => (
+                    <li style={{ marginLeft: "-1em" }} key={region.id}>
+                      {region.name}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

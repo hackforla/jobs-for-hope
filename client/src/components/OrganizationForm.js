@@ -12,8 +12,9 @@ import SelectRegion from "./SelectRegion";
 import { withAlert } from "react-alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import * as regionService from "../services/region-service";
 
-const regions = require("./regions.json");
+//const regions = require("./regions.json");
 
 const initialValues = {
   id: 0,
@@ -41,22 +42,31 @@ class OrganizationForm extends React.Component {
     this.id = props.match.params.id || 0;
     this.state = {
       org: initialValues,
-      regions: regions,
+      regions: [],
       toOrganizations: false,
       logoFile: null
     };
   }
 
   async componentDidMount() {
-    if (this.id) {
+    window.scroll(0, 0);
+    const regionsResult = await regionService.getAll();
+    const regions = regionsResult.map(region => ({
+      value: region.id.toString(),
+      label: region.name
+    }));
+    this.setState({ regions });
+    if (this.id && parseInt(this.id)) {
       organizationService.get(this.id).then(resp => {
         this.id = resp.id;
-        if (resp && resp.description) {
-          resp.descriptionEditorState = EditorState.createWithContent(
-            convertFromHTML(resp.description)
-          );
-        } else {
-          resp.descriptionEditorState = EditorState.createEmpty();
+        if (resp) {
+          if (resp.description) {
+            resp.descriptionEditorState = EditorState.createWithContent(
+              convertFromHTML(resp.description)
+            );
+          } else {
+            resp.descriptionEditorState = EditorState.createEmpty();
+          }
         }
         // Map regions to an array of objects compatible with react-select
         console.log(regions);
@@ -90,7 +100,7 @@ class OrganizationForm extends React.Component {
       req.descriptionEditorState.getCurrentContent()
     );
     delete req.descriptionEditorState;
-    if (this.id) {
+    if (this.id && parseInt(this.id)) {
       organizationService.put(req).then(resp => {
         this.props.alert.success("Changes saved");
         setSubmitting(false);
@@ -184,7 +194,8 @@ class OrganizationForm extends React.Component {
                       handleSubmit,
                       isSubmitting,
                       setFieldValue,
-                      setFieldTouched
+                      setFieldTouched,
+                      options
                       /* and other goodies */
                     } = props;
                     return (
@@ -385,7 +396,7 @@ class OrganizationForm extends React.Component {
                             htmlFor="regions"
                             className="organization-label"
                           >
-                            Regions{" "}
+                            Service Planning Areas{" "}
                           </label>
                           <SelectRegion
                             value={values.regions}
@@ -393,6 +404,7 @@ class OrganizationForm extends React.Component {
                             onBlur={setFieldTouched}
                             error={errors.regions}
                             touched={touched.regions}
+                            regionList={this.state.regions || []}
                           />
                           <div
                             style={{
@@ -402,7 +414,11 @@ class OrganizationForm extends React.Component {
                               justifyContent: "space-between"
                             }}
                           >
-                            <div title="Delete" id="delete-btn" onClick={this.handleDelete}>
+                            <div
+                              title="Delete"
+                              id="delete-btn"
+                              onClick={this.handleDelete}
+                            >
                               <FontAwesomeIcon icon={faTrash} />
                             </div>
                             <div>
@@ -412,14 +428,14 @@ class OrganizationForm extends React.Component {
                                 onClick={this.handleCancel}
                               >
                                 Cancel
-                            </button>
+                              </button>
                               <button
                                 className="submit-btn"
                                 type="submit"
                                 disabled={isSubmitting}
                               >
                                 Save
-                            </button>
+                              </button>
                             </div>
                           </div>
                         </form>
