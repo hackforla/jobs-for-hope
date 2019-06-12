@@ -1,7 +1,7 @@
 @import "../_variables.scss";
 
 .navbar {
-  font-size: calc(10px + 1.5vmin);
+  font-size: calc(10px + 1.2vmin);
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -36,7 +36,7 @@
       justify-content: space-around;
 
       li {
-        margin: 15px;
+        margin: 12px;
         list-style: none;
       }
 
@@ -70,7 +70,7 @@
       background-color: $primary-color;
 
       #org-image {
-        max-width: 240px;
+        max-width: 225px;
         z-index: 151;
         float: left;
       }
@@ -79,7 +79,7 @@
         justify-content: center;
         align-items: center;
         height: 100%;
-        width: 20%;
+        width: 15%;
         max-width: 80px;
         float: right;
 
@@ -117,7 +117,7 @@
       // max-height: calc(100% - 90px);
       justify-content: flex-end;
       right: 0;
-      // width: 100vw;
+      width: 100vw;
       padding: 10px;
       transition: 0.3s;
       z-index: -1;
@@ -128,6 +128,7 @@
         padding: 0;
         justify-content: space-around;
         flex-direction: column;
+        align-items: flex-end;
 
         li {
           margin: calc(5px + 1.5vh);

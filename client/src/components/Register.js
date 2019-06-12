@@ -12,13 +12,13 @@ import { useAlert } from "react-alert";
 const Register = () => {
   const [orgList, setOrgList] = useState([]);
   const [newOrg, setNewOrg] = useState(false);
+  const [isJobSeeker, setIsJobSeeker] = useState(false);
   const alert = useAlert();
 
   useEffect(() => {
     getAll().then(result => {
       setOrgList(result.map(org => org.name));
     });
-    console.log("orgs", orgList);
   }, []);
 
   const toggleCheck = () => {
@@ -33,272 +33,298 @@ const Register = () => {
         imageName="homeless_poster"
       />
       <div className="auth-form-container">
-        <h2 id="login-title">Register to Post a Job</h2>
-        <Formik
-          initialValues={{
-            organization: "",
-            orgName: "",
-            website: "",
-            contactEmail: "",
-            contactPhone: "",
-            email: "",
-            password: "",
-            confirm: ""
-          }}
-          validate={values => {
-            const {
-              organization,
-              orgName,
-              website,
-              contactEmail,
-              contactPhone,
-              email,
-              password,
-              confirm
-            } = values;
-            let errors = {};
-            if (newOrg) {
-              if (!orgName) {
-                errors.orgName = "Required";
+        <div className="role-selector-container">
+          <div
+            className={`role-title ${isJobSeeker ? "unselected" : "selected"}`}
+            onClick={() => setIsJobSeeker(false)}
+          >
+            Register as a Job Poster
+          </div>
+          <div
+            className={`role-title ${isJobSeeker ? "selected" : "unselected"}`}
+            onClick={() => setIsJobSeeker(true)}
+          >
+            Register as a Job Seeker
+          </div>
+        </div>
+        <div className="formik-container">
+          <Formik
+            initialValues={{
+              organization: "",
+              orgName: "",
+              website: "",
+              contactEmail: "",
+              contactPhone: "",
+              email: "",
+              password: "",
+              confirm: ""
+            }}
+            validate={values => {
+              const {
+                organization,
+                orgName,
+                website,
+                contactEmail,
+                contactPhone,
+                email,
+                password,
+                confirm
+              } = values;
+              let errors = {};
+              if (newOrg) {
+                if (!orgName) {
+                  errors.orgName = "Required";
+                }
+                if (!website) {
+                  errors.website = "Required";
+                }
+                if (
+                  contactEmail &&
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(contactEmail)
+                ) {
+                  errors.contactEmail = "Invalid email address";
+                }
+                if (
+                  contactPhone &&
+                  !/^(\([0-9]{3}\)\s*|[0-9]{3}\-?)[0-9]{3}-?[0-9]{4}$/.test(
+                    contactPhone
+                  )
+                ) {
+                  errors.contactPhone =
+                    "Invalid phone number. Please use XXX-XXX-XXXX format";
+                }
               }
-              if (!website) {
-                errors.website = "Required";
+              if (!isJobSeeker && !newOrg) {
+                if (!organization) {
+                  errors.organization = "Required";
+                }
               }
-              if (
-                contactEmail &&
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(contactEmail)
+              if (!email) {
+                errors.email = "Required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
               ) {
-                errors.contactEmail = "Invalid email address";
+                errors.email = "Invalid email address";
               }
+              const hasUpperCase = /[A-Z]/.test(password);
+              const hasLowerCase = /[a-z]/.test(password);
+              const hasNumbers = /\d/.test(password);
+              const hasNonalphas = /\W/.test(password);
+
               if (
-                contactPhone &&
-                !/^(\([0-9]{3}\)\s*|[0-9]{3}\-?)[0-9]{3}-?[0-9]{4}$/.test(
-                  contactPhone
-                )
+                password.length < 8 ||
+                hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3
               ) {
-                errors.contactPhone =
-                  "Invalid phone number. Please use XXX-XXX-XXXX format";
+                errors.password =
+                  "Password must be at least 8 characters and use at least 3 of the following character types: (a) uppercase letters, (b) lowercase letters, (c) numbers, and/or (d) special characters.";
               }
-            }
-            if (!newOrg) {
-              if (!organization) {
-                errors.organization = "Required";
+
+              if (confirm !== password) {
+                errors.confirm = "Passwords must match";
               }
-            }
-            if (!email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasLowerCase = /[a-z]/.test(password);
-            const hasNumbers = /\d/.test(password);
-            const hasNonalphas = /\W/.test(password);
-
-            if (
-              password.length < 8 ||
-              hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3
-            ) {
-              errors.password =
-                "Password must be at least 8 characters and use at least 3 of the following character types: (a) uppercase letters, (b) lowercase letters, (c) numbers, and/or (d) special characters.";
-            }
-
-            if (confirm !== password) {
-              errors.confirm = "Passwords must match";
-            }
-            return errors;
-          }}
-          validateOnChange="false"
-          onSubmit={(values, { setSubmitting }) => {
-            const {
-              organization,
-              orgName,
-              website,
-              contactEmail,
-              contactPhone,
-              email,
-              password,
-              confirm
-            } = values;
-            sendConfirmEmail(email).then(result => {
-              if (result === "User already exists") {
-                alert.error(result);
-                setSubmitting(false);
-              } else {
-                let organizationSend = newOrg
-                  ? { orgName, website, contactEmail, contactPhone }
-                  : organization;
-                handleRegister(organizationSend, email, password).then(
-                  result => {
-                    if (result === "success") {
-                      window.location.href = "/";
-                      setSubmitting(false);
-                    } else {
-                      alert.error(result);
-                      setSubmitting(false);
+              return errors;
+            }}
+            validateOnChange="false"
+            onSubmit={(values, { setSubmitting }) => {
+              const {
+                organization,
+                orgName,
+                website,
+                contactEmail,
+                contactPhone,
+                email,
+                password,
+                confirm
+              } = values;
+              sendConfirmEmail(email).then(result => {
+                if (result === "User already exists") {
+                  alert.error(result);
+                  setSubmitting(false);
+                } else {
+                  let organizationSend = isJobSeeker
+                    ? null
+                    : newOrg
+                    ? { orgName, website, contactEmail, contactPhone }
+                    : organization;
+                  handleRegister(organizationSend, email, password).then(
+                    result => {
+                      if (result === "success") {
+                        window.location.href = "/";
+                        setSubmitting(false);
+                      } else {
+                        alert.error(result);
+                        setSubmitting(false);
+                      }
                     }
-                  }
-                );
-              }
-            });
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-          }) => (
+                  );
+                }
+              });
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting
+            }) => (
               <form
                 onSubmit={handleSubmit}
                 name="login-form"
                 aria-labelledby="login"
               >
-                <div className="organization-container form-component">
-                  <label htmlFor="organization" className="title-label">
-                    Organization Information
-                </label>
-                  <div className="checkbox-container">
-                    <input
-                      id="orgCheckBox"
-                      className="checkbox"
-                      type="checkbox"
-                      name="orgCheckBox"
-                      onChange={toggleCheck}
-                    />
-                    <label htmlFor="orgCheckBox">New Organization</label>
-                  </div>
-                </div>
-                {!newOrg ? (
+                {isJobSeeker ? null : (
                   <React.Fragment>
-                    <select
-                      name="organization"
-                      className="org-select"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.organization}
-                    >
-                      <option value="" disabled>
-                        Select an Organization
-                    </option>
-                      {orgList.map((org, i) => {
-                        return (
-                          <option key={i} value={org}>
-                            {org}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    {errors.organization && touched.organization && (
-                      <div className="input-feedback">{errors.organization}</div>
-                    )}
-                  </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                      <div className="form-component">
-                        <label className="org-label" htmlFor="orgName">
-                          Name*
-                    </label>
-                        <br />
+                    <div className="organization-container form-component">
+                      <label htmlFor="organization" className="title-label">
+                        Organization Information
+                      </label>
+                      <div className="checkbox-container">
                         <input
-                          id="orgName"
-                          name="orgName"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.orgName}
-                          className={
-                            errors.orgName && touched.orgName
-                              ? "error login-input"
-                              : "login-input"
-                          }
+                          id="orgCheckBox"
+                          className="checkbox"
+                          type="checkbox"
+                          name="orgCheckBox"
+                          onChange={toggleCheck}
                         />
-                        {errors.orgName && touched.orgName && (
-                          <div className="input-feedback">{errors.orgName}</div>
-                        )}
-                        <br />
+                        <label htmlFor="orgCheckBox">New Organization</label>
                       </div>
-                      <div className="form-component">
-                        <label className="org-label" htmlFor="website">
-                          Website*
-                    </label>
-                        <br />
-                        <input
-                          id="website"
-                          name="website"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.website}
-                          className={
-                            errors.website && touched.website
-                              ? "error login-input"
-                              : "login-input"
-                          }
-                        />
-                        {errors.website && touched.website && (
-                          <div className="input-feedback">{errors.website}</div>
-                        )}
-                        <br />
-                      </div>
-                      <div className="form-component">
-                        <label className="org-label" htmlFor="contactEmail">
-                          Email
-                    </label>
-                        <br />
-                        <input
-                          id="contactEmail"
-                          name="contactEmail"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.contactEmail}
-                          className={
-                            errors.contactEmail && touched.contactEmail
-                              ? "error login-input"
-                              : "login-input"
-                          }
-                        />
-                        {errors.contactEmail && touched.contactEmail && (
-                          <div className="input-feedback">
-                            {errors.contactEmail}
-                          </div>
-                        )}
-                        <br />
-                      </div>
-                      <div className="form-component">
-                        <label className="org-label" htmlFor="contactPhone">
-                          Phone
-                    </label>
-                        <br />
-                        <input
-                          id="contactPhone"
-                          name="contactPhone"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.contactPhone}
-                          className={
-                            errors.contactPhone && touched.contactPhone
-                              ? "error login-input"
-                              : "login-input"
-                          }
-                        />
-                        {errors.contactPhone && touched.contactPhone && (
-                          <div className="input-feedback">
-                            {errors.contactPhone}
-                          </div>
-                        )}
-                      </div>
-                    </React.Fragment>
-                  )}
-                <br />
-                <br />
+                    </div>
 
+                    {!newOrg ? (
+                      <React.Fragment>
+                        <select
+                          name="organization"
+                          className="org-select"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.organization}
+                        >
+                          <option value="" disabled>
+                            Select an Organization
+                          </option>
+                          {orgList.map((org, i) => {
+                            return (
+                              <option key={i} value={org}>
+                                {org}
+                              </option>
+                            );
+                          })}
+                        </select>
+                        {errors.organization && touched.organization && (
+                          <div className="input-feedback">
+                            {errors.organization}
+                          </div>
+                        )}
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <div className="form-component">
+                          <label className="org-label" htmlFor="orgName">
+                            Name*
+                          </label>
+                          <br />
+                          <input
+                            id="orgName"
+                            name="orgName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.orgName}
+                            className={
+                              errors.orgName && touched.orgName
+                                ? "error login-input"
+                                : "login-input"
+                            }
+                          />
+                          {errors.orgName && touched.orgName && (
+                            <div className="input-feedback">
+                              {errors.orgName}
+                            </div>
+                          )}
+                          <br />
+                        </div>
+                        <div className="form-component">
+                          <label className="org-label" htmlFor="website">
+                            Website*
+                          </label>
+                          <br />
+                          <input
+                            id="website"
+                            name="website"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.website}
+                            className={
+                              errors.website && touched.website
+                                ? "error login-input"
+                                : "login-input"
+                            }
+                          />
+                          {errors.website && touched.website && (
+                            <div className="input-feedback">
+                              {errors.website}
+                            </div>
+                          )}
+                          <br />
+                        </div>
+                        <div className="form-component">
+                          <label className="org-label" htmlFor="contactEmail">
+                            Email
+                          </label>
+                          <br />
+                          <input
+                            id="contactEmail"
+                            name="contactEmail"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.contactEmail}
+                            className={
+                              errors.contactEmail && touched.contactEmail
+                                ? "error login-input"
+                                : "login-input"
+                            }
+                          />
+                          {errors.contactEmail && touched.contactEmail && (
+                            <div className="input-feedback">
+                              {errors.contactEmail}
+                            </div>
+                          )}
+                          <br />
+                        </div>
+                        <div className="form-component">
+                          <label className="org-label" htmlFor="contactPhone">
+                            Phone
+                          </label>
+                          <br />
+                          <input
+                            id="contactPhone"
+                            name="contactPhone"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.contactPhone}
+                            className={
+                              errors.contactPhone && touched.contactPhone
+                                ? "error login-input"
+                                : "login-input"
+                            }
+                          />
+                          {errors.contactPhone && touched.contactPhone && (
+                            <div className="input-feedback">
+                              {errors.contactPhone}
+                            </div>
+                          )}
+                        </div>
+                      </React.Fragment>
+                    )}
+                    <br />
+                    <br />
+                  </React.Fragment>
+                )}
                 <label htmlFor="employer" className="title-label">
                   Employer Information
-              </label>
+                </label>
                 <div className="form-component">
                   <label htmlFor="email">Email</label>
                   <br />
@@ -363,13 +389,14 @@ const Register = () => {
                 </div>
                 <button id="send-btn" type="submit" disabled={isSubmitting}>
                   Register
-              </button>
+                </button>
                 <Link to="/login" className="intext-link">
                   Log In
-              </Link>
+                </Link>
               </form>
             )}
-        </Formik>
+          </Formik>
+        </div>
       </div>
     </main>
   );

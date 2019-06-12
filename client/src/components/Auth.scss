@@ -4,6 +4,52 @@
   margin: 4em auto 6.5em auto;
   width: 80%;
   max-width: 550px;
+  border: 0.5px solid #ddd;
+  border-top: 0;
+  border-radius: 0.5em;
+  box-shadow: 4px 4px 3px -3px gray;
+  background-color: $lightest-color;
+  transition: all 1s;
+
+  .role-selector-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    border-radius: 0.5em 0.5em 0 0;
+    background-color: white;
+
+    .role-title {
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: auto;
+      min-height: 36px;
+      font-weight: bold;
+      // margin: 15px;
+      border: 0.5px solid #ddd;
+      border-bottom: 0;
+      border-radius: 0.5em 0.5em 0 0;
+      // box-shadow: 4px 4px 3px -3px gray;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: $lightest-color;
+    }
+
+    .unselected {
+      background-color: white;
+    }
+  }
+
+  .formik-container {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    transition: all 1s;
+  }
 }
 
 .organization-container {
@@ -110,11 +156,13 @@
     background-size: 140%;
     background-position: 35% 30%;
   }
-
-  .login-title {
+  .auth-form-container {
+    width: calc(100% - 10px);
+    margin: 5px;
+  }
+  .role-title {
     padding-left: 30px;
     width: 30%;
-    font-size: 3.2em;
   }
 }
 
@@ -125,16 +173,16 @@
     background-position: 35% 25%;
   }
 
-  .login-title {
+  .role-title {
     padding-left: 10px;
     width: 30%;
-    font-size: 3em;
   }
 }
 
 input:focus {
   border-color: #007eff;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 0 3px rgba(0, 126, 255, 0.1);
   outline: none;
 }
 
