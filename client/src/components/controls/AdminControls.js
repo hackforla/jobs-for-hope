@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { loadRequests, approveRequest } from "../../services/verify-service";
 import { getAll } from "../../services/organization-service";
@@ -10,7 +9,6 @@ const AdminControls = props => {
   const [orgList, setOrgList] = useState([]);
   const [org, setOrg] = useState({});
   const { role, organization } = props.activeUser;
-  if (!role) return <Redirect to="/" />;
 
   useEffect(() => {
     loadRequests().then(result => setRequests(result));

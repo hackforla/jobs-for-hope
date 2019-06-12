@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { getAll } from "../../services/organization-service";
 import "./EmployerControls.scss";
@@ -8,7 +7,6 @@ const EmployerControls = props => {
   const [orgList, setOrgList] = useState([]);
   const [org, setOrg] = useState({});
   const { role, organization } = props.activeUser;
-  if (!role) return <Redirect to="/" />;
 
   useEffect(() => {
     getAll().then(result => {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import { loadRequests, approveRequest } from "../services/verify-service";
 import "./Account.scss";
 import AdminControls from "./controls/AdminControls";
 import EmployerControls from "./controls/EmployerControls";
