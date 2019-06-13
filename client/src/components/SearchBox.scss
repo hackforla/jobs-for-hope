@@ -9,11 +9,13 @@
   padding-top: 3.5em;
   padding-bottom: 3em;
   text-align: center;
-  background: url("../images/helping-hands2.jpg");
-  background-position: 5% 40%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+  // background: url("../images/helping-hands2.jpg");
+  // background-position: 5% 40%;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // color: white;
+  background-color: pink;
+
   h1 {
     margin: 0 auto;
   }
@@ -42,10 +44,12 @@
 //   }
 // }
 
-.keyword-search,
+//TODO: add width s to zipcide search
+// .keyword-search,
 .location-search,
 .organization-search {
   width: 200px;
+  // background-color: blue;
 }
 
 .organization-search {
@@ -69,7 +73,7 @@
   font-family: $main-font;
 }
 
-.keyword-search,
+// .keyword-search,
 .location-search,
 .organization-search,
 .search-btn-content-container {

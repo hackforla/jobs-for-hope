@@ -9,6 +9,7 @@ import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
 import Paginator from "./Paginator";
+import Banner from "./Banner"
 
 const override = css`
   display: block;
@@ -236,11 +237,11 @@ class Jobs extends React.Component {
     return (
       <div>
         <div>
-          {/* <Banner
+          <Banner
             titleUpper="Work to Fight"
             titleLower="Homelessness"
             imageName="helping-hands2"
-          /> */}
+          />
           <SearchBox
             onSearchChange={this.onSearchChange}
             onZipSearchChange={this.onZipSearchChange}
@@ -262,6 +263,13 @@ class Jobs extends React.Component {
             regionId={regionId}
             regions={regions}
             onSetRegionId={this.onSetRegionId}
+            //props from SearchBox:
+            onSearchChange={this.onSearchChange}
+            onZipSearchChange={this.onZipSearchChange}
+            userJobTitle={userJobTitle}
+            organizations={this.props.organizations}
+            organizationId={organizationId}
+            onSetOrganization={this.onSetOrganization}
           />
 
           <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}
