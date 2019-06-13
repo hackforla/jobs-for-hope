@@ -12,13 +12,14 @@ initialPath = "/jobs?f%5B0%5D=field_related_location%3A26"
 def run(url):
     soup = get_soup(url + initialPath)
     page = 1
-
+    insert_count= 0
     while soup:
         for html_element in soup.find_all('div', {'class': 'views-row'}):
             title = html_element.find('span', {
                 'class': 'field-content'
             }).a.text
-            job = Job(organization_id, title)
+            job = Job(organization, title)
+            job.organization_id= organization_id
             location_div = html_element.find(
                 'div', {'class': 'views-field-field-job-city'})
             if location_div:
@@ -50,7 +51,7 @@ def run(url):
             if hours_div:
                 hours = hours_div.find('span', {'class': 'field-content'}).text
                 job.full_or_part = hours + ' hours/week'
-            job_insert(job)
+            insert_count+=job_insert(job)
             # print(job)
 
         # If there are more pages, update soup to next page and scrape
@@ -62,3 +63,4 @@ def run(url):
             page = page + 1
         else:
             soup = False
+    return insert_count

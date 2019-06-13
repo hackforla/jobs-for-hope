@@ -17,16 +17,6 @@ db = ''
 c = ''
 conn = None
 cur = None
-organization_name = ''
-job_title = ''
-job_summary = ''
-job_location = ''
-job_zip_code = ''
-job_post_date = None
-full_or_part = ''
-salary = ''
-info_link = ''
-insert_count = 0
 
 # add scraper filenames for a whitelist, run all of them if empty
 active_scrapers = []
@@ -73,35 +63,16 @@ def error_handler(error_msg):
     exit()
 
 
-def reset_vars():
-    global job_title
-    global job_summary
-    global job_location
-    global job_zip_code
-    global job_post_date
-    global full_or_part
-    global salary
-    global info_link
 
-    job_title = ""
-    job_summary = ""
-    job_location = ""
-    job_zip_code = ""
-    job_post_date = None
-    full_or_part = ""
-    salary = ""
-    info_link = ""
-
-
-def print_vars():
-    print "Title: ", job_title
-    print "Summary: ", job_summary
-    print "Location: ", job_location
-    print "Zip Code: ", job_zip_code
-    print "Post Date: ", job_post_date
-    print "Full or Part-Time: ", full_or_part
-    print "Salary: ", salary
-    print "Information: ", info_link
+def print_vars(job_class):
+    print "Title: ", job_class.title
+    print "Summary: ", job_class.summary
+    print "Location: ", job_class.location
+    print "Zip Code: ", job_class.zip_code
+    print "Post Date: ", job_class.post_date
+    print "Full or Part-Time: ", job_class.full_or_part
+    print "Salary: ", job_class.summary
+    print "Information: ", job_class.info_link
 
 
 def create_tables():
@@ -178,8 +149,7 @@ def drop_tables():
         print(error)
 
 
-def print_organization(curr, total):
-    global organization_name
+def print_organization(organization_name, curr, total):
     sys.stdout.write(str(curr)+ '/' + str(total) + ': ')
     sys.stdout.write(organization_name)
     sys.stdout.flush()
@@ -189,16 +159,27 @@ def print_insert_progress():
     sys.stdout.write('.')
     sys.stdout.flush()
 
-def print_organization_end():
-    global insert_count
+def print_organization_end(insert_count):
     sys.stdout.write('(' + str(insert_count) + ')')
     sys.stdout.write('\n')
     sys.stdout.flush()
     # print('Inserted ' + str(globals.insert_count) + ' job(s).')
 
+def print_id_name():
+    sql= '''
+    SELECT id, name
+    FROM organizations    
+    ORDER BY name ASC
+    '''
+    try:
+        cur.execute(sql)
+        result= cur.fetchall()
+        for r in result:
+            print(r)
+    except:
+        print("didnt work")
 
 def insert_job(values):
-    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, (SELECT id FROM organizations WHERE name = %s), current_date, %s, %s, %s, %s, %s, %s, %s)
@@ -208,7 +189,6 @@ def insert_job(values):
         # print(values)
         cur.execute(sql, values)
         # print(cur.fetchone()[0])
-        insert_count += 1
         print_insert_progress()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
@@ -219,7 +199,6 @@ def job_insert(job):
         Insert an instance of the Job class in the Jobs table.
     """
 
-    global insert_count
     sql = '''
     INSERT INTO jobs (job_title, organization_id, date, job_summary, job_location, job_zip_code, job_post_date, full_or_part, salary, info_link)
     VALUES (%s, %s, current_date, %s, %s, %s, %s, %s, %s, %s)
@@ -229,10 +208,11 @@ def job_insert(job):
         cur.execute(sql, (job.title, job.organization_id, job.summary,
                           job.location, job.zip_code, job.post_date,
                           job.full_or_part, job.salary, job.info_link))
-        insert_count += 1
         print_insert_progress()
+        return 1
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+        return 0
 
 
 def get_soup(url):
@@ -284,9 +264,9 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
         return BeautifulSoup(innerHTML, "lxml")
 
 
-def update_db(organization_name):
-    insert_job((job_title, organization_name, job_summary, job_location,
-                job_zip_code, job_post_date, full_or_part, salary, info_link))
+def update_db(job_class):
+    insert_job((job_class.title, job_class.organization_name, job_class.summary, job_class.location,
+                job_class.zip_code, job_class.post_date, job_class.full_or_part, job_class.salary, job_class.info_link))
 
 
 def date_ago(timeLength, timeUnit):
@@ -338,7 +318,7 @@ def delete_jobs_by_organization(organization_name):
     query = '''
     DELETE FROM jobs
     WHERE organization_id = (
-        SELECT id FROM organizations WHERE name = %s
+        SELECT id FROM  organizations WHERE name = %s
     ) '''
     try:
         cur.execute(query, [organization_name])
