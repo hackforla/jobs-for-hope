@@ -2,31 +2,60 @@ import React from "react";
 import "./SideFilter.scss";
 
 
-const SideFilter = ({
-  onSetEmploymentTypeFT,
-  onSetEmploymentTypePT,
+// const SideFilter = ({
+//   onSetEmploymentTypeFT,
+//   onSetEmploymentTypePT,
 
-  onSetDistanceRadius,
-  onSetDistanceZip,
+//   onSetDistanceRadius,
+//   onSetDistanceZip,
 
-  employmentTypeFT,
-  employmentTypePT,
-  radius,
-  distanceZip,
-  regions,
-  regionId,
-  onSetRegionId,
-  //props from SearchBox component
-  onSearchChange, //job title
+//   employmentTypeFT,
+//   employmentTypePT,
+//   radius,
+//   distanceZip,
+//   regions,
+//   regionId,
+//   onSetRegionId,
+//   //props from SearchBox component
+//   onSearchChange, //job title
 
-  onZipSearchChange, //auto 
+//   onZipSearchChange, //auto 
 
-  organizations,
-  onSetOrganization,
-  organizationId
-}) => {
-  return (
-    <aside className="filter-bar-container">
+//   organizations,
+//   onSetOrganization,
+//   organizationId
+// }) => {
+
+class SideFilter extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const {
+      onSetEmploymentTypeFT,
+      onSetEmploymentTypePT,
+
+      onSetDistanceRadius,
+      onSetDistanceZip,
+
+      employmentTypeFT,
+      employmentTypePT,
+      radius,
+      distanceZip,
+      regions,
+      regionId,
+      onSetRegionId,
+      //props from SearchBox component
+      onSearchChange, //job title
+
+      onZipSearchChange, //auto 
+
+      organizations,
+      onSetOrganization,
+      organizationId
+    } = this.props
+    return (<aside className="filter-bar-container" >
       <p className="filter-title">FILTERS</p>
       <div className="filter-column">
         <p className="filter-title">Job Title</p>
@@ -93,7 +122,7 @@ const SideFilter = ({
           >
             <option key="0" value="">
               (Any)
-            </option>
+        </option>
             {regions
               ? regions.map(region => (
                 <option key={region.id} value={region.id}>
@@ -125,13 +154,13 @@ const SideFilter = ({
         </select>
         <p className="filter-title">
           Location
-        </p>
+    </p>
         <input
           value={distanceZip}
           placeholder="Zip Code"
           onChange={e => {
-            onSetDistanceZip(e);
-            onZipSearchChange(e)
+            onSetDistanceZip(e); //with radius
+            onZipSearchChange(e) //auto
           }}
           className="zip-input"
         />
@@ -189,7 +218,9 @@ const SideFilter = ({
         </div>
       </div>
     </aside>
-  );
+
+    );
+  }
 };
 
 export default SideFilter;
