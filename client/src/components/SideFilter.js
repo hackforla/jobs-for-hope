@@ -1,13 +1,14 @@
 import React from "react";
-
 import "./SideFilter.scss";
 
 
 const SideFilter = ({
   onSetEmploymentTypeFT,
   onSetEmploymentTypePT,
-  onSetDistance,
+
+  onSetDistanceRadius,
   onSetDistanceZip,
+
   employmentTypeFT,
   employmentTypePT,
   radius,
@@ -16,25 +17,27 @@ const SideFilter = ({
   regionId,
   onSetRegionId,
   //props from SearchBox component
-  onSearchChange,
-  onZipSearchChange,
+  onSearchChange, //job title
+
+  onZipSearchChange, //auto 
+
   organizations,
   onSetOrganization,
   organizationId
 }) => {
   return (
     <aside className="filter-bar-container">
-      <p className="filters-title">FILTERS</p>
+      <p className="filter-title">FILTERS</p>
       <div className="filter-column">
-        <p className="filter-criteria-title">Job Title</p>
+        <p className="filter-title">Job Title</p>
         <input
           type="search"
-          className="search-input"
+          className="title-input"
           name="keywords"
           placeholder="Job Title"
           onChange={onSearchChange}
         />
-        <p className="filter-criteria-title">Sort Titles</p>
+        <p className="filter-title">Sort Titles</p>
         <div className="filter-options">
           <input
             name="a-z"
@@ -59,17 +62,15 @@ const SideFilter = ({
         </div>
       </div>
 
-      <div className="organization-search">
-        <div className="search-words-title">
-          <h3> Organization</h3>
-        </div>
-        <div className="location-container">
+      <div className="filter-column">
+        <p className="filter-title">Organization</p>
+        <div>
           <select
             onChange={event => {
               onSetOrganization(event);
             }}
             value={organizationId}
-            className="organization-input"
+            className="organization-selector"
           >
             <option value="">(Any)</option>
 
@@ -84,14 +85,14 @@ const SideFilter = ({
           </select>
         </div>
         <div>
-          <p title="Service Planning Area" className="filter-criteria-title">{"SPA "}</p>
+          <p className="filter-title">Region</p>
           <select
-            className="region-select"
+            className="region-selector"
             value={regionId}
             onChange={e => onSetRegionId(e.target.value)}
           >
             <option key="0" value="">
-              (Any SPA)
+              (Any)
             </option>
             {regions
               ? regions.map(region => (
@@ -108,11 +109,11 @@ const SideFilter = ({
 
 
       <div className="filter-column">
-        <p className="filter-criteria-title">Distance</p>
+        <p className="filter-title">Distance</p>
         <select
           value={radius}
           onChange={event => {
-            onSetDistance(event);
+            onSetDistanceRadius(event);
           }}
           className="distance-selector"
         >
@@ -122,7 +123,7 @@ const SideFilter = ({
           <option value="25">25 miles</option>
           <option value="50">50 miles</option>
         </select>
-        <p className="filter-criteria-title">
+        <p className="filter-title">
           Location
         </p>
         <input
@@ -130,8 +131,9 @@ const SideFilter = ({
           placeholder="Zip Code"
           onChange={e => {
             onSetDistanceZip(e);
+            onZipSearchChange(e)
           }}
-          className="distance-zip"
+          className="zip-input"
         />
 
         {/* AUTO FILTER  ZIP*/}
@@ -151,7 +153,7 @@ const SideFilter = ({
 
 
       <div className="filter-column">
-        <p className="filter-criteria-title">Employment Type</p>
+        <p className="filter-title">Employment Type</p>
         <div className="filter-options">
           <input
             name="full-time"

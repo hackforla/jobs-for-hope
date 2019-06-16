@@ -26,38 +26,37 @@
 
 .filter-column {
   padding: 0.5em;
-  // background-color: blue;
 }
 
-.filters-title {
+.filter-title {
   padding: 0.5em;
-  margin-bottom: 0.5em;
   font-weight: 900;
 }
 
-.distance-selector {
+.distance-selector,
+.region-selector,
+.organization-selector,
+.zip-input,
+.title-input {
   margin: 0.25em 0;
   padding: 0.7em;
   border-radius: 0.25em;
   border: 1px gray solid;
   background-color: white;
-  width: 90%;
-  height: 2.75em;
+  width: 100%;
+  // min-width: 200px;
+  height: 2.9em;
+  font-family: $main-font;
 }
 
-.distance-zip {
-  margin: 0.25em 0;
-  padding: 0.7em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
-  width: 90%;
-  height: 2.75em;
-}
-
-.filter-criteria-title {
-  margin: 0.4em 0;
-  // background-color: red;
-}
+//  {
+//   margin: 0.25em 0;
+//   padding: 0.7em;
+//   border-radius: 0.25em;
+//   border: 1px gray solid;
+//   width: 90%;
+//   height: 2.75em;
+// }
 
 @media screen and (max-width: 765px) {
   .filter-bar-container {
