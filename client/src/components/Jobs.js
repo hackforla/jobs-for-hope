@@ -330,7 +330,6 @@ class Jobs extends React.Component {
                 </h2>
               </div>
               <div className="post-sort-wrapper">
-                {/* <div id="new-job-btn"> */}
                 {
                   activeUser.role === "admin" || activeUser.role === "employer"
                     ? (<Link to={`/jobs/form/new`} id="new-job-btn">
@@ -338,7 +337,6 @@ class Jobs extends React.Component {
                     </Link>)
                     : null
                 }
-                {/* </div> */}
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <span style={{ marginBottom: "0.2em", marginRight: "0.5em" }}>
                     {"Sort By: "}
