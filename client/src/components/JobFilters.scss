@@ -2,13 +2,13 @@
 @import "../partials.scss";
 
 .filter-bar-container {
-  width: 100%;
+  width: 350px;
+  height: auto;
   top: 0px;
   padding: 1em;
   background-color: $lightest-color;
   display: flex;
-  justify-content: center;
-  border-bottom: 3px $primary-color solid;
+  flex-direction: column;
 }
 
 .filter-options {
@@ -16,7 +16,7 @@
 }
 
 .filter-column {
-  padding: 0.5em;
+  padding: 0 0.5em;
 }
 
 .filter-title {
@@ -39,7 +39,9 @@
 @media screen and (max-width: $phone-media-max) {
   .filter-bar-container {
     position: relative;
+    width: 100%;
     display: grid;
+    grid-auto-flow: column;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr minmax(41px, auto);
   }
@@ -47,6 +49,7 @@
 
 @media screen and (max-width: 375px) {
   .filter-bar-container {
+    grid-auto-flow: row;
     grid-template-columns: repeat(1, 1fr);
   }
 }
