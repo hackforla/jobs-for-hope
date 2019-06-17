@@ -56,14 +56,14 @@ const get = id => {
   const sql = `
       select o.id, o.name, o.url, o.logo, o.mission, o.description,
         o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
-        o.phone, o.email,
+        o.phone, o.email, o.is_user_created, o.is_approved
         count(j.organization_id) as job_count
       from organizations o
       left join jobs j on o.id = j.organization_id
       where o.id = $1
       group by o.id, o.name, o.url, o.logo, o.mission, o.description,
         o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
-        o.phone, o.email
+        o.phone, o.email, o.is_user_created, o.is_approved
     `;
   const values = [id];
   return pool.query(sql, values).then(res => {
