@@ -302,43 +302,35 @@ class Jobs extends React.Component {
             imageName="helping-hands2"
           />
 
-          <JobFilters
-            onSetJobTitle={this.onSetJobTitle}
-            onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
-            onSetEmploymentTypePT={this.onSetEmploymentTypePT}
-            onSetDistanceRadius={this.onSetDistanceRadius}
-            onSetDistanceZip={this.onSetDistanceZip}
-            onSetOrganization={this.onSetOrganization}
-            onSetRegionId={this.onSetRegionId}
-            employmentTypeFT={employmentTypeFT}
-            employmentTypePT={employmentTypePT}
-            employmentTypeUnspecified={employmentTypeUnspecified}
-            distanceRadius={distanceRadius}
-            distanceZip={distanceZip}
-            regionId={regionId}
-            regions={regions}
-            organizations={organizations}
-            organizationId={organizationId}
-            sortBy={sortBy}
-            handleChangeSortBy={this.handleChangeSortBy}
-          />
-
           <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}
+            <JobFilters
+              onSetJobTitle={this.onSetJobTitle}
+              onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+              onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+              onSetDistanceRadius={this.onSetDistanceRadius}
+              onSetDistanceZip={this.onSetDistanceZip}
+              onSetOrganization={this.onSetOrganization}
+              onSetRegionId={this.onSetRegionId}
+              employmentTypeFT={employmentTypeFT}
+              employmentTypePT={employmentTypePT}
+              employmentTypeUnspecified={employmentTypeUnspecified}
+              distanceRadius={distanceRadius}
+              distanceZip={distanceZip}
+              regionId={regionId}
+              regions={regions}
+              organizations={organizations}
+              organizationId={organizationId}
+              sortBy={sortBy}
+              handleChangeSortBy={this.handleChangeSortBy}
+            />
             <section role="tablist" className="recent-postings-container">
               <div className="header-container">
                 <h2 className="recent-postings-title">
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: "-1em",
-                  alignItems: "center"
-                }}
-              >
+              <div className="post-sort-wrapper">
+                {/* <div id="new-job-btn"> */}
                 {
                   activeUser.role === "admin" || activeUser.role === "employer"
                     ? (<Link to={`/jobs/form/new`} id="new-job-btn">
@@ -346,13 +338,13 @@ class Jobs extends React.Component {
                     </Link>)
                     : null
                 }
+                {/* </div> */}
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <span style={{ marginBottom: "0.2em", marginRight: "0.5em" }}>
                     {"Sort By: "}
                   </span>
                   <span>
                     <select
-                      style={{ marginRight: "2.4em" }}
                       className="sort-selector"
                       value={this.sortBy}
                       onChange={this.handleChangeSortBy}
