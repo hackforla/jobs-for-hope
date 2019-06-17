@@ -1,7 +1,6 @@
 import React from "react";
-import SearchBox from "./SearchBox";
 import JobPostings from "./JobPostings";
-import SideFilter from "./SideFilter";
+import JobFilters from "./JobFilters";
 import "./Jobs.scss";
 import Modal from "./Modal";
 import { dist } from "../utils/utils";
@@ -20,13 +19,13 @@ const override = css`
 class Jobs extends React.Component {
   state = {
     isBusy: false,
-    search: "",
     jobTitle: "",
     employmentTypeFT: false,
     employmentTypePT: false,
-    radius: "",
+    sortTitlesAZ: true,
+    sortTitlesZA: false,
+    distanceRadius: "",
     distanceZip: "",
-    zipSearch: "",
     regionId: "",
     filteredJobs: [],
     paginatedJobs: [],
@@ -80,30 +79,18 @@ class Jobs extends React.Component {
 
   filterJobs = () => {
     const {
-      search,
-      zipSearch,
+      jobTitle,
       distanceZip,
-      radius,
+      distanceRadius,
       employmentTypeFT,
       employmentTypePT,
       organizationId,
       regionId
     } = this.state;
     const filteredJobs = this.props.jobs
-      .filter(job => {
-        return (
-          !organizationId || job.organization_id === Number(organizationId)
-        );
-      })
-      // .filter(job => job.zipcode.includes(zipSearch))
-      .filter(this.getDistanceFilter(radius, distanceZip))
-      // .filter(job => {
-      // if (radius) { return this.getDistanceFilter(radius, distanceZip) }
-      // else { return job.zipcode.includes(distanceZip) }
-      // return job.zipcode.includes(zipSearch)
-      // })
-
-      .filter(job => job.title.toLowerCase().includes(search.toLowerCase()))
+      .filter(job => !organizationId || job.organization_id === Number(organizationId))
+      .filter(job => job.title.toLowerCase().includes(jobTitle.toLowerCase()))
+      .filter(this.getDistanceFilter(distanceRadius, distanceZip))
       .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
       .filter(this.getRegionFilter(regionId))
       // Sort by organization, position title
@@ -155,8 +142,8 @@ class Jobs extends React.Component {
     }
   };
 
-  onSearchChange = e => {
-    this.setState({ search: e.target.value, isBusy: true }, this.filterJobs);
+  onSetJobTitle = e => {
+    this.setState({ jobTitle: e.target.value, isBusy: true }, this.filterJobs);
   };
 
 
@@ -168,35 +155,34 @@ class Jobs extends React.Component {
     this.setState({ employmentTypePT: checked, isBusy: true }, this.filterJobs);
   };
 
+  onSetSortTitlesAZ = checked => {
+    this.setState({ sortTitlesAZ: checked, isBusy: true }, this.filterJobs);
+  };
+
+  onSetSortTitlesZA = checked => {
+    this.setState({ sortTItlesZA: checked, isBusy: true }, this.filterJobs);
+  };
+
   onSetDistanceRadius = e => {
-    this.setState({ radius: e.target.value, isBusy: true }, this.filterJobs);
+    this.setState({ distanceRadius: e.target.value, isBusy: true }, this.filterJobs);
   };
 
-  checkZipLength = () => {
-    this.state.distanceZip.length === 4
-      &&
-      this.setState({ radius: 0 })
-  }
   onSetDistanceZip = e => {
-
-    this.setState(
-      { distanceZip: e.target.value, isBusy: true },
-      this.checkZipLength,
-      this.filterJobs
-    )
-    console.log("LENGTH", this.state.distanceZip.length)
+    this.setState({ distanceZip: e.target.value, isBusy: true }, this.filterJobs);
   };
 
-  onZipSearchChange = e => {
-    this.setState({ zipSearch: e.target.value, isBusy: true }, this.filterJobs);
-  };
-
-  getDistanceFilter = (radius, originZip) => {
-    if (radius && originZip) {
+  getDistanceFilter = (distanceRadius, originZip) => {
+    if (originZip.length == 5 && distanceRadius == "") {
+      this.setState({ distanceRadius: 0, isBusy: true })
+      return job => job.zipcode.includes(originZip)
+    } else if (originZip.length < 5 && distanceRadius == 0) {
+      this.setState({ distanceRadius: "", isBusy: true })
+      return job => job.zipcode.includes(originZip)
+    } else {
       return job => {
         // dist returns null if either arg is "" or invalid
         const distance = dist(job.zipcode, originZip);
-        return distance === 0 || distance && distance <= Number(radius);
+        return distance === 0 || distance && distance <= Number(distanceRadius);
       };
     }
     return job => true;
@@ -235,22 +221,25 @@ class Jobs extends React.Component {
   render() {
     const {
       paginatedJobs,
-      userJobTitle,
       itemCount,
       organizationId,
       isBusy,
       totalPages,
-      currentPage
+      currentPage,
+      distanceRadius,
+      sortTitlesAZ,
+      sortTitlesZA,
+      employmentTypeFT,
+      employmentTypePT,
+      distanceZip,
     } = this.state;
     const {
       activeUser,
-      employmentTypeFT,
-      employmentTypePT,
-      radius,
-      distanceZip,
       regionId,
-      regions
+      regions,
+      organizations
     } = this.props;
+
     return (
       <div>
         <div>
@@ -259,34 +248,25 @@ class Jobs extends React.Component {
             titleLower="Homelessness"
             imageName="helping-hands2"
           />
-          {/* <SearchBox
-            onSearchChange={this.onSearchChange}
-            onZipSearchChange={this.onZipSearchChange}
-            userJobTitle={userJobTitle}
-            organizations={this.props.organizations}
-            organizationId={organizationId}
-            onSetOrganization={this.onSetOrganization}
-          /> */}
 
-          <SideFilter
+          <JobFilters
+            onSetJobTitle={this.onSetJobTitle}
             onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
             onSetEmploymentTypePT={this.onSetEmploymentTypePT}
             onSetDistanceRadius={this.onSetDistanceRadius}
             onSetDistanceZip={this.onSetDistanceZip}
-            onZipSearchChange={this.onZipSearchChange}
+            onSetOrganization={this.onSetOrganization}
+            onSetRegionId={this.onSetRegionId}
             employmentTypeFT={employmentTypeFT}
             employmentTypePT={employmentTypePT}
-            radius={radius}
+            sortTitlesAZ={sortTitlesAZ}
+            sortTitlesZA={sortTitlesZA}
+            distanceRadius={distanceRadius}
             distanceZip={distanceZip}
             regionId={regionId}
             regions={regions}
-            onSetRegionId={this.onSetRegionId}
-            //props from original SearchBox.js component:
-            onSearchChange={this.onSearchChange}
-            userJobTitle={userJobTitle}
-            organizations={this.props.organizations}
+            organizations={organizations}
             organizationId={organizationId}
-            onSetOrganization={this.onSetOrganization}
           />
 
           <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}

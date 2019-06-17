@@ -1,0 +1,57 @@
+@import "../_variables.scss";
+
+.filter-bar-container {
+  position: sticky;
+  position: -webkit-sticky;
+  width: 100%;
+  top: 0px;
+  padding: 1em;
+  background-color: $lightest-color;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-options {
+  display: flex;
+}
+
+.filter-column {
+  padding: 0.5em;
+}
+
+.filter-title {
+  padding: 0.5em;
+  font-weight: 900;
+}
+
+.distance-selector,
+.region-selector,
+.organization-selector,
+.zip-input,
+.title-input {
+  margin: 0.25em 0;
+  padding: 0.7em;
+  border-radius: 0.25em;
+  border: 1px gray solid;
+  background-color: white;
+  width: 100%;
+  min-width: auto;
+  max-width: 300px;
+  height: 2.9em;
+  font-family: $main-font;
+}
+
+@media screen and (max-width: $phone-media-max) {
+  .filter-bar-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr minmax(41px, auto);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .filter-bar-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
