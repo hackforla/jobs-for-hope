@@ -9,6 +9,7 @@
   background-color: $lightest-color;
   display: flex;
   justify-content: center;
+  border-bottom: 3px $primary-color solid;
 }
 
 .filter-options {
@@ -20,7 +21,7 @@
 }
 
 .filter-title {
-  padding: 0.5em;
+  padding: 0.5em 0;
   font-weight: 900;
 }
 

@@ -22,6 +22,7 @@ class Jobs extends React.Component {
     jobTitle: "",
     employmentTypeFT: false,
     employmentTypePT: false,
+    employmentTypeUnspecified: false,
     sortTitlesAZ: true,
     sortTitlesZA: false,
     distanceRadius: "",
@@ -84,6 +85,7 @@ class Jobs extends React.Component {
       distanceRadius,
       employmentTypeFT,
       employmentTypePT,
+      employmentTypeUnspecified,
       organizationId,
       regionId
     } = this.state;
@@ -231,6 +233,7 @@ class Jobs extends React.Component {
       sortTitlesZA,
       employmentTypeFT,
       employmentTypePT,
+      employmentTypeUnspecified,
       distanceZip,
     } = this.state;
     const {
@@ -259,6 +262,7 @@ class Jobs extends React.Component {
             onSetRegionId={this.onSetRegionId}
             employmentTypeFT={employmentTypeFT}
             employmentTypePT={employmentTypePT}
+            employmentTypeUnspecified={employmentTypeUnspecified}
             sortTitlesAZ={sortTitlesAZ}
             sortTitlesZA={sortTitlesZA}
             distanceRadius={distanceRadius}

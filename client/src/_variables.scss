@@ -4,10 +4,12 @@
 $bg-color: #fff;
 $main-font: "Open Sans";
 
+// colors from wireframe:
 /* $primary-color: #266294; //blue */
-$primary-color: #833f76; // purple
 /* $secondary-color: #ffd100; //yellow */
-$secondary-color: #e6b833; // orange
+
+$primary-color: #833f76; // purple
+$secondary-color: #e6b833; // yellow from logo
 $lightest-color: #f8f8f8; //lightest gray
 $light-color: #dadada; //lighter grey - for secondary buttons
 $accent-color: #ff4137; //red -- delete button in JobForm & OrganizationForm
