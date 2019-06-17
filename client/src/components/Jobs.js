@@ -23,8 +23,6 @@ class Jobs extends React.Component {
     employmentTypeFT: false,
     employmentTypePT: false,
     employmentTypeUnspecified: false,
-    sortTitlesAZ: true,
-    sortTitlesZA: false,
     distanceRadius: "",
     distanceZip: "",
     regionId: "",
@@ -37,7 +35,8 @@ class Jobs extends React.Component {
     modalJob: null,
     itemsPerPage: 10,
     totalPages: 0,
-    currentPage: 0
+    currentPage: 0,
+    sortBy: "PositionTitle"
   };
 
   componentDidMount() {
@@ -55,6 +54,10 @@ class Jobs extends React.Component {
       { itemsPerPage: parseInt(e.target.value), currentPage: 0 },
       this.paginateJobs
     );
+  };
+
+  handleChangeSortBy = e => {
+    this.setState({ sortBy: e.target.value }, this.filterJobs);
   };
 
   paginateJobs = () => {
@@ -87,27 +90,31 @@ class Jobs extends React.Component {
       employmentTypePT,
       employmentTypeUnspecified,
       organizationId,
-      regionId
+      regionId,
+      sortBy
     } = this.state;
-    const filteredJobs = this.props.jobs
-      .filter(job => !organizationId || job.organization_id === Number(organizationId))
-      .filter(job => job.title.toLowerCase().includes(jobTitle.toLowerCase()))
+    const selectedJobs = this.props.jobs
+      .filter(job => {
+        return (
+          !organizationId || job.organization_id === Number(organizationId)
+        );
+      })
       .filter(this.getDistanceFilter(distanceRadius, distanceZip))
+      .filter(job => job.title.toLowerCase().includes(jobTitle.toLowerCase()))
       .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
-      .filter(this.getRegionFilter(regionId))
-      // Sort by organization, position title
-      .sort((a, b) => {
-        if (a.organization_name < b.organization_name) {
-          return -1;
-        } else if (a.organization_name > b.organization_name) {
-          return 1;
-        } else if (a.title < b.title) {
-          return -1;
-        } else if (a.title > b.title) {
-          return 1;
-        }
-        return 0;
-      });
+      .filter(this.getRegionFilter(regionId));
+    //Sort by organization, position title
+    let filteredJobs = [];
+    let sortByFunction = this.sortByTitleOrganization;
+    switch (sortBy) {
+      case "Organization":
+        sortByFunction = this.sortByOrganizationTitle;
+        break;
+      default:
+        sortByFunction = this.sortByTitleOrganization;
+        break;
+    }
+    filteredJobs = selectedJobs.sort(sortByFunction);
     this.setState(prevState => {
       return {
         filteredJobs,
@@ -116,6 +123,47 @@ class Jobs extends React.Component {
         currentPage: 0
       };
     }, this.paginateJobs);
+  };
+
+  sortByOrganizationTitle = (a, b) => {
+    // If filtering by location, unknown locations are after known locations
+    if (this.state.distanceRadius && this.state.distanceZip) {
+      if (a.zipcode && !b.zipcode) {
+        return -1;
+      } else if (!a.zipcode && b.zipcode) {
+        return 1;
+      }
+    }
+    if (a.organization_name < b.organization_name) {
+      return -1;
+    } else if (a.organization_name > b.organization_name) {
+      return 1;
+    } else if (a.title < b.title) {
+      return -1;
+    } else if (a.title > b.title) {
+      return 1;
+    }
+    return 0;
+  };
+
+  sortByTitleOrganization = (a, b) => {
+    // If filtering by location, unknown locations are after known locations
+    if (this.state.radius && this.state.distanceZip) {
+      if (a.zipcode && !b.zipcode) {
+        return -1;
+      } else if (!a.zipcode && b.zipcode) {
+        return 1;
+      }
+    }
+    if (a.title < b.title) {
+      return -1;
+    } else if (a.title > b.title) {
+      return 1;
+    } else if (a.organization_name < b.organization_name) {
+      return -1;
+    } else if (a.organization_name > b.organization_name) {
+      return 1;
+    } else return 0;
   };
 
   getEmploymentTypeFilter = (employmentTypeFT, employmentTypePT) => {
@@ -157,16 +205,9 @@ class Jobs extends React.Component {
     this.setState({ employmentTypePT: checked, isBusy: true }, this.filterJobs);
   };
 
-  onSetSortTitlesAZ = checked => {
-    this.setState({ sortTitlesAZ: checked, isBusy: true }, this.filterJobs);
-  };
-
-  onSetSortTitlesZA = checked => {
-    this.setState({ sortTItlesZA: checked, isBusy: true }, this.filterJobs);
-  };
-
   onSetDistanceRadius = e => {
-    this.setState({ distanceRadius: e.target.value, isBusy: true }, this.filterJobs);
+    const distanceZip = (e.target.value === "") ? "" : this.state.distanceZip
+    this.setState({ distanceRadius: e.target.value, distanceZip: distanceZip, isBusy: true }, this.filterJobs);
   };
 
   onSetDistanceZip = e => {
@@ -174,20 +215,29 @@ class Jobs extends React.Component {
   };
 
   getDistanceFilter = (distanceRadius, originZip) => {
-    if (originZip.length == 5 && distanceRadius == "") {
+    // TODO: if zip input is 5, and onchange distanceRadius to any/"", then show any, without erasing zip
+    // TODO: ability to sort by distance
+
+    if (originZip.length === 0) {
+      this.setState({ distanceRadius: "", isBusy: true })
+      return job => job
+    }
+    else if (originZip.length < 5) {
       this.setState({ distanceRadius: 0, isBusy: true })
       return job => job.zipcode.includes(originZip)
-    } else if (originZip.length < 5 && distanceRadius == 0) {
-      this.setState({ distanceRadius: "", isBusy: true })
-      return job => job.zipcode.includes(originZip)
-    } else {
+    }
+    //currently, only returning uncategorized jobs with no zipcodes here so far; 
+    //and only if radius is set to any"
+    else if (originZip && distanceRadius === "") {
+      return job => job.zipcode.includes(originZip) || !job.zipcode
+    }
+    else {
       return job => {
         // dist returns null if either arg is "" or invalid
-        const distance = dist(job.zipcode, originZip);
-        return distance === 0 || distance && distance <= Number(distanceRadius);
+        const distanceDifference = dist(job.zipcode, originZip);
+        return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
       };
     }
-    return job => true;
   };
 
 
@@ -229,12 +279,12 @@ class Jobs extends React.Component {
       totalPages,
       currentPage,
       distanceRadius,
-      sortTitlesAZ,
-      sortTitlesZA,
       employmentTypeFT,
       employmentTypePT,
       employmentTypeUnspecified,
       distanceZip,
+      sortBy,
+
     } = this.state;
     const {
       activeUser,
@@ -263,14 +313,14 @@ class Jobs extends React.Component {
             employmentTypeFT={employmentTypeFT}
             employmentTypePT={employmentTypePT}
             employmentTypeUnspecified={employmentTypeUnspecified}
-            sortTitlesAZ={sortTitlesAZ}
-            sortTitlesZA={sortTitlesZA}
             distanceRadius={distanceRadius}
             distanceZip={distanceZip}
             regionId={regionId}
             regions={regions}
             organizations={organizations}
             organizationId={organizationId}
+            sortBy={sortBy}
+            handleChangeSortBy={this.handleChangeSortBy}
           />
 
           <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}
@@ -279,41 +329,39 @@ class Jobs extends React.Component {
                 <h2 className="recent-postings-title">
                   Recent Job Postings {`(${itemCount})`}
                 </h2>
-                {activeUser.role === "admin" ||
-                  activeUser.role === "employer" ? (
-                    <Link to={`/jobs/form/new`} id="new-job-btn">
-                      Post a Job
-                  </Link>
-                  ) : null}
               </div>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "center",
-                  marginBottom: "2em",
+                  justifyContent: "space-between",
+                  marginBottom: "-1em",
                   alignItems: "center"
                 }}
               >
-                <Paginator
-                  totalPages={totalPages}
-                  currentPage={currentPage}
-                  goTo={this.goToPage}
-                  buttonCount={window.innerWidth > 500 ? 5 : 3}
-                />
-                {itemCount > 0 ? (
-                  <select
-                    style={{ marginLeft: ".5em" }}
-                    className="page-select"
-                    value={this.itemsPerPage}
-                    onChange={this.handleChangeItemsPerPage}
-                  >
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                ) : null}
+                {
+                  activeUser.role === "admin" || activeUser.role === "employer"
+                    ? (<Link to={`/jobs/form/new`} id="new-job-btn">
+                      Post a Job
+                    </Link>)
+                    : null
+                }
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ marginBottom: "0.2em", marginRight: "0.5em" }}>
+                    {"Sort By: "}
+                  </span>
+                  <span>
+                    <select
+                      style={{ marginRight: "2.4em" }}
+                      className="sort-selector"
+                      value={this.sortBy}
+                      onChange={this.handleChangeSortBy}
+                    >
+                      <option value="PositionTitle">Position Title</option>
+                      <option value="Organization">Organization</option>
+                    </select>
+                  </span>
+                </div>
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -372,6 +420,7 @@ class Jobs extends React.Component {
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
+                    <option value="1000">1000</option>
                   </select>
                 ) : null}
               </div>

@@ -1,4 +1,5 @@
 @import "../_variables.scss";
+@import "../_partials.scss";
 
 html {
   -moz-box-sizing: border-box;
@@ -19,7 +20,6 @@ html {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 0.5em;
 }
 
 #new-job-btn {
@@ -45,7 +45,14 @@ html {
   background-color: white;
   width: 90%;
   height: 2.75em;
-  max-width: 4.5em;
+  max-width: 5.5em;
+}
+
+.sort-selector {
+  @extend .form-inputs;
+  width: 90%;
+  max-width: 12em;
+  display: inline-block;
 }
 
 .modal-container {

@@ -6,8 +6,6 @@ const JobFilters = ({
   onSetJobTitle,
   onSetEmploymentTypeFT,
   onSetEmploymentTypePT,
-  onSortTitlesAZ,
-  onSortTitlesZA,
   onSetDistanceRadius,
   onSetDistanceZip,
   onSetRegionId,
@@ -15,42 +13,21 @@ const JobFilters = ({
   employmentTypeFT,
   employmentTypePT,
   employmentTypeUnspecified,
-  sortTitlesAZ,
-  sortTitlesZA,
   distanceRadius,
   distanceZip,
   regions,
   regionId,
   organizations,
-  organizationId
+  organizationId,
+  sortBy,
+  handleChangeSortBy
 }) => (<aside className="filter-bar-container">
   <div className="filter-column">
     <div className="filter-wrapper">
       <p className="filter-title">Job Title</p>
       <input type="search" className="title-input" name="keywords" placeholder="Job Title" onChange={onSetJobTitle} />
     </div>
-    <div className="filter-wrapper">
-      <p className="filter-title">Sort Titles</p>
-      <div className="filter-options">
-        <input name="a-z" type="radio" checked={sortTitlesAZ} onChange={event => {
-          //TODO: add logic for sort
-          // onSortTitlesAZ(event.target.checked)
-        }} />
-        <p>A - Z</p><br />
-      </div>
-    </div>
-    <div className="filter-options">
-      <input name="z-a" type="radio" checked={sortTitlesZA} onChange={event => {
-        //TODO: add logic for sort
-        // onSortTitlesZA(event.target.checked)
-      }} />
-      <p>Z - A</p> <br />
-    </div>
   </div>
-
-
-
-
   <div className="filter-column">
     <div className="filter-wrapper">
       <p className="filter-title">Organization</p>

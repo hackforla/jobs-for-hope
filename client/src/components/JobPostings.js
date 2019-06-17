@@ -36,8 +36,11 @@ class JobPostings extends React.Component {
             </div>
 
             <div className="posting-location-duration">
-              {job.zipcode ? job.zipcode + " | " : ""}
-              <span style={{ fontWeight: "bold" }}>{job.hours}</span>
+              {job.zipcode ? job.zipcode : "(No location)"}
+              {job.hours ? " | " : null}
+              {job.hours ? (
+                <span style={{ fontWeight: "bold" }}>{job.hours}</span>
+              ) : null}
             </div>
           </div>
           <div className="middle-posting">
@@ -66,13 +69,15 @@ class JobPostings extends React.Component {
                   Edit Job
                 </Link>
               ) : null}
-              <button
-                id="view-more-btn"
-                type="button"
-                onClick={() => this.handleShow(job)}
-              >
-                View More
-              </button>
+              {job.is_user_created && (
+                <button
+                  id="view-more-btn"
+                  type="button"
+                  onClick={() => this.handleShow(job)}
+                >
+                  View More
+                </button>
+              )}
             </div>
           </div>
         </div>
