@@ -15,7 +15,7 @@ html {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: .5em
+  margin-bottom: 0.5em;
 }
 
 #new-job-btn {
@@ -41,7 +41,17 @@ html {
   background-color: white;
   width: 90%;
   height: 2.75em;
-  max-width: 4.5em;
+  max-width: 5.5em;
+}
+
+.sort-select {
+  padding: 0em 0.2em;
+  border-radius: 0.25em;
+  border: 1px gray solid;
+  background-color: white;
+  width: 90%;
+  height: 2.25em;
+  max-width: 12em;
 }
 
 .modal-container {
@@ -112,9 +122,9 @@ html {
     padding-top: 120%;
   }
   #new-job-btn {
-    margin: 0 auto .5em auto;
+    margin: 0 auto 0.5em auto;
   }
   .recent-postings-title {
-    margin: .5em auto;
+    margin: 0.5em auto;
   }
 }
