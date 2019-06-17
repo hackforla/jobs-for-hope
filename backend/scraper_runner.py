@@ -34,6 +34,7 @@ def connect():
             globals.active_scrapers = [basename(sys.argv[1])]
 
         # load and run scrapers
+        total_jobs= 0
         scrapers = scraperloader.getScrapers()
         for idx, i in enumerate(scrapers):
             try:
@@ -41,17 +42,16 @@ def connect():
                 if len(globals.active_scrapers) > 0 and not i['name'] in globals.active_scrapers:
                     continue
                 scraper = scraperloader.loadScraper(i)
-                globals.organization_name = scraper.organization
-                globals.print_organization(idx + 1, len(scrapers))
-                globals.delete_jobs_by_organization(scraper.organization)
-                globals.insert_count = 0
-                scraper.run(scraper.url)
-                globals.print_organization_end()
+                organization_name = scraper.organization
+                globals.print_organization(organization_name, idx + 1, len(scrapers))
+                globals.delete_jobs_by_organization(organization_name)
+                insert_count= scraper.run(scraper.url)
+                total_jobs+= insert_count
+                globals.print_organization_end(insert_count)
             except Exception:
                 traceback.print_exc()
                 print 'Scraper failed:', scraper.organization
             finally:
-                globals.reset_vars()
                 sys.stdout.flush()
 
         # close the communication with the PostgreSQL
@@ -62,6 +62,7 @@ def connect():
         if globals.conn is not None:
             globals.conn.close()
             print('Database connection closed.')
+            print(total_jobs)
 
 if __name__ == '__main__':
     connect()
