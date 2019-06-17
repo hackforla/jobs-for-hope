@@ -36,7 +36,8 @@ class Jobs extends React.Component {
     modalJob: null,
     itemsPerPage: 10,
     totalPages: 0,
-    currentPage: 0
+    currentPage: 0,
+    sortBy: "PositionTitle"
   };
 
   componentDidMount() {
@@ -54,6 +55,10 @@ class Jobs extends React.Component {
       { itemsPerPage: parseInt(e.target.value), currentPage: 0 },
       this.paginateJobs
     );
+  };
+
+  handleChangeSortBy = e => {
+    this.setState({ sortBy: e.target.value }, this.filterJobs);
   };
 
   paginateJobs = () => {
@@ -86,32 +91,32 @@ class Jobs extends React.Component {
       radius,
       distanceZip,
       organizationId,
-      regionId
+      regionId,
+      sortBy
     } = this.state;
-    const filteredJobs = this.props.jobs
+    const selectedJobs = this.props.jobs
       .filter(job => {
         return (
           !organizationId || job.organization_id === Number(organizationId)
         );
       })
-      .filter(job => job.zipcode.includes(zipSearch))
+      .filter(job => !job.zipcode || !zipSearch || job.zipcode === zipSearch)
       .filter(job => job.title.toLowerCase().includes(search.toLowerCase()))
       .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
       .filter(this.getDistanceFilter(radius, distanceZip))
-      .filter(this.getRegionFilter(regionId))
-      // Sort by organization, position title
-      .sort((a, b) => {
-        if (a.organization_name < b.organization_name) {
-          return -1;
-        } else if (a.organization_name > b.organization_name) {
-          return 1;
-        } else if (a.title < b.title) {
-          return -1;
-        } else if (a.title > b.title) {
-          return 1;
-        }
-        return 0;
-      });
+      .filter(this.getRegionFilter(regionId));
+    //Sort by organization, position title
+    let filteredJobs = [];
+    let sortByFunction = this.sortByTitleOrganization;
+    switch (sortBy) {
+      case "Organization":
+        sortByFunction = this.sortByOrganizationTitle;
+        break;
+      default:
+        sortByFunction = this.sortByTitleOrganization;
+        break;
+    }
+    filteredJobs = selectedJobs.sort(sortByFunction);
     this.setState(prevState => {
       return {
         filteredJobs,
@@ -120,6 +125,47 @@ class Jobs extends React.Component {
         currentPage: 0
       };
     }, this.paginateJobs);
+  };
+
+  sortByOrganizationTitle = (a, b) => {
+    // If filtering by location, unknown locations are after known locations
+    if (this.state.zipSearch || (this.state.radius && this.state.distanceZip)) {
+      if (a.zipcode && !b.zipcode) {
+        return -1;
+      } else if (!a.zipcode && b.zipcode) {
+        return 1;
+      }
+    }
+    if (a.organization_name < b.organization_name) {
+      return -1;
+    } else if (a.organization_name > b.organization_name) {
+      return 1;
+    } else if (a.title < b.title) {
+      return -1;
+    } else if (a.title > b.title) {
+      return 1;
+    }
+    return 0;
+  };
+
+  sortByTitleOrganization = (a, b) => {
+    // If filtering by location, unknown locations are after known locations
+    if (this.state.zipSearch || (this.state.radius && this.state.distanceZip)) {
+      if (a.zipcode && !b.zipcode) {
+        return -1;
+      } else if (!a.zipcode && b.zipcode) {
+        return 1;
+      }
+    }
+    if (a.title < b.title) {
+      return -1;
+    } else if (a.title > b.title) {
+      return 1;
+    } else if (a.organization_name < b.organization_name) {
+      return -1;
+    } else if (a.organization_name > b.organization_name) {
+      return 1;
+    } else return 0;
   };
 
   getEmploymentTypeFilter = (employmentTypeFT, employmentTypePT) => {
@@ -138,7 +184,9 @@ class Jobs extends React.Component {
       return job => {
         // dist returns null if either arg is "" or invalid
         const distance = dist(job.zipcode, originZip);
-        return distance && distance <= Number(radius);
+        // Include jobs that meet distance criteria AND
+        // jobs that have no zip code (Issue #155)
+        return (distance && distance <= Number(radius)) || !job.zipcode;
       };
     }
     return job => true;
@@ -290,6 +338,7 @@ class Jobs extends React.Component {
                   goTo={this.goToPage}
                   buttonCount={window.innerWidth > 500 ? 5 : 3}
                 />
+
                 {itemCount > 0 ? (
                   <select
                     style={{ marginLeft: ".5em" }}
@@ -301,8 +350,31 @@ class Jobs extends React.Component {
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
+                    <option value="1000">1000</option>
                   </select>
                 ) : null}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  marginBottom: "-1em",
+                  alignItems: "flex-end"
+                }}
+              >
+                <span style={{ marginBottom: "0.2em", marginRight: "0.5em" }}>
+                  {"Sort By: "}
+                </span>
+                <select
+                  style={{ marginRight: "2.4em" }}
+                  className="sort-select"
+                  value={this.sortBy}
+                  onChange={this.handleChangeSortBy}
+                >
+                  <option value="PositionTitle">Position Title</option>
+                  <option value="Organization">Organization</option>
+                </select>
               </div>
               {this.props.isPending || isBusy ? (
                 <div
@@ -361,6 +433,7 @@ class Jobs extends React.Component {
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
+                    <option value="1000">1000</option>
                   </select>
                 ) : null}
               </div>
