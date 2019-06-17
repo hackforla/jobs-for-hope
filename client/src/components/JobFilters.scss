@@ -1,0 +1,52 @@
+@import "../_variables.scss";
+@import "../partials.scss";
+
+.filter-bar-container {
+  width: 100%;
+  top: 0px;
+  padding: 1em;
+  background-color: $lightest-color;
+  display: flex;
+  justify-content: center;
+  border-bottom: 3px $primary-color solid;
+}
+
+.filter-options {
+  display: flex;
+}
+
+.filter-column {
+  padding: 0.5em;
+}
+
+.filter-title {
+  padding: 0.5em 0;
+  font-weight: 900;
+}
+
+.distance-selector,
+.region-selector,
+.organization-selector,
+.sort-selector,
+.zip-input,
+.title-input {
+  @extend .form-inputs;
+  width: 100%;
+  min-width: auto;
+  max-width: 300px;
+}
+
+@media screen and (max-width: $phone-media-max) {
+  .filter-bar-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr minmax(41px, auto);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .filter-bar-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

@@ -1,4 +1,5 @@
 @import "../_variables.scss";
+@import "../_partials.scss";
 
 html {
   -moz-box-sizing: border-box;
@@ -10,12 +11,15 @@ html {
   box-sizing: inherit;
 }
 
+// .filters-postings-wrapper {
+//   display: flex;
+// }
+
 .header-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 0.5em;
 }
 
 #new-job-btn {
@@ -44,14 +48,11 @@ html {
   max-width: 5.5em;
 }
 
-.sort-select {
-  padding: 0em 0.2em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
-  background-color: white;
+.sort-selector {
+  @extend .form-inputs;
   width: 90%;
-  height: 2.25em;
   max-width: 12em;
+  display: inline-block;
 }
 
 .modal-container {
@@ -115,6 +116,12 @@ html {
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+@media screen and (max-width: 765px) {
+  .filters-postings-wrapper {
+    flex-wrap: wrap;
+  }
 }
 
 @media screen and (max-width: 500px) {

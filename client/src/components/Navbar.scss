@@ -1,12 +1,11 @@
 @import "../_variables.scss";
 
 .navbar {
-  font-size: calc(10px + 1.5vmin);
+  font-size: calc(10px + 1.3vmin);
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  // align-items: center;
 
   #org-image {
     max-width: 240px;
@@ -53,9 +52,9 @@
   }
 }
 
-@media screen and (max-width: $phone-media-max) {
+@media screen and (max-width: 830px) {
   .navbar {
-    font-size: calc(10px + 1.5vmin);
+    font-size: calc(10px + 1.3vmin);
     width: 100%;
     display: flex;
     align-items: center;
@@ -117,7 +116,6 @@
       // max-height: calc(100% - 90px);
       justify-content: flex-end;
       right: 0;
-      // width: 100vw;
       padding: 10px;
       transition: 0.3s;
       z-index: -1;
