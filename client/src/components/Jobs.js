@@ -8,7 +8,7 @@ import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
 import Paginator from "./Paginator";
-import Banner from "./Banner"
+import Banner from "./Banner";
 
 const override = css`
   display: block;
@@ -116,6 +116,7 @@ class Jobs extends React.Component {
     }
     filteredJobs = selectedJobs.sort(sortByFunction);
     this.setState(prevState => {
+      // console.log("hit1", filteredJobs);
       return {
         filteredJobs,
         itemCount: filteredJobs.length,
@@ -127,7 +128,7 @@ class Jobs extends React.Component {
 
   sortByOrganizationTitle = (a, b) => {
     // If filtering by location, unknown locations are after known locations
-    if (this.state.distanceRadius && this.state.distanceZip) {
+    if (this.state.distanceZip) {
       if (a.zipcode && !b.zipcode) {
         return -1;
       } else if (!a.zipcode && b.zipcode) {
@@ -147,8 +148,9 @@ class Jobs extends React.Component {
   };
 
   sortByTitleOrganization = (a, b) => {
+    // console.log("hit sort");
     // If filtering by location, unknown locations are after known locations
-    if (this.state.distanceRadius && this.state.distanceZip) {
+    if (this.state.distanceZip) {
       if (a.zipcode && !b.zipcode) {
         return -1;
       } else if (!a.zipcode && b.zipcode) {
@@ -196,7 +198,6 @@ class Jobs extends React.Component {
     this.setState({ jobTitle: e.target.value, isBusy: true }, this.filterJobs);
   };
 
-
   onSetEmploymentTypeFT = checked => {
     this.setState({ employmentTypeFT: checked, isBusy: true }, this.filterJobs);
   };
@@ -206,8 +207,15 @@ class Jobs extends React.Component {
   };
 
   onSetDistanceRadius = e => {
-    const distanceZip = (e.target.value === "") ? "" : this.state.distanceZip
-    this.setState({ distanceRadius: e.target.value, distanceZip: distanceZip, isBusy: true }, this.filterJobs);
+    const distanceZip = e.target.value === "" ? "" : this.state.distanceZip;
+    this.setState(
+      {
+        distanceRadius: e.target.value,
+        distanceZip: distanceZip,
+        isBusy: true
+      },
+      this.filterJobs
+    );
   };
 
   onSetDistanceZip = e => {
@@ -215,23 +223,25 @@ class Jobs extends React.Component {
   };
 
   getDistanceFilter = (distanceRadius, originZip) => {
+    console.log("hit dist");
     if (originZip.length === 5) {
       //if  radius is "any" and length is 5, then set radius to 5
       if (distanceRadius === "") {
-        this.setState({ distanceRadius: 5, isBusy: true })
+        this.setState({ distanceRadius: 5, isBusy: true });
       }
       return job => {
         // dist returns null if either arg is "" or invalid
         const distanceDifference = dist(job.zipcode, originZip);
         // return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
-        return distanceDifference == 0 || distanceDifference <= Number(distanceRadius) // show nulls and invalid zips
-
-      }
+        return (
+          distanceDifference == 0 ||
+          distanceDifference <= Number(distanceRadius)
+        ); // show nulls and invalid zips
+      };
+    } else {
+      return job => job;
     }
-    else {
-      return job => job
-    }
-  }
+  };
 
   onSetOrganization = e => {
     this.setState(
@@ -274,15 +284,9 @@ class Jobs extends React.Component {
       employmentTypePT,
       employmentTypeUnspecified,
       distanceZip,
-      sortBy,
-
+      sortBy
     } = this.state;
-    const {
-      activeUser,
-      regionId,
-      regions,
-      organizations
-    } = this.props;
+    const { activeUser, regionId, regions, organizations } = this.props;
 
     return (
       <div>
@@ -293,7 +297,9 @@ class Jobs extends React.Component {
             imageName="helping-hands2"
           />
 
-          <div className="filters-postings-wrapper">  {/* might not need this wrapper anymore, moved filters out */}
+          <div className="filters-postings-wrapper">
+            {" "}
+            {/* might not need this wrapper anymore, moved filters out */}
             <JobFilters
               onSetJobTitle={this.onSetJobTitle}
               onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
@@ -321,13 +327,12 @@ class Jobs extends React.Component {
                 </h2>
               </div>
               <div className="post-sort-wrapper">
-                {
-                  activeUser.role === "admin" || activeUser.role === "employer"
-                    ? (<Link to={`/jobs/form/new`} id="new-job-btn">
-                      Post a Job
-                    </Link>)
-                    : null
-                }
+                {activeUser.role === "admin" ||
+                activeUser.role === "employer" ? (
+                  <Link to={`/jobs/form/new`} id="new-job-btn">
+                    Post a Job
+                  </Link>
+                ) : null}
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <span style={{ marginBottom: "0.2em", marginRight: "0.5em" }}>
                     {"Sort By: "}
@@ -363,18 +368,18 @@ class Jobs extends React.Component {
                   />
                 </div>
               ) : (
-                  <ul>
-                    {paginatedJobs.map((job, index) => (
-                      <li key={index}>
-                        <JobPostings
-                          job={job}
-                          activeUser={this.props.activeUser}
-                          onShowModal={this.onShowModal}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul>
+                  {paginatedJobs.map((job, index) => (
+                    <li key={index}>
+                      <JobPostings
+                        job={job}
+                        activeUser={this.props.activeUser}
+                        onShowModal={this.onShowModal}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
               <div
                 style={{
                   display: "flex",
