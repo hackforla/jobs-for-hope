@@ -12,6 +12,8 @@ export const get = id => {
 };
 
 export const post = req => {
+  req.regionids =
+    req.regions && req.regions.map(region => parseInt(region.value));
   return axios.post("/api/orgs", req).then(response => response.data);
 };
 

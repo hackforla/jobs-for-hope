@@ -99,10 +99,16 @@ class Jobs extends React.Component {
           !organizationId || job.organization_id === Number(organizationId)
         );
       })
-      .filter(this.getDistanceFilter(distanceRadius, distanceZip))
       .filter(job => job.title.toLowerCase().includes(jobTitle.toLowerCase()))
-      .filter(this.getEmploymentTypeFilter(employmentTypeFT, employmentTypePT))
-      .filter(this.getRegionFilter(regionId));
+      .filter(
+        this.getEmploymentTypeFilter(
+          employmentTypeFT,
+          employmentTypePT,
+          employmentTypeUnspecified
+        )
+      )
+      .filter(this.getRegionFilter(regionId))
+      .filter(this.getDistanceFilter(distanceRadius, distanceZip));
     //Sort by organization, position title
     let filteredJobs = [];
     let sortByFunction = this.sortByTitleOrganization;
@@ -168,15 +174,30 @@ class Jobs extends React.Component {
     } else return 0;
   };
 
-  getEmploymentTypeFilter = (employmentTypeFT, employmentTypePT) => {
-    if (employmentTypeFT && !employmentTypePT) {
-      return job => job.hours.includes("Full-Time");
-    } else if (employmentTypePT && !employmentTypeFT) {
-      return job => job.hours.includes("Part-Time");
+  getEmploymentTypeFilter = (
+    employmentTypeFT,
+    employmentTypePT,
+    employmentTypeUnspecified
+  ) => {
+    // If user does not check any boxes, then don't apply filter
+    if (!employmentTypeFT && !employmentTypePT && !employmentTypeUnspecified) {
+      return job => true;
+    } else {
+      return job => {
+        if (employmentTypeFT && job.hours.includes("Full-Time")) {
+          return true;
+        } else if (employmentTypePT && job.hours.includes("Part-Time")) {
+          return true;
+        } else if (
+          employmentTypeUnspecified &&
+          job.hours.includes("Unspecified")
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      };
     }
-    // If both FT and PT are selected OR neither are selected,
-    // show all jobs (?)
-    return job => true;
   };
 
   getRegionFilter = regionId => {
@@ -204,6 +225,13 @@ class Jobs extends React.Component {
 
   onSetEmploymentTypePT = checked => {
     this.setState({ employmentTypePT: checked, isBusy: true }, this.filterJobs);
+  };
+
+  onSetEmploymentTypeUnspecified = checked => {
+    this.setState(
+      { employmentTypeUnspecified: checked, isBusy: true },
+      this.filterJobs
+    );
   };
 
   onSetDistanceRadius = e => {
@@ -302,6 +330,9 @@ class Jobs extends React.Component {
               onSetJobTitle={this.onSetJobTitle}
               onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
               onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+              onSetEmploymentTypeUnspecified={
+                this.onSetEmploymentTypeUnspecified
+              }
               onSetDistanceRadius={this.onSetDistanceRadius}
               onSetDistanceZip={this.onSetDistanceZip}
               onSetOrganization={this.onSetOrganization}

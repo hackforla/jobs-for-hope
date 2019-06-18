@@ -5,6 +5,7 @@ const JobFilters = ({
   onSetJobTitle,
   onSetEmploymentTypeFT,
   onSetEmploymentTypePT,
+  onSetEmploymentTypeUnspecified,
   onSetDistanceRadius,
   onSetDistanceZip,
   onSetRegionId,
@@ -30,6 +31,29 @@ const JobFilters = ({
           placeholder="Job Title"
           onChange={onSetJobTitle}
         />
+      </div>
+      <div className="filter-wrapper">
+        <p className="filter-title">Organization</p>
+        <div>
+          <select
+            onChange={event => {
+              onSetOrganization(event);
+            }}
+            value={organizationId}
+            className="organization-selector"
+          >
+            <option value="">(Any)</option>
+
+            {organizations &&
+              organizations.map(org => {
+                return (
+                  <option key={org.id} value={org.id}>
+                    {org.name}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
       </div>
       <div className="filter-wrapper">
         <p className="filter-title">Location</p>
@@ -65,29 +89,6 @@ const JobFilters = ({
     </div>
     <div className="filter-column">
       <div className="filter-wrapper">
-        <p className="filter-title">Organization</p>
-        <div>
-          <select
-            onChange={event => {
-              onSetOrganization(event);
-            }}
-            value={organizationId}
-            className="organization-selector"
-          >
-            <option value="">(Any)</option>
-
-            {organizations &&
-              organizations.map(org => {
-                return (
-                  <option key={org.id} value={org.id}>
-                    {org.name}
-                  </option>
-                );
-              })}
-          </select>
-        </div>
-      </div>
-      <div className="filter-wrapper">
         <p className="filter-title">Region</p>
         <select
           className="region-selector"
@@ -106,9 +107,7 @@ const JobFilters = ({
             : null}
         </select>
       </div>
-    </div>
 
-    <div className="filter-column">
       <div className="filter-wrapper">
         <p className="filter-title">Employment Type</p>
         <div className="filter-options">
@@ -139,7 +138,7 @@ const JobFilters = ({
             type="checkbox"
             checked={employmentTypeUnspecified}
             onChange={event => {
-              // onSetEmploymentTypeFT(event.target.checked);
+              onSetEmploymentTypeUnspecified(event.target.checked);
             }}
           />
           <p>Unspecified</p>
