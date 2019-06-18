@@ -21,7 +21,10 @@ const getAll = () => {
         title: row.job_title,
         summary: row.job_summary,
         location: row.job_location,
-        zipcode: row.job_zip_code,
+        zipcode:
+          row.job_zip_code && row.job_zip_code.length >= 5
+            ? row.job_zip_code.slice(0, 5)
+            : "",
         post_date: row.job_post_date,
         hours: row.full_or_part,
         salary: row.salary,
