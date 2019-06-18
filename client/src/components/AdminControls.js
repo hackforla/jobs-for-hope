@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { loadRequests, approveRequest } from "../../services/verify-service";
-import { getAll } from "../../services/organization-service";
+import { loadRequests, approveRequest } from "../services/verify-service";
+import { getAll } from "../services/organization-service";
 import "./AdminControls.scss";
 
 const AdminControls = props => {

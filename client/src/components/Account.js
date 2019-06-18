@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import "./Account.scss";
-import AdminControls from "./controls/AdminControls";
-import EmployerControls from "./controls/EmployerControls";
+import AdminControls from "./AdminControls";
+import EmployerControls from "./EmployerControls";
 
 class Account extends Component {
   render() {

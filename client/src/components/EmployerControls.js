@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getAll } from "../../services/organization-service";
+import { getAll } from "../services/organization-service";
 import "./EmployerControls.scss";
 
 const EmployerControls = props => {
