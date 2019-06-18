@@ -211,35 +211,27 @@ class Jobs extends React.Component {
   };
 
   onSetDistanceZip = e => {
-    this.setState({ distanceZip: e.target.value, isBusy: true }, this.filterJobs);
+    this.setState({ distanceZip: e.target.value }, this.filterJobs);
   };
 
   getDistanceFilter = (distanceRadius, originZip) => {
-    // TODO: if zip input is 5, and onchange distanceRadius to any/"", then show any, without erasing zip
-    // TODO: ability to sort by distance
-
-    if (originZip.length === 0) {
-      this.setState({ distanceRadius: "", isBusy: true })
-      return job => job
-    }
-    else if (originZip.length < 5) {
-      this.setState({ distanceRadius: 0, isBusy: true })
-      return job => job.zipcode.includes(originZip)
-    }
-    //currently, only returning uncategorized jobs with no zipcodes here so far; 
-    //and only if radius is set to any"
-    else if (originZip && distanceRadius === "") {
-      return job => job.zipcode.includes(originZip) || !job.zipcode
-    }
-    else {
+    if (originZip.length === 5) {
+      //if  radius is "any" and length is 5, then set radius to 5
+      if (distanceRadius === "") {
+        this.setState({ distanceRadius: 5, isBusy: true })
+      }
       return job => {
         // dist returns null if either arg is "" or invalid
+        // TODO: if we take out differenceDifference &&, it will include the nulls/unspecified zipcodes
+        // then we can use a sort to put them at the end
         const distanceDifference = dist(job.zipcode, originZip);
         return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
-      };
+      }
     }
-  };
-
+    else {
+      return job => job
+    }
+  }
 
 
   onSetOrganization = e => {
