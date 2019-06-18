@@ -28,26 +28,26 @@ const JobFilters = ({
       <input type="search" className="title-input" name="keywords" placeholder="Job Title" onChange={onSetJobTitle} />
     </div>
     <div className="filter-wrapper">
-      <p className="filter-title">Distance</p>
-      <select value={distanceRadius} onChange={event => {
-        onSetDistanceRadius(event);
-      }} className="distance-selector">
-        <option value="">(Any)</option>
-        <option value="0">(Exact)</option>
-        <option value="10">10 miles</option>
-        <option value="25">25 miles</option>
-        <option value="50">50 miles</option>
-      </select>
-    </div>
-  </div>
-  <div className="filter-column">
-    <div className="filter-wrapper">
       <p className="filter-title">
         Location
       </p>
       <input value={distanceZip} placeholder="Zip Code" onChange={event => {
         onSetDistanceZip(event);
       }} className="zip-input" />
+    </div>
+  </div>
+  <div className="filter-column">
+    <div className="filter-wrapper">
+      <p className="filter-title">Distance</p>
+      <select value={distanceRadius} onChange={event => {
+        onSetDistanceRadius(event);
+      }} className="distance-selector">
+        <option value="">(Any)</option>
+        <option value="5">5 miles</option>
+        <option value="10">10 miles</option>
+        <option value="25">25 miles</option>
+        <option value="50">50 miles</option>
+      </select>
     </div>
   </div>
   <div className="filter-column">
