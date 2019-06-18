@@ -33,6 +33,11 @@ const EmployerControls = props => {
     <div className="employer-main">
       <div className="jobs-container">
         <h2>Jobs:</h2>
+        {role === "employer" ? (
+          <Link to={`/jobs/form/new`} id="new-job-btn">
+            Post a Job
+          </Link>
+        ) : null}
         create jobs, edit jobs, delete jobs
       </div>
       <div className="org-info-container">
