@@ -13,6 +13,16 @@ class JobPostings extends React.Component {
   render() {
     const { job, activeUser } = this.props;
     let formattedPostingDate = "";
+    let viewMoreButton =
+      typeof this.props.onShowModal === "function" ? (
+        <button
+          id="view-more-btn"
+          type="button"
+          onClick={() => this.handleShow(job)}
+        >
+          View More
+        </button>
+      ) : null;
     if (job.post_date) {
       formattedPostingDate = "Posted: ";
       formattedPostingDate += moment(job.post_date).format("MM/DD/YYYY");
@@ -66,13 +76,7 @@ class JobPostings extends React.Component {
                   Edit Job
                 </Link>
               ) : null}
-              <button
-                id="view-more-btn"
-                type="button"
-                onClick={() => this.handleShow(job)}
-              >
-                View More
-              </button>
+              {viewMoreButton}
             </div>
           </div>
         </div>

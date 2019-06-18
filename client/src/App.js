@@ -192,7 +192,11 @@ class App extends Component {
               <Route
                 path="/account"
                 render={() => (
-                  <Account activeUser={activeUser} pendingRequests={requests} />
+                  <Account
+                    activeUser={activeUser}
+                    pendingRequests={requests}
+                    jobs={jobs}
+                  />
                 )}
               />
 

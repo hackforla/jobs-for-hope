@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAll } from "../services/organization-service";
+import JobPostings from "./JobPostings";
 import "./EmployerControls.scss";
 
 const EmployerControls = props => {
@@ -32,7 +33,8 @@ const EmployerControls = props => {
   return (
     <div className="employer-main">
       <div className="org-info-container">
-        <h2>Organization Info:</h2>
+        <h1>Employer Control Panel</h1>
+        <h2>Organization:</h2>
         <div className="org-control">
           <select
             name="organization"
@@ -67,7 +69,19 @@ const EmployerControls = props => {
             Post a Job
           </Link>
         ) : null}
-        edit jobs, delete jobs
+        <section role="tablist" className="recent-postings-container">
+          <ul>
+            {props.jobs
+              .filter(job => {
+                return orgList.map(org => org.id).includes(job.organization_id);
+              })
+              .map((job, index) => (
+                <li key={index}>
+                  <JobPostings job={job} activeUser={props.activeUser} />
+                </li>
+              ))}
+          </ul>
+        </section>
       </div>
     </div>
   );
