@@ -141,14 +141,14 @@ h4 {
 .org-img-wrapper {
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex: 0 0 70%;
 }
 
 .org-img {
   max-width: 90%;
   max-height: 90%;
-  margin: auto;
+  margin: auto auto auto 0;
   object-fit: contain;
 }
 

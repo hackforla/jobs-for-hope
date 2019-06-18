@@ -23,7 +23,7 @@ class Jobs extends React.Component {
     employmentTypeFT: false,
     employmentTypePT: false,
     employmentTypeUnspecified: false,
-    distanceRadius: "",
+    distanceRadius: "0",
     distanceZip: "",
     regionId: "",
     filteredJobs: [],
@@ -223,21 +223,19 @@ class Jobs extends React.Component {
   };
 
   getDistanceFilter = (distanceRadius, originZip) => {
-    console.log("hit dist");
-    if (originZip.length === 5) {
-      //if  radius is "any" and length is 5, then set radius to 5
-      if (distanceRadius === "") {
-        this.setState({ distanceRadius: 5, isBusy: true });
+    if (originZip && originZip.length === 5) {
+      if (Number(distanceRadius) === 0) {
+        return job => job.zipcode === originZip || !job.zipcode;
+      } else {
+        return job => {
+          // dist returns null if either arg is "" or invalid
+          const distanceDifference = dist(job.zipcode, originZip);
+          // return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
+          return (
+            !distanceDifference || distanceDifference <= Number(distanceRadius)
+          );
+        };
       }
-      return job => {
-        // dist returns null if either arg is "" or invalid
-        const distanceDifference = dist(job.zipcode, originZip);
-        // return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
-        return (
-          distanceDifference == 0 ||
-          distanceDifference <= Number(distanceRadius)
-        ); // show nulls and invalid zips
-      };
     } else {
       return job => job;
     }
