@@ -31,18 +31,8 @@ const EmployerControls = props => {
 
   return (
     <div className="employer-main">
-      <div className="jobs-container">
-        <h2>Jobs:</h2>
-        {role === "employer" ? (
-          <Link to={`/jobs/form/new`} id="new-job-btn">
-            Post a Job
-          </Link>
-        ) : null}
-        create jobs, edit jobs, delete jobs
-      </div>
       <div className="org-info-container">
         <h2>Organization Info:</h2>
-        edit org info, associate another org
         <div className="org-control">
           <select
             name="organization"
@@ -69,6 +59,15 @@ const EmployerControls = props => {
             ) : null}
           </div>
         </div>
+      </div>
+      <div className="jobs-container">
+        <h2>Jobs:</h2>
+        {role === "employer" ? (
+          <Link to={`/jobs/form/new`} id="new-job-btn">
+            Post a Job
+          </Link>
+        ) : null}
+        edit jobs, delete jobs
       </div>
     </div>
   );
