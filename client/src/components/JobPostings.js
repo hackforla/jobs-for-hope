@@ -14,7 +14,7 @@ class JobPostings extends React.Component {
     const { job, activeUser } = this.props;
     let formattedPostingDate = "";
     let viewMoreButton =
-      typeof this.props.onShowModal === "function" ? (
+      typeof this.props.onShowModal === "function" && job.is_user_created ? (
         <button
           id="view-more-btn"
           type="button"
@@ -46,13 +46,22 @@ class JobPostings extends React.Component {
             </div>
 
             <div className="posting-location-duration">
-              {job.zipcode ? job.zipcode + " | " : ""}
-              <span style={{ fontWeight: "bold" }}>{job.hours}</span>
+              {job.zipcode ? job.zipcode : "(No location)"}
+              {job.hours ? " | " : null}
+              {job.hours ? (
+                <span style={{ fontWeight: "bold" }}>{job.hours}</span>
+              ) : null}
             </div>
           </div>
           <div className="middle-posting">
-            <h3 style={{ marginTop: "0", marginBottom: "0" }}>{job.title}</h3>
-            <h4>{job.organization_name}</h4>
+            <h3 style={{ marginTop: "0", marginBottom: "0" }}>
+              <a href={job.info_link}>{job.title}</a>
+            </h3>
+            <h4>
+              <a href={"/organizations/" + job.organization_id}>
+                {job.organization_name}
+              </a>
+            </h4>
             <p>
               {job.summary.toLowerCase().startsWith("http") ? (
                 <a href={job.summary} target="_blank" rel="noopener noreferrer">

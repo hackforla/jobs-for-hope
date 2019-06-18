@@ -4,6 +4,7 @@ import Banner from "./Banner";
 import "./OrganizationView.scss";
 import * as organizationService from "../services/organization-service";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { css } from "@emotion/core";
 import { RotateLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -119,6 +120,9 @@ class OrganizationView extends React.Component {
                   </button>
                 </div>
                 <h1>{org.name}</h1>
+                <Link to={"/jobs/" + org.id} id="org-jobs-available">
+                  {org.job_count} Jobs Available
+                </Link>
                 {org.mission ? (
                   <blockquote className="organization-mission">
                     <em>{`"${org.mission}"`}</em>

@@ -34,7 +34,7 @@ export const dist = function(zipA, zipB) {
       Math.cos(deg2rad(zipA.longitude - zipB.longitude));
 
   distance = Math.acos(distance) * 3958.56540656;
-  return Math.round(distance);
+  return Number(distance.toFixed(4));
 };
 
 // Software License Agreement (BSD License)

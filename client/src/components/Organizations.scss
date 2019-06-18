@@ -58,12 +58,13 @@
   border: 1px $secondary-color solid;
 }
 
+//used also in SideFilter.js
 .region-select {
   padding: 0.65em;
   border-radius: 0.25em;
   border: 1px gray solid;
   font-family: $main-font;
-  margin: auto 0.5em;
+  margin: 0.25em 0.25em;
 }
 
 @media screen and (max-width: 976px) {

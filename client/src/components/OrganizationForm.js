@@ -130,8 +130,8 @@ class OrganizationForm extends React.Component {
     organizationService
       .del(this.state.org.id)
       .then(resp => {
-        window.alert("Organization Deleted");
         this.props.fetchOrganizations();
+        window.alert("Organization Deleted");
         this.setState({ toOrganizations: true });
       })
       .catch(err => {
@@ -194,9 +194,7 @@ class OrganizationForm extends React.Component {
                       handleSubmit,
                       isSubmitting,
                       setFieldValue,
-                      setFieldTouched,
-                      options
-                      /* and other goodies */
+                      setFieldTouched
                     } = props;
                     return (
                       <div>

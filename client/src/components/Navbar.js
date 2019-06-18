@@ -1,14 +1,18 @@
 import React from "react";
 import "./Navbar.scss";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
 
 const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <a href="http://homeless.lacounty.gov/" target="_blank">
-        <img id="org-image" alt="logo" src={logoImage} />
+        <a
+          href="http://homeless.lacounty.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img id="org-image" alt="logo" src={logoImage} />
         </a>
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
@@ -55,19 +59,19 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
               </li>
             </React.Fragment>
           ) : (
-              <React.Fragment>
-                <li>
-                  <NavLink className="mobile-li link" to="/register">
-                    Employer Register
+            <React.Fragment>
+              <li>
+                <NavLink className="mobile-li link" to="/register">
+                  Employer Register
                 </NavLink>
-                </li>
-                <li>
-                  <NavLink className="mobile-li link" to="/login">
-                    Employer Log In
+              </li>
+              <li>
+                <NavLink className="mobile-li link" to="/login">
+                  Employer Log In
                 </NavLink>
-                </li>
-              </React.Fragment>
-            )}
+              </li>
+            </React.Fragment>
+          )}
         </ul>
       </span>
     </nav>
