@@ -148,7 +148,7 @@ class Jobs extends React.Component {
 
   sortByTitleOrganization = (a, b) => {
     // If filtering by location, unknown locations are after known locations
-    if (this.state.radius && this.state.distanceZip) {
+    if (this.state.distanceRadius && this.state.distanceZip) {
       if (a.zipcode && !b.zipcode) {
         return -1;
       } else if (!a.zipcode && b.zipcode) {
@@ -222,17 +222,16 @@ class Jobs extends React.Component {
       }
       return job => {
         // dist returns null if either arg is "" or invalid
-        // TODO: if we take out differenceDifference &&, it will include the nulls/unspecified zipcodes
-        // then we can use a sort to put them at the end
         const distanceDifference = dist(job.zipcode, originZip);
-        return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
+        // return distanceDifference == 0 || distanceDifference && distanceDifference <= Number(distanceRadius)
+        return distanceDifference == 0 || distanceDifference <= Number(distanceRadius) // show nulls and invalid zips
+
       }
     }
     else {
       return job => job
     }
   }
-
 
   onSetOrganization = e => {
     this.setState(
