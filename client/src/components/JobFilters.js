@@ -43,7 +43,7 @@ const JobFilters = ({
         onSetDistanceRadius(event);
       }} className="distance-selector">
         <option value="">(Any)</option>
-        <option value="0">(Exact)</option>
+        <option value="5">5 miles</option>
         <option value="10">10 miles</option>
         <option value="25">25 miles</option>
         <option value="50">50 miles</option>
