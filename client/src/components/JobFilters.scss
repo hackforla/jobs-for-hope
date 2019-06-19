@@ -40,16 +40,12 @@
   .filter-bar-container {
     position: relative;
     width: 100%;
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr minmax(41px, auto);
+    flex-direction: row;
   }
 }
 
 @media screen and (max-width: 375px) {
   .filter-bar-container {
-    grid-auto-flow: row;
-    grid-template-columns: repeat(1, 1fr);
+    flex-direction: column;
   }
 }
