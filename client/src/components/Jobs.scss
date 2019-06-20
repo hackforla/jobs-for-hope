@@ -131,6 +131,10 @@ html {
   .filters-postings-wrapper {
     flex-wrap: wrap;
   }
+
+  .recent-postings-container ul {
+    padding: 0.2em 0.5em;
+  }
 }
 
 @media screen and (max-width: 500px) {
