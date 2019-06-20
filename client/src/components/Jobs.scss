@@ -127,6 +127,11 @@ html {
   width: 100%;
 }
 
+@media screen and (max-width: 825px) and (orientation: landscape) {
+  .filters-postings-wrapper {
+    flex-direction: column;
+  }
+}
 @media screen and (max-width: 765px) {
   .filters-postings-wrapper {
     flex-wrap: wrap;

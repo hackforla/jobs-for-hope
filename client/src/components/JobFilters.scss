@@ -36,7 +36,16 @@
   max-width: 300px;
 }
 
-@media screen and (max-width: $phone-media-max) {
+@media screen and (max-width: 825px) and (orientation: landscape) {
+  .filter-bar-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) auto;
+    grid-template-rows: 1fr;
+  }
+}
+
+@media screen and (max-width: $phone-media-max) and (orientation: portrait) {
   .filter-bar-container {
     position: relative;
     width: 100%;

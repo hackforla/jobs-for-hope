@@ -54,16 +54,16 @@
 
   .org-img-wrapper {
     height: auto;
-    width: 100%;
+    width: 95%;
     overflow: hidden;
     display: flex;
-    justify-content: left;
+    justify-content: center;
+    align-items: center;
     flex: 0 0 70%;
 
     .org-img {
       height: 90%;
       width: 90%;
-      margin: auto auto auto 0;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center center;
@@ -144,6 +144,13 @@ h4 {
     width: 100%;
     padding: 0;
     margin: 0.5em;
+
+    .org-img-wrapper {
+      .org-img {
+        height: 100%;
+        width: 100%;
+      }
+    }
   }
   .middle-posting {
     width: 100%;
@@ -162,16 +169,6 @@ h4 {
 //   display: flex;
 //   justify-content: left;
 //   flex: 0 0 70%;
-// }
-
-// .org-img {
-//   // max-width: 90%;
-//   // max-height: 90%;
-//   height: 90%;
-//   width: 90%;
-//   margin: auto auto auto 0;
-//   // object-fit: contain;
-//   background-size: contain;
 // }
 
 .posting-location-duration {
