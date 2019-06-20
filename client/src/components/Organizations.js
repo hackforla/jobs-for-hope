@@ -89,23 +89,27 @@ class Organizations extends Component {
             />
           </div>
         ) : (
-          <div style={{ margin: "0.5em 2em 3em 2em" }}>
+          <div
+            className="organizations-content"
+            // style={{ margin: "0.5em 2em 3em 2em" }}
+          >
             <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between"
-              }}
+              className="organizations-page-options"
+              // style={{
+              //   display: "flex",
+              //   flexDirection: "row",
+              //   justifyContent: "space-between"
+              // }}
             >
-              <div>
-                <span title="Service Planning Area">{"SPA "}</span>
+              <div className="region-select-container">
+                <span title="Service Planning Area">{"Region "}</span>
                 <select
                   className="region-select"
                   value={selectedRegionId}
                   onChange={this.handleChange}
                 >
                   <option key="0" value="">
-                    (Any SPA)
+                    (Any Region)
                   </option>
                   {regions
                     ? regions.map(region => (
@@ -118,20 +122,14 @@ class Organizations extends Component {
               </div>
 
               {activeUser.role === "admin" ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end"
-                  }}
-                >
+                <div className="new-org-btn-container">
                   <a
                     href={`/organizations/0/edit`}
                     className="new-organization-btn"
-                    style={{
-                      width: "auto",
-                      margin: "0 1em 1em 0"
-                    }}
+                    // style={{
+                    //   width: "auto",
+                    //   margin: "0 1em 1em 0"
+                    // }}
                   >
                     New Organization
                   </a>

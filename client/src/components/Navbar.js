@@ -8,7 +8,7 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
         <a href="http://homeless.lacounty.gov/" target="_blank">
-        <img id="org-image" alt="logo" src={logoImage} />
+          <img id="org-image" alt="logo" src={logoImage} />
         </a>
         <div className="burger-container">
           <div className="burger" onClick={toggler}>
@@ -24,7 +24,7 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>
         <ul onClick={toggler}>
           <li>
-            <NavLink className="link" to="/" exact>
+            <NavLink className="link jobs-link" to="/" exact>
               Jobs
             </NavLink>
           </li>

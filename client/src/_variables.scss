@@ -15,7 +15,7 @@ $light-color: #dadada; //lighter grey - for secondary buttons
 $accent-color: #ff4137; //red -- delete button in JobForm & OrganizationForm
 $tertiary-color: #f4b4a4;
 
-$phone-media-max: "770px";
+$phone-media-max: "830px";
 
 @function set-text-color($bg-color) {
   @if (lightness($bg-color) > 50) {
