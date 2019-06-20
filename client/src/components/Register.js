@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Auth.scss";
 import Banner from "./Banner";
 import { Link } from "react-router-dom";
-import { handleRegister, handleNewOrg } from "../services/auth-service";
+import { handleRegister } from "../services/auth-service";
 import { sendConfirmEmail } from "../services/verify-service";
 import { getAll } from "../services/organization-service";
 import { Formik } from "formik";
@@ -86,7 +86,7 @@ const Register = () => {
                 }
                 if (
                   contactPhone &&
-                  !/^(\([0-9]{3}\)\s*|[0-9]{3}\-?)[0-9]{3}-?[0-9]{4}$/.test(
+                  !/^(\([0-9]{3}\)\s*|[0-9]{3}-?)[0-9]{3}-?[0-9]{4}$/.test(
                     contactPhone
                   )
                 ) {
@@ -133,8 +133,7 @@ const Register = () => {
                 contactEmail,
                 contactPhone,
                 email,
-                password,
-                confirm
+                password
               } = values;
               sendConfirmEmail(email).then(result => {
                 if (result === "User already exists") {

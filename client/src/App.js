@@ -64,7 +64,7 @@ class App extends Component {
             if (hours.includes("part") || hours.includes("pt")) {
               type.push("Part-Time");
             }
-            job.hours = type.join(" / ");
+            job.hours = type.length === 0 ? "Unspecified" : type.join(" / ");
             return job;
           });
           return { jobs: cleanedJobs, isPending: false };
@@ -192,7 +192,11 @@ class App extends Component {
               <Route
                 path="/account"
                 render={() => (
-                  <Account activeUser={activeUser} pendingRequests={requests} />
+                  <Account
+                    activeUser={activeUser}
+                    pendingRequests={requests}
+                    jobs={jobs}
+                  />
                 )}
               />
 

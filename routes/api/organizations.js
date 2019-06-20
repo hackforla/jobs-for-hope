@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
       res.send(resp);
     })
     .catch(err => {
-      res.status("404").json({ error: err.toString() });
+      res.status("500").json({ error: err.toString() });
     });
 });
 
@@ -25,7 +25,7 @@ router.get("/:id", (req, res) => {
       res.send(resp);
     })
     .catch(err => {
-      res.status("404").json({ error: err.toString() });
+      res.status("500").json({ error: err.toString() });
     });
 });
 
@@ -36,7 +36,7 @@ router.post("/", (req, res) => {
       res.status("201").json(resp);
     })
     .catch(err => {
-      res.status("404").json({ error: err.toString() });
+      res.status("500").json({ error: err.toString() });
     });
 });
 
@@ -47,7 +47,7 @@ router.put("/:id", (req, res) => {
       res.sendStatus("200");
     })
     .catch(err => {
-      res.status("404").json({ error: err.toString() });
+      res.status("500").json({ error: err.toString() });
     });
 });
 
@@ -58,7 +58,7 @@ router.delete("/:id", (req, res) => {
       res.sendStatus("200");
     })
     .catch(err => {
-      res.status("404").json({ error: err.toString() });
+      res.status("500").json({ error: err.toString() });
     });
 });
 
@@ -76,7 +76,7 @@ router.put("/:id/updateFileKey", (req, res) => {
 //     .then(orgs => res.json(orgs.feed.entry))
 //     .catch(err => {
 //       console.error(err)
-//       res.status('404').json({ 'error': 'Error loading orgs' })
+//       res.status('500').json({ 'error': 'Error loading orgs' })
 //     })
 // })
 

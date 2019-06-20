@@ -13,6 +13,16 @@ class JobPostings extends React.Component {
   render() {
     const { job, activeUser } = this.props;
     let formattedPostingDate = "";
+    let viewMoreButton =
+      typeof this.props.onShowModal === "function" && job.is_user_created ? (
+        <button
+          id="view-more-btn"
+          type="button"
+          onClick={() => this.handleShow(job)}
+        >
+          View More
+        </button>
+      ) : null;
     if (job.post_date) {
       formattedPostingDate = "Posted: ";
       formattedPostingDate += moment(job.post_date).format("MM/DD/YYYY");
@@ -44,8 +54,14 @@ class JobPostings extends React.Component {
             </div>
           </div>
           <div className="middle-posting">
-            <h3 style={{ marginTop: "0", marginBottom: "0" }}>{job.title}</h3>
-            <h4>{job.organization_name}</h4>
+            <h3 style={{ marginTop: "0", marginBottom: "0" }}>
+              <a href={job.info_link}>{job.title}</a>
+            </h3>
+            <h4>
+              <a href={"/organizations/" + job.organization_id}>
+                {job.organization_name}
+              </a>
+            </h4>
             <p>
               {job.summary.toLowerCase().startsWith("http") ? (
                 <a href={job.summary} target="_blank" rel="noopener noreferrer">
@@ -69,15 +85,7 @@ class JobPostings extends React.Component {
                   Edit Job
                 </Link>
               ) : null}
-              {job.is_user_created && (
-                <button
-                  id="view-more-btn"
-                  type="button"
-                  onClick={() => this.handleShow(job)}
-                >
-                  View More
-                </button>
-              )}
+              {viewMoreButton}
             </div>
           </div>
         </div>

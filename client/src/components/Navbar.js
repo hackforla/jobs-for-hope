@@ -1,13 +1,17 @@
 import React from "react";
 import "./Navbar.scss";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logoImage from "../images/homelessinitiative.png";
 
 const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <a href="http://homeless.lacounty.gov/" target="_blank">
+        <a
+          href="http://homeless.lacounty.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img id="org-image" alt="logo" src={logoImage} />
         </a>
         <div className="burger-container">

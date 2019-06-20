@@ -56,7 +56,7 @@ const get = id => {
   const sql = `
       select o.id, o.name, o.url, o.logo, o.mission, o.description,
         o.street, o.suite, o.city, o.state, o.zip, o.latitude, o.longitude,
-        o.phone, o.email, o.is_user_created, o.is_approved
+        o.phone, o.email, o.is_user_created, o.is_approved,
         count(j.organization_id) as job_count
       from organizations o
       left join jobs j on o.id = j.organization_id
@@ -112,8 +112,8 @@ const post = async org => {
     const sql = `
       INSERT INTO organizations(name, url, mission, description,
         street, suite, city, state, zip, latitude, longitude,
-        phone, email)
-      VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        phone, email, logo, is_user_created, is_approved)
+      VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, '', true, true)
       RETURNING id
       `;
     const values = [
@@ -133,17 +133,17 @@ const post = async org => {
     ];
 
     const insertResponse = await pool.query(sql, values);
-    const id = insertResponse.rows[0];
+    const responseRow = insertResponse.rows[0];
 
     if (org.regionids) {
       const insertRegionSql =
         "INSERT INTO organization_regions (organization_id, region_id) VALUES ($1, $2)";
       for (let i = 0; i < org.regionids.length; i++) {
-        await client.query(insertRegionSql, [org.id, org.regionids[i]]);
+        await client.query(insertRegionSql, [responseRow.id, org.regionids[i]]);
       }
     }
     await client.query("COMMIT");
-    return id;
+    return responseRow;
   } catch (err) {
     console.log(err);
     await client.query("ROLLBACK");
@@ -210,11 +210,20 @@ const put = async org => {
   }
 };
 
-const del = id => {
-  const sql = "DELETE FROM organizations WHERE id = $1";
-  const values = [id];
-
-  return pool.query(sql, values);
+const del = async id => {
+  const client = await pool.connect();
+  try {
+    const sql = "DELETE FROM organization_regions WHERE organization_id = $1";
+    const values = [id];
+    await client.query(sql, values);
+    const sql2 = "DELETE FROM organizations WHERE id = $1";
+    await client.query(sql2, values);
+    return client.query("COMMIT");
+  } catch (err) {
+    console.log(err);
+    await client.query("ROLLBACK");
+    throw err;
+  }
 };
 
 const updateFileKey = (id, fileKey) => {
