@@ -13,13 +13,13 @@ const Footer = ({ activeUser, logOut }) => (
     <div className="quick-links-footer quick-links-content footer-content">
       <h3>Quick Links</h3>
       <p className="link">
+        <a href="/organizations">Organizations</a>
+      </p>
+      <p className="link">
         <a href="/about">About Us</a>
       </p>
       <p className="link">
         <a href="/contact">Contact Us</a>
-      </p>
-      <p className="link">
-        <a href="/organizations">Organizations</a>
       </p>
       {activeUser.id ? (
         <p className="link" onClick={logOut}>
