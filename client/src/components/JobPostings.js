@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./JobPostings.scss";
 import moment from "moment";
+import { NONAME } from "dns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
 
@@ -54,40 +58,51 @@ class JobPostings extends React.Component {
             </div>
           </div>
           <div className="middle-posting">
-            <h3 style={{ marginTop: "0", marginBottom: "0" }}>
-              <a href={job.info_link}>{job.title}</a>
-            </h3>
-            <h4>
-              <a href={"/organizations/" + job.organization_id}>
-                {job.organization_name}
-              </a>
-            </h4>
-            <p>
-              {job.summary.toLowerCase().startsWith("http") ? (
-                <a href={job.summary} target="_blank" rel="noopener noreferrer">
-                  Details
+            <div className="job-info">
+              <h3 style={{ marginTop: "0", marginBottom: "0" }}>
+                <a href={job.info_link} style={{ color: "#833f76" }}> {/*textDecorationColor: "#e6b833" */}
+                  {job.title}
                 </a>
-              ) : !job.is_user_created && job.summary.length > 150 ? (
-                job.summary.substring(0, 150) + "..."
-              ) : !job.is_user_created ? (
-                job.summary
-              ) : null}
-            </p>
-          </div>
-          <div className="right-posting">
-            <div className="posting-date">{formattedPostingDate}</div>
-            <div className="posting-btn-container">
+                {' '}
+                <FontAwesomeIcon icon={faExternalLinkAlt} size="xs" style={{ color: "#833f76" }} />
+              </h3>
+              <h4>
+                <a href={"/organizations/" + job.organization_id} style={{ textDecoration: "none", color: "#585858" }}>
+                  {job.organization_name}
+                  {' '}
+                  <FontAwesomeIcon icon={faLink} size="xs" />
+                </a>
+
+              </h4>
+              <p>
+                {job.summary.toLowerCase().startsWith("http") ? (
+                  <a href={job.summary} target="_blank" rel="noopener noreferrer">
+                    Details
+                </a>
+                ) : !job.is_user_created && job.summary.length > 150 ? (
+                  job.summary.substring(0, 150) + "..."
+                ) : !job.is_user_created ? (
+                  job.summary
+                ) : null}
+              </p>
+            </div>
+            <div className="bottom-posting">
+              {/* <div className="posting-btn-container"> */}
+              <div className="posting-date">{formattedPostingDate}</div>
+
               {job.is_user_created &&
-              (activeUser.role === "admin" ||
-                (activeUser.role === "employer" &&
-                  activeUser.organization.includes(job.organization_id))) ? (
-                <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
-                  Edit Job
+                (activeUser.role === "admin" ||
+                  (activeUser.role === "employer" &&
+                    activeUser.organization.includes(job.organization_id))) ? (
+                  <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
+                    Edit Job
                 </Link>
-              ) : null}
+                ) : null}
               {viewMoreButton}
             </div>
+            {/* </div> */}
           </div>
+
         </div>
       </div>
     );
