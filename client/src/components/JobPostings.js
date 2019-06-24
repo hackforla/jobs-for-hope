@@ -32,16 +32,13 @@ class JobPostings extends React.Component {
         <div className="posting-content">
           <div className="left-posting">
             <div className="org-img-wrapper">
-              <img
+              <div
                 className="org-img"
-                alt="company logo"
-                width="100%"
-                height="100%"
-                src={
-                  job.organization_logo
-                    ? `${s3Url}/${job.organization_logo}`
-                    : `/logos/jobsforhope.png`
-                }
+                style={{
+                  backgroundImage: job.organization_logo
+                    ? `url(https:${s3Url}/${job.organization_logo})`
+                    : `url(/logos/jobsforhope.png)`
+                }}
               />
             </div>
 
