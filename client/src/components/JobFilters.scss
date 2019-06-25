@@ -33,10 +33,19 @@
   @extend .form-inputs;
   width: 100%;
   min-width: auto;
-  max-width: 300px;
 }
 
-@media screen and (max-width: $phone-media-max) {
+@media screen and (max-width: 905px) {
+  .filter-bar-container {
+    width: 100%;
+    flex-direction: row;
+    .filter-column {
+      flex: 1;
+    }
+  }
+}
+
+@media screen and (max-width: $phone-media-max) and (orientation: portrait) {
   .filter-bar-container {
     position: relative;
     width: 100%;
