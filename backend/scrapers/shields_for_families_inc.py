@@ -23,7 +23,7 @@ def run(url):
         location = details.find('div', {'class': 'preview-location'})
         if location.a:
             job_class.location = location.a.text
-            zipcode = len(location.a['href'].split('+')[-1]) == 5
+            zipcode = location.a['href'].split('+')[-1]
             try:
                 job_class.zip_code = int(zipcode)
             except ValueError:
