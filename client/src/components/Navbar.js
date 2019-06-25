@@ -28,7 +28,7 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
       <span className={`nav-links ${toggle ? "show" : "hide"}`}>
         <ul onClick={toggler}>
           <li>
-            <NavLink className="link" to="/" exact>
+            <NavLink className="link jobs-link" to="/" exact>
               Jobs
             </NavLink>
           </li>

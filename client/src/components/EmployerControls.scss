@@ -1,1 +1,10 @@
 @import "../_variables.scss";
+
+.employer-main {
+  width: 80%;
+}
+
+// this component needs to be responsive. temporary solution:
+.jobs-container {
+  width: 558px;
+}

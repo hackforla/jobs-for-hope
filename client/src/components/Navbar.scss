@@ -48,11 +48,15 @@
           border-bottom: 0.2em $secondary-color solid;
         }
       }
+
+      .jobs-link {
+        padding-left: 3px;
+      }
     }
   }
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: $phone-media-max) {
   .navbar {
     font-size: calc(10px + 1.3vmin);
     width: 100%;
@@ -112,8 +116,6 @@
     .nav-links {
       position: fixed;
       top: 85px;
-      // overflow: scroll;
-      // max-height: calc(100% - 90px);
       justify-content: flex-end;
       right: 0;
       padding: 10px;
@@ -149,7 +151,7 @@
       transform: translate(0, 0);
     }
     .hide {
-      transform: translate(0, -450px);
+      transform: translate(0, -800px);
     }
   }
 }

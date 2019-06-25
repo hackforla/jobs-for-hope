@@ -26,61 +26,113 @@
   }
 }
 
-.organization-cards-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  padding: 0;
-  margin: 0 -0.5em;
+.organizations-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
   width: 100%;
-}
 
-#close-btn {
-  font-family: $main-font;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: 1em;
-  padding: 0.3em 1em;
-  background: $light-color;
-  border-radius: 0.3em;
-  border: 1px $light-color solid;
-}
-
-.new-organization-btn {
-  font-family: $main-font;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: 1em;
-  padding: 0.3em 1em;
-  color: black;
-  border: 1px $secondary-color solid;
-  background: $secondary-color;
-  border-radius: 0.3em;
-  border: 1px $secondary-color solid;
-}
-
-//used also in SideFilter.js
-.region-select {
-  padding: 0.65em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
-  font-family: $main-font;
-  margin: 0.25em 0.25em;
-}
-
-@media screen and (max-width: 976px) {
   .organization-cards-container {
-    grid-template-columns: auto auto auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .organizations-page-options {
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 90%;
+
+    .region-select-container {
+      align-items: center;
+      display: flex;
+      height: 30px;
+
+      .region-select {
+        height: 100%;
+        margin-left: 10px;
+      }
+    }
+
+    .new-org-btn-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      .new-organization-btn {
+        background: $secondary-color;
+        border-radius: 0.3em;
+        border: 1px $secondary-color solid;
+        color: black;
+        font-family: $main-font;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin: 1em;
+        padding: 0.3em 1em;
+        text-align: center;
+      }
+    }
   }
 }
 
-@media screen and (max-width: 650px) {
-  .organization-cards-container {
-    grid-template-columns: auto auto;
+@media screen and (max-width: 1000px) {
+  .organizations-content {
+    .organization-cards-container {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .organizations-content {
+    .organization-cards-container {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
 
 @media screen and (max-width: 500px) {
-  .organization-cards-container {
-    grid-template-columns: auto;
+  .organizations-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .organizations-page-options {
+      flex-direction: column-reverse;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      .region-select-container {
+        padding: 0 1em;
+      }
+
+      .new-org-btn-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .new-organization-btn {
+          width: 100%;
+        }
+      }
+    }
+    .organization-cards-container {
+      width: 95%;
+      grid-template-columns: auto;
+
+      .organization-card {
+        padding: 0.5em 0;
+        margin-top: 0.25em;
+      }
+    }
   }
 }
