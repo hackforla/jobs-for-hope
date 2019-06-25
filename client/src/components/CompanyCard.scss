@@ -22,7 +22,7 @@
 
 .organization-img-wrapper {
   margin-top: 5%;
-  height: 40%; // previously 45%
+  height: 40%;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -37,13 +37,13 @@
 #org-title {
   margin: 0;
   width: 90%;
-  height: 20%;
+  height: 25%;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 0;
   padding: 0;
-  font-size: 1em;
-  font-weight: lighter;
+  font-size: 1.1em;
+  font-weight: bold;
   overflow: hidden;
 }
 
