@@ -44,7 +44,6 @@
       }
 
       .link {
-        // background-color: red;
         &.active {
           border-bottom: 0.2em $secondary-color solid;
         }
@@ -117,8 +116,6 @@
     .nav-links {
       position: fixed;
       top: 85px;
-      // overflow: scroll;
-      // max-height: calc(100% - 90px);
       justify-content: flex-end;
       right: 0;
       padding: 10px;

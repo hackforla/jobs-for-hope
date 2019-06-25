@@ -1,4 +1,5 @@
 @import "../_variables.scss";
+@import "../_partials.scss";
 
 .auth-form-container {
   margin: 4em auto 6.5em auto;
@@ -116,10 +117,8 @@
 }
 
 .login-input {
+  @extend %form-inputs;
   width: 90%;
-  margin-top: 0.5em;
-  padding: 0.75em 1.75em;
-  border-radius: 0.5em;
   border: 1px lightgray solid;
 }
 
@@ -181,8 +180,7 @@
 
 input:focus {
   border-color: #007eff;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 0 3px rgba(0, 126, 255, 0.1);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
   outline: none;
 }
 

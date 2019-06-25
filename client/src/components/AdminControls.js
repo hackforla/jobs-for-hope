@@ -89,13 +89,13 @@ const AdminControls = props => {
           </Link>
 
           {role === "admin" ||
-          (role === "employer" && organization.includes(org.name)) ? (
-            // when we change organizations from string to an array:
-            // activeUser.organization.includes(org.name))) ? (
-            <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
-              Edit
+            (role === "employer" && organization.includes(org.name)) ? (
+              // when we change organizations from string to an array:
+              // activeUser.organization.includes(org.name))) ? (
+              <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
+                Edit
             </Link>
-          ) : null}
+            ) : null}
         </div>
       </div>
     </div>
