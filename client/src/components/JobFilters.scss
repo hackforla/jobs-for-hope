@@ -30,7 +30,7 @@
 .sort-selector,
 .zip-input,
 .title-input {
-  @extend .form-inputs;
+  @extend %form-inputs;
   width: 100%;
   min-width: auto;
 }

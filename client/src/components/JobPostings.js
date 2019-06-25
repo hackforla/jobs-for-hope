@@ -24,7 +24,7 @@ class JobPostings extends React.Component {
           type="button"
           onClick={() => this.handleShow(job)}
         >
-          View More
+          Details
         </button>
       ) : null;
     if (job.post_date) {
@@ -35,7 +35,6 @@ class JobPostings extends React.Component {
       <div className="posting-card">
         <div className="posting-content">
           <div className="left-posting">
-            {/* <div className="org-img-wrapper"> */}
             <div
               className="org-img"
               style={{
@@ -44,7 +43,6 @@ class JobPostings extends React.Component {
                   : `url(/logos/jobsforhope.png)`
               }}
             />
-            {/* </div> */}
 
             <div className="posting-location-duration">
               {job.zipcode ? job.zipcode : "(No location)"}
@@ -56,7 +54,7 @@ class JobPostings extends React.Component {
           </div>
           <div className="middle-posting">
             <div className="job-info">
-              <h3 style={{ marginTop: "0", marginBottom: "0" }}>
+              <h3>
                 <a href={job.info_link} style={{ color: "#833f76" }}> {/*textDecorationColor: "#e6b833" */}
                   {job.title}
                 </a>
@@ -84,20 +82,19 @@ class JobPostings extends React.Component {
               </p>
             </div>
             <div className="bottom-posting">
-              {/* <div className="posting-btn-container"> */}
               <div className="posting-date">{formattedPostingDate}</div>
-
-              {job.is_user_created &&
-                (activeUser.role === "admin" ||
-                  (activeUser.role === "employer" &&
-                    activeUser.organization.includes(job.organization_id))) ? (
-                  <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
-                    Edit Job
+              <div className="buttons-wrapper">
+                {job.is_user_created &&
+                  (activeUser.role === "admin" ||
+                    (activeUser.role === "employer" &&
+                      activeUser.organization.includes(job.organization_id))) ? (
+                    <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
+                      Edit Job
                 </Link>
-                ) : null}
-              {viewMoreButton}
+                  ) : null}
+                {viewMoreButton}
+              </div>
             </div>
-            {/* </div> */}
           </div>
 
         </div>

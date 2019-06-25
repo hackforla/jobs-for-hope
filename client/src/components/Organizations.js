@@ -116,10 +116,6 @@ class Organizations extends Component {
                     <a
                       href={`/organizations/0/edit`}
                       className="new-organization-btn"
-                    // style={{
-                    //   width: "auto",
-                    //   margin: "0 1em 1em 0"
-                    // }}
                     >
                       New Organization
                   </a>

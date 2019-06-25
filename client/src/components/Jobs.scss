@@ -58,7 +58,7 @@ html {
 }
 
 .sort-selector {
-  @extend .form-inputs;
+  @extend %form-inputs;
   width: 100%;
   min-width: 10em;
   display: inline-block;
