@@ -1,4 +1,5 @@
 @import "../_variables.scss";
+@import "../partials.scss";
 
 /* Recent job postings styling */
 .recent-postings-container {
@@ -24,6 +25,7 @@
 
 .posting-card {
   width: 100%;
+  min-height: 160px;
   padding: 0.5em;
   margin: 0em;
   border: 1px solid lightgray;
@@ -31,26 +33,28 @@
   box-shadow: 4px 4px 6px 0 lightgray;
 }
 
-%shared-padding {
-  padding: 0 15px;
-}
-
 .posting-content {
   width: 100%;
+  height: 12em;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 8em;
 }
 
 .left-posting {
   width: 25%;
   height: 100%;
+  min-width: 190px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  .org-img {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
 
   .org-img-wrapper {
     height: auto;
@@ -60,24 +64,30 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 70%;
-
-    .org-img {
-      height: 90%;
-      width: 90%;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
   }
 }
 
 .middle-posting {
   width: 60%;
+  height: 100%;
   flex-grow: 3;
   display: flex;
   flex-direction: column;
+  align-items: space-between;
   justify-content: space-between;
-  overflow-y: hidden;
+  overflow: hidden;
+  margin: 0 0 0 20px;
+
+  .job-info {
+    flex: 1;
+    align-items: center;
+  }
+
+  .bottom-posting {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 }
 
 h4 {
@@ -91,59 +101,58 @@ h4 {
   border: 0.5px solid gray;
 }
 
-.right-posting {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 15%;
-  height: 100%;
-  padding: 0.5em;
-  align-items: flex-end;
-}
-
-.posting-btn-container {
-  display: flex;
-}
-
 #edit-job-btn {
-  font-family: $main-font;
-  font-weight: bold;
-  padding: 0.5em 1em;
+  @extend %button-shared;
+
   background: $light-color;
-  border-radius: 0.4em;
   border: 1px $light-color solid;
-  margin: auto 0.5em 0em auto;
-  text-decoration: none;
-  color: black;
-  font-size: 13.3333px;
 }
 
 #view-more-btn {
-  font-family: $main-font;
-  font-weight: bold;
-  padding: 0.5em 1em;
+  @extend %button-shared;
+
   background: $secondary-color;
-  border-radius: 0.4em;
   border: 1px $secondary-color solid;
-  margin: auto 0 0 auto;
+  margin: 0 0 0 auto;
+}
+
+.posting-location-duration {
+  flex: 0 0 10%;
+  font-size: 0.8em;
+}
+
+.posting-date {
+  font-size: 0.8em;
 }
 
 @media screen and (max-width: 976px) {
   .posting-content {
-    height: 12em;
+    height: 14em;
   }
 }
+
+@media screen and (max-width: 765pc) {
+  .job-info {
+    overflow-y: auto;
+  }
+}
+
 @media screen and (max-width: 550px) {
+  .posting-card {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+  }
   .posting-content {
     flex-direction: column;
     padding: 0.5em;
     height: auto;
   }
   .left-posting {
-    height: 200px;
+    height: 100px;
     width: 100%;
     padding: 0;
-    margin: 0.5em;
+    margin: 0.5em 0;
 
     .org-img-wrapper {
       .org-img {
@@ -155,20 +164,19 @@ h4 {
   .middle-posting {
     width: 100%;
     padding: 0;
-    margin: 0.5em;
-  }
-  .right-posting {
-    width: 100%;
-    padding: 0;
-    margin: 0.5em;
+    margin: 0;
+
+    .bottom-posting {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
   }
 }
 
-.posting-location-duration {
-  flex: 0 0 10%;
-  font-size: 0.8em;
-}
-
-.posting-date {
-  font-size: 0.8em;
+@media screen and (max-width: 450px) {
+  .middle-posting .bottom-posting {
+    display: block;
+    flex-direction: column;
+  }
 }

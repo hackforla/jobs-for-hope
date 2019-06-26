@@ -3,7 +3,7 @@ import "./CompanyCard.scss";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
-const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
+const s3Url = newFunction();
 
 const CompanyCard = ({ org, activeUser }) => {
   return (
@@ -19,7 +19,7 @@ const CompanyCard = ({ org, activeUser }) => {
           </Link>
         </div>
 
-        <div id="org-buttons-wrapper">
+        <div id="org-buttons-wrapper" className="buttons-wrapper">
           <Link to={`/organizations/${org.id}`} id="org-details-button">
             Details
           </Link>
@@ -39,3 +39,7 @@ const CompanyCard = ({ org, activeUser }) => {
 };
 
 export default withRouter(CompanyCard);
+function newFunction() {
+  return "//s3-us-west-2.amazonaws.com/jobsforhope";
+}
+

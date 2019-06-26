@@ -1,4 +1,5 @@
 @import "../_variables.scss";
+@import "../_partials.scss";
 
 .organization-card {
   height: 320px;
@@ -11,6 +12,7 @@
 
 .organization-card-content {
   height: 320px;
+  min-width: 226px;
   margin: 0;
   padding: 0em 0em;
   border: 0.5px solid #ddd;
@@ -20,7 +22,7 @@
 
 .organization-img-wrapper {
   margin-top: 5%;
-  height: 45%;
+  height: 40%;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -35,13 +37,13 @@
 #org-title {
   margin: 0;
   width: 90%;
-  height: 20%;
+  height: 25%;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 0;
   padding: 0;
-  font-size: 1.3em;
-  font-weight: lighter;
+  font-size: 1.1em;
+  font-weight: bold;
   overflow: hidden;
 }
 
@@ -53,26 +55,14 @@
 }
 
 #org-jobs-available:hover {
-  opacity: .75;
+  opacity: 0.75;
 }
 
-#org-buttons-wrapper {
+.buttons-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-%button-shared {
-  width: 45%;
-  max-width: 120px;
-  height: 25%;
-  margin: 0 0.4em;
-  padding: 0.3em 0em;
-  border-radius: 0.4em;
-  font-weight: bold;
-  color: #404142;
-  opacity: 1;
 }
 
 #org-edit-button {
