@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./JobPostings.scss";
 import moment from "moment";
-import { NONAME } from "dns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 

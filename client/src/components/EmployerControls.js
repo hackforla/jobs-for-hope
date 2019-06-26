@@ -24,7 +24,7 @@ const EmployerControls = props => {
         id: orgList[0].id
       });
     });
-  }, []);
+  });
 
   const changeOrg = e => {
     setOrg({ id: Number(e.target.value) });
