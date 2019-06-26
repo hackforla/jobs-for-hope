@@ -196,7 +196,7 @@ const Register = () => {
                       <React.Fragment>
                         <select
                           name="organization"
-                          className="org-select"
+                          className="org-select form-component"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.organization}
