@@ -62,12 +62,12 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
             <React.Fragment>
               <li>
                 <NavLink className="mobile-li link" to="/register">
-                  Employer Register
+                  Register
                 </NavLink>
               </li>
               <li>
                 <NavLink className="mobile-li link" to="/login">
-                  Employer Log In
+                  Log In
                 </NavLink>
               </li>
             </React.Fragment>

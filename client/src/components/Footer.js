@@ -28,10 +28,10 @@ const Footer = ({ activeUser, logOut }) => (
       ) : (
         <React.Fragment>
           <p className="link">
-            <a href="/register">Employer Sign Up</a>
+            <a href="/register">Sign Up</a>
           </p>
           <p className="link">
-            <a href="/login">Employer Log In</a>
+            <a href="/login">Log In</a>
           </p>
         </React.Fragment>
       )}
