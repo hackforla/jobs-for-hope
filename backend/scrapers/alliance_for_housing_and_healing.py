@@ -7,14 +7,15 @@ from job import Job
 
 organization = "Alliance for Housing and Healing"
 url = 'https://alliancehh.org/about/jobs/'
-organization_id= 3
+organization_id = 3
+
 
 def run(url):
     soup = get_soup(url)
     jobs_list = soup.find_all('h4')
-    job_class= Job(organization, "")
-    job_class.organization_id= organization_id
-    insert_count= 0
+    job_class = Job(organization, "")
+    job_class.organization_id = organization_id
+    insert_count = 0
     for job_entry in jobs_list:
         job_class.title = job_entry.a.text
         job_class.info_link = job_entry.a['href']
@@ -35,5 +36,5 @@ def run(url):
 
         job_class.post_date = datetime(year, month, day)
 
-        insert_count+=job_insert(job_class)
+        insert_count += job_insert(job_class)
     return insert_count

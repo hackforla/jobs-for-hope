@@ -4,18 +4,20 @@ from job import Job
 # Mental Health America of Los Angeles
 organization = "Mental Health America of Los Angeles"
 url = 'http://mhala.hrmdirect.com/employment/job-openings.php?nohd'
-organization_id= 35
+organization_id = 35
+
 
 def run(url):
     soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
 
     job_listings = soup.find_all('tr', {'class': 'ReqRowClick'})
-    job_class= Job(organization, "")
-    job_class.organization_id= organization_id
-    insert_count= 0
+    job_class = Job(organization, "")
+    job_class.organization_id = organization_id
+    insert_count = 0
     for job_row in job_listings:
-        job_class.title = job_row.find(
-            'td', {'class': 'posTitle'}).text.strip()
+        job_class.title = job_row.find('td', {
+            'class': 'posTitle'
+        }).text.strip()
         job_class.info_link = 'http://mhala.hrmdirect.com/employment/' + \
             job_row.find('td', {'class': 'posTitle'}).a['href']
         job_class.location = job_row.find('td', {'class': 'cities'}).text
@@ -28,5 +30,5 @@ def run(url):
             job_class.summary = summary_parent.find_parent("p").text.strip()
         else:
             job_class.summary = ''
-        insert_count+= job_insert(job_class)
+        insert_count += job_insert(job_class)
     return insert_count

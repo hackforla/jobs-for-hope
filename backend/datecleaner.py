@@ -1,41 +1,42 @@
 from datetime import date, datetime
 import re
 
+
 def month_to_num(string):
     m = {
-    'jan': 1,
-    '1': 1,
-    '01': 1,
-    'feb': 2,
-    '2': 2,
-    '02': 2,
-    'mar': 3,
-    '3': 3,
-    '03': 3,
-    'apr': 4,
-    '4': 4,
-    '04': 4,
-    'may': 5,
-    '5': 5,
-    '05': 5,
-    'jun': 6,
-    '6': 6,
-    '06': 6,
-    'jul': 7,
-    '7': 7,
-    '07': 7,
-    'aug': 8,
-    '8': 8,
-    '08': 8,
-    'sep': 9,
-    '9': 9,
-    '09': 9,
-    'oct': 10,
-    '10': 10,
-    'nov': 11,
-    '11': 11,
-    'dec': 12,
-    '12': 12
+        'jan': 1,
+        '1': 1,
+        '01': 1,
+        'feb': 2,
+        '2': 2,
+        '02': 2,
+        'mar': 3,
+        '3': 3,
+        '03': 3,
+        'apr': 4,
+        '4': 4,
+        '04': 4,
+        'may': 5,
+        '5': 5,
+        '05': 5,
+        'jun': 6,
+        '6': 6,
+        '06': 6,
+        'jul': 7,
+        '7': 7,
+        '07': 7,
+        'aug': 8,
+        '8': 8,
+        '08': 8,
+        'sep': 9,
+        '9': 9,
+        '09': 9,
+        'oct': 10,
+        '10': 10,
+        'nov': 11,
+        '11': 11,
+        'dec': 12,
+        '12': 12
     }
     s = string.strip()[:3].lower()
     try:
@@ -44,21 +45,29 @@ def month_to_num(string):
     except:
         raise ValueError('Not a month')
 
-def string_to_date(dateString, ordering=['month','day','year']):
+
+def string_to_date(dateString, ordering=['month', 'day', 'year']):
     if len(ordering) != 3:
-       print('Error: convertStringToDate method has an optional second argument that requires an array with exactly 3 elements (year, month, day)')
-       return
+        print(
+            'Error: convertStringToDate method has an optional second argument that requires an array with exactly 3 elements (year, month, day)'
+        )
+        return
     # Convert ordering to lowercase
     for i in range(len(ordering)):
         ordering[i] = ordering[i].lower()
     # Check if ordering args contains 'month', 'day', and 'year'
-    if ('year' not in ordering) | ('month' not in ordering) | ('day' not in ordering):
-        print('Error: Ordering array must include year, month, and day among 3 args')
+    if ('year' not in ordering) | ('month' not in ordering) | (
+            'day' not in ordering):
+        print(
+            'Error: Ordering array must include year, month, and day among 3 args'
+        )
         return
     # Check if ordering args are exactly 'month', 'day', and 'year'
     for ele in ordering:
         if ele not in ['year', 'month', 'day']:
-            print('Error: One of the args in ordering is not year, month, or day')
+            print(
+                'Error: One of the args in ordering is not year, month, or day'
+            )
             return
     # Find and store year, month, and day indices
     yearIndex = ordering.index('year')

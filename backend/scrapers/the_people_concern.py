@@ -5,15 +5,18 @@ from job import Job
 
 organization = "The People Concern"
 url = 'https://theapplicantmanager.com/careers?co=lc'
-organization_id= 53
+organization_id = 53
+
 
 def run(url):
     soup = get_javascript_soup(url)
 
-    jobs_table = soup.find('table', {'id': 'careers_table'}).tbody.find_all('tr')
-    job_class= Job(organization, "")
-    job_class.organization_id= organization_id
-    insert_count= 0
+    jobs_table = soup.find('table', {
+        'id': 'careers_table'
+    }).tbody.find_all('tr')
+    job_class = Job(organization, "")
+    job_class.organization_id = organization_id
+    insert_count = 0
     for job_row in jobs_table:
         job_entry = job_row.find_all('td')
         job_class.title = job_entry[0].a.text
@@ -22,5 +25,5 @@ def run(url):
         job_class.location = job_entry[1].text
         job_class.full_or_part = job_entry[3].text
         job_class.post_date = job_entry[4].text
-        insert_count+= job_insert(job_class)
+        insert_count += job_insert(job_class)
     return insert_count

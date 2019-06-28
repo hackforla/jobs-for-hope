@@ -4,7 +4,7 @@ class Job:
     def __init__(self, organization_name, job_title):
         self.organization_name = organization_name
         self.title = job_title
-        self.organization_id=''
+        self.organization_id = ''
         self.summary = ''
         self.location = ''
         self.zip_code = ''
