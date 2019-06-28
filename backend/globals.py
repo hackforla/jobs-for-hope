@@ -63,7 +63,6 @@ def error_handler(error_msg):
     exit()
 
 
-
 def print_vars(job_class):
     print "Title: ", job_class.title
     print "Summary: ", job_class.summary
@@ -150,7 +149,7 @@ def drop_tables():
 
 
 def print_organization(organization_name, curr, total):
-    sys.stdout.write(str(curr)+ '/' + str(total) + ': ')
+    sys.stdout.write(str(curr) + '/' + str(total) + ': ')
     sys.stdout.write(organization_name)
     sys.stdout.flush()
 
@@ -159,25 +158,28 @@ def print_insert_progress():
     sys.stdout.write('.')
     sys.stdout.flush()
 
+
 def print_organization_end(insert_count):
     sys.stdout.write('(' + str(insert_count) + ')')
     sys.stdout.write('\n')
     sys.stdout.flush()
     # print('Inserted ' + str(globals.insert_count) + ' job(s).')
 
+
 def print_id_name():
-    sql= '''
+    sql = '''
     SELECT id, name
     FROM organizations    
     ORDER BY name ASC
     '''
     try:
         cur.execute(sql)
-        result= cur.fetchall()
+        result = cur.fetchall()
         for r in result:
             print(r)
     except:
         print("didnt work")
+
 
 def insert_job(values):
     sql = '''
@@ -265,8 +267,10 @@ def get_javascript_soup_delayed_and_click(url, dynamicElement):
 
 
 def update_db(job_class):
-    insert_job((job_class.title, job_class.organization_name, job_class.summary, job_class.location,
-                job_class.zip_code, job_class.post_date, job_class.full_or_part, job_class.salary, job_class.info_link))
+    insert_job(
+        (job_class.title, job_class.organization_name, job_class.summary,
+         job_class.location, job_class.zip_code, job_class.post_date,
+         job_class.full_or_part, job_class.salary, job_class.info_link))
 
 
 def date_ago(timeLength, timeUnit):

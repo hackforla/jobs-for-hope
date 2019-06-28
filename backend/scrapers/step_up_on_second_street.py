@@ -5,15 +5,16 @@ from job import Job
 
 organization = "Step Up on Second Street, Inc."
 url = "https://www.indeedjobs.com/step-up-on-second-street-inc/jobs"
-organization_id= 49
+organization_id = 49
+
 
 def run(url):
     soup = get_javascript_soup(url)
 
     current_openings = soup.findAll(attrs={"data-tn-element": "jobLink[]"})
-    job_class= Job(organization, "")
-    job_class.organization_id= organization_id
-    insert_count= 0
+    job_class = Job(organization, "")
+    job_class.organization_id = organization_id
+    insert_count = 0
     for current_opening in current_openings:
 
         detail_page_link = current_opening.find('a')['href']
@@ -32,7 +33,8 @@ def run(url):
 
         location_parts = job_class.location.split(',')
         if len(location_parts) > 1 and len(
-                location_parts[-1]) and location_parts[-1].strip().lower() != 'ca':
+                location_parts[-1]
+        ) and location_parts[-1].strip().lower() != 'ca':
             # skip job if state is not CA
             print('Skip location: %s' % job_class.location)
             continue
@@ -55,5 +57,5 @@ def run(url):
 
         job_class.info_link = detail_page_link
 
-        insert_count+= job_insert(job_class)
+        insert_count += job_insert(job_class)
     return insert_count
