@@ -318,8 +318,9 @@ def delete_jobs_by_organization(organization_name):
     query = '''
     DELETE FROM jobs
     WHERE organization_id = (
-        SELECT id FROM  organizations WHERE name = %s
-    ) '''
+        SELECT id FROM organizations WHERE name = %s
+    ) AND is_user_created = false
+    '''
     try:
         cur.execute(query, [organization_name])
     except (Exception, psycopg2.DatabaseError) as error:
