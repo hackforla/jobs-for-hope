@@ -10,7 +10,7 @@ organization_id= 40
 def run(url):
     soup = get_soup(url)
 
-    jobs_list = soup.select('div[class*="JobGrid-"]')[0]
+    jobs_list = soup.select('div[class="sc-gGBfsJ gqaxtq"]')[0]
     job_class= Job(organization, "")
     job_class.organization_id= organization_id
     insert_count= 0
