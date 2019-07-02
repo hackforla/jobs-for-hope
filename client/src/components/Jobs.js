@@ -9,6 +9,7 @@ import { RotateLoader } from "react-spinners";
 import { withRouter, Link } from "react-router-dom";
 import Paginator from "./Paginator";
 import Banner from "./Banner";
+import queryString from "query-string";
 
 const override = css`
   display: block;
@@ -41,13 +42,75 @@ class Jobs extends React.Component {
 
   componentDidMount() {
     window.scroll(0, 0);
-    const organizationId = this.props.match.params.organization_id;
-    if (organizationId) {
-      this.setState({ organizationId }, this.filterJobs);
-    } else {
-      this.filterJobs();
-    }
+    // To implement deep-linking, check for query string parameters
+    // that may initialize search criteria.
+    const queryStrings = queryString.parse(this.props.location.search);
+    const organizationId = queryStrings.organizationId || "";
+    const regionId = queryStrings.regionId || "";
+    const jobTitle = queryStrings.jobTitle || "";
+    const distanceZip = queryStrings.distanceZip || "";
+    const distanceRadius = queryStrings.distanceRadius || "0";
+    const employmentTypeFT = queryStrings.employmentTypeFT || false;
+    const employmentTypePT = queryStrings.employmentTypePT || false;
+    const employmentTypeUnspecified =
+      queryStrings.employmentTypeUnspecified || false;
+
+    this.setState(
+      {
+        organizationId,
+        regionId,
+        jobTitle,
+        distanceZip,
+        distanceRadius,
+        employmentTypeFT,
+        employmentTypePT,
+        employmentTypeUnspecified
+      },
+      this.filterJobs
+    );
   }
+
+  pushCriteriaToHistory = () => {
+    const {
+      organizationId,
+      regionId,
+      jobTitle,
+      distanceZip,
+      distanceRadius,
+      employmentTypeFT,
+      employmentTypePT,
+      employmentTypeUnspecified
+    } = this.state;
+    const queryStrings = {};
+    if (organizationId) {
+      queryStrings.organizationId = organizationId;
+    }
+    if (regionId) {
+      queryStrings.regionId = regionId;
+    }
+    if (distanceZip) {
+      queryStrings.distanceZip = distanceZip;
+    }
+    if (distanceRadius !== "0" && distanceRadius) {
+      queryStrings.distanceRadius = distanceRadius;
+    }
+    if (jobTitle) {
+      queryStrings.jobTitle = jobTitle;
+    }
+    if (employmentTypeFT) {
+      queryStrings.employmentTypeFT = employmentTypeFT;
+    }
+    if (employmentTypePT) {
+      queryStrings.employmentTypePT = employmentTypePT;
+    }
+    if (employmentTypeUnspecified) {
+      queryStrings.employmentTypeUnspecified = employmentTypeUnspecified;
+    }
+    const qs = queryString.stringify(queryStrings);
+    console.log(this.props);
+    const url = this.props.location.pathname + "?" + qs;
+    this.props.history.push(url);
+  };
 
   handleChangeItemsPerPage = e => {
     this.setState(
@@ -121,8 +184,12 @@ class Jobs extends React.Component {
         break;
     }
     filteredJobs = selectedJobs.sort(sortByFunction);
+
+    // Update the address bar and browser history to
+    // include current search criteria as query string params
+    this.pushCriteriaToHistory();
+
     this.setState(prevState => {
-      // console.log("hit1", filteredJobs);
       return {
         filteredJobs,
         itemCount: filteredJobs.length,
@@ -299,20 +366,22 @@ class Jobs extends React.Component {
 
   render() {
     const {
-      paginatedJobs,
-      itemCount,
+      jobTitle,
       organizationId,
-      isBusy,
-      totalPages,
-      currentPage,
+      regionId,
       distanceRadius,
+      distanceZip,
       employmentTypeFT,
       employmentTypePT,
       employmentTypeUnspecified,
-      distanceZip,
+      paginatedJobs,
+      itemCount,
+      isBusy,
+      totalPages,
+      currentPage,
       sortBy
     } = this.state;
-    const { activeUser, regionId, regions, organizations } = this.props;
+    const { activeUser, regions, organizations } = this.props;
 
     return (
       <div>
@@ -327,25 +396,26 @@ class Jobs extends React.Component {
             {" "}
             {/* might not need this wrapper anymore, moved filters out */}
             <JobFilters
+              regions={regions}
+              organizations={organizations}
+              jobTitle={jobTitle}
               onSetJobTitle={this.onSetJobTitle}
+              organizationId={organizationId}
+              onSetOrganization={this.onSetOrganization}
+              regionId={regionId}
+              onSetRegionId={this.onSetRegionId}
+              distanceRadius={distanceRadius}
+              onSetDistanceRadius={this.onSetDistanceRadius}
+              distanceZip={distanceZip}
+              onSetDistanceZip={this.onSetDistanceZip}
+              employmentTypeFT={employmentTypeFT}
               onSetEmploymentTypeFT={this.onSetEmploymentTypeFT}
+              employmentTypePT={employmentTypePT}
               onSetEmploymentTypePT={this.onSetEmploymentTypePT}
+              employmentTypeUnspecified={employmentTypeUnspecified}
               onSetEmploymentTypeUnspecified={
                 this.onSetEmploymentTypeUnspecified
               }
-              onSetDistanceRadius={this.onSetDistanceRadius}
-              onSetDistanceZip={this.onSetDistanceZip}
-              onSetOrganization={this.onSetOrganization}
-              onSetRegionId={this.onSetRegionId}
-              employmentTypeFT={employmentTypeFT}
-              employmentTypePT={employmentTypePT}
-              employmentTypeUnspecified={employmentTypeUnspecified}
-              distanceRadius={distanceRadius}
-              distanceZip={distanceZip}
-              regionId={regionId}
-              regions={regions}
-              organizations={organizations}
-              organizationId={organizationId}
               sortBy={sortBy}
               handleChangeSortBy={this.handleChangeSortBy}
             />

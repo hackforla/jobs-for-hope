@@ -18,135 +18,136 @@ const JobFilters = ({
   regions,
   regionId,
   organizations,
-  organizationId
+  organizationId,
+  jobTitle
 }) => (
-    <aside className="filter-bar-container">
-      <div className="filter-column">
-        <div className="filter-wrapper">
-          <p className="filter-title">Job Title</p>
-          <input
-            type="search"
-            className="title-input"
-            name="keywords"
-            placeholder="Job Title"
-            onChange={onSetJobTitle}
-          />
-        </div>
-        <div className="filter-wrapper">
-          <p className="filter-title">Organization</p>
-          <div>
-            <select
-              onChange={event => {
-                onSetOrganization(event);
-              }}
-              value={organizationId}
-              className="organization-selector"
-            >
-              <option value="">(Any)</option>
-
-              {organizations &&
-                organizations.map(org => {
-                  return (
-                    <option key={org.id} value={org.id}>
-                      {org.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-        </div>
-        <div className="filter-wrapper">
-          <p className="filter-title">Region</p>
+  <aside className="filter-bar-container">
+    <div className="filter-column">
+      <div className="filter-wrapper">
+        <p className="filter-title">Job Title</p>
+        <input
+          type="search"
+          className="title-input"
+          name="keywords"
+          value={jobTitle}
+          placeholder="Job Title"
+          onChange={onSetJobTitle}
+        />
+      </div>
+      <div className="filter-wrapper">
+        <p className="filter-title">Organization</p>
+        <div>
           <select
-            className="region-selector"
-            value={regionId}
-            onChange={e => onSetRegionId(e.target.value)}
+            onChange={event => {
+              onSetOrganization(event);
+            }}
+            value={organizationId}
+            className="organization-selector"
           >
-            <option key="0" value="">
-              (Any)
+            <option value="">(Any)</option>
+
+            {organizations &&
+              organizations.map(org => {
+                return (
+                  <option key={org.id} value={org.id}>
+                    {org.name}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+      </div>
+      <div className="filter-wrapper">
+        <p className="filter-title">Region</p>
+        <select
+          className="region-selector"
+          value={regionId}
+          onChange={e => onSetRegionId(e.target.value)}
+        >
+          <option key="0" value="">
+            (Any)
           </option>
-            {regions
-              ? regions.map(region => (
+          {regions
+            ? regions.map(region => (
                 <option key={region.id} value={region.id}>
                   {region.name}
                 </option>
               ))
-              : null}
+            : null}
+        </select>
+      </div>
+    </div>
+    <div className="filter-column">
+      <div className="filter-wrapper">
+        <p className="filter-title">Location</p>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <input
+            value={distanceZip}
+            placeholder="Zip Code"
+            onChange={event => {
+              onSetDistanceZip(event);
+            }}
+            className="zip-input"
+          />
+
+          <select
+            value={distanceRadius}
+            onChange={event => {
+              onSetDistanceRadius(event);
+            }}
+            style={{
+              visibility:
+                distanceZip && distanceZip.length === 5 ? "visible" : "hidden"
+            }}
+            className="distance-selector"
+          >
+            <option value="0">(Exact)</option>
+            <option value="5">5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+            <option value="50">50 miles</option>
           </select>
         </div>
-
       </div>
-      <div className="filter-column">
-        <div className="filter-wrapper">
-          <p className="filter-title">Location</p>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <input
-              value={distanceZip}
-              placeholder="Zip Code"
-              onChange={event => {
-                onSetDistanceZip(event);
-              }}
-              className="zip-input"
-            />
 
-            <select
-              value={distanceRadius}
-              onChange={event => {
-                onSetDistanceRadius(event);
-              }}
-              style={{
-                visibility:
-                  distanceZip && distanceZip.length === 5 ? "visible" : "hidden"
-              }}
-              className="distance-selector"
-            >
-              <option value="0">(Exact)</option>
-              <option value="5">5 miles</option>
-              <option value="10">10 miles</option>
-              <option value="25">25 miles</option>
-              <option value="50">50 miles</option>
-            </select>
-          </div>
+      <div className="filter-wrapper">
+        <p className="filter-title">Employment Type</p>
+        <div className="filter-options">
+          <input
+            name="full-time"
+            type="checkbox"
+            checked={employmentTypeFT}
+            onChange={event => {
+              onSetEmploymentTypeFT(event.target.checked);
+            }}
+          />
+          <p>Full Time</p> <br />
         </div>
-
-        <div className="filter-wrapper">
-          <p className="filter-title">Employment Type</p>
-          <div className="filter-options">
-            <input
-              name="full-time"
-              type="checkbox"
-              checked={employmentTypeFT}
-              onChange={event => {
-                onSetEmploymentTypeFT(event.target.checked);
-              }}
-            />
-            <p>Full Time</p> <br />
-          </div>
-          <div className="filter-options">
-            <input
-              name="part-time"
-              type="checkbox"
-              checked={employmentTypePT}
-              onChange={event => {
-                onSetEmploymentTypePT(event.target.checked);
-              }}
-            />
-            <p>Part Time</p> <br />
-          </div>
-          <div className="filter-options">
-            <input
-              name="full-time"
-              type="checkbox"
-              checked={employmentTypeUnspecified}
-              onChange={event => {
-                onSetEmploymentTypeUnspecified(event.target.checked);
-              }}
-            />
-            <p>Unspecified</p>
-          </div>
+        <div className="filter-options">
+          <input
+            name="part-time"
+            type="checkbox"
+            checked={employmentTypePT}
+            onChange={event => {
+              onSetEmploymentTypePT(event.target.checked);
+            }}
+          />
+          <p>Part Time</p> <br />
+        </div>
+        <div className="filter-options">
+          <input
+            name="full-time"
+            type="checkbox"
+            checked={employmentTypeUnspecified}
+            onChange={event => {
+              onSetEmploymentTypeUnspecified(event.target.checked);
+            }}
+          />
+          <p>Unspecified</p>
         </div>
       </div>
-    </aside>
-  );
+    </div>
+  </aside>
+);
 
 export default JobFilters;

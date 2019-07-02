@@ -120,7 +120,7 @@ class OrganizationView extends React.Component {
                   </button>
                 </div>
                 <h1>{org.name}</h1>
-                <Link to={"/jobs/" + org.id} id="org-jobs-available">
+                <Link to={"/?organizationId=" + org.id} id="org-jobs-available">
                   {org.job_count} Jobs Available
                 </Link>
                 {org.mission ? (
