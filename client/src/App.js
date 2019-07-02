@@ -131,6 +131,7 @@ class App extends Component {
               />
               <Route
                 path="/jobs"
+                exact
                 render={() => (
                   <Jobs
                     activeUser={activeUser}
