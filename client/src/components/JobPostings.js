@@ -5,13 +5,16 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
-
 const s3Url = "//s3-us-west-2.amazonaws.com/jobsforhope";
 
 class JobPostings extends React.Component {
   handleShow(job) {
     return this.props.onShowModal(job);
   }
+
+  goToJobPosting = url => {
+    window.open(url, "_blank");
+  };
 
   render() {
     const { job, activeUser } = this.props;
@@ -54,25 +57,39 @@ class JobPostings extends React.Component {
           <div className="middle-posting">
             <div className="job-info">
               <h3>
-                <a href={job.info_link} style={{ color: "#833f76" }}> {/*textDecorationColor: "#e6b833" */}
+                <a
+                  role="button"
+                  className="job-title-link"
+                  onClick={() => this.goToJobPosting(job.info_link)}
+                >
+                  {" "}
                   {job.title}
                 </a>
-                {' '}
-                <FontAwesomeIcon icon={faExternalLinkAlt} size="xs" style={{ color: "#833f76" }} />
+
+                <FontAwesomeIcon
+                  style={{ marginLeft: "0.5em", color: "#833f76" }}
+                  icon={faExternalLinkAlt}
+                  size="xs"
+                />
               </h3>
               <h4>
-                <a href={"/organizations/" + job.organization_id} style={{ textDecoration: "none", color: "#585858" }}>
-                  {job.organization_name}
-                  {' '}
+                <a
+                  href={"/organizations/" + job.organization_id}
+                  style={{ textDecoration: "none" }}
+                >
+                  {job.organization_name}{" "}
                   <FontAwesomeIcon icon={faLink} size="xs" />
                 </a>
-
               </h4>
               <p>
                 {job.summary.toLowerCase().startsWith("http") ? (
-                  <a href={job.summary} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={job.summary}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Details
-                </a>
+                  </a>
                 ) : !job.is_user_created && job.summary.length > 150 ? (
                   job.summary.substring(0, 150) + "..."
                 ) : !job.is_user_created ? (
@@ -84,18 +101,17 @@ class JobPostings extends React.Component {
               <div className="posting-date">{formattedPostingDate}</div>
               <div className="buttons-wrapper">
                 {job.is_user_created &&
-                  (activeUser.role === "admin" ||
-                    (activeUser.role === "employer" &&
-                      activeUser.organization.includes(job.organization_id))) ? (
-                    <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
-                      Edit Job
-                </Link>
-                  ) : null}
+                (activeUser.role === "admin" ||
+                  (activeUser.role === "employer" &&
+                    activeUser.organization.includes(job.organization_id))) ? (
+                  <Link to={`/jobs/form/${job.id}`} id="edit-job-btn">
+                    Edit Job
+                  </Link>
+                ) : null}
                 {viewMoreButton}
               </div>
             </div>
           </div>
-
         </div>
       </div>
     );

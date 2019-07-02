@@ -14,7 +14,7 @@ const CompanyCard = ({ org, activeUser }) => {
         </div>
         <h3 id="org-title">{org.name}</h3>
         <div style={{ height: "15%" }}>
-          <Link to={"/jobs/" + org.id} id="org-jobs-available">
+          <Link to={"/jobs?organizationId=" + org.id} id="org-jobs-available">
             {org.job_count} Jobs Available
           </Link>
         </div>
@@ -25,13 +25,13 @@ const CompanyCard = ({ org, activeUser }) => {
           </Link>
 
           {activeUser &&
-            (activeUser.role === "admin" ||
-              (activeUser.role === "employer" &&
-                activeUser.organization.includes(org.id))) ? (
-              <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
-                Edit
-              </Link>)
-            : null}
+          (activeUser.role === "admin" ||
+            (activeUser.role === "employer" &&
+              activeUser.organization.includes(org.id))) ? (
+            <Link to={`/organizations/${org.id}/edit`} id="org-edit-button">
+              Edit
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>
@@ -42,4 +42,3 @@ export default withRouter(CompanyCard);
 function newFunction() {
   return "//s3-us-west-2.amazonaws.com/jobsforhope";
 }
-

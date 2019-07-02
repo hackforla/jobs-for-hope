@@ -1,0 +1,87 @@
+Connecting to the PostgreSQL database...
+Loading module 211_la_county.py
+1/42: 211 LA County...(3)
+Loading module alliance_for_housing_and_healing.py
+2/42: Alliance for Housing and Healing.......(7)
+Loading module antelope_valley_domestic_violence_council.py
+3/42: Antelope Valley Domestic Violence Council (Valley Oasis)(0)
+Loading module ascencia.py
+4/42: Ascencia..........(10)
+Loading module a_community_of_friends.py
+5/42: A Community of FriendsScraper failed: A Community of Friends
+Loading module brilliant_corners.py
+6/42: Brilliant Corners(0)
+Loading module catholic_charities_of_los_angeles_inc.py
+7/42: Catholic Charities Of Los Angeles, Inc.Scraper failed: Catholic Charities Of Los Angeles, Inc.
+Loading module center_for_the_pacific_asian_family_inc.py
+8/42: Center for the Pacific Asian Family, Inc.Scraper failed: Center for the Pacific Asian Family, Inc.
+Loading module chrysalis.py
+9/42: Chrysalis...(3)
+Loading module city_of_pomona.py
+10/42: City of PomonaScraper failed: City of Pomona
+Loading module coalition_for_responsible_community_development.py
+11/42: Coalition for Responsible Community Development...(3)
+Loading module covenant_house.py
+12/42: Covenant House....(4)
+Loading module downtown_womens_center.py
+13/42: Downtown Women's Center...............(15)
+Loading module exodus_recovery_inc.py
+14/42: Exodus Recovery, Inc.Scraper failed: Exodus Recovery, Inc.
+Loading module hathaway_sycamores_child_and_family_services.py
+15/42: Hathaway-Sycamores Child and Family ServicesScraper failed: Hathaway-Sycamores Child and Family Services
+Loading module illumination_foundation.py
+16/42: Illumination Foundation(0)
+Loading module jewish_family_service_of_los_angeles.py
+17/42: Jewish Family Service of Los AngelesScraper failed: Jewish Family Service of Los Angeles
+Loading module jwch_institute_inc.py
+18/42: JWCH Institute, Inc.......(6)
+Loading module la_family_housing_corporation.py
+19/42: LA Family Housing Corporation.................(17)
+Loading module los_angeles_centers_for_alcohol_and_drug_abuse.py
+20/42: Los Angeles Centers For Alcohol and Drug AbuseScraper failed: Los Angeles Centers For Alcohol and Drug Abuse
+Loading module los_angeles_homeless_services_authority.py
+21/42: Los Angeles Homeless Services AuthorityScraper failed: Los Angeles Homeless Services Authority
+Loading module los_angeles_lgbt_center.py
+22/42: Los Angeles LGBT CenterScraper failed: Los Angeles LGBT Center
+Loading module mental_health_america_of_los_angeles.py
+23/42: Mental Health America of Los AngelesScraper failed: Mental Health America of Los Angeles
+Loading module national_health_foundation.py
+24/42: National Health Foundation...(3)
+Loading module neighborhood_legal_services_of_los_angeles_county.py
+25/42: Neighborhood Legal Services of Los Angeles County.......(7)
+Loading module penny_lane_centers.py
+26/42: Penny Lane Centers...................(19)
+Loading module people_assisting_the_homeless.py
+27/42: People Assisting the Homeless (PATH)Scraper failed: People Assisting the Homeless (PATH)
+Loading module prototypes.py
+28/42: Prototypes, A Program of Healthright 360................................................................................................................................(128)
+Loading module safe_place_for_youth.py
+29/42: Safe Place for Youth......(6)
+Loading module share_the_self_help_and_recovery_exchange.py
+30/42: SHARE! the Self Help And Recovery Exchange......(6)
+Loading module shields_for_families_inc.py
+31/42: Shields For Families, Inc.Scraper failed: Shields For Families, Inc.
+Loading module skid_row_housing_trust.py
+32/42: Skid Row Housing TrustScraper failed: Skid Row Housing Trust
+Loading module special_service_for_groups_inc.py
+33/42: Special Service for Groups, Inc..(1)
+Loading module step_up_on_second_street.py
+34/42: Step Up on Second Street, Inc.Scraper failed: Step Up on Second Street, Inc.
+Loading module st_joseph_center.py
+35/42: St. Joseph CenterScraper failed: St. Joseph Center
+Loading module the_clare_foundation_inc.py
+36/42: Clare Foundation, Inc...........(10)
+Loading module the_people_concern.py
+37/42: The People ConcernScraper failed: The People Concern
+Loading module the_village_family_services.py
+38/42: The Village Family Services.......(7)
+Loading module the_whole_child.py
+39/42: The Whole ChildScraper failed: The Whole Child
+Loading module union_station_homeless_services.py
+40/42: Union Station Homeless Services................(16)
+Loading module upward_bound_house.py
+41/42: Upward Bound House..(2)
+Loading module weingart_center_association.py
+42/42: Weingart Center AssociationScraper failed: Weingart Center Association
+Database connection closed.
+273

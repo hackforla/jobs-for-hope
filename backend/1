@@ -1,0 +1,282 @@
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\a_community_of_friends.py", line 14, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\catholic_charities_of_los_angeles_inc.py", line 11, in run
+    soup = get_javascript_soup_delayed(url, 'current-openings-item')
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 242, in get_javascript_soup_delayed
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\center_for_the_pacific_asian_family_inc.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\city_of_pomona.py", line 12, in run
+    soup = get_javascript_soup_delayed(url, 'jobtitle')
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 242, in get_javascript_soup_delayed
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\exodus_recovery_inc.py", line 15, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\hathaway_sycamores_child_and_family_services.py", line 17, in run
+    browser = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\jewish_family_service_of_los_angeles.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\los_angeles_centers_for_alcohol_and_drug_abuse.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\los_angeles_homeless_services_authority.py", line 11, in run
+    soup = get_javascript_soup_delayed(next_page_url, 'job-table-title')
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 242, in get_javascript_soup_delayed
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\los_angeles_lgbt_center.py", line 11, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\mental_health_america_of_los_angeles.py", line 11, in run
+    soup = get_javascript_soup_delayed_and_click(url, 'hrmSearchButton')
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 257, in get_javascript_soup_delayed_and_click
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\people_assisting_the_homeless.py", line 13, in run
+    jobs_list = soup.select('div[class*="JobGrid-"]')[0]
+IndexError: list index out of range
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\shields_for_families_inc.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\skid_row_housing_trust.py", line 11, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\step_up_on_second_street.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\st_joseph_center.py", line 11, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\the_people_concern.py", line 12, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\the_whole_child.py", line 13, in run
+    soup = get_javascript_soup(url)
+  File "C:\git\hackforla\jobs-for-hope\backend\globals.py", line 230, in get_javascript_soup
+    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 73, in __init__
+    self.service.start()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\common\service.py", line 76, in start
+    stdin=PIPE)
+  File "C:\Python27\lib\subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "C:\Python27\lib\subprocess.py", line 644, in _execute_child
+    startupinfo)
+WindowsError: [Error 193] %1 is not a valid Win32 application
+Traceback (most recent call last):
+  File "scraper_runner.py", line 51, in connect
+    insert_count = scraper.run(scraper.url)
+  File "./scrapers\weingart_center_association.py", line 13, in run
+    jobs_container = soup.find(text='Current Openings:').parent.parent.parent
+AttributeError: 'NoneType' object has no attribute 'parent'

@@ -15,7 +15,7 @@
   }
   a {
     text-decoration: underline;
-    color: blue;
+    color: #833f76;
   }
 }
 
@@ -119,6 +119,10 @@ h4 {
 .posting-location-duration {
   flex: 0 0 10%;
   font-size: 0.8em;
+}
+
+.job-title-link:hover {
+  cursor: pointer;
 }
 
 .posting-date {
