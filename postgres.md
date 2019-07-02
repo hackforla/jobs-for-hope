@@ -33,17 +33,25 @@ to my .bash_profile file
 ## Moving a Postgres Database
 
 Now, to dump the contents of a local postgres database "jobsforhope" to a file:
-
 ```
 pg_dump -d jobsforhope -U postgres  -f jobsforhope.sql
 ```
 
-To upload this database to a remote postgres database, first create the remote database, then
-
+To dump a remote database:
+```
+pg_dump --dbname jobsforhope --host <host> --username jobsforhope --file jobsforhope.sql --verbose --clean --no-owner --no-privileges --if-exists --password
 ```
 
+To upload this database to a remote postgres database, first create the remote database, then
+```
 psql -f jobsforhope.sql --host <database host goes here> --port 5432 --username jobsforhope --dbname jobsforhope
+```
+
+To restore the dump to a local database, first create the database and user, then:
+```
+sudo -u postgres psql --host localhost --username jobsforhope --dbname jobsforhope --file jobsforhope.sql
 ```
 
 You should be prompted for the remote database password, and then the data should be imported to the remote
 database.
+There will be errors if using postgres versions other than 11.
