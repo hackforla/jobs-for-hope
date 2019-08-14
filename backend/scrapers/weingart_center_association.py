@@ -10,7 +10,10 @@ organization_id= 62
 def run(url):
     soup = get_soup(url)
 
-    jobs_container = soup.find(text='Current Openings:').parent.parent.parent
+    openings = soup.find(text='Current Openings:')
+    if openings is None:
+        return 0
+    jobs_container = openings.parent.parent.parent
     job_class= Job(organization, "")
     job_class.organization_id= organization_id
     insert_count= 0
