@@ -130,20 +130,8 @@ class App extends Component {
                 )}
               />
               <Route
+                path="/jobs"
                 exact
-                path="/jobs/form/:id"
-                render={matchProps => (
-                  <JobForm
-                    activeUser={activeUser}
-                    jobs={jobs}
-                    organizations={organizations}
-                    {...matchProps}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/jobs/:organization_id"
                 render={() => (
                   <Jobs
                     activeUser={activeUser}
@@ -154,6 +142,21 @@ class App extends Component {
                   />
                 )}
               />
+              <Route
+                path="/jobs/form/:id"
+                render={matchProps => (
+                  <JobForm
+                    activeUser={activeUser}
+                    jobs={jobs}
+                    organizations={organizations}
+                    regions={regions}
+                    key={isPending}
+                    isPending={isPending}
+                    {...matchProps}
+                  />
+                )}
+              />
+
               <Route
                 exact
                 path="/organizations"

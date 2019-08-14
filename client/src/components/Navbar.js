@@ -7,11 +7,7 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
   return (
     <nav className="navbar" id="myNavbar">
       <div className="image-span">
-        <a
-          href="http://homeless.lacounty.gov/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/">
           <img id="org-image" alt="logo" src={logoImage} />
         </a>
         <div className="burger-container">
@@ -62,12 +58,12 @@ const Navbar = ({ activeUser, logOut, toggle, toggler }) => {
             <React.Fragment>
               <li>
                 <NavLink className="mobile-li link" to="/register">
-                  Employer Register
+                  Register
                 </NavLink>
               </li>
               <li>
                 <NavLink className="mobile-li link" to="/login">
-                  Employer Log In
+                  Log In
                 </NavLink>
               </li>
             </React.Fragment>

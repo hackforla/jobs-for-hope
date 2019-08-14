@@ -9,6 +9,11 @@ const pool = new Pool({
   ssl: true
 });
 
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle node-postgres client", err);
+  //process.exit(-1)
+});
+
 module.exports = {
   pool
 };

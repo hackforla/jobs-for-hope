@@ -2,9 +2,9 @@
 
 .footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
-  padding: 1.3em 0em;
+  padding: 1.3em 1.3em;
   background: $primary-color;
   color: set-text-color($primary-color);
   height: 200px;

@@ -1,12 +1,8 @@
-const sqliteService = require("../../services/job_service_sqlite");
-const postgresService = require("../../services/job_service");
+const svc = require("../../services/job_service");
 const express = require("express");
 const { pool } = require("../../services/postgres-pool");
 
 const router = express.Router();
-
-const db = process.env.DATABASE;
-const svc = db === "sqlite" ? sqliteService : postgresService;
 
 router.get("/", (req, res) => {
   svc

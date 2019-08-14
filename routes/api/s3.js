@@ -34,7 +34,6 @@ router.post("/generatePresignedUrl", (req, res) => {
       });
     } else {
       fileUrls[0] = url;
-      console.log("Presigned URL: ", fileUrls[0]);
       res.json({
         success: true,
         message: "AWS SDK S3 Pre-signed urls generated successfully.",

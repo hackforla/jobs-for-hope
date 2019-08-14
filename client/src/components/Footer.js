@@ -3,13 +3,13 @@ import "./Footer.scss";
 
 const Footer = ({ activeUser, logOut }) => (
   <footer className="footer">
-    <div className="org-icon footer-content">
+    {/* <div className="org-icon footer-content">
       <img
         id="org-icon"
         alt="logo"
         src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png"
       />
-    </div>
+    </div> */}
     <div className="quick-links-footer quick-links-content footer-content">
       <h3>Quick Links</h3>
       <p className="link">
@@ -28,13 +28,20 @@ const Footer = ({ activeUser, logOut }) => (
       ) : (
         <React.Fragment>
           <p className="link">
-            <a href="/register">Employer Sign Up</a>
+            <a href="/register">Sign Up</a>
           </p>
           <p className="link">
-            <a href="/login">Employer Log In</a>
+            <a href="/login">Log In</a>
           </p>
         </React.Fragment>
       )}
+    </div>
+    <div className="org-icon footer-content">
+      <img
+        id="org-icon"
+        alt="logo"
+        src="http://homeless.lacounty.gov/wp-content/uploads/2017/01/homeless_initiative_logo.png"
+      />
     </div>
     <div className="contact-footer footer-content">
       <h3>Contact Us</h3>

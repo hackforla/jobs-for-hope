@@ -234,5 +234,6 @@ node_modules
 # Start of project-specific exclusions
 
 jobs_for_hope.db
+/backend/database.ini
 
 # End of project-specific exclusions
